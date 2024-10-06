@@ -199,4 +199,136 @@ class App {
 
 ##### 6 Ekim 2024
 
+##### Eclipse IDE Programı
 
+>Eclipse Java'nın ilk yıllarından beri free olarak kullanılabilen bir IDE programdır. Eclipse her desktop işletim sisteminde çalışabilen bir programdır. Eclipse,  [Eclipse](http://www.eclipse.org)link'inde indirilip kurulabilir. Biz kursumuzda Eclipse ile açılmış tek bir proje üzerinde çalışacağız. Eclipse ile bir Hello, World programını çalıştırmak üzere bir proje açmak için işlemler şu şekilde yapılabilir:
+>1. Wokspace için bir dizin belirenir
+>2. Bir Java projesi açılır. Örneğin File -> New -> Java Project seçilebilir
+>3. Açılan pencerede proje ismi yazılmalıdır. Biz burada `Sample` ismini, vereceğiz. Yine bu pencerede JRE altındaki `Use an execution environment JRE` en az JavaSE 17 olarak seçilmelidir. Yine aynı pencerede `Module` altındaki `Create module-info.java file` seçeneği kaldırılmalıdır. 
+>4. Bir java dosyası eklemek için src dizininde New -> Class menüsü seçilebilir.
+>5. Açılan pencede package text alanına csd, Name text alanına da App yazılmalıdır. 
+>6. Bu işlemden program yazılarak çalıştırılabilir. Çalıştırmak pek çok yöntem vardır. Herhangi bir tanesi tercih edilebilir. Program çalıştırıldığıdan Eclipse kendi Console penceresi açarak ilgili çıktıları orada gösterir.
+>
+>**Anahtar Notlar:**  Aslında çalıştırma işlemi derleme işleminden sonra yapılmaktadır. Eclipse'de `build automatically` seçili ise her kod yazımında buil işlemi dolayısıyla derleme işlemi yapılır ve error oluşmazsa arakod üretilir. Eğer `build automatically` seçili değilken çalıştırılırsa önce build işlemi yapılır sonra üretilen arakod çalıştırılır.
+>
+>**Anahtar Notlar:** Bir IDE programda bir işlemi yapmanın birden fazla yöntemi olabilir ve genelde de birden fazla yönetimi vardır. Yukarıdaki proje açma aşamaları dışında da yöntemler bulunmaktadır.
+
+##### Genel Biçim Anlatım Notasyonu
+
+>Bir dilin kurallarının genel biçimlerini anlatmaya yönelik pek çok notasyon bulunmaktadır. Biz burada genel olarak "açısal parantez-köşeli parantez" tekniğini kullanacağız.  Bu teknikte zorunlu olarak bulunması gerekenlere açıklamada açısal parantezler içerisinde yazılır. Seçenekli (optional) olması durumunda ise köşeli parantezler arasında yazılır. Herhangi bir paranteze alınmayanlar da aynı şekilde bulunması gerekenler olacaktır. Ayrıca `//...` şeklinde kullanım durumunda "burada bir takım kodlar bulunabilir ancak şu an bizi ilgilendirmiyor" anlamına gelecektir. Yaklaşık 20 yıldır programlaya ilişkin kaynaklar, bir konuyu anlatırken uydurma bazı isimler kullanabilmektedir: foo, bar, tar, car, zar vb. Biz de gerektiğnde bu isimleri kullanacağız. 
+##### Bildirim (Declaration)
+
+Bir ismin derleyiciye tanıtılmasına **bildirim (declaration)** denir.
+
+##### Hello  World Program Genel Açıklaması
+
+>Bir java programı genel olarak paketlerden (package), paketler sınıflardan (class), sınıflar da metotlardan (method) oluşur.
+>Paket bildiriminin genel biçimi şu şekildedir:
+>
+```java
+package <paket ismi>
+```
+
+>Burada paket ismi daha sonra ele alacağımız değişken isimlendirme kurallarına uygun olmalıdır. Paketler konusu ileride çok detaylı bir biçimde ele alınacaktır. Biz paketler konusuna gelene kadar csd isimli bir paket altında çalışacağız. Bunula birlikte yine paketler konusuna gelene kadar tek bir java dosyası ile çalışacağız.
+>
+>Sınıf bildiriminin genel biçimi şu şekildedir:
+
+```java
+[bildirme ilişkin bazı anahtar sözcükler] class <sınıf ismi> {
+	//...
+}
+```
+
+>Burada sınıf ismi yine değişken isimlendirme kurallarına uygun bir isim olmalıdır. Sınıf bildiriminin detayları konular içerisinde ele alınacaktır. Sınıf kavramı Nesne Yönelimli Programlamanın (Object Oriented Programming) temel taşlarından biridir.
+
+>Java'da alt programlara **metot (method)** denir. Metot bildirimi (method declaration) alt programın kıdlarının yazılmasıdır. Bir metot bildirildikten sonra kodlarının çalıştırılabilmesi için **çağrılması (call/invoke)** gerekir. Metot bildiriminin genel biçimi:
+
+
+```java
+[erişim belirleyici] [static] <geri dönüş bilgisi> <metot ismi>([parametreler])
+{
+	//...
+}
+```
+
+>Erişim belirleyici şunlardan biri olabilir: **public, protected, no-modifier, private**.  İlgili konuya gelene kadar tüm metotlarımızı public olarak bildireceğiz. Bir metot **static** veya **no-static** olabilir. static anahtar sözcüğü ile bildirilenler static, bildirilmeyenler non-static olur. İlgili konuya gelene kadar tüm metotları static olarak bildireceğiz. Bir metodun geri dönüş değeri (return value) olabilir ya da olmayabilir. Bir metodun geri dönüş değeri yoksa geri dönüş bilgisi yerine **void** anahtar sözcüğü yazılır. Hiç bir şey yazılmaması geçersizdir.  Metot ismi değişken isimlendirme kuralların uygun bir isim olmalıdır. Bir metodun parametreleri olabilir ya da olmayabilir. Metot parametreleri ileride ele alınacaktır. `{` ile `}` arasında kalan kod bölümüne **metodun gövdesi (method body)** denir. Metodun ne iş yaptığı yani kodları buraya yazılır. 
+>
+>static bir metodun çağrılamasının genel biçimi şu şekildedir:
+
+```java
+[paket ismi].[sınıf ismi].<metot ismi>([argümanlar]);
+```
+
+> Argüman kavramı ileride ele alınacaktır. **Bir metot çağrıldığında akış metodun kodlarına dallanır. Çağrılan metodun kodları çalıştırılır. Metot çağrısı bittiğinde akış çağrılan noktaya geri döner.** Akış main metodundan başlar. Akışın başladığı main metoduna **entry point** denir. Özel bazı durumlar dışında main metodu bittiğinde program sonlanır. main metodu `java` programı tarafından (yani JVM) tarafında çağrılır.
+
+>Aşağıdaki örneği çalıştırıp sonucu gözlemleyiniz
+
+```java
+package csd;
+
+  
+
+class App {
+
+public static void main(String [] args)
+
+{
+
+System.out.println("Hello, World");
+
+csd.Sample.foo();
+
+csd.Sample.bar();
+
+System.out.println("Goodbye, World");
+
+}
+
+}
+
+  
+
+class Sample {
+
+public static void foo()
+
+{
+
+System.out.println("foo");
+
+csd.Sample.bar();
+
+//...
+
+}
+
+public static void bar()
+
+{
+
+System.out.println("bar");
+
+csd.Mample.tar();
+
+//...
+
+}
+
+}
+
+  
+
+class Mample {
+
+public static void tar()
+
+{
+
+System.out.println("tar");
+
+//...
+
+}
+
+}
+```
