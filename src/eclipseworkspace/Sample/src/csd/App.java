@@ -3,8 +3,8 @@ package csd;
 class App {
 	public static void main(String [] args)
 	{
-		int a;
-			
+		int $ = 10;
+		
+		System.out.println($);
 	}
-
 }
