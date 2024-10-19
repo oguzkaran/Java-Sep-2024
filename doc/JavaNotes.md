@@ -251,7 +251,7 @@ package <paket ismi>
 }
 ```
 
->Erişim belirleyici şunlardan biri olabilir: **public, protected, no-modifier, private**.  İlgili konuya gelene kadar tüm metotlarımızı public olarak bildireceğiz. Bir metot **static** veya **no-static** olabilir. static anahtar sözcüğü ile bildirilenler static, bildirilmeyenler non-static olur. İlgili konuya gelene kadar tüm metotları static olarak bildireceğiz. Bir metodun geri dönüş değeri (return value) olabilir ya da olmayabilir. Bir metodun geri dönüş değeri yoksa geri dönüş bilgisi yerine **void** anahtar sözcüğü yazılır. Hiç bir şey yazılmaması geçersizdir.  Metot ismi değişken isimlendirme kuralların uygun bir isim olmalıdır. Bir metodun parametreleri olabilir ya da olmayabilir. Metot parametreleri ileride ele alınacaktır. `{` ile `}` arasında kalan kod bölümüne **metodun gövdesi (method body)** denir. Metodun ne iş yaptığı yani kodları buraya yazılır. 
+>Erişim belirleyici şunlardan biri olabilir: **public, protected, no-modifier, private**.  İlgili konuya gelene kadar tüm metotlarımızı public olarak bildireceğiz. Bir metot **static** veya **no-static** olabilir. static anahtar sözcüğü ile bildirilenler static, bildirilmeyenler non-static olur. İlgili konuya gelene kadar tüm metotları static olarak bildireceğiz. Bir metodun **geri dönüş değeri (return value)** olabilir ya da olmayabilir. Bir metodun geri dönüş değeri yoksa geri dönüş bilgisi yerine **void** anahtar sözcüğü yazılır. Hiç bir şey yazılmaması geçersizdir.  Metot ismi değişken isimlendirme kuralların uygun bir isim olmalıdır. Bir metodun parametreleri olabilir ya da olmayabilir. Metot parametreleri ileride ele alınacaktır. `{` ile `}` arasında kalan kod bölümüne **metodun gövdesi (method body)** denir. Metodun ne iş yaptığı yani kodları buraya yazılır.
 
 ##### 12 Ekim 2024
 
@@ -906,3 +906,315 @@ class App {
 }
 
 ```
+>Aşağıdaki kalıpta double türden değerler okunmaktadır. Bu kalıpta değerler aralarında en az bir tane whitespace karakter olacak şekilde okunabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		double sum;
+		
+		sum = a + b;
+		
+		System.out.println(sum);				
+	}	
+}
+```
+
+>Aşağıdaki kalıpta double türden değerler okunmaktadır. Bu kalıpta değerler aralarında ENTER karakteri ayrılacak şekilde girilmelidir. Diğer whitespace karakterlerin kullanımı exception oluşuturur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Birinci sayıyı giriniz:");
+		double a = Double.parseDouble(kb.nextLine());
+		System.out.print("İkinci sayıyı giriniz:");
+		double b = Double.parseDouble(kb.nextLine());
+		double sum;
+		
+		sum = a + b;
+		
+		System.out.println(sum);				
+	}	
+}
+```
+
+>Aşağıdaki kalıpta double türden değerler okunmaktadır. Bu kalıpta değerler aralarında en az bir tane whitespace karakter olacak şekilde okunabilir
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		long a = kb.nextLong();	
+		long b = kb.nextLong();
+		long sum;
+		
+		sum = a + b;
+		
+		System.out.println(sum);				
+	}	
+}
+```
+
+>Aşağıdaki kalıpta double türden değerler okunmaktadır. Bu kalıpta değerler aralarında ENTER karakteri ayrılacak şekilde girilmelidir. Diğer whitespace karakterlerin kullanımı exception oluşuturur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Birinci sayıyı giriniz:");
+		long a = Long.parseLong(kb.nextLine());
+		System.out.print("İkinci sayıyı giriniz:");
+		long b = Long.parseLong(kb.nextLine());
+		long sum;
+		
+		sum = a + b;
+		
+		System.out.println(sum);				
+	}	
+}
+```
+##### İfade Kavramı
+
+>Sabitlerden operatörlerden ve değişkenlerden oluşan herhangi bir kombinasyona **ifade (expression)** denir. Bir ifade yalnızca sabitlerden (constants/literals) ve operatörlerden oluşuyorsa, bu ifadeye **sabit ifadesi (constant expression)** denir. Bir değişken ya da bi sabit tek başına bir ifadedir. Ancak bir operatör tek başına bir ifade değildir. Her ifadenin bir türü vardır. Bunun bir tane istisnası vardır ele alınacaktır.
+
+##### Metotların Geri Dönüş Değerleri 
+
+>Bir metodun geri dönüş değeri bilgisi yerine bir tür yazılırsa bu metodun **geri dönüş değeri (return value)** vardır denir. Tersine bir metodun geri dönüş değeri varsa geri dönüş değeri bilgisi yerine bir tür yazılır. Bir metodun değeri varsa, o metodun çağrısı bittiğinde çağrılan noktaya bir değer ile geri döner. Metodun geri dönüş değeri yoksa, metot sonlandığında çağrılan noktaya yalnızca geri döner. Yani bir değer ile geri dönmez. 
+> Bir geri dönüş değeri varsa, geri dönüş değeri metot bildiriminde (yani metot içerisinde) **return deyimi (return statement)*** ile oluşuturulur. return deyiminin genel biçimi şu şekildedir:
+`return [ifade]`
+Görüldüğü gibi return deyimi tek başına ya da bir ifade ile kullanılabilmektedir. return deyimi nasıl kullanılırsa kullanılsın, akış return deyimine geldiğinde metot sonlanır. Yani return deyiminin birinci görevi metodu sonlandırmaktır. return deyimi ifade ile kullanılmışsa ifadenin değeri çağrılan noktaya aktarılır. Bu geri dönüş değeri denmesinin nedeni budur.
+
+>Aşağıdaki demo örnekte add metodu çağrıldığında kullanıcıdan iki tane int türden değer istenmiş ve o değerlerin toplamına geri dönülmüştür. main metodu içerisinde ise add metodu çağrılmış, geri dönüş değeri 2 ile çarpılıp result değişkenine atanmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		int result;
+		
+		result = NumberUtil.add() * 2;
+		
+		//...
+		
+		System.out.println(result);
+	}	
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int total = a + b;
+		
+		return total;		
+	}
+}
+```
+>**Akış return deyimine geldiğinde return deyimine ilişkin ifade önce hesaplanır ve elde edilen değere geri dönülür.**
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		int result;
+		
+		result = NumberUtil.add() * 2;
+		
+		//...
+		
+		System.out.println(result);
+	}	
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();		
+		
+		return a + b;
+	}
+}
+```
+
+>**Bir metodun geri dönüş değeri varsa return tek başına (yani ifade olmadan) kullanılamaz**
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int total = a + b;
+		
+		return; //error
+	}
+}
+```
+>**Bir metodun geri dönüş değeri akışın her noktasında metodun geri dönebiliyor olması yani return deyimi olması gerekir. Aksi durumda error oluşur. Yani derleyici açısından metodun geri dönüş değeri varsa metot içerisinde bir değer dönülemeyeceği akış oluşmamalıdır.**
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class NumberUtil {
+	public static int add() //error
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();	
+		int total;
+		
+		total = a + b;
+		
+		if (total > 0)
+			return total;
+		//Akış buraya gelirse herhangi bir return olmadığından error oluşur
+	}
+}
+```
+>Aşağıdaki demo örneği inceleyiniz
+```java
+class NumberUtil {
+	public static int add() //error
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();	
+		int total;
+		
+		total = a + b;
+		
+		//Akış buraya gelirse herhangi bir return olmadığından error oluşur
+	}
+}
+```
+
+>Bir metodun geri dönüş değeri başka bir metodun geri dönüş olarak doğrudan yazılabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		int result;
+		
+		result = Util.getTotal() * 2;
+		
+		//...
+		
+		System.out.println(result);
+	}	
+}
+
+class Util {
+	public static int getTotal()
+	{
+		//...		
+		System.out.println("Util.getTotal");
+		
+		return NumberUtil.add();
+	} 
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();		
+		
+		return a + b;
+	}
+}
+```
+
+>Geri dönüş değeri olan bir metot için derleyici **geçici değişken (temporary varaible)** yaratan ve işleme sokan bir kod üretir. Aşağıdaki demo örnekteki `**` ile belirtilen deyim için üretilen yaklaşık kod şu şekildedir:
+
+```java
+int temp = NumberUtil.add();
+
+result = temp * 2;
+```
+>**Bu durumda geri dönüş değeri olan bir metot çağrısı ile geçici değişkene yapılan aktarım da bir atama (assignment) işlemidir.**
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		int result;
+		
+		result = NumberUtil.add() * 2; //**
+		
+		//...
+		
+		System.out.println(result);
+	}	
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();	
+		
+		return a + b;
+	}
+}
+```
+
+
+
+

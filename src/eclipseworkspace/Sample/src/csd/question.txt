@@ -5,7 +5,7 @@ class App {
 	{
 		int result;
 		
-		result = NumberUtil.add() * 2; //**
+		result = Util.getTotal() * 2;
 		
 		//...
 		
@@ -13,16 +13,23 @@ class App {
 	}	
 }
 
+class Util {
+	public static int getTotal()
+	{
+		//...
+		return NumberUtil.add();
+	} 
+}
+
 class NumberUtil {
-	public static int add()
+	public static int add() //error
 	{
 		java.util.Scanner kb = new java.util.Scanner(System.in);
 		
 		System.out.print("İki sayı giriniz:");
 		int a = kb.nextInt();
-		int b = kb.nextInt();	
+		int b = kb.nextInt();		
 		
 		return a + b;
 	}
 }
-
