@@ -2,27 +2,12 @@ package csd;
 
 class App {
 	public static void main(String [] args)
-	{
-		int result;
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();		
 		
-		result = NumberUtil.add() * 2; //**
-		
-		//...
-		
-		System.out.println(result);
+		System.out.printf("%f + %f = %.10f%n", a, b, a + b);		
 	}	
 }
-
-class NumberUtil {
-	public static int add()
-	{
-		java.util.Scanner kb = new java.util.Scanner(System.in);
-		
-		System.out.print("İki sayı giriniz:");
-		int a = kb.nextInt();
-		int b = kb.nextInt();	
-		
-		return a + b;
-	}
-}
-

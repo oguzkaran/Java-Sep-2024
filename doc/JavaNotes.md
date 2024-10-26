@@ -1090,7 +1090,7 @@ class NumberUtil {
 	}
 }
 ```
->**Bir metodun geri dönüş değeri akışın her noktasında metodun geri dönebiliyor olması yani return deyimi olması gerekir. Aksi durumda error oluşur. Yani derleyici açısından metodun geri dönüş değeri varsa metot içerisinde bir değer dönülemeyeceği akış oluşmamalıdır.**
+>**Bir metodun geri dönüş değeri olması akışın her noktasında metodun geri dönebiliyor olmasını yani return deyimi olmasını gerektirir. Aksi durumda error oluşur. Yani derleyici açısından metodun geri dönüş değeri varsa metot içerisinde bir değer dönülemeyeceği akış oluşmamalıdır.**
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -1176,7 +1176,7 @@ class NumberUtil {
 }
 ```
 
->Geri dönüş değeri olan bir metot için derleyici **geçici değişken (temporary varaible)** yaratan ve işleme sokan bir kod üretir. Aşağıdaki demo örnekteki `**` ile belirtilen deyim için üretilen yaklaşık kod şu şekildedir:
+>Geri dönüş değeri olan bir metot için derleyici **geçici değişken (temporary variable)** yaratan ve işleme sokan bir kod üretir. Aşağıdaki demo örnekteki `**` ile belirtilen deyim için üretilen yaklaşık kod şu şekildedir:
 
 ```java
 int temp = NumberUtil.add();
@@ -1214,7 +1214,365 @@ class NumberUtil {
 	}
 }
 ```
+##### 26 Ekim 2024
 
+>Bir metodun geri dönüş değeri olmaması durumunda geri dönüş değeri bilgisi yerine **void** anahtar sözcüğü yazılır. Geri dönüş değeri olmayan metotlara **void metotlar (void methods)** denir. void bir metot sonlandığında çağrılan noktaya bir değer ile geri dönmez. Bu durumda void bir metot içerisinde return deyimi bir ifade ile kullanılamaz. Kullanılması durumunda error oluşur. void bir metot içerinde return deyimi ifade olmadan yani tek başına istenirse metodu sonlandırmak için kullanılabilir. Bu durumda void bir metot içerisinde return deyimi zorunlu değildir. void bir metot geri dönüş değeri varmış gibi yani çağırma ifadesi işleme sokulacak şekilde kullanılamaz. 
 
+>Aşağıdaki demo örneği inceleyiniz
 
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		Util.printSum();
+	}	
+}
+
+class Util {
+	public static void printSum()
+	{
+		int sum = NumberUtil.add();
+		
+		//...
+		
+		System.out.println(sum);
+	}
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();	
+		
+		return a + b;
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		int a;
+		
+		a = Util.printSum(); //error
+	}	
+}
+
+class Util {
+	public static void printSum()
+	{
+		int sum = NumberUtil.add();
+		
+		//...
+		
+		System.out.println(sum);
+	}
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();	
+		
+		return a + b;
+	}
+}
+
+```
+
+>Geri dönüş değeri olan bir metodun geri dönüş değeri işleme sokulmak zorunda değildir. Yani bu anlamda geri dönüş değeri olan bir metot, geri dönüş değeri yokmuş gibi çağrılabilir. Şüphesiz çağrılacak metodun da bu şekilde kullanımının anlamlı olması gerekir. Örneğin bir sayının mutlak değerine geri dönen bir metodun geri dönüş değerinin işleme sokulmnayacak şekilde çağrılması anlamsızdır. Ya da örneğin, bir grup bilgiyi dosyaya yazan bir metodun yazılabilmiş olan bilgi sayısına geri dönmesi durumunda programcı bu bilgiye ihtiyaç duymuyorsa bu metodu, geri dönüş değerini işleme sokmayacak şekilde çağırabilir. Burada bu şekilde çağırma algoritmaya göre anlamlı olabilir. 
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte ** ile belirtilen çağrı olmasaydı add metodunun geri dönüş değerininin işleme sokulmaması anlamlı olur muydu?
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		NumberUtil.add();
+	}	
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();		
+		int sum = a + b;
+		
+		System.out.println(sum); //**
+		
+		return sum;
+	}
+}
+
+```
+>Aşağıdaki örnekte return deyimi void metodu sonlandırmak için kullanılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		Util.printSum();
+	}	
+}
+
+class Util {
+	public static void printSum()
+	{
+		int sum = NumberUtil.add();
+		
+		if (sum < 0)
+			return;
+		
+		System.out.println(sum);		
+	}
+}
+
+class NumberUtil {
+	public static int add()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();		
+		int sum = a + b;
+		
+		return sum;
+	}
+}
+
+```
+
+**Anahtar Notlar:** void bir metot çağrısı da bir ifadedir. Ancak bu ifadenin türü yoktur. void bir metot çağrısına ilişkin ifadeye **void expression** da denilmektedir. 
+
+**Anahtar Notlar:** Bir metodun geri dönüş değeri o metodun bir çıktısıdır (output).
+
+**Anahtar Notlar:** Java'da bir metot bir tane değere geri dönebilir.
+
+##### Metotların Parametre Değişkenleri
+
+>Metodun gövdesinden önce parantez içerisinde bildirilen değişkenlere parametre değişkenleri denir. Metot parametre değişkenleri virgül atomu ile listelenir. Değişkenler aynı türden olsalar bile tür bilgisi yazılmalıdır. Aksi durumda error oluşur. Metot parametre değişkenleri faaliyet alanı adeta metodun başında bildirilen yerel değişken gibidir. Yani metot boyunca görülebilirdir. Metot çağrılırken parametrelere geçilen ifadelere **argüman (argument)** denir. Bu anlamda metodun parametre değişkenleri metodun girdileridir (input). Bir metodun kaç tane parametre değişkeni varsa o kadar sayıda argüman ile çağrılmalıdır. Parametre değişkenleri değerlerini metot çağrısında, ilgili parametreye geçilen argümana ilişkin ifadenin değeri olarak alırlar. **Yani metot çağrısında önce argümana ilişkin ifade hesaplanır elde edilen değer parametre değişkenine aktarılır.** Bu anlamda argümanlardan parametrelere aktarım işlemi de bir atama işlemidir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = NumberUtil.add(a, b);
+		
+		System.out.println(result);
+		
+		result = NumberUtil.multiply(a, b);
+		
+		System.out.println(result);		
+	}	
+}
+
+class NumberUtil {
+	public static int add(int a, int b)
+	{		
+		return a + b;
+	}
+	
+	public static int multiply(int a, int b)
+	{		
+		return a * b;
+	}
+}
+
+```
+
+>Aşağıdaki durumda error oluşur. b parametre değişkeni için de tür bilgisi yazılmalıdır
+```java
+class NumberUtil {
+	public static int add(int a, b) //error
+	{		
+		return a + b;
+	}
+}
+```
+>Aşağıdaki demo örnekte add metodu 3 tane argüman ile çağrıldığından error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();	
+		
+		int result = NumberUtil.add(a, b, 10); //error
+		
+		System.out.println(result);
+	}	
+}
+
+class NumberUtil {
+	public static int add(int a, int b) 
+	{		
+		return a + b;
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte `a + 2` ve `b * 3` ifadeleri hesaplandıktan sonra add metodu çağrılır
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+				
+		result = NumberUtil.add(a + 2, b * 3);
+		
+		System.out.println(result);	
+	}	
+}
+
+class NumberUtil {
+	public static int add(int a, int b) 
+	{		
+		return a + b;
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+>**Anahtar Notlar:** Aşağıdaki gibi kompakt olarak ifadelerin okunabililiği/algılanabilirliği olumsuz anlamda etkilememesine dikkat edilmelidir
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();		
+		
+		System.out.println(NumberUtil.add(a + 2, b * 3));
+	}	
+}
+
+class NumberUtil {
+	public static int add(int a, int b) 
+	{		
+		return a + b;
+	}
+}
+
+```
+
+>**Anahtar Notlar:** Java'da 3 yerde atama işlemi söz konusudur:
+>1. Atama operatörleri ile yapılan atama işlemi.
+>2. Bir metodun geri dönüş değerinin geçici değişkene atanması.
+>3. Argümanlardan parametrelere aktarım. 
+
+>**Metot ne işe yarar? Problemin Çözümünde Neden Metotlar Yazalım?** Bu sorunun cevabı aşağıdaki maddelerle özetlenmiştir:
+>- Bir işin çok fazla yapılması durumu kod tekrarına yol açar. Yazılım geliştirmede temel prensip **zorunlu olmadıkça kod tekrarı yapmamaktır.** Bu kavrama İngilizce olarak **DO NOT REPEAT YOURSELF (DRY)** denilmektedir. Bu durumda programcı bir metot yazarak kod tekrarını, o metodu çağırarak engellemiş olur.
+>- Bir problemin çözümü metot çağırma yerine her yerde kodun tekrarlaması biçiminde yazılmışsa (implementation), bu durumda programcı kodda bir değişiklik yapmak istediğinde veya bir hata olduğunu farkedip düzeltmek istediğinde her yerde bunu yapmak zorunda kalır. Halbuki bu durumda metot yazılmış ve çağrılmış olursa sadece metot içerisinde değişiklik yapması yeterli olur.
+>- Bir kod parçasının metot olarak yazılması onun bağımsız olarak test edilip doğrulanması veya varsa hatalarının bulunup düzeltimesi açısından önemlidir.
+>- Bir problemin çözümü metot çağırma yerine her yerde kodun tekrarlaması biçiminde yazılmışsa (implementation), bu durumda kodun okunabilirliği/algılanabilirliği de azalabilir. Yani metot çağırarak okunabilirlik/algılanabilirlik artırılabilir.
+>- Metotlar yazıldığında başka projelere de çeşitli yöntemlerle taşınarak kullanılabilir. Bu kavram **code reusability** kavramının bir parçasıdır.
+>- Metodu çağıran programcı metodun nasıl yazıldığına ilişkin detayları bilmek zorunda değildir. Çünkü metodun çağrıldığı noktada nasıl yazıldığının önemi yoktur, ne yaptığı önemlidir.
+
+**Anahtar Notlar:** Yukarıda anlatılan gerekçelerin en temel çözümü metotlar yazmak ve çağırmak biçimindedir. İleride ele alacağımız başka tekniklerle de metotlarla birlikte daha yüksek seviyeli çözümler de göreceğiz.
+
+>`System.out.printf` metodu ile formatlı yazdırma yapılabilir. Bu metodun birinci parametresine geçilen argüman bir yazı (string literal vb.) olmalıdır. Metot birinci parametresi ile birlikte istenildiği kadar argüman alabilecek şekilde tasarlanmıştır. Değişken sayıda argüman alabilen metot (vararg methods) bildirimleri bu bölümde ele alınmayacaktır. printf metodunun birinci parametresine ilişkin yazının içerisinde `%` karakteri ile birlikte bazı özel karakterler kullanılabilmektedir. Bu özel karakterlere **format karakterleri (format specifiers)** denilmektedir. Bir format karaterinin yazı içerisinde `%` karakteri ile birlikte kullanılmasına ise **yer tutucu (place holder)** denir. Bir format karakteri özel bazı karakterler dışında bir türe karşılık gelir ve o yer tutucu yerine printf'e geçilen argümanın değeri yerleştirilerek formatlama yapılır. Format karakterlerinin bazıları şunlardır:
+
+>**d:** Tamsayı türleri kullanılır. Sayının decimal olarak formatlanmasını sağlar
+**x veya X:** Tamsayı türleri kullanılır. Sayının değerinin hexadecimal olarak formatlanmasını sağlar. Format karakterinin küçük veya büyük olmasına semboller küçük veya büyük yazılırlar.
+**o:** Tamsayı türleri kullanılır. Sayının değerinin octal olarak formatlanmasını sağlar.
+**f:** Gerçek sayı türleri için kullanılır.
+**c:** char türü için kullanılır.
+**b:** boolean türü için kullanılır.
+**n:** İmleci bir sonraki satırın başına çekmek için kullanılır.
+**%:** % karakterini yazı içerisinde çıkartmak için kullanılır.
+
+>Bu format karakterleri dışında da format karakterleri bulunmaktadır. Kurs içerisinde çeşitli konularda ele alınacaktır. Bu format karakterlerinin ayrıntılarıda konular içerisinde ele alınacaktır.
+
+**Anahtar Notlar:** printf metodu gibi kullanılan yani formatlamayı aynı biçimde yapan ancak en az printf kadar karşımıza çıkan bazı önemli metotlar vardır. Bu anlamda printf'in detayları bu metotların kullanımı açısından da önemlidir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();		
+		
+		System.out.printf("Decimal -> %d + %d = %d%n", a, b, a + b);		
+		System.out.printf("HexaDecimal -> %X + %X = %X%n", a, b, a + b);
+		System.out.printf("HexaDecimal -> %x + %x = %x%n", a, b, a + b);	
+		System.out.printf("Octal -> %o + %o = %o%n", a, b, a + b);
+	}	
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();		
+		
+		System.out.printf("%f + %f = %f%n", a, b, a + b);		
+	}	
+}
+
+```
 
