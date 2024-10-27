@@ -1529,13 +1529,9 @@ class NumberUtil {
 **c:** char türü için kullanılır.
 **b:** boolean türü için kullanılır.
 **n:** İmleci bir sonraki satırın başına çekmek için kullanılır.
-**%:** % karakterini yazı içerisinde çıkartmak için kullanılır.
+**%:** % karakterinin yazı içerisinde formatlanması için kullanılır.
 
->Bu format karakterleri dışında da format karakterleri bulunmaktadır. Kurs içerisinde çeşitli konularda ele alınacaktır. Bu format karakterlerinin ayrıntılarıda konular içerisinde ele alınacaktır.
-
-**Anahtar Notlar:** printf metodu gibi kullanılan yani formatlamayı aynı biçimde yapan ancak en az printf kadar karşımıza çıkan bazı önemli metotlar vardır. Bu anlamda printf'in detayları bu metotların kullanımı açısından da önemlidir. 
-
->Aşağıdaki demo örneği inceleyiniz
+>Tamsayılara ilişkin format karakterleri ve n format karakteri 
 
 ```java
 package csd;
@@ -1557,7 +1553,7 @@ class App {
 
 ```
 
->Aşağıdaki demo örneği inceleyiniz
+>Gerçek sayılara ilişkin format karakteri
 
 ```java
 package csd;
@@ -1574,5 +1570,473 @@ class App {
 	}	
 }
 
+```
+
+##### 27 Ekim 2024
+
+>char türüne ilişkin format karakteri
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		char ch = 67;
+		
+		System.out.printf("ch = %c%n", ch);
+	}	
+}
+
+```
+
+>boolean türüne ilişkin format karakteri
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		boolean flag = true;
+		
+		System.out.printf("flag = %b%n", flag);
+	}	
+}
+
+```
+
+>Aşağıdaki örnekte istenilen çıktı oluşmaz
+>Çıktı -> İndirim oranı:%f
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İndirim oranını giriniz:");
+		double ratio = kb.nextDouble();
+		
+		System.out.printf("İndirim oranı:%%f%n", ratio);		
+	}	
+}
+
+```
+
+>Aşağıdaki örnekte `%` karakterinde geçerli bir format karakteri olmadığından exception oluştur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İndirim oranını giriniz:");
+		double ratio = kb.nextDouble();
+		
+		System.out.printf("İndirim oranı:% %f%n", ratio);		
+	}	
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İndirim oranını giriniz:");
+		double ratio = kb.nextDouble();
+		
+		System.out.printf("İndirim oranı:%% %f%n", ratio);		
+	}	
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İndirim oranını giriniz:");
+		double ratio = kb.nextDouble();
+		
+		System.out.printf("İndirim oranı:%%%f%n", ratio);		
+	}	
+}
+
+```
+
+>Tamsayılar için `%` karakterinden sonra ve format karakterinden önce bir tamsayı yazıldığında formatlanan değerin basamak sayısı yer tutucu için yazılan sayıdan küçükse bu durumda geri kalan basamaklar soldan `space` karakteri ile beslenir. Eğer, yer tutucuya yazılan sayıdan önce sıfır yazılırsa geri kalan karakterler space yerine `sıfır` ile beslenir. Bu işleme **hizalama (alignment)** da denilmektedir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Doğum tarihini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		System.out.printf("%2d/%2d/%4d%n", day, month, year);		
+		System.out.printf("%02d/%02d/%04d%n", day, month, year);
+	}	
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		System.out.printf("a = %08Xh%n", a);
+	}	
+}
+
+```
+
+>`f` format karakteri için `%` karakterinden önce .karakteri ile birlikte bir tamsayı verildiğinde sayının ondalık kısmının kaç basamak olarak formatlanacağı belirlenebilmektedir. Burada geri kalan basamaklar bilimsel olarak (round) yuvarlanırlar. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("%.2f + %.2f = %.10f%n", a, b, a + b);
+	}	
+}
+
+```
+
+>Format karakteri ile karşılık geldiği argumanın türü aynı değilse genel olarak exception oluşur
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("%d + %d = %d%n", a, b, a + b);
+	}	
+}
+
+```
+
+>Her argümana ilişkin yer tutucunun karşılk geldiği argüman bulunmalıdır. Aksi durumda exception oluşur
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("%f + %f = %f%n", a, b);
+	}	
+}
+
+```
+
+>`%` karakterinden sonra geçerli bir format karakteri verilmemesi durumunda exception oluşur
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("%ğ + %f = %f%n", a, b, a+ b);
+	}	
+}
+
+```
+
+>Bu format karakterleri dışında da format karakterleri bulunmaktadır. Kurs içerisinde çeşitli konularda ele alınacaktır. Bu format karakterlerinin ayrıntıları da konular içerisinde ele alınacaktır.
+
+**Anahtar Notlar:** printf metodu gibi kullanılan yani formatlamayı aynı biçimde yapan ancak en az printf kadar karşımıza çıkan bazı önemli metotlar vardır. Bu anlamda printf'in detayları bu metotların kullanımı açısından da önemlidir. 
+
+> **Sınıf Çalışması:** Klavyeden girilen iki tane tamsayının toplamını, farkını ve çarpımını aşağıdaki formatta ekrana yazdıran programı yazınız: Girilen sayılar 10 ve 20 ise çıktı şu şekilde olmalıdır
+> `10 + 20 = 30`
+> `10 - 20 = -10`
+> `10 * 20 = 200`
+
+>**Çözüm:** 
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		System.out.printf("%d + %d = %d%n", a, b, a + b);
+		System.out.printf("%d - %d = %d%n", a, b, a - b);
+		System.out.printf("%d * %d = %d%n", a, b, a * b);
+	}	
+}
+
+```
+
+##### Bölme İşlemi
+
+>Tamsayılarla bölme işleminde sonucun noktadan sonraki kısmı atılır. Elde edilen sonuç tamsayı olarak çıkar. Tamsayılarda bölme işleminde payda sıfır ise exception oluşur. `IEEE 754` formatında sayılar dışında özel bazı değerler de vardır. Örneğin `NaN`, `Infinity` değerleri sırasıyla `Not a Number` ve `sonsuz` değerlerine karşılık gelmektedir. Bu durumda gerçek bölme işlemi yapıldığında payda sıfır pay sıfır dışı bir değerse, elde edilen sonuç payın işaretine göre pozitif veya negatif `Infinity`'dir. Eğer pay da sıfırsa bu durumda `NaN` değeri elde edilir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = a / b;
+		
+		System.out.printf("%d / %d = %d%n", a, b, result);		
+	}	
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		double result;
+		
+		result = a / b;
+		
+		System.out.printf("%f / %f = %.20f%n", a, b, result);		
+	}	
+}
+
+```
+
+##### Standart Metotlar
+
+>JavaSE'de standart olarak bildirilen pek çok metot bulunmaktadır. Programcı bir problemin çözümüne ilişkin işlem yapan standart metotlar varsa önce onlar kullanmayı tercih etmelidir. Eğer yoksa bazı iyi kütüphanelerde varsa onları tercih etmelidir. Hala yoksa bu durumda programcı ilgili işlemleri yapan metotları yazmalıdır. Ancak bu durum, programcının kullandığı bir metodun, standart olsun ya da olmasın nasıl yazıldığını gözardı etmesi anlamına gelmemelidir. Programcı, programlama yaşamı boyunca hepsini olmasa da hazır olarak kullandığı metotların nasıl yazıldığını öğrenmesi gerekir. Bunun hemen yapılması gerekmez.  
+>
+>Standart metotların, metot kullanmaya da ek olarak avantajları şu şekilde özetlenebilir:
+>- Testleri yapılmıştır ve yeterince etkin olarak yazılmıştır. Hatta duruma göre zamanla metodun etkinliği de artırılmış olabilir.
+>- Taşınabilirdir. Yani, standart metotların çağrıldığı kodlar herhangi bir üçüncü parti koda ya da kütüphaneye ihtiyaç duymadan derlenebilir. 
+>
+>Bu durumda bir metodun **ne iş yaptığını** anlamak için tipik olarak bir dökumantasyon oluşturulur. JavaSE içerisinde bulunan standart metotların (ait olduğu sınıfların da) dökumantasyonu [https://docs.oracle.com/](https://docs.oracle.com/) sitesindeki çeşitli sayfalarda bulunmaktadır. Ancak yine de ilgili dökumantasyon tüm detayıyla açıklama yapmayabilir. Genel olarak Java dökumantasyonu konu hakkında fikir vermek için yazılır. Duruma göre programcı başka kaynaklardan öğrenmek zorunda kalabilir.
+
+**Anahtar Notlar:** `java.lang` paketi içerisinde sınıf (aslında user defined type'lar) isimleri herhangi bir işleme gerek olmaksızın her yerden görülebilirdir. Yani isimlere doğrudan erişilebilir. Örneğin, `System` sınıfı bu paket içerisindedir ve ismi doğrudan kullanılabilir. Ayrıntılar paketler konusunda ayrıca ele alınacaktır.
+
+##### Matematiksel İşlemler Yapan Metotlar
+
+>JavaSE'de matematiksel işlemler yapan metotların büyük bölümü `Math`isimli bir sınıf içerisinde bildirilmişlerdir. Bu sınıf `java.lang` paketi içerisinde bildirilmiştir. Bu metotların bazılar pek çok yerde kullanılabilmektedir. Bazıları Matematiksel işlemlerde kullanılır. Java programcısı Matematiksel işlemler gerektiğinde önce bu sınıfa bakmalı varsa bu sınıfın elemanlarından kullanmalıdır. 
+
+>Math sınıfının `sqrt` metodu parametresi ile aldığı double türden bir değerin karaköküne geri döner.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(java.lang.String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		double a = kb.nextDouble();
+				
+		System.out.printf("sqrt(%f) = %f%n", a, Math.sqrt(a));		
+	}	
+}
+
+```
+
+>Math sınıfının `pow` metodu parametresi ile aldığı a ve b değerleri için $$a^b$$ değerine geri döner. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(java.lang.String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Tabanı ve üssü sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+				
+		System.out.printf("pow(%f, %f) = %f%n", a, b, Math.pow(a, b));		
+	}	
+}
+
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı kartezyen düzlemde iki noktaya ilişkin koordinat bilgilerine göre Euclid uzaklığına geri dönen `distance` isimli metodu `PointUtil` isimli bir sınıf içerisinde yazınız ve aşağıdaki kod ile test ediniz.
+>
+>**Açıklamalar:** 
+>- Koordinat bilgileri double türden olacaktır
+>- Euclid uzaklığı formülü
+> $$distance = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$$
+>biçimindedir.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(java.lang.String [] args)
+	{		
+		PointUtilTest.run();	
+	}	
+}
+
+class PointUtilTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Koordinat bilgilerini giriniz:");
+		double x1 = kb.nextDouble();
+		double y1 = kb.nextDouble();
+		double x2 = kb.nextDouble();
+		double y2 = kb.nextDouble();
+		double result = PointUtil.distance(x1, y1, x2, y2);
+		
+		System.out.printf("distance(%f, %f, %f, %f) = %f%n", x1, y1, x2, y2, result);						
+	}
+}
+
+class PointUtil {
+	public static double distance(double x1, double y1, double x2, double y2)
+	{
+		return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+	}
+}
+```
+
+
+>**Sınıf Çalışması:** Parametresi ile aldığı kartezyen düzlemde iki noktaya ilişkin koordinat bilgilerine göre Euclid uzaklığına geri dönen `distance` isimli metodu `PointUtil` isimli bir sınıf içerisinde yazınız ve aşağıdaki kod ile test ediniz.
+>
+>**Açıklamalar:** 
+>- Koordinat bilgileri double türden olacaktır
+>- Euclid uzaklığı formülü
+> $$distance = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$$
+>biçimindedir.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(java.lang.String [] args)
+	{		
+		PointUtilTest.run();	
+	}	
+}
+
+class PointUtilTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Koordinat bilgilerini giriniz:");
+		double x1 = kb.nextDouble();
+		double y1 = kb.nextDouble();
+		double x2 = kb.nextDouble();
+		double y2 = kb.nextDouble();
+		double result = PointUtil.distance(x1, y1, x2, y2);
+		
+		System.out.printf("distance(%f, %f, %f, %f) = %f%n", x1, y1, x2, y2, result);						
+	}
+}
+
+class PointUtil {
+	public static double distance(double x1, double y1, double x2, double y2)
+	{
+		return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+	}
+}
 ```
 
