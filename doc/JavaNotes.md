@@ -1906,9 +1906,10 @@ class App {
 
 ##### Matematiksel İşlemler Yapan Metotlar
 
->JavaSE'de matematiksel işlemler yapan metotların büyük bölümü `Math`isimli bir sınıf içerisinde bildirilmişlerdir. Bu sınıf `java.lang` paketi içerisinde bildirilmiştir. Bu metotların bazılar pek çok yerde kullanılabilmektedir. Bazıları Matematiksel işlemlerde kullanılır. Java programcısı Matematiksel işlemler gerektiğinde önce bu sınıfa bakmalı varsa bu sınıfın elemanlarından kullanmalıdır. 
+>JavaSE'de matematiksel işlemler yapan metotların büyük bölümü `Math`isimli bir sınıf içerisinde bildirilmişlerdir. Bu sınıf `java.lang` paketi içerisinde bildirilmiştir. Bu metotların bazıları pek çok yerde kullanılabilmektedir. Bazıları Matematiksel işlemlerde kullanılır. Java programcısı Matematiksel işlemler gerektiğinde önce bu sınıfa bakmalı varsa bu sınıfın elemanlarından kullanmalıdır. Yoksa duruma göre başka alternatifler aramalı ya da kendisi yazmalıdır.
 
->Math sınıfının `sqrt` metodu parametresi ile aldığı double türden bir değerin karaköküne geri döner.
+>Math sınıfının `sqrt` metodu parametresi ile aldığı double türden bir değerin karaköküne geri döner:
+>$$\sqrt{a}$$
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -1916,7 +1917,7 @@ class App {
 package csd;
 
 class App {
-	public static void main(java.lang.String [] args)
+	public static void main(String [] args)
 	{		
 		java.util.Scanner kb = new java.util.Scanner(System.in);
 		
@@ -1937,7 +1938,7 @@ class App {
 package csd;
 
 class App {
-	public static void main(java.lang.String [] args)
+	public static void main(String [] args)
 	{		
 		java.util.Scanner kb = new java.util.Scanner(System.in);
 		
@@ -1965,7 +1966,7 @@ class App {
 package csd;
 
 class App {
-	public static void main(java.lang.String [] args)
+	public static void main(String [] args)
 	{		
 		PointUtilTest.run();	
 	}	
@@ -1996,7 +1997,7 @@ class PointUtil {
 ```
 
 
->**Sınıf Çalışması:** Parametresi ile aldığı kartezyen düzlemde iki noktaya ilişkin koordinat bilgilerine göre Euclid uzaklığına geri dönen `distance` isimli metodu `PointUtil` isimli bir sınıf içerisinde yazınız ve aşağıdaki kod ile test ediniz.
+>**Sınıf Çalışması:** Parametresi ile aldığı kartezyen düzlemde iki noktaya ait koordinat bilgilerine göre Euclid uzaklığına geri dönen `distance` isimli metodu `PointUtil` isimli bir sınıf içerisinde yazınız ve aşağıdaki kod ile test ediniz.
 >
 >**Açıklamalar:** 
 >- Koordinat bilgileri double türden olacaktır
@@ -2010,7 +2011,7 @@ class PointUtil {
 package csd;
 
 class App {
-	public static void main(java.lang.String [] args)
+	public static void main(String [] args)
 	{		
 		PointUtilTest.run();	
 	}	
@@ -2040,3 +2041,234 @@ class PointUtil {
 }
 ```
 
+##### 2 Kasım 2024
+
+>Math sınıfının `log, log10 ve log1p`metotları
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		double a = kb.nextDouble();
+		
+		System.out.printf("log(%f) = %f%n", a, Math.log(a));
+		System.out.printf("log10(%f) = %f%n", a,  Math.log10(a));
+		System.out.printf("log1p(%f) = %f%n", a, Math.log1p(a));
+	}	
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		MathUtilLogTest.run();
+	}	
+}
+
+class MathUtilLogTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Tabanı ve argümanı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("log(%f, %f) = %f%n", a, b, MathUtil.log(a, b));
+	}
+}
+
+class MathUtil {
+	public static double log(double a, double b)
+	{
+		return Math.log(b) / Math.log(a);
+	}
+}
+```
+>Math sınıfınının trigometrik işlemler yapan metotları `(sin, cos, tan, asin, acos, atan vb.)` radyan (radians) ölçü birimiyle çalışırlar. Ayrıca radyan ve derece dönüşümü için `toRadians ve toDegrees` isimli metotlarda bu sınıf içerisinde bulunmaktadır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Derece değerini giriniz:");
+		double a = kb.nextDouble();
+		
+		System.out.printf("sin(%f) = %f%n", a, Math.sin(Math.toRadians(a)));
+	}	
+}
+
+```
+
+>Math sınıfının `abs` metotları mutlak değer işlemi için kullanılır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		double a = kb.nextDouble();
+		
+		System.out.printf("abs(%f) = %f%n", a, Math.abs(a));
+	}	
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekteki areEquals metodunun yazılış detayları şu an için önemsizdir. Mutlak değer kullanımına odaklanınız
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		double a = 0.2, b = 0.1;
+		double c;
+		
+		c = a + b;
+		
+		System.out.printf("c = %.20f%n", c);
+		
+		if (MathUtil.areEquals(c, 0.3, 0.00001))
+			System.out.println("Eşit");
+		else
+			System.out.println("Eşit değil");
+	}	
+}
+
+class MathUtil {
+	public static boolean areEquals(double a, double b, double delta)
+	{
+		return Math.abs(a - b) < delta;
+	}
+}
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("min(%f, %f) = %f%n", a, b, Math.min(a, b));
+		System.out.printf("max(%f, %f) = %f%n", a, b, Math.max(a, b));
+	}	
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		MathUtilMinMaxTest.run();
+	}	
+}
+
+class MathUtilMinMaxTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Üç sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		double c = kb.nextDouble();
+		
+		System.out.printf("min(%f, %f, %f) = %f%n", a, b, c, MathUtil.min(a, b, c));
+		System.out.printf("max(%f, %f, %f) = %f%n", a, b, c, MathUtil.max(a, b, c));
+	}
+}
+class MathUtil {
+	public static double min(double a, double b, double c) 
+	{
+		return Math.min(Math.min(a, b), c);
+	}
+	
+	public static double max(double a, double b, double c) 
+	{
+		return Math.max(Math.max(a, b), c);
+	}
+}
+```
+>Math sınıfının `round, rint, ceil ve floor` metotları tamsayıya yuvarlama işlemi yapan önemli metotlardır. `round ve rint` metotları bilimsel yuvarlama yaparlar. round metodunun double parametreli versiyonu long türüne geri döner, rint metodu ise tamsayıya yuvarlanmış değeri olarak döndürür. Bu iki metodun arasındaki diğer farklar dökumanlardan öğrenilebilir. `ceil` metodu sayıdan büyük veya eşit olan en küçük tamsayıya geri döner. `floor` metodu sayıdan küçük veya eşit olan en büyük tamsayı değerini döndürür.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		double a = kb.nextDouble();
+		
+		System.out.printf("round(%f) = %d%n", a, Math.round(a));
+		System.out.printf("rint(%f) = %.20f%n", a, Math.rint(a));
+		System.out.printf("ceil(%f) = %.20f%n", a, Math.ceil(a));
+		System.out.printf("floor(%f) = %.20f%n", a, Math.floor(a));
+	}	
+}
+
+```
+**Anahtar Notlar:** Math sınıfında yukarıda anlatılanlar dışında pek çok metot bulunmaktadır. Burada özellikle çok kullanılanlar genel durumlarıyla ele alınmaya çalışılmıştır. Diğer metotlar da şüphesiz önemlidir. Gerekirse dökumanlardan öğrenilebilir.
+
+##### 3 Kasım 2024
+
+##### Sabitler
+
+>Program içerisinde doğrudan yazılan bir değere **sabit (literals/constants)** denir. Anımsanacağı gibi iki tırnak içerisindeki yazılara **string literals** denir. **Sabitlerin de türleri vardır. Yani derleme aşamasında bir sabitin türü tespit edilir (type inference/deduction).** 
+
+
+>Sabitlerin türleri aşağıdaki kurallara göre belirlenir:
+>- Sayı nokta içermiyorsa, sonuna herhangi bir ek almamışsa ve int türü sınırları içerisinde kalıyorsa `int` türden bir sabittir. Sayı int türü sınırları dışındaysa error oluşur. Örneğin: 200, 100, 2000000000 vb.
+>
+>- Sayı nokta içermiyorsa, ve sonuna L (küçük veya büyük) ekini almışsa `long` türdendir. L son ekini bir sabit long türünün sınırları dışında ise error oluşur. Örneğin:100L, 3000000000L vb.
+>**Anahtar Notlar:** Küçük harf L soneki bazı yazı türlerinde 1(bir) rakamına benzerliğinden dolayı kullanımı önerilmez. 
+>
+> - Java'da `byte ve short` türden sabit yoktur.
+> - Sayı nokta içeriyorsa ve sonuna herhangi bir son ek almamışsa `double` türdendir. Örneğin: 3.45, 0.1, 6.789 vb.
+>
+> - Sayı nokta içersin ya da içermesin sonuna D (küçük veya büyük) ekini alıyosa `double` türdendir. Örneğin: 10D, 10.3d vb.
+>
+>- Sayı nokta içersin ya da içermesin sonuna F (küçük veya büyük) ekini alıyorsa `float` türdendir. Örneğin: 10F, 3.4f vb.
+>**Anahtar Notlar:** Nokta içeren ve noktadan sonraki kısmının tamamı sıfır olmayan bir double türdeen sabitin sonuna F (küçük ya da büyük) eki getirildiğinde sayının değeri float türü ile  temsil edilemiyorsa en yakın değerine yuvarlanır (rounding error).
+>
+>- `boolean` türden iki tane sabit vardır: true, false.
