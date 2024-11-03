@@ -2264,11 +2264,393 @@ class App {
 >**Anahtar Notlar:** Küçük harf L soneki bazı yazı türlerinde 1(bir) rakamına benzerliğinden dolayı kullanımı önerilmez. 
 >
 > - Java'da `byte ve short` türden sabit yoktur.
-> - Sayı nokta içeriyorsa ve sonuna herhangi bir son ek almamışsa `double` türdendir. Örneğin: 3.45, 0.1, 6.789 vb.
+> - Sayı nokta içeriyorsa ve sonuna herhangi bir ek almamışsa `double` türdendir. Örneğin: 3.45, 0.1, 6.789 vb.
 >
 > - Sayı nokta içersin ya da içermesin sonuna D (küçük veya büyük) ekini alıyosa `double` türdendir. Örneğin: 10D, 10.3d vb.
 >
 >- Sayı nokta içersin ya da içermesin sonuna F (küçük veya büyük) ekini alıyorsa `float` türdendir. Örneğin: 10F, 3.4f vb.
->**Anahtar Notlar:** Nokta içeren ve noktadan sonraki kısmının tamamı sıfır olmayan bir double türdeen sabitin sonuna F (küçük ya da büyük) eki getirildiğinde sayının değeri float türü ile  temsil edilemiyorsa en yakın değerine yuvarlanır (rounding error).
+>**Anahtar Notlar:** Nokta içeren ve noktadan sonraki kısmının tamamı sıfır olmayan bir double türden sabitin sonuna F (küçük ya da büyük) eki getirildiğinde sayının değeri float türü ile  temsil edilemiyorsa en yakın değerine yuvarlanır (rounding error).
 >
 >- `boolean` türden iki tane sabit vardır: true, false.
+>
+>- Tek tırnak içerisinde yazılan karakterlere ilişkin sembollere tırnakları ile beraber **karakter sabitleri (character literals)** denir. Karakter sabitleri `char` türdendir. Tek tırnak içerisinde, özel bazı durumlar dışında tek bir karakter yazılabilir. Aksi durumda error oluşur. Bir karakter sabiti ilgili karakterin karakter tablosundaki sıra numarasına karşılık gelir. Aslında biz char türden bir sabit yazarak o sabite ilişkin karakterin sıra numarasını elde etmiş olur. Bu sıra numarasını char türden bir değişken içeriisnde saklayarak mantıksal olarak o karakteri tutmuş oluruz. Bazı karakterler klavyedeki tuş kombinasyonlarıyla doğrudan yazılamazlar. Bazı karakterler ise doğrudan ekrana basılmazlar (non printable). Bu tarz karakterlere ilişkin sabitler tek tırnak içerisinde doğrudan yazılamazlar. Bu tarz karakterlere ilişkin sabitler, `\` karakteri ile birlikte özel bir karakter kullanılarak tek tırnak içerisinde yazılırlar. Sabitleri ters bölü yazılan karakterlere **escape sequence** karakterler denir. Java'da desteklenen escape sequence karakterler şunlardır:
+
+| Karakter Sabiti  | Karakter Sabiti Adı      |
+| --------------   | ------------------------ |
+| `'\n'`           | Line Feed (LF)           |
+| `'\r'`           | Carriage Return (CR)     |
+| `'\t'`           | Tabular (horizontal tab) |
+| `'\f'`           | Form feed                |
+| `'\b'`           | Backspace                |
+| `'\''`           | Single quote             |
+| `'\"'`           | Double quote (optional)  |
+| `'\\'`           | Back slash               |
+| `'\0'`           | `null` character         |
+| `'\s'`           | special whitespace character (Since Java 12)         |
+
+>`LF` karakter sabiti
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		char c;
+		
+		c = '\n';
+		
+		System.out.print("Hello, World");
+		System.out.print(c);
+		System.out.print("Goodbye, World");
+		System.out.print(c);
+	}	
+}
+
+```
+
+>`CR` karakter sabiti
+>**Anahtar Notlar:** Aşağıdaki örneği işletim sisteminizin komut yorumlayıcı programı ile çalıştırmanız tavsiye edilir. Kullanılan IDE'lerin console pancereleri, ayarlarına göre `CR` karakterini farklı yorumlayabilir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		char c;
+		
+		c = '\r';
+		
+		System.out.print("Hello, World");
+		System.out.print(c);
+		System.out.print("Hi");
+	}	
+}
+
+```
+>Tek tırnak karakter sabiti `\` ile yazılmalıdır. Aksi durumda error oluşur. İki tırnak karakteri doğrudan ya da `\` ile yazılabilmektedir
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		char c1, c2, c3;
+		
+		c1 = '\'';
+		c2 = '"';
+		c3 = '\"';
+	
+		System.out.printf("c1 = %c, c2 = %c, c3 = %c%n", c1, c2, c3);
+	}	
+}
+
+```
+
+>Ters bölü karakterine ilişkin karakter sabiti de yine `\` ile yazılmalıdır. Aksi durumda error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		char c;
+		
+		c = '\\';		
+	
+		System.out.printf("c = %c%n", c);
+	}	
+}
+
+```
+>Tab karakter sabiti
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		char c;
+		
+		c = '\t';		
+	
+		System.out.print("Ankara");
+		System.out.print(c);
+		System.out.println("İstanbul");
+	}	
+}
+
+```
+
+>Backspace karakter sabiti
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		char c;
+		
+		c = '\b';		
+	
+		System.out.print("Merhaba");
+		System.out.print(c);
+		System.out.println("Ali");		
+	}	
+}
+
+```
+
+>Escape sequence karakterler `string literal` içerisinde kendi anlamındadır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println("Hello\nWorld");
+	}	
+}
+
+```
+
+>Aşağıdaki demo örnekte tab ve LF karakterleri kullanıldığından çıktıyı inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println("C:\test\numbers.txt");
+	}	
+}
+
+```
+
+>Aşağıdaki demo örnekte iki tane ters bölü kullanıldığından artık tab ve LF karakterleri kullanılmamış olur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println("C:\\test\\numbers.txt");
+	}	
+}
+
+```
+
+>Aşağıdaki demo örnekte geçersiz escape sequence kullanıldığından error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println("C:\alert\virtuals.txt"); //error
+	}	
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println("\\\\192.168.1.103\\test\\numbers.txt"); 
+	}	
+}
+
+```
+>Tek tırnak karakteri string literal içerisinde doğrudan ya da `\` ile kullanılabilir. İki kullanım da tamamen aynı anlamdadır. İki tırnak karakteri string literal içerisinde ancak `\` ile kullanılabilmektedir
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println("'C ve Sistem Programcıları Derneği'"); 
+		System.out.println("\'C ve Sistem Programcıları Derneği\'");
+		System.out.println("\"C ve Sistem Programcıları Derneği\"");
+		System.out.println("\"C ve Sistem Programcıları Derneği'");		
+	}	
+}
+
+```
+
+>Bir karakter sabiti tek tırnak içerisinde `\u` ile birlikte sıra numarası yazılabilir. Sıra numarasının hexadecimal ve 2 byte olarak (4 hex digit) olarak yazılması gerekir. Aksi durumda error oluşur. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		System.out.println('\u03A3');
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int sum = 10;
+		
+		System.out.printf("\u03A3 of values:%d%n", sum);
+	}
+}
+
+```
+
+>Aslında `\u` değişken isimlendirmede de kullanılabilir. Ancak bu pratikte kullanılmaz.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int \u03A3OfValues = 10;
+		
+		System.out.println(\u03A3OfValues);
+	}
+}
+
+```
+
+**Anahtar Notlar:** Java 12 ile birlikte ismine **text block** denilen bir string sabit yazma biçimi de eklenmiştir. Text bloklar ileride ele alınacaktır.
+
+>Sayının noktadan sonraki kısmının tamamı sıfırsa, noktadan sonraki sıfır yazılmayabilir. Benzer şekilde sayının noktadan önceki kısmının tamamı sıfırsa yine noktadan önce sıfır yazılmayabilir. Yani `1.0` ile `1.` sabitleri birebir aynıdır, benzer şekilde `0.3` ile `.3` sabitleri birebir aynıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		System.out.println(1.0);
+		System.out.println(1.);
+		System.out.println(.3);
+		System.out.println(0.3);		
+	}	
+}
+
+```
+>Bir sabit üstel olarak gösterilebilirler. Bu gösterilişe **bilimsel gösteriliş (scientific notation)** ya da **üstel gösteriliş (exponential notation)** denilmektedir. Üstel olarak gösterilen sabitler, değeri ne olursa olsun `double` türdendir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{	
+		System.out.printf("%.0f%n", 6.02E+23);
+		System.out.printf("%.0f%n", 6.02E23);
+		System.out.printf("%.0f%n", 6.02e+23);
+		System.out.printf("%.0f%n", 6.02e23);
+	}	
+}
+
+```
+>Tamsayı sabitleri `decimal`, `hexadecimal`, `octal` ve Java 7'den itibaren `binary` olarak yazılabilmektedir. Sabitin başına 0x (sıfır ve küçük veya büyük X) yazılırsa hexadecimal, sıfır yazılırsa octal ve 0b (sıfır ve küçük veya büyük B) yazılırsa binat olarak ele alınır. Yazılan sabitte ilgili sistemde geçerli olmayan bir basamak yazılması error oluşturur. 
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{	
+		int a = 10;
+		int b = 0xA;
+		int c = 012;
+		int d = 0b1010;
+		
+		System.out.println(a);
+		System.out.println(b);
+		System.out.println(c);
+		System.out.println(d);
+	}	
+}
+
+```
+>Java 7 ile birlikte sabitlerin basamakları arasında alttire karakteri yazılabilmektedir. Alttire karakteri yalnızca iki basamak arasında istenildiği kadar sayıda yazılabilir. Yani örneğin hexadecimal bir sabitin öneki ile sabit arasında yazılamaz. Bu durumun bir tek istisnası vardır. Octal bir sabitin öneki ile sabit arasında alttire kullanımı geçerlidir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		int a = 1____________0;
+		int b = 0x000_0000_1010_0001;
+		int c = 0_12;
+		
+		System.out.println(a);
+		System.out.println(b);
+		System.out.println(c);
+	}
+}
+
+```
+###### Derleyicilerin Kod Optimizasyonu
+
+>Derleyiciler yazılan bir kodun algoritmasını değiştirmeden, kodun daha iyi çalışmasını sağlamaya çalışır. Buna **kod optimizasyonu (code optimization)** denir. Derleyicilerin optimizasyonu genel olarak ikiye ayrılır: **speed optimization**, **size optimization**. Speed optimaztion hızlandırmak, size optimization ise kodu az yer kaplamasını sağlamak için yapılır. Burada hızlandırılan kodun algoritmanın değiştirilmesi olmadığı unutulmamalıdır. Yani bir derleyicinin programcının algoritmasını iyileştirmek gibi bir hedefi yoktur. Buradaki iyileştirme algoritmayı (yani hedefi) değiştirmeden yapılır. Derleyicilerin pek çok optimizasyonu bulunur. 
+
+##### Constant Folding Optimization
+
+>Derleyici sabit ifadelerinin değerlerini hesaplayıp byte code'a yazarlar. Buna **constant folding optimization** denir. Yani aslında sabit ifadelerinin hesaplanmasının çalışma zamanına bir etkisi yoktur. 
+
+>Aşağıdaki demo örnekte 1 ile belirtilen ifadedeki sabit ifadesi hesaplanıp arakoda yazılır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		for (int i = 0; i < 10; ++i) {
+			double value = 6.02E23 * 2.7182; //1
+			
+			//...
+		}
+	}
+}
+
+```
+##### Operatörler
+
