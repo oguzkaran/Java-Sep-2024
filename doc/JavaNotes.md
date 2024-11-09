@@ -2629,7 +2629,7 @@ class App {
 ```
 ###### Derleyicilerin Kod Optimizasyonu
 
->Derleyiciler yazılan bir kodun algoritmasını değiştirmeden, kodun daha iyi çalışmasını sağlamaya çalışır. Buna **kod optimizasyonu (code optimization)** denir. Derleyicilerin optimizasyonu genel olarak ikiye ayrılır: **speed optimization**, **size optimization**. Speed optimaztion hızlandırmak, size optimization ise kodu az yer kaplamasını sağlamak için yapılır. Burada hızlandırılan kodun algoritmanın değiştirilmesi olmadığı unutulmamalıdır. Yani bir derleyicinin programcının algoritmasını iyileştirmek gibi bir hedefi yoktur. Buradaki iyileştirme algoritmayı (yani hedefi) değiştirmeden yapılır. Derleyicilerin pek çok optimizasyonu bulunur. 
+>Derleyiciler yazılan bir kodun algoritmasını değiştirmeden, kodun daha iyi çalışmasını sağlamaya çalışır. Buna **derleyicilerin kod optimizasyonu (compiler code optimization)** denir. Derleyicilerin optimizasyonu genel olarak ikiye ayrılır: **speed optimization**, **size optimization**. Speed optimaztion hızlandırmak, size optimization ise kodu az yer kaplamasını sağlamak için yapılır. Burada hızlandırılan kodun algoritmanın değiştirilmesi olmadığı unutulmamalıdır. Yani bir derleyicinin programcının algoritmasını iyileştirmek gibi bir hedefi yoktur. Buradaki iyileştirme algoritmayı (yani hedefi) değiştirmeden yapılır. Derleyicilerin pek çok optimizasyonu bulunur. 
 
 ##### Constant Folding Optimization
 
@@ -2652,5 +2652,255 @@ class App {
 }
 
 ```
-##### Operatörler
 
+##### 9 Kasım 2024
+
+##### Temel Operatörler
+
+>Belirli bir işleme yol açan ve bu işlem sonucunda bir değer üreten atomlara **operatör (operator)** denir. Bir operatör ile işleme giren ifadelere (expression) **operand** denir. Bu bölümde temel operatörler ele alınacaktır. Bazı operatörler ilerleyen konular içerisinde, bazıları ise Java ile Uygulama geliştirme kurslarında ele alınacaktır. Bir operatörün öğrenilmesi, o operatör için aşağıdaki özelliklerin incelenmesi demektir:
+>
+>**Operatörün sınıflandırılması:**
+>1. İşlevlerine göre sınıflandırma: İşlevlerine göre operatörler şu şekilde sınıflandırılabilir:
+>- Aritmetik operatörler (Arithmetic operators)
+>- Karşılaştırma operatörleri (Comparison operators)
+>- Mantıksal operatörler (logical operators)
+>- Bitsel operatörler (Bitwise operators)
+>- Özel amaçlı operatörler (special pupose operators)
+>
+>2. Operand sayısına göre sınıflandırma:
+>- Tek operandlı (unary)
+>- İki operandlı (binary)
+>- Üç operandlı (ternary)
+>
+>3. Operatörün konumuna göre sınıflandırma: Operatörün operandlarına göre nerede olduğu bilgisidir:
+>- Önek (prefix)
+>- Araek (infix)
+>- Sonek (postfix)
+>
+>**Operatörün ürettiği değer (product value):** Operatörün işlemi sonucunda elde edilen değerdir.
+>**Operatörün kısıtı (constraint):** Operatörün kullanımına ilişkin zorunluluklardır.
+>**Operatörün yan etkisi (side effect):** Operatörün, operand ya da operandlarının değerini değiştirip değiştirmediği durumudur. Değiştiriyorsa operatörün yan etkisi vardır, değiştirmiyorsa yoktur.
+>**Operatörün önceliği (precedence):** Operatör önceliği bir ifadede önceliği olan operatörün genel olarak daha önce işleme girmesidir. Bu durumun bazı istisnaları vardır. Aslında terminolojik olarak operatörün önceliği (operator precedence) ve işleme giriş sırası (order of evaluation) her operatör için aynı şeyler anlamına gelmez. Bazı operatörler öncelikli olmasına işlem sıraları farklı olabilmektedir. Önceliğe ilişkin basit bir örnek şu şekilde verilebilir: 
+`a = b + c * d` işleminin yapılış sırası şöyledir:
+`i1: c * d`
+`i2: b + i1`
+`i3: a = i2`
+> Bir işlemi önceliklendirmek için Matematikteki gibi ifade parantez içerisine alınır. Önceliklendirme parantezi de aslında bir operatördür:
+>`a = (b + c) * d` işleminin yapılış sırası şöyledir:
+>
+>`i1: b + c`
+`i2: i1 * d`
+`i3: a = i2`
+>
+>Bazı operatörler aynı öncelik seviyesinde olabilirler. Bu durumda, aynı öncelik seviyesindeki operatörlerin nasıl ele alınacağı **associativity** denilen bir kavram ile belirlidir. Bu anlamda **left associative** ve **right associative** terimleri kullanılır. Örneğin
+>`a = b + c - d` işleminin yapılış sırası şöyledir:
+>
+>`i1: b + c`
+`i2: i1 - d`
+`i3: a = i2`
+
+###### Aritmetik Operatörler
+>Aritmetik operatörler şunlardır: `+, -, *, /, %, -, +, --, ++`. Bu operatörlerin operandları `boolean` türden olamaz. 
+
+>`+, -, *, /` operatörleri iki operandlı ve araek durumundadır. Bu operatörler işlemin sonuca ilişkin değeri üretirler. Bu operatörlerin yan etkileri yoktur. `/` ve `*` operatörleri `+` ve `-` operatörlerinden yüksek önceliktedir. `/` ve `*` aynı öncelik grubundadır ve bu grup left asscociative'dir. `+` ve `-` aynı öncelik grubundadır ve bu grup da yine left asscociative'dir.
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		System.out.printf("%d + %d = %d%n", a, b, a + b);
+		System.out.printf("%d - %d = %d%n", a, b, a - b);
+		System.out.printf("%d * %d = %d%n", a, b, a * b);
+		System.out.printf("%d / %d = %d%n", a, b, a / b);
+	}
+}
+
+```
+>Mod işlemi için `%` atomu kullanılır. Mod alma işlemi de bölme işlemi kullanılarak yapıldığından bu operatör `/` ve `*` operatörleri ile aynı seviyededir. Bu operatör daha çok tamsayılarla kullanılsa da gerçek sayılar için de kullanılabilmektedir. Bu operatörün ikinci operandının negatif olmasının bir önemi yoktur. n pozitif bir sayı olmak üzere, bir sayının n sayısına göre modunu almakla -n sayısına göre modunu almak aynı sonucu verir. Bu opetörün birinci operandının pozitif olması durumu Matematikteki ile aynıdır ancak negatif olması durumunda operandın pozitif olması durumunda elde edilen değerin negatifi elde edilir. Yani bu operatörün birinci operandının negatif olması durumda elde edilen Matematikteki mod işleminden farklıdır.
+
+>Aşağıdaki demo örneği çeşitli değerler ile sonuçları gözlemleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		System.out.printf("%d %% %d = %d%n", a, b, a % b);
+	}
+}
+
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı 3 basamaklı bir sayının basamakları toplamına geri dönen `sumOf3Digits` metodunu `NumberUtil` sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz.
+>**Açıklamalar:** 
+>- Metot sayının 3 basamaklı olup olmadığına ilişkin kontrol yapmayacaktır.
+>- Metot negatif için basamakları toplamını pozitif olarak döndürecektir.
+>- Metot içerisinde döngü kullanılmayacaktır. Zaten gerek de yoktur.
+>**Çözüm 1**:
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		NumberUtilSumOfDigitsTest.run();
+	}
+}
+
+
+class NumberUtilSumOfDigitsTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("3 basamaklı bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		System.out.printf("%d sayısının basamakları toplamı:%d%n", a, NumberUtil.sumOf3Digits(a));
+	}
+}
+
+class NumberUtil {
+	public static int sumOf3Digits(int val)
+	{
+		int a = val / 100;
+		int b = val / 10 % 10;
+		int c = val % 10;
+		
+		return Math.abs(a + b + c);
+	}
+}
+
+```
+
+>**Çözüm 2:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		NumberUtilSumOfDigitsTest.run();
+	}
+}
+
+
+class NumberUtilSumOfDigitsTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("3 basamaklı bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		System.out.printf("%d sayısının basamakları toplamı:%d%n", a, NumberUtil.sumOf3Digits(a));
+	}
+}
+
+class NumberUtil {
+	public static int sumOf3Digits(int val)
+	{
+		int a = val / 100;
+		int b = val % 100 / 10;
+		int c = val % 10;
+		
+		return Math.abs(a + b + c);
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		
+		System.out.printf("%f %% %f = %f%n", a, b, a % b);
+	}
+}
+```
+
+>İşaret `-` operatörü tek operandlı ve önek durumundadır. Bu operatör operandına ilişkin ifadenin değerinin ters işaretlisini üretir. Operatörün yan etkisi yoktur. Operatör ikinci öncelik seviyesindedir. Bu öncelik seviyesindeki operatörler `right associative` olarak ele alınırlar. İşaret `+' operatörü operandı olan ifade ile aynı değeri üretir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		int b, c;
+		
+		b = -a;
+		c = +a;
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+>Aslında teknik olarak doğrudan negatif sabit yoktur. Nagatif bir sabit aslında bir sabite işaret `-` uygulamyarak yazılmış olur
+
+**Anahtar Notlar:** Okunabilirlik/algılanabilirlik açısından binary bir operatör ile operandları arasında bir ve yalnız bir tane space karakteri yazılır. Yine özel bazı operatörler dışında unary bir operatör ile operandı bitişik olarak yazılır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 3, b = 2;
+		int c;
+		
+		c = a - - - - - - - - - -b;
+		
+		System.out.printf("c = %d%n", c);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int c = - - - - - - - - - -2;
+		
+		System.out.printf("c = %d%n", c);
+	}
+}
+
+```
