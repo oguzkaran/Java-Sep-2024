@@ -73,6 +73,39 @@
 >
 >**IDE (Integrated Development Environment):** Derleyicler ve yorumlayıcılar komut satırından çalışan ve basit arayüzlere sahip programlardır. Aslında teorik olarak bir uygulamadaki tüm Java dosyaları ve diğer dosyalar basit bir editör programla yazılıp komut satırından derlenebilir. Ancak bu, uygulama büyüdükçe zahmetli olmaya başlar. Bu da programcıya zaman kaybettirir. Bu amaçla pratikte yazılım geliştirmeyi kolaylaştırmak için IDE denilen yazılımlar kullanılır. IDE'lerde örneğin bir takım yardımlar veren editörler, tasarım araçları, test araçları, debug araçları vb. programcının geliştirme sırasında kullandığı araçlar bulunur. Java ile uygulama geliştirmede iki tane IDE yoğun olarak kullanılmaktadır: **Eclipse, IntelliJIDEA**. Biz kursumuzda belirli bir zaman (yaklaşık kursun yarısına kadar) Eclipse, sonrasında IntelliJIDEA kullanacağız.
 
+>**Sembollerin ingilizce karşılıkları
+
+| Sembol | İngilizce Karşılığı                         			|
+|--------|------------------------------------------------------|
+| +      | plus                                        			|
+| -      | minus, hyphen, dash                         			|
+| *      | asterisk                                    			|
+| /      | slash                                       			|
+| \      | backslash                                   			|
+| .      | period, dot                                 			|
+| ,      | comma                                       			|
+| :      | colon                                       			|
+| ;      | semicolon                                   			|
+| “      | double quote                                			|
+| '      | single quote                                			|
+| (...)  | parenthesis left, right, opening, closing   			|
+| [...]  | (square) parenthesis left, right, opening, closing	|
+| {...}  | brace left, right, opening, closing 					|
+| =      | equal sign                                  			|
+| &      | ampersand                                   			|
+| ~      | tilda                                       			|
+| @      | at                                          			|
+| <...>  | less than, greater than, angular bracket    			|
+| ^      | caret                                       			|
+| \|     | pipe                                        			|
+| _      | underscore                                  			|
+| ?      | question mark                               			|
+| #      | sharp, number sign                          			|
+| %      | percent sign                                			|
+| !      | exclamation mark                            			|
+| $      | dollar sign                                 			|
+| ...    | ellipsis                                    			|
+
 ##### JDK Kurulumu ve Bilgisayarın Geliştirme için Hazır Hale Getirilmesi
 
 JDK'nın kurulumu için işletim sistemine aşağıdaki bağlantıdan ilgili "installer" program elde edilebilir:
@@ -2904,3 +2937,343 @@ class App {
 }
 
 ```
+
+##### 10 Kasım 2024
+
+>`++` (increment) ve `--` (decrement) operatörleri tek operandlı operatörlerdir. Bu operatörler hem önek hem de sonek durumunda kullanılabilirler. Bu operatörlerin operandları değişken olmalıdır. Bu operatörlerin yan etkisi vardır.Bu operatörler boolean dışında kalan temel türden değişkenler ile kullanılabilirler. '++' operatörü operandına ilişkin değişkenin değerini 1 (bir) artırır, `--` operatörü operandına ilişkin değişkenin değerini 1(bir) azaltır. Bu operatörler konum olarak nasıl kullanılırsa kullanılsın ilgili yan etkiyi operandlarına yansıtırlar. Bu operatörlerin prefix ve postfix kullanımları arasındaki fark ürettiği değerdedir (işleme giren değer). `++` operatörü prefix kullanımda artırılmış değeri üretir, postfix kullanımda ise artırılmamış değeri üretir.  `--` operatörü prefix kullanımda azaltılmış değeri üretir, postfix kullanımda ise azaltılmamış değeri üretir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		
+		++a; //a = a + 1
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		
+		a++; //a = a + 1
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		int b;
+		
+		b = ++a; 
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		int b;
+		
+		b = a++; 
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		
+		--a; //a = a - 1
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		
+		a--; //a = a - 1
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		int b;
+		
+		b = --a; 
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		int b;
+		
+		b = a--; 
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+
+>Java derleyicisi soldan sağa ve yukarıdan aşağıya doğru anlamlı en uzun ifadeyi atomlarına ayıracak (tokenizing) şekilde işlem yapar. Bu kurala genel olarak **maximal/maximum munch** denir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3;
+		int c;
+		
+		c = a+++b;
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3;
+		int c;
+		
+		c = a++b; //error
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3;
+		int c;
+		
+		c = a+-++b; 
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2;
+		int b;
+		
+		b = a++ + a--; 
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2;
+		int b = 3;
+		int c;
+		
+		c = ++a * ++b - --b / 3;
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği giriniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2;
+		int b = 4;
+		int c;
+		
+		c = ++a + ++b - --b / 3;
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+###### Temel Karşılaştırma Operatörleri
+
+>Temel karşılaştırma operatörleri 6 tanedir: `>`, `<`, `<=`, `>=`, `==`, `!=`.
+>Bu operatörler iki operandlı ve araek durumdadır. Bu operatörlerin ürettiği `boolean` türdendir. Karşılaştırma işlemi doğru `true`, yanlış ise `false` değerini üretirler. Bu operatörlerin yan etkisi yoktur. `>`, `<`, `<=`, `>=` operatörleri bilinen yani klasik karşılaştırma işlemi yapan operatörlerdir. `==` operatörü operandlarına ilişkin ifadelerin değerleri eşit ise `true`, değilse `false` değerini üretir. `!=` operatörü operandlarına ilişkin ifadelerin değerleri eşit değilse `true`, eşitse `false` değerini üretir. Bu operatörler ilgili işleme göre karşılaştırılabilen türler ile kullanılabilmektedir. Örneğin int türden iki değer `>` operatörü ile karşılaştırılabilir ancak boolean türden iki değer `>` operatörü ile karşılaştırılamaz. Örneğin, boolean türden iki ifade `==` ve `!=` operatörleri ile işleme sokulabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		System.out.println(a > b);
+		System.out.println(a < b);
+		System.out.println(a >= b);
+		System.out.println(a <= b);
+		System.out.println(a == b);
+		System.out.println(a != b);
+	}
+}
+
+```
+
+###### Metot Çağırma Operatörü
+
+>Java'da metot çağırma metot çağırma operatörü (method call/invoke operator) ile yapılır. Bu operatör özel amaçlı ve araek durumundadır. Bu operatör operatör öncelik tablosunun birinci seviyesindedir. Bu operatör ilgili metot çağrılır ve metodun geri dönüş değeri varsa o değer üretilmiş olur. void bir metot çağrısı için bu operatöre ilişkin ifade void bir ifadedir (void expression). void expression'lar değeri olmaz. 
+
+###### 16 Kasım 2024
+
+###### Mantıksal Operatörler
+
+>Mantıksal operatörler şunlardır: `&&`, `||', `!`. `&&` operatörü mantıksal VE (logical AND), `||` operatörü mantıksal VEYA (logical OR), `!` operatörü mantıksal DEĞİL (logical NOT) işlemlerini yaparlar. Bu operatörlerin operandları boolean türden olmalıdır. Aksi durumda error oluşur. Operatörlerin ürettiği değer de boolean türdendir. Bu operatörlerin yan etkileri yoktur.
+
+>`&&` ve `||` operatörleri iki operandlı ve araek durumundadır. Bu operatörler `Mantık`'taki iligili operatörlere karşılık gelirler. `&&` ve `||` operatörlerine ilişkin doğruluk tablosu (truth table) aşağıdaki gibidir:
+
+| a     | b     | a `&&` b    | a `\|\|`b   |
+|:-----:|:-----:|:-----------:|:-----------:|
+| T     | T     | T           | T           |
+| T     | F     | F           | T           |
+| F     | T     | F           | T           |
+| F     | F     | F           | F           |
+
+>Bu doğruluk tablosunda kısaca şu sonuçlar çıkartılabilir:
+>- `&&` işlemi için en az biri yanlışsa sonuç yanlıştır.
+>- `||` işlemi için en az biri doğruysa sonuç doğrudur.
+
+
+#### Operatör öncelik tablosu
+
+| Operatör                                  | İlişkisi     |
+|-------------------------------------------|--------------|
+| () . [] new                               | Soldan sağa  |
+| + - ++ -- ! ~ ()                          | Sağdan sola  |
+| * / %                                     | Soldan sağa  |
+| + -                                       | Soldan sağa  |
+| << >> >>>                                 | Soldan sağa  |
+| > < >= <= instanceof                      | Soldan sağa  |
+| == !=                                     | Soldan sağa  |
+| &                                         | Soldan sağa  |
+| ^                                         | Soldan sağa  |
+| \|                                        | Soldan sağa  |
+| &&                                        | Soldan sağa  |
+| \|\|                                      | Soldan sağa  |
+| ?:                                        | Sağdan sola  |
+| = *= /= %= += -= <<= >>= &= ^= \|= >>>=   | Sağdan sola  |
+
