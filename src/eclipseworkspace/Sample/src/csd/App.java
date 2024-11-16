@@ -3,17 +3,10 @@ package csd;
 class App {
 	public static void main(String[] args) 
 	{
-		java.util.Scanner kb = new java.util.Scanner(System.in);
+		int a = 10;
 		
-		System.out.print("İki sayı giriniz:");
-		int a = kb.nextInt();
-		int b = kb.nextInt();
+		a = ++a;
 		
-		System.out.println(a > b);
-		System.out.println(a < b);
-		System.out.println(a >= b);
-		System.out.println(a <= b);
-		System.out.println(a == b);
-		System.out.println(a != b);
+		System.out.printf("a = %d%n", a);
 	}
 }

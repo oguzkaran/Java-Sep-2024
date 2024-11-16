@@ -3,11 +3,15 @@ package csd;
 class App {
 	public static void main(String[] args) 
 	{
-		int a = 2, b = 3;
-		int c;
+		int a = 2, b = 3, c = 4;
 		
-		c = a++ b;
+		a = (b = c = 10);
 		
 		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
 	}
 }
+
+Yukarıdaki koda göre aşağıdakilerden hangisi doğrudur?
+a) Error oluşur ...
+b) Kod derlenir. Çıktı: ...
+c) Hiçbiri: ..

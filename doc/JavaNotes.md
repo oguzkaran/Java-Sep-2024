@@ -3253,10 +3253,435 @@ class App {
 | F     | T     | F           | T           |
 | F     | F     | F           | F           |
 
->Bu doğruluk tablosunda kısaca şu sonuçlar çıkartılabilir:
+>Bu doğruluk tablosundan kısaca şu sonuçlar çıkartılabilir:
 >- `&&` işlemi için en az biri yanlışsa sonuç yanlıştır.
 >- `||` işlemi için en az biri doğruysa sonuç doğrudur.
 
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.foo() && Sample.bar();
+		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.bar() || Sample.foo();		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+}
+
+```
+>**Bu operatörler doğru sonuca (yani Matematiksel olarak elde edilmesi gereken sonuca) en kısa yoldan ulaşmaya çalışırlar. Yani derleyici bu operatörlere ilişkin ifadeler için en kısa yoldan doğru sonuca ulaşacak kodu üretir. Bu sebeple bu operatörlerin bulunduğu ifadeler hesaplanmaya her zaman en soldan başlanır.** `&&`ve `||` operatörlerinin birinci operandı hesaplandığında elde edilen sonuç, ikinci operand hesaplansa bile değişmeyecekse ikinci operand hesaplanmaz. Örneğin `&&` işleminde birinci operanda ilişkin ifadenin sonucu false elde edilirse ikinci operanda ilişkin ifade hesaplanmaz. Çünkü hesaplansa bile sonuç değişmez. Benzer şekilde `||` işleminde birinci operanda ilişkin ifadenin sonucu true elde edilirse ikinci operanda ilişkin ifade hesaplanmaz. Çünkü hesaplansa bile sonuç değişmez. Buna **kısa devre davranışı (short circuit behaivor)** denilmektedir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.bar() && Sample.foo();		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.foo() || Sample.bar();		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+}
+
+```
+
+>Bu operatörler için doğru sonuca en kısa yoldan ulaşmak söz konusu olduğundan operatör önceliği ile işlem önceliği farklı olabilmektedir. Yani bu operatörlerin olduğu bir ifadede operatör önceliği ne olursa olsun işlem önceliği soldan başlayacak şekilde yapılır. Ancak elde edilen sonuç, operatör önceliğine uyularak elde edilen sonuç ile aynıdır. Yani bu operatörler kısa devre davranışını da kullanarak ile doğru sonuca en kısa yoldan ulaşırlar. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.foo() || Sample.bar() && Sample.tar();		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+	
+	public static boolean tar()
+	{
+		System.out.println("tar");
+		
+		return false;
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.bar() && Sample.foo() || Sample.tar();		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+	
+	public static boolean tar()
+	{
+		System.out.println("tar");
+		
+		return false;
+	}
+}
+
+```
+
+>`&` (bitwise AND) ve `|` (bitwise OR) operatörleri tamsayılarla ve boolean türü ile kullanılabilen operatörlerdir. Bu operatörler karşılıkları bitleri ilgili işlemlere sokarlar ve ilgili sonucu üretirler. Bu operatörler ve diğer bitsel operatörlere ilişkin detaylar bu bölümde ele alınayacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10; //0000000A <-> 00000000000000000000000000001010
+		int b = 11; //0000000B <-> 00000000000000000000000000001011
+		int c;
+		
+		c = a & b; //0000000A <-> 00000000000000000000000000001010
+		System.out.printf("c = %08X%n", c); 
+		c = a | b; //0000000B <-> 00000000000000000000000000001011
+		System.out.printf("c = %08X%n", c);
+	}
+}
+
+```
+
+>`&` ve `|` operatörleri boolean türden ifadeler ile kullanıldığında mantıksal karşılıkları tek fark kısa devre davranışının olmamasıdır. Diğer bütün özellikler aynıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean result;
+		
+		result = Sample.foo() | Sample.bar() & Sample.tar();		
+		System.out.printf("result = %b%n", result);
+	}
+}
+
+class Sample {
+	public static boolean foo()
+	{
+		System.out.println("foo");
+		
+		return true;
+	}
+	
+	public static boolean bar()
+	{
+		System.out.println("bar");
+		
+		return false;
+	}
+	
+	public static boolean tar()
+	{
+		System.out.println("tar");
+		
+		return false;
+	}
+}
+```
+>`!` (logical NOT) operatörü tek operandlı ve önek durumundadır. Operatörün yan etkisi yoktur. Bu operatör operandına ilişkin ifadenin değilini (yani true ise false, false ise true değerini) üretir. Bu operatörün doğruluk tablosu şu şekildedir:
+
+| a     | `!a`  |
+|:-----:|:-----:|
+| T     | F     |
+| F     | T     |
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		boolean flag = true;
+		
+		flag = !flag;		
+		System.out.println(flag);		
+	}
+}
+
+```
+>Atama operatörü (assignment operator) özel amaçlı, iki operandlı ve araek durumundadır. Operatörün birinci operandı bir değişken olmalıdır.  Operatörün yan etkisi vardır. Operatör sağdan sola önceliklidir. Operatörün ürettiği değer atanan değerdir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a, b, c;
+		
+		a = b = c = 10;
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte soldan sağa ikinci atama operatörünün birinci operandı değişken olmadığından error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3, c = 4;
+		
+		(a = b) = c = 10; //error
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz. Örnek geçerlidir değil mi?
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3, c = 3;
+		
+		a = b = (c = 10);
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz. Örnek geçerlidir değil mi?
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3, c = 3;
+		
+		a = (b = c = 10);
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
+
+>Java'da bir grup işlemli atama operatörü (compound/augmented assignmet operator) vardır. Bu operatörler iki operandlı ve araek durumundadır. Bu operatörlerin genel biçimi şu şekildedir:
+>
+>`<ifade1> <op>= <ifade2>`
+
+>Bu biçimin yaklaşık karşılığı şu şekildedir:
+
+>`<ifade1> = <ifade1> <op> <ifade2>`
+
+>Bu operatörler atama işleminde kullanıldığından ifade1'in değişken olması zorunludur. Bu operatör kullanılabildiği durumda kesinlikle tercih edilmelidir. Örneğin programcı
+
+>`a = a + b`
+
+>ifadesini
+>`a += b`
+>biçiminde yazmalıdır. Operatörün ürettiği değer yine atanan değerdir. Aslında bu operatör okunabilirliği/algılanabilirliği artırması yanında bazı ifadeleri daha basit (yalın) olarak yazılmasını sağlar.
+
+**Anahtar Notlar:** Aslında işlemli atama operatörlerinin genel biçimi yukarıdakinden biraz daha detaylıdır. Bu detaylar ileride ele alınacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3;
+		
+		a += b; //a = a + b
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 2, b = 3, c = 2;
+		
+		a *= b + c; //a = a * (b + c);
+		
+		System.out.printf("a = %d, b = %d, c = %d%n", a, b, c);
+	}
+}
+
+```
 
 #### Operatör öncelik tablosu
 
@@ -3277,3 +3702,74 @@ class App {
 | ?:                                        | Sağdan sola  |
 | = *= /= %= += -= <<= >>= &= ^= \|= >>>=   | Sağdan sola  |
 
+>`;` (noktalı virgül) Java 'da **sonlandırıcı karakter (terminator)** olarak kullanılır. Java'da başka sonlandırıcı karakter yoktur. Noktalı virgül genel olarak ifadeleri ve bazı deyimleri sonlandırmak için kullanılır. 
+
+>Java'da **etkisiz ifadeler (code has no effect)** geçersizdir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10, b = 10;
+		
+		a + b; //error
+	}
+}
+
+```
+
+>Derleyici akışın hiç bir zaman bir noktaya gelemeyeceğini anlayacağı kodlar için genel olarak error oluşturur. Bu tarz kodlara genel olara **unreachable codes** denir
+
+```java
+class Util {
+	public static int square(int a)
+	{
+		return a * a;
+		
+		System.out.println("Unreachable code"); //error
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz. Hiç güzel bir örnek değil değil mi?
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		
+		a = a++;
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz. Hiç güzel bir örnek değil değil mi?
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		int a = 10;
+		
+		a = ++a;
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+##### 17 Kasım 2024
+
+##### Deyimler
+
+>Programın çalıştırılan parçalarına **deyim (statement)**. Bir program deyimlerin çalıştırılmasıyla çalışır. 
