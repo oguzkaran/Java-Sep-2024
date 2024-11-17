@@ -3772,4 +3772,324 @@ class App {
 
 ##### Deyimler
 
->Programın çalıştırılan parçalarına **deyim (statement)**. Bir program deyimlerin çalıştırılmasıyla çalışır. 
+>Programın çalıştırılan parçalarına **deyim (statement)** denir. Bir program deyimlerin çalıştırılmasıyla çalışır. Java'da deyimler şunlardır:
+>- **Basit Deyimler (Simple Statements):** Bir ifadenin sonuna noktalı virgül konduğunda oluşan deyimlerdir. Örneğin `System.out.println("Hello, World");` ya da örneğin `a = b + c;`. Basit deyim çalıştırıldığında, deyime ilişkin ifade hesaplanır. 
+>- **Bileşik Deyimler (Compound Statements):** `{ ve }` arasında kalan yani bir blok bileşik deyimdir. Bileşik deyim çelıştırıldığında blok içerisindeki deyimler soldan sağa ve yukarıdan aşağıya olmak üzere sırasıyla çalıştırılır. Bu anlamda metodun gövdesi de aslında bir bileşik deyimdir. 
+>- **Bildirim Deyimleri (Declaration Statements):** Bir değişkenin bildirildiği deyimlerdir. Bildirimi deyimi çalıştırıldığında bellekte o değişken için yer ayrılır. Örneğin `int a;` ya da `int a = 10;`
+>- **Kontrol Deyimleri (Control Statements):** Akışa yön veren deyimlerdir. Her kontrol deyiminin kendine özgü çalıştırılma biçimi vardır. Dolayısıyla o deyim için ayrıca öğrenilmelidir. Java'da önemli bazı kontrol deyimleri şunlardır: **return deyimi (return statement)**, **if deyimi (if statement)**, **döngü deyimleri (loop statements)**, **break deyimi (break statement)**, **continue deyimi (continue statement)**, **switch deyimi (switch statement).** 
+>- **Boş Deyim (Null/Empty Statement):** Noktalı virgülün tek başına kullanılması sonucunda oluşan deyimdir. Boş deyim çalıştırıldığında her hangi bir şey yapılmaz.
+
+##### Temel Kontrol Deyimleri
+
+Bu bölümde şu temel kontrol deyimleri ele alınacaktır: `if deyimi`, `döngü deyimleri (while, do-while, for)`, `break deyimi`, `continue deyimi`, `switch deyimi (ve switch expression)`.
+
+###### if deyimi
+
+>Neredeyse tüm programlama dillerinde bulunan bir deyimdir. Bu deyim koşula bağlı olarak akışın yönlenmesini sağlar. if deyiminin genel biçimi şu şekildedir:
+
+```java
+if (<koşul ifadesi>)
+	<deyim>
+[
+else
+	<deyim>
+]
+```
+>if deyiminde koşul ifadesi (condition expression/predicate) boolean türden olmalıdır. Aksi durumda error oluşur. if deyiminde koşul ifadesinin değeri true ise doğru kısmına ilişkin deyim çalıştırılır, false ise else ismine ilişkin deyim (yani yanlış kısmına ilişkin deyim) çalıştırılır. if deyiminin else kısmı olmak zorunda değildir. if deyiminin else kısmı yoksa ve koşul ifadesinin değeri false ise, akış if deyiminden sonraki deyimden devam eder. if deyimi (varsa) else kısmı ile birlikte tek bir deyimdir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a % 2 == 0)
+			a /= 2;
+		else
+			a *= 2;
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte if deyiminin doğru kısmında ve else kısmında bileşik deyim kullanılmıştır
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a % 2 == 0) {
+			System.out.println("Çift sayı girdiniz");
+			a /= 2;
+		}
+		else {
+			System.out.println("Tek sayı girdiniz");
+			a *= 2;
+		}
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+**Anahtar Notlar:** if deyiminde (ve döngü deyimlerinde) basit deyimin kullanılabildiği durumlarda bazı programcılar yine bileşik deyim kullanmayı tercih ederler. Diğer bir deyişle bu tip durumlarda hiç bir zaman basit deyim kullanmazlar. Bazı programcılar ise basit deyimin kullanılabildiği yerlerde bileşik deyim kullanmamayı tercih ederler. Bu yaklaşımların her ikisi de normal ve doğru yaklaşımlardır. Bir programcı ya da bir bir geliştirm takımı bu yaklaşımlar her hangi birisini tercih edebilir. Ancak bu tip durumlarda kotü yaklaşım karışık olarak kullanmaktır.
+
+>Aşağıdaki demo örnekte if deyiminin else kısmı yoktur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a % 2 == 0)		
+			a /= 2;	
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+>Aşağıdaki demo örnekte, if deyiminin doğru kısmında yanlışlıkla noktalı virgül konmasından dolayı boş deyim kullanılmış olur. Bu durumda error oluşmaz ancak şüphesiz algoritma doğru yazılmamış olur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a % 2 == 0);
+			a /= 2;	
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte else'in ait olduğu bir if deyimi olmadığından error oluşur.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a % 2 == 0);			
+			a /= 2;	
+		else //error
+			a *= 2;
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte else içteki if deyimine ait olur. Bu durumda `dangling else` denilmektedir. Bu durumda program doğru yazılmadı değil mi?
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0)
+			if (a % 2 == 0)
+				System.out.println("Pozitif çift sayı girdiniz");
+		else
+			System.out.println("Pozitif sayı girmediniz");
+	}
+}
+
+```
+
+>Yukarıdaki dangling else durumundan oluşan hatalı yaklaşım bileşik deyim kullanılarak aşağıdaki gibi düzeltilebilir
+
+```java
+
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0) {
+			if (a % 2 == 0)
+				System.out.println("Pozitif çift sayı girdiniz");
+		}
+		else
+			System.out.println("Pozitif sayı girmediniz");
+	}
+}
+
+```
+>Aşağıdaki demo örnekte dangling else durumu yoktur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0)
+			if (a % 2 == 0)
+				System.out.println("Pozitif çift sayı girdiniz");
+			else 
+				System.out.println("Pozitif tek sayı giriniz");
+		else
+			System.out.println("Pozitif sayı girmediniz");
+	}
+}
+
+```
+>Aşağıdaki if deyiminin else kısmında bir if deyimi vardır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0)
+			System.out.printf("%d pozitif bir sayıdır%n", a);
+		else
+			if (a == 0)
+				System.out.println("Sıfır girdiniz");
+			else
+				System.out.printf("%d negatif bir sayıdır%n", a);
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+>Yukarıdaki örnek aşağıdaki gibi daha okunabilir/algılanabilir yazılabilir. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0)
+			System.out.printf("%d pozitif bir sayıdır%n", a);
+		else if (a == 0)
+			System.out.println("Sıfır girdiniz");
+		else
+			System.out.printf("%d negatif bir sayıdır%n", a);
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>Yukarıdaki örnek aşağıdaki gibi yazılsaydı, problemin senaryosu gereği doğru çalışacaktı. Ancak koşullar ayrık (discrete/independent) olduğundan `else if` biçiminde yazılması hem gereksiz kontrolleri ortadan kaldıracak hem de okunabilir/algılanabilir yazılmış olacaktır. Bu durumda ayrık koşulların `else if` biçiminde yazılması ayrık olmayan koşulların okunabilirliğini/algılanabilirliğini artırır. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0)
+			System.out.printf("%d pozitif bir sayıdır%n", a);
+		if (a == 0)
+			System.out.println("Sıfır girdiniz");
+		if (a < 0)
+			System.out.printf("%d negatif bir sayıdır%n", a);
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte koşulların ayrık olmadığı gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 6)
+			System.out.printf("%d > 6%n", a);
+		if (a > 10)
+			System.out.printf("%d > 10%n", a);
+		if (a > 11)
+			System.out.printf("%d > 11%n", a);
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+
