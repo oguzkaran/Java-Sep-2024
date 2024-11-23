@@ -4091,5 +4091,210 @@ class App {
 }
 
 ```
+##### 23 Kasım 2024
 
+>boolean türden ifadelerin koşul ifadelerinde `==` ve `!=` operatörleri ile kullanılması tavsiye ediilmez. Buna göre `==` operatörü ile kullanım yerine ifadenin doğrudan yazılması tavsiye edilir. `!=` operatörü yerine ise ifadenin mantıksal değili (logical not) yazılması tavsiye edilir.
 
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		Util.printEvenStatusByFlag(a % 2 == 0);
+	}
+}
+
+class Util {
+	public static void printEvenStatusByFlag(boolean flag) 
+	{
+		if (flag) //if (flag == true)
+			System.out.println("Çift");
+		else 
+			System.out.println("Tek");			
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		Util.printEvenStatusByFlag(a % 2 == 0);
+	}
+}
+
+class Util {
+	public static void printEvenStatusByFlag(boolean flag) 
+	{
+		if (!flag) //if (flag != true)
+			System.out.println("Tek");
+		else 
+			System.out.println("Çift");			
+	}
+}
+
+``` 
+
+**Anahtar Notlar:** Geri dönüş değeri boolean olan metotların isimlendirilmesinde is, are, can vb. gibi önekler getirilir. Eğer metot ismi bir fiil  belirtiyorsa isimlendirme o fiilin çekimine göre yapılır. Örneğin bir ismin dosyada var olup olmadığını test eden metodun ismi `exists` veya `nameExits` biçiminde verilebilir.
+
+>return deyiminin temel görevi metodu sonlandırmak olduğundan aşağıdaki isEven metodunda else anahtar sözcüğü gereksizdir. Bu şekilde kesinlikle yazılmaması tavsiye edilir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (NumberUtil.isEven(a))
+			System.out.println("Çift sayı girdiniz");
+		else
+			System.out.println("Tek sayı girdiniz");
+	}
+}
+
+class NumberUtil {
+	public static boolean isEven(int a)
+	{
+		if (a % 2 == 0)
+			return true;
+		else
+			return false;
+	}
+}
+```
+
+>Yukarıdaki örnek if deyimi kullanılacaksa aşağıdaki gibi yazılmalıdır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (NumberUtil.isEven(a))
+			System.out.println("Çift sayı girdiniz");
+		else
+			System.out.println("Tek sayı girdiniz");
+	}
+}
+
+class NumberUtil {
+	public static boolean isEven(int a)
+	{
+		if (a % 2 == 0)
+			return true;
+		
+		return false;
+	}
+}
+```
+
+>Yukarıdaki isEven metodu aşağıdaki gibi yazılmalıdır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (NumberUtil.isEven(a))
+			System.out.println("Çift sayı girdiniz");
+		else
+			System.out.println("Tek sayı girdiniz");
+	}
+}
+
+class NumberUtil {
+	public static boolean isEven(int a)
+	{
+		return a % 2 == 0;
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (NumberUtil.isOdd(a))
+			System.out.println("Tek sayı girdiniz");
+		else
+			System.out.println("Çift sayı girdiniz");
+	}
+}
+
+class NumberUtil {
+	public static boolean isEven(int a)
+	{
+		return a % 2 == 0;
+	}
+	
+	public static boolean isOdd(int a)
+	{
+		return !isEven(a);
+	}
+}
+```
+
+**Sınıf Çalışması:** Katsayıları klavyeden alınan ikinci dereceden bir denklemin köklerini bulup ekrana basan programı aşağıdaki açıklamalara göre yazınız
+**Açıklamalar:**
+- Program şu ana gördüklerimiz kullanılarak yazılacaktır.
+
+- İkinci dereceden (quadratic) bir denklem
+
+$$ax^2 + bx + c = 0$$
+
+olsun. Buna göre delta $\Delta$ (discriminant)
+$$\Delta = b^2 - 4ac$$
+olarak belirlenir. Buna göre kökler şu şekilde hesaplanır:
+
+1. if $\Delta$ > 0 ise kökler
+	$$x_1 = \frac{-b + \sqrt{\Delta}}{2a}$$
+	$$x_2 = \frac{-b - \sqrt{\Delta}}{2a}$$
+
+2. if $\Delta$ = 0 ise kökler
+	$$x_1 x_2 = \frac{-b}{2a}$$
+	
+3. if $\Delta$ = 0 ise gerçek kök yok
+	
