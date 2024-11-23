@@ -4277,8 +4277,8 @@ class NumberUtil {
 }
 ```
 
-**Sınıf Çalışması:** Katsayıları klavyeden alınan ikinci dereceden bir denklemin köklerini bulup ekrana basan programı aşağıdaki açıklamalara göre yazınız
-**Açıklamalar:**
+>**Sınıf Çalışması:** Katsayıları klavyeden alınan ikinci dereceden bir denklemin köklerini bulup ekrana basan programı aşağıdaki açıklamalara göre yazınız
+>**Açıklamalar:**
 - Program şu ana gördüklerimiz kullanılarak yazılacaktır.
 
 - İkinci dereceden (quadratic) bir denklem
@@ -4297,4 +4297,264 @@ olarak belirlenir. Buna göre kökler şu şekilde hesaplanır:
 	$$x_1 = x_2 = \frac{-b}{2a}$$
 
 3. if $\Delta$ < 0 ise gerçek kök yok
+
+**Not:** İleride daha iyisi yazılacaktır
+**Çözüm:**
+
+**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		QuadtraticEquationSolverApp.run();
+	}
+}
+
+class QuadtraticEquationSolverApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İkinci dereceden denklemin katsayılarını giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		double c = kb.nextDouble();
+		
+		EquationUtil.findQuadraticEquationRoots(a, b, c);
+	}
+}
+
+class EquationUtil  {
+	public static void printRoots(double a, double b, double delta)
+	{
+		double sqrtDelta = Math.sqrt(delta);		
+		double x1 = (-b + sqrtDelta) / (2 * a);
+		double x2 = (-b - sqrtDelta) / (2 * a);
+		
+		System.out.printf("x1 = %f, x2 = %f%n", x1, x2);
+	}
 	
+	public static void printRoot(double a, double b)
+	{
+		System.out.printf("x1 = x2 = %f%n", -b / (2 * a));
+	}
+	
+	public static double calculateDelta(double a, double b, double c)
+	{
+		return b * b - 4 * a * c;
+	}
+	
+	public static void findQuadraticEquationRoots(double a, double b, double c)
+	{
+		double delta = calculateDelta(a, b, c);
+		
+		if (delta > 0) 
+			printRoots(a, b, delta);
+		else if (delta == 0) 
+			printRoot(a, b);
+		else 
+			System.out.println("Gerçek kök yok");
+	}
+}
+``` 
+
+**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		QuadtraticEquationSolverApp.run();
+	}
+}
+
+class QuadtraticEquationSolverApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İkinci dereceden denklemin katsayılarını giriniz:");
+		double a = kb.nextDouble();
+		double b = kb.nextDouble();
+		double c = kb.nextDouble();
+		
+		EquationUtil.findQuadraticEquationRoots(a, b, c);
+	}
+}
+
+class EquationUtil  {
+	public static void printRoots(double a, double b, double delta)
+	{
+		double sqrtDelta = Math.sqrt(delta);		
+		double x1 = (-b + sqrtDelta) / (2 * a);
+		double x2 = (-b - sqrtDelta) / (2 * a);
+		
+		System.out.printf("x1 = %f, x2 = %f%n", x1, x2);
+	}
+		
+	public static double calculateDelta(double a, double b, double c)
+	{
+		return b * b - 4 * a * c;
+	}
+	
+	public static void findQuadraticEquationRoots(double a, double b, double c)
+	{
+		double delta = calculateDelta(a, b, c);
+		
+		if (delta >= 0) 
+			printRoots(a, b, delta);
+		else 
+			System.out.println("Gerçek kök yok");
+	}
+}
+```
+
+##### Döngü Deyimleri
+
+>Bir işin yinelemeli olarak yapılmasını sağlayan deyimlere **döngü deyimleri (loop statements)** denir. Java'da döngü deyimleri şunlardır:
+>1.while döngü deyimi
+>- Kontrolün başta yapıldığı while döngüsü (while döngüsü)
+>- Kontrolün sonda yapıldığı while döngüsü (do-while)
+>2.for döngü deyimi
+>3.for-each (enhanced for loop) döngü deyimi  
+
+**Anahtar Notlar:** while döngüsü dendiğinde akla ilk gelen kontrolün başta yapıldığı while döngüsüdür. Kontrolün sonra yapıldığı while döngüsü `do-while` döngüsü olarak adlandırılır. Buna göre kursumuz while döngüsü dendiğinde kontrolün başta yapıldığı, do-while döngüsü dendiğinde ise kontrolün sonra yapıldığı while döngüsü anlaşılacaktır.
+
+**Anahtar Notlar:** for-each ileride ele alınacaktır.
+
+###### Kontrolün başta yapıldığı while döngüsü
+
+>Bu deyimin genel biçimi şu şekildedir:
+```java
+while (<koşul ifadesi>) 
+	<deyim>
+```
+
+>Burada koşul ifadesi boolean türden olmalıdır. Aksi durumda error oluşur. Burada koşul ifadesi true olduğu sürece döngü içerisindeki deyim yinelenir. Akış döngüye geldiğinde koşulun gerçeklenip gerçeklenmediğine bakılır, duruma göre döngüye hiç girilmeyebilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i = 0;
+		
+		while (i < n) {
+			System.out.printf("%d ", i);
+			++i;
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+>Her zaman koşulu sağlayan yani koşul ifadesinin değeri her zaman true olan bir döngüye **sonsuz döngü (infinite loop)** denir. Sonsuz döng program boyunca sürekli yinelenen bir döngü olmak zorunda değildir. Örneğin sonsuz döngü içerisinde return deyimi kullanılıdığında döngünün içerisinde bulunduğu metot sonlanacağından döngü de dolaylı olarak sonlanmış olur. while döngüsü ile sonsuz döngü tipik olarak aşağıdaki gibi oluşturulabilir:
+```java
+while (true) 
+	<deyim>
+``` 
+>while döngüsünde yanlışlıkla noktalı virgül konması durumu
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i = 0;
+		
+		while (i < n); {
+			System.out.printf("%d ", i);
+			++i;
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+>while döngüsü ile `n-kez` dönen döngü şu şekilde oluşturulabilir
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i = 0;
+		
+		while (i < n) {
+			System.out.printf("%d ", i);
+			++i;
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+>while döngüsü ile `n-kez` dönen döngü şu şekilde oluşturulabilir
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i = n - 1;
+		
+		while (i >= 0) {
+			System.out.printf("%d ", i);
+			--i;
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>Aşağıdaki döngü kalıbı bazı programcılar tarafından kullanılan `n-kez` bir döngüdür. Bu döngü kalıbını Java programcısı kullanmayacak olsa bile gördüğü zaman tanımalıdır. Bu döngü deyiminde `n` değerinin döngüden sonra artık eski değerinde olmadığına (-1 olur) dikkat ediniz. Demo örneği çeşitli değerler ile çalıştırıp sonucu gözlemleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args) 
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		
+		while (n-- > 0) 
+			System.out.printf("n = %d%n", n);
+		
+		System.out.printf("Döngü sonrası -> n = %d%n", n);
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+

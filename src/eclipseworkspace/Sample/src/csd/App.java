@@ -6,23 +6,14 @@ class App {
 		java.util.Scanner kb = new java.util.Scanner(System.in);
 		
 		System.out.print("Bir sayı giriniz:");
-		int a = kb.nextInt();
+		int n = kb.nextInt();
 		
-		if (NumberUtil.isOdd(a))
-			System.out.println("Tek sayı girdiniz");
-		else
-			System.out.println("Çift sayı girdiniz");
-	}
-}
-
-class NumberUtil {
-	public static boolean isEven(int a)
-	{
-		return a % 2 == 0;
-	}
-	
-	public static boolean isOdd(int a)
-	{
-		return !isEven(a);
+		//b = --a; -> i1: 1 -> i2: b = i1
+		
+		while (n-- > 0) 
+			System.out.printf("n = %d%n", n);
+		
+		System.out.printf("Döngü sonrası -> n = %d%n", n);
+		System.out.println("Tekrar yapıyor musunuz?");
 	}
 }
