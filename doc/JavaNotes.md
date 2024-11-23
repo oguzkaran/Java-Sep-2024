@@ -4294,7 +4294,7 @@ olarak belirlenir. Buna göre kökler şu şekilde hesaplanır:
 	$$x_2 = \frac{-b - \sqrt{\Delta}}{2a}$$
 
 2. if $\Delta$ = 0 ise kökler
-	$$x_1 x_2 = \frac{-b}{2a}$$
-	
-3. if $\Delta$ = 0 ise gerçek kök yok
+	$$x_1 = x_2 = \frac{-b}{2a}$$
+
+3. if $\Delta$ < 0 ise gerçek kök yok
 	
