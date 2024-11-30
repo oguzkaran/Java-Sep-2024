@@ -4586,6 +4586,7 @@ class App {
 >**Sınıf Çalışması:** Klavyeden sıfır girilene kadar alınan sayılardan pozitif olanların ve negatif olanların toplamlarını kaçar tane olduğunu ekrana yazdıran programı aşağıdaki örnek çıktılara göre yazınız:
 >**Örnekler:** 
 >10 tane pozitif ve 12 tane negatifi sayı girilmiş olsun ve toplamları sırasıyla 123 ve -45 olsun bu durumda çıktı şu şekilde olacaktır:
+
 >_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
 _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 
@@ -4603,3 +4604,67 @@ _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 
 >_Hiç pozitif sayı girmediniz_
 >_Hiç negatif sayı girmediniz_
+
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		PositiveNegativeSumCountApp.run();		
+	}
+}
+
+class PositiveNegativeSumCountApp {
+	public static void printPositivesReport(int posTotal, int posCount)
+	{
+		if (posCount != 0)
+			System.out.printf("Toplam %d tane pozitif sayı girdiniz. Girilen sayıların toplamı:%d%n", posCount, posTotal);
+		else
+			System.out.println("Hiç pozitif sayı girmediniz");
+	}
+	
+	public static void printNegativesReport(int negTotal, int negCount)
+	{
+		if (negCount != 0)
+			System.out.printf("Toplam %d tane negatif sayı girdiniz. Girilen sayıların toplamı:%d%n", negCount, negTotal);
+		else
+			System.out.println("Hiç negatif sayı girmediniz");
+	}
+	
+	public static void printReport(int posTotal, int posCount, int negTotal, int negCount)
+	{
+		printPositivesReport(posTotal, posCount);
+		printNegativesReport(negTotal, negCount);
+	}
+	
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		int posTotal, negTotal, posCount, negCount;
+		
+		posTotal = negTotal = posCount = negCount = 0;
+		
+		int val = 0;
+		
+		
+		System.out.println("Sayıları girmeye başlayınız:");
+		while ((val = Integer.parseInt(kb.nextLine())) != 0) 
+			if (val > 0) {
+				posTotal += val;
+				++posCount;
+			}
+			else {
+				negTotal += val;
+				++negCount;
+			}
+		
+		printReport(posTotal, posCount, negTotal, negCount);				
+	}
+}
+
+```
+
+**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamak sayısını döndüren digitsCount isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
