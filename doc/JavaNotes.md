@@ -4667,7 +4667,7 @@ class PositiveNegativeSumCountApp {
 
 ```
 
->**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamak sayısını döndüren digitsCount isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
+>**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamak sayısını döndüren `countDigits` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
 >**Çözüm:**
 ```java
 package csd;
@@ -4675,11 +4675,11 @@ package csd;
 class App {
 	public static void main(String[] args)
 	{		
-		NumberUtilDigitsCountTest.run();		
+		NumberUtilCountDigitsTest.run();		
 	}
 }
 
-class NumberUtilDigitsCountTest {
+class NumberUtilCountDigitsTest {
 	public static void run()
 	{
 		java.util.Scanner kb = new java.util.Scanner(System.in);
@@ -4688,7 +4688,7 @@ class NumberUtilDigitsCountTest {
 			System.out.print("Bir sayı giriniz:");
 			int a = Integer.parseInt(kb.nextLine());
 			
-			System.out.printf("%d sayısının basamak sayısı:%d%n", a, NumberUtil.digitsCount(a));
+			System.out.printf("%d sayısının basamak sayısı:%d%n", a, NumberUtil.countDigits(a));
 			
 			if (a == 0)
 				return;
@@ -4697,7 +4697,7 @@ class NumberUtilDigitsCountTest {
 }
 
 class NumberUtil {
-	public static int digitsCount(int a)
+	public static int countDigits(int a)
 	{
 		if (a == 0)
 			return 1;
@@ -4714,7 +4714,7 @@ class NumberUtil {
 }
 ```
 
->**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamakları toplamını döndüren digitsSum isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
+>**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamakları toplamını döndüren `digitsSum` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
 >**Açıklamalar:**
 >Metot negatif sayılar çin basamakların toplamını pozitif olarak döndürecektir
 >**Çözüm:**
@@ -4760,7 +4760,7 @@ class NumberUtil {
 }
 ```
 
->**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının tersini döndüren reverse isimli metodu NumberUtil sınıfı içerisinde yazınız ve test ediniz
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının tersini döndüren `reverse` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz
 **İpucu:** Bir sayının tersini aşağıdaki örneğe göre basit olarak bulabilirsiniz:
 
 > Sayı 123 olsun: 3 -> 3 * 10 + 2 = 32 -> 32 * 10 + 1 = 321
@@ -4807,8 +4807,10 @@ class NumberUtil {
 }
 ```
 
->**Sınıf Çalışması:** Parametresi ile aldığı bir sayının Armstrong sayısı olup olmadığını test eden isArmstrong isimli metodu aşağıdaki açıklamalara göre yazınız.
+>**Sınıf Çalışması:** Parametresi ile aldığı bir sayının Armstrong sayısı olup olmadığını test eden `isArmstrong` isimli metodu aşağıdaki açıklamalara göre `NumberUtil` sınıfı içerisinde yazınız.
 >**Açıklamalar:**
 >- Basamaklarının basamak sayıncı kuvvetleri toplamı kendisine eşit olan sayılara Armstrong sayıları denir. Örneğin 153 bir Armstrong sayısıdır
 >- Metot negatif sayılar için false değerine geri dönecektir
-> Metodunuzu 1 basamaklı, 2 basamaklı, 3 basamaklı, 4 basamaklı ve 5 basamaklı Armstrong sayılarını ekrana yazdıran bir kod ile test edebilirsiniz
+>- Metodunuzu 1 basamaklı, 2 basamaklı, 3 basamaklı, 4 basamaklı ve 5 basamaklı Armstrong sayılarını ekrana yazdıran bir kod ile test edebilirsiniz
+
+**Çözüm:**
