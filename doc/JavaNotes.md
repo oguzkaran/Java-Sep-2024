@@ -4590,15 +4590,16 @@ class App {
 _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 
 >Hiç pozitif ya da negatif sayı girilmezse ilgili mesaj aşağıdaki gibi verilecektir:
+
 >_Hiç pozitif sayı girmediniz_
-_Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
+>_Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 
 >ya da 
 
 >_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
-_Hiç negatif sayı girmediniz_
+>_Hiç negatif sayı girmediniz_
 
 >ya da
 
 >_Hiç pozitif sayı girmediniz_
-_Hiç negatif sayı girmediniz_
+>_Hiç negatif sayı girmediniz_
