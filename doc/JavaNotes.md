@@ -4489,7 +4489,7 @@ class App {
 }
 
 ```
->while döngüsü ile `n-kez` dönen döngü şu şekilde oluşturulabilir
+>while döngüsü ile `n-kez yinelenen` döngü şu şekilde oluşturulabilir
 ```java
 package csd;
 
@@ -4512,7 +4512,7 @@ class App {
 }
 
 ```
->while döngüsü ile `n-kez` dönen döngü şu şekilde oluşturulabilir
+>while döngüsü ile `n-kez yinelenen` döngü şu şekilde oluşturulabilir
 ```java
 package csd;
 
@@ -4536,7 +4536,7 @@ class App {
 
 ```
 
->Aşağıdaki döngü kalıbı bazı programcılar tarafından kullanılan `n-kez` bir döngüdür. Bu döngü kalıbını Java programcısı kullanmayacak olsa bile gördüğü zaman tanımalıdır. Bu döngü deyiminde `n` değerinin döngüden sonra artık eski değerinde olmadığına (-1 olur) dikkat ediniz. Demo örneği çeşitli değerler ile çalıştırıp sonucu gözlemleyiniz
+>Aşağıdaki döngü kalıbı bazı programcılar tarafından kullanılan `n-kez yinelenen` bir döngüdür. Bu döngü kalıbını Java programcısı kullanmayacak olsa bile gördüğü zaman tanımalıdır. Bu döngü deyiminde `n` değerinin döngüden sonra artık eski değerinde olmadığına (-1 olur) dikkat ediniz. Demo örneği çeşitli değerler ile çalıştırıp sonucu gözlemleyiniz
 ```java
 package csd;
 
@@ -4557,4 +4557,48 @@ class App {
 }
 
 ```
+##### 30 Kasım 2024
 
+>while döngüsünün koşul ifadesinde bir metodun geri dönüş değerinin bir değişkene atanması ve atanan değerin kontrol edilmesi idiomu bazı uygulamalarda kullanılabilmektedir. Bu idiomun okunabilirliği/algılanabilirliği olumsuz olarak etkilememesine dikkat edilmelidir.
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte klavyeden sıfır girilene kadar alınan sayıların toplamı bulunmuştur. `(val = Integer.parseInt(kb.nextLine())) != 0` ifadesinde atama işleminin önceliklendirildiğine, aksi durumda error oluşacağına dikkat ediniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.println("Sayıları girmeye başlayınız:");
+		int total = 0;
+		int val;
+		
+		while ((val = Integer.parseInt(kb.nextLine())) != 0)
+			total += val;
+		
+		System.out.printf("Toplam:%d%n", total);		
+	}
+}
+
+```
+>**Sınıf Çalışması:** Klavyeden sıfır girilene kadar alınan sayılardan pozitif olanların ve negatif olanların toplamlarını kaçar tane olduğunu ekrana yazdıran programı aşağıdaki örnek çıktılara göre yazınız:
+>**Örnekler:** 
+>10 tane pozitif ve 12 tane negatifi sayı girilmiş olsun ve toplamları sırasıyla 123 ve -45 olsun bu durumda çıktı şu şekilde olacaktır:
+_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
+_Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
+>Hiç pozitif ya da negatif sayı girilmezse ilgili mesaj aşağıdaki gibi verilecektir:
+>_Hiç pozitif sayı girmediniz_
+_Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
+
+>ya da 
+
+>_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
+_Hiç negatif sayı girmediniz_
+
+>ya da
+
+
+>_Hiç pozitif sayı girmediniz_
+_Hiç negatif sayı girmediniz_
