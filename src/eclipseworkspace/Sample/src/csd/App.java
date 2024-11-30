@@ -1,19 +1,18 @@
 package csd;
 
 class App {
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{		
 		java.util.Scanner kb = new java.util.Scanner(System.in);
-		
+	
 		System.out.print("Bir sayı giriniz:");
 		int n = kb.nextInt();
+		int i;
 		
-		//b = --a; -> i1: 1 -> i2: b = i1
+		for (i = n - 1; i >= 0; --i)
+			System.out.printf("%d ", i);
 		
-		while (n-- > 0) 
-			System.out.printf("n = %d%n", n);
+		System.out.println();
 		
-		System.out.printf("Döngü sonrası -> n = %d%n", n);
-		System.out.println("Tekrar yapıyor musunuz?");
 	}
 }

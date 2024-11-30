@@ -4816,3 +4816,287 @@ class NumberUtil {
 >- Math sınıfının pow metodu yerine parametreleri int türden olan bir pow metodu yazıp kullanınız.
 
 **Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsArmstrongTest.run();		
+	}
+}
+
+class NumberUtilIsArmstrongTest {
+	public static void run()
+	{
+		int n = -1;
+		
+		while (n < 100_000) {
+			if (NumberUtil.isArmstrong(n))
+				System.out.println(n);
+			
+			++n;
+		}
+	}
+}
+
+class NumberUtil {
+	public static boolean isArmstrong(int a)
+	{
+		return a >= 0 && calculateDigitsPowSum(a) == a;
+	}
+	
+	public static int calculateDigitsPowSum(int a)
+	{
+		int result = 0;
+		int n = countDigits(a);
+		
+		while (a != 0) {
+			result += pow(a % 10, n);
+			a /= 10;
+		}
+		
+		return result;
+	}
+	
+	public static int pow(int a, int b)
+	{
+		int result = 1;
+		
+		while (b-- > 0)
+			result *= a;
+		
+		return result;
+	}
+	
+	public static int countDigits(int a)
+	{
+		if (a == 0)
+			return 1;
+		
+		int count = 0;
+		
+		while (a != 0) {
+			++count;
+			a /= 10;
+		}
+		
+		return count;
+	}
+}
+```
+###### Kontrolün sonda yapıldığı while döngü deyimi
+
+>Bu döngü deyimine `do-while` döngüsü de denilmektedir. Bu döngünün genel biçimi şu şekildedir:
+```java
+do 
+	<deyim>
+while (<koşul ifadesi>);
+```
+
+>Bu döngüde akış döngü deyimine geldiğinde koşul ifadesi hesaplanmaz yani koşul kontrol edilmez. Buna göre bu döngü deyiminin en az bir kez çalışacağı garanti altındadır. Yani bu döngüde ilk adım her zaman yapılır. while döngüsü kadar sık kullanılmasa da okunabilirliği/algılanabilirliği artırmak için tercih edilebilir. Bu döngü deyiminin kullanılırken okunabilirliğin/algılanabilirliğin olumsuz etkileneceği biçimde kullanılmamasına dikkat edilmelidir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i = 0;
+		
+		do {
+			System.out.printf("%d ", i);
+			++i;
+		} while (i < n);
+	}
+}
+
+```
+>**Sınıf Çalışması:** Parametresi ile aldığı bir sayının Armstrong sayısı olup olmadığını test eden `isArmstrong` isimli metodu aşağıdaki açıklamalara göre `NumberUtil` sınıfı içerisinde yazınız.
+
+>**Açıklamalar:**
+>- Basamaklarının basamak sayıncı kuvvetleri toplamı kendisine eşit olan sayılara Armstrong sayıları denir. Örneğin 153 bir Armstrong sayısıdır.
+>- Metot negatif sayılar için false değerine geri dönecektir.
+>- Metodunuzu 1 basamaklı, 2 basamaklı, 3 basamaklı, 4 basamaklı ve 5 basamaklı Armstrong sayılarını ekrana yazdıran bir kod ile test edebilirsiniz.
+>- Math sınıfının pow metodu yerine parametreleri int türden olan bir pow metodu yazıp kullanınız.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsArmstrongTest.run();		
+	}
+}
+
+class NumberUtilIsArmstrongTest {
+	public static void run()
+	{
+		int n = -1;
+		
+		while (n < 100_000) {
+			if (NumberUtil.isArmstrong(n))
+				System.out.println(n);
+			
+			++n;
+		}
+	}
+}
+
+class NumberUtil {
+	public static boolean isArmstrong(int a)
+	{
+		return a >= 0 && calculateDigitsPowSum(a) == a;
+	}
+	
+	public static int calculateDigitsPowSum(int a)
+	{
+		int result = 0;
+		int n = countDigits(a);
+		
+		while (a != 0) {
+			result += pow(a % 10, n);
+			a /= 10;
+		}
+		
+		return result;
+	}
+	
+	public static int pow(int a, int b)
+	{
+		int result = 1;
+		
+		while (b-- > 0)
+			result *= a;
+		
+		return result;
+	}
+	
+	public static int countDigits(int a)
+	{
+		int count = 0;
+		
+		do {
+			++count;
+			a /= 10;
+		} while (a != 0);
+		
+		return count;	
+	}
+}
+```
+>Yerel değişkenlerin faaliyet alanı (scope) kuralları gereği do-while döngüsü içerisinde bildirilen bir değişkene koşul ifadesinde erişilemez
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		do {
+			System.out.print("Bir sayı giriniz:");			
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d * %d = %d%n", a, a, a * a);
+		} while (a != 0); //error
+	}
+}
+```
+>Yukarıdaki örnek aşağıdaki gibi yapılabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		int a;
+		
+		do {
+			System.out.print("Bir sayı giriniz:");			
+			a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d * %d = %d%n", a, a, a * a);
+		} while (a != 0);
+	}
+}
+
+```
+
+##### 1 Aralık 2024
+
+##### for Döngü Deyimi
+
+>for döngü deyimi Java'nın en kapsamlı ve dolayısıyla yetenekli döngü deyimidir. Adeta diğer döngü deyimlerini de kapsar. for döngü deyiminin genel biçimi şu şekildedir:
+
+```java
+for ([Birinci kısım]; [İkinci kısım]; [Üçüncü kısım])
+	<deyim>
+```
+
+>Bu döngünün kısımlarına ilişkin ifadelerin hesaplanması şu şekildedir:
+- Birinci kısım: Akış for döngü deyimine geldiğinde yapılır. Bu ifade bir kez yapılır
+- İkinci kısım: Burası koşul ifadesine ilişkin kısımdır, boolean türden olmalıdır.
+- Üçüncü kısım: Döngünün bir adımı tamamlandığında bir sonraki adım için koşulun kontrol edilmesinden önce yapılır. 
+
+>Bu döngü deyiminin kısımlarının boş bırakılması ayrıca ele alınacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i;
+		
+		for (i = 0; i < n; ++i)
+			System.out.printf("%d ", i);
+		
+		System.out.println();
+		
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i;
+		
+		for (i = n - 1; i >= 0; --i)
+			System.out.printf("%d ", i);
+		
+		System.out.println();
+		
+	}
+}
+```
+
+
