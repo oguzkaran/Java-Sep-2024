@@ -4667,4 +4667,100 @@ class PositiveNegativeSumCountApp {
 
 ```
 
-**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamak sayısını döndüren digitsCount isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
+>**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamak sayısını döndüren digitsCount isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilDigitsCountTest.run();		
+	}
+}
+
+class NumberUtilDigitsCountTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d sayısının basamak sayısı:%d%n", a, NumberUtil.digitsCount(a));
+			
+			if (a == 0)
+				return;
+		}
+	}
+}
+
+class NumberUtil {
+	public static int digitsCount(int a)
+	{
+		if (a == 0)
+			return 1;
+		
+		int count = 0;
+		
+		while (a != 0) {
+			++count;
+			a /= 10;
+		}
+		
+		return count;
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamakları toplamını döndüren digitsSum isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
+>**Açıklamalar:**
+>Metot negatif sayılar çin basamakların toplamını pozitif olarak döndürecektir
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilDigitsSumTest.run();		
+	}
+}
+
+class NumberUtilDigitsSumTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d sayısının basamakları toplamı:%d%n", a, NumberUtil.digitsSum(a));
+			
+			if (a == 0)
+				return;
+		}
+	}
+}
+
+class NumberUtil {
+	public static int digitsSum(int a)
+	{
+		int total = 0;
+		
+		while (a != 0) {
+			total += a % 10;
+			a /= 10;
+		}		
+		
+		return Math.abs(total);
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının tersini döndüren reverse isimli metodu NumberUtil sınıfı içerisinde yazınız ve test ediniz
+**İpucu:** Bir sayının tersini aşağıdaki örneğe göre basit olarak bulabilirsiniz:
+
+> Sayı 123 olsun: 3 -> 3 * 10 + 2 = 32 -> 32 * 10 + 1 = 321
