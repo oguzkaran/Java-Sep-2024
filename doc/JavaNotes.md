@@ -4586,8 +4586,9 @@ class App {
 >**Sınıf Çalışması:** Klavyeden sıfır girilene kadar alınan sayılardan pozitif olanların ve negatif olanların toplamlarını kaçar tane olduğunu ekrana yazdıran programı aşağıdaki örnek çıktılara göre yazınız:
 >**Örnekler:** 
 >10 tane pozitif ve 12 tane negatifi sayı girilmiş olsun ve toplamları sırasıyla 123 ve -45 olsun bu durumda çıktı şu şekilde olacaktır:
-_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
+>_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
 _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
+
 >Hiç pozitif ya da negatif sayı girilmezse ilgili mesaj aşağıdaki gibi verilecektir:
 >_Hiç pozitif sayı girmediniz_
 _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
@@ -4598,7 +4599,6 @@ _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 _Hiç negatif sayı girmediniz_
 
 >ya da
-
 
 >_Hiç pozitif sayı girmediniz_
 _Hiç negatif sayı girmediniz_
