@@ -4771,11 +4771,11 @@ package csd;
 class App {
 	public static void main(String[] args)
 	{		
-		NumberReverseTest.run();		
+		NumberUtilReverseTest.run();		
 	}
 }
 
-class NumberReverseTest {
+class NumberUtilReverseTest {
 	public static void run()
 	{
 		java.util.Scanner kb = new java.util.Scanner(System.in);
@@ -4808,9 +4808,11 @@ class NumberUtil {
 ```
 
 >**Sınıf Çalışması:** Parametresi ile aldığı bir sayının Armstrong sayısı olup olmadığını test eden `isArmstrong` isimli metodu aşağıdaki açıklamalara göre `NumberUtil` sınıfı içerisinde yazınız.
+
 >**Açıklamalar:**
->- Basamaklarının basamak sayıncı kuvvetleri toplamı kendisine eşit olan sayılara Armstrong sayıları denir. Örneğin 153 bir Armstrong sayısıdır
->- Metot negatif sayılar için false değerine geri dönecektir
->- Metodunuzu 1 basamaklı, 2 basamaklı, 3 basamaklı, 4 basamaklı ve 5 basamaklı Armstrong sayılarını ekrana yazdıran bir kod ile test edebilirsiniz
+>- Basamaklarının basamak sayıncı kuvvetleri toplamı kendisine eşit olan sayılara Armstrong sayıları denir. Örneğin 153 bir Armstrong sayısıdır.
+>- Metot negatif sayılar için false değerine geri dönecektir.
+>- Metodunuzu 1 basamaklı, 2 basamaklı, 3 basamaklı, 4 basamaklı ve 5 basamaklı Armstrong sayılarını ekrana yazdıran bir kod ile test edebilirsiniz.
+>- Math sınıfının pow metodu yerine parametreleri int türden olan bir pow metodu yazıp kullanınız.
 
 **Çözüm:**
