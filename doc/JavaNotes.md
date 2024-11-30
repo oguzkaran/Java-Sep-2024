@@ -4605,7 +4605,7 @@ _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 >_Hiç pozitif sayı girmediniz_
 >_Hiç negatif sayı girmediniz_
 
-**Çözüm:**
+>**Çözüm:**
 ```java
 package csd;
 
@@ -4668,7 +4668,7 @@ class PositiveNegativeSumCountApp {
 ```
 
 >**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamak sayısını döndüren digitsCount isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
-**Çözüm:**
+>**Çözüm:**
 ```java
 package csd;
 
@@ -4717,7 +4717,7 @@ class NumberUtil {
 >**Sınıf Çalışması:** Parametresi ile alıdığı int türden bir sayının basamakları toplamını döndüren digitsSum isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
 >**Açıklamalar:**
 >Metot negatif sayılar çin basamakların toplamını pozitif olarak döndürecektir
-**Çözüm:**
+>**Çözüm:**
 ```java
 package csd;
 
@@ -4764,3 +4764,51 @@ class NumberUtil {
 **İpucu:** Bir sayının tersini aşağıdaki örneğe göre basit olarak bulabilirsiniz:
 
 > Sayı 123 olsun: 3 -> 3 * 10 + 2 = 32 -> 32 * 10 + 1 = 321
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberReverseTest.run();		
+	}
+}
+
+class NumberReverseTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d sayısının tersi:%d%n", a, NumberUtil.reverse(a));
+			
+			if (a == 0)
+				return;
+		}
+	}
+}
+
+class NumberUtil {
+	public static int reverse(int a)
+	{
+		int result = 0;
+		
+		while (a != 0) {
+			result = result * 10 + a % 10;
+			a /= 10;
+		}
+		
+		return result;
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı bir sayının Armstrong sayısı olup olmadığını test eden isArmstrong isimli metodu aşağıdaki açıklamalara göre yazınız.
+>**Açıklamalar:**
+>- Basamaklarının basamak sayıncı kuvvetleri toplamı kendisine eşit olan sayılara Armstrong sayıları denir. Örneğin 153 bir Armstrong sayısıdır
+>- Metot negatif sayılar için false değerine geri dönecektir
+> Metodunuzu 1 basamaklı, 2 basamaklı, 3 basamaklı, 4 basamaklı ve 5 basamaklı Armstrong sayılarını ekrana yazdıran bir kod ile test edebilirsiniz
