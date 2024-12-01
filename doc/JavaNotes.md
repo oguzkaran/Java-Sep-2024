@@ -5039,7 +5039,7 @@ class App {
 
 ##### for Döngü Deyimi
 
->for döngü deyimi Java'nın en kapsamlı ve dolayısıyla yetenekli döngü deyimidir. Adeta diğer döngü deyimlerini de kapsar. for döngü deyiminin genel biçimi şu şekildedir:
+>for döngü deyimi Java'nın en kapsamlı ve dolayısıyla en yetenekli döngü deyimidir. Adeta diğer döngü deyimlerini de kapsar. for döngü deyiminin genel biçimi şu şekildedir:
 
 ```java
 for ([Birinci kısım]; [İkinci kısım]; [Üçüncü kısım])
@@ -5048,7 +5048,7 @@ for ([Birinci kısım]; [İkinci kısım]; [Üçüncü kısım])
 
 >Bu döngünün kısımlarına ilişkin ifadelerin hesaplanması şu şekildedir:
 - Birinci kısım: Akış for döngü deyimine geldiğinde yapılır. Bu ifade bir kez yapılır
-- İkinci kısım: Burası koşul ifadesine ilişkin kısımdır, boolean türden olmalıdır.
+- İkinci kısım: Burası koşul ifadesine ilişkin kısımdır, boolean türden olmalıdır. Akış for döngü deyimine geldiğinde koşul kontrolü yapılır. 
 - Üçüncü kısım: Döngünün bir adımı tamamlandığında bir sonraki adım için koşulun kontrol edilmesinden önce yapılır. 
 
 >Bu döngü deyiminin kısımlarının boş bırakılması ayrıca ele alınacaktır.
@@ -5070,8 +5070,7 @@ class App {
 		for (i = 0; i < n; ++i)
 			System.out.printf("%d ", i);
 		
-		System.out.println();
-		
+		System.out.println();		
 	}
 }
 
@@ -5094,9 +5093,447 @@ class App {
 			System.out.printf("%d ", i);
 		
 		System.out.println();
+	}
+}
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i;
 		
+		for (i = 0; i < n; i += 2)
+			System.out.printf("%d ", i);
+		
+		System.out.println();
+	}
+}
+```
+>for döngüsünde iteratif olarak kullanılan değişkenlere genel olarak **döngü değişkeni (loop variable)** denilmektedir. 
+>
+>for döngüsünün birinci kısmında değişken bildirimi yapılabilir. Bu durumda değişkene ilk değer verilmesi gerekir. Birinci kısımda bildirilen değişkenin faaliyet alanı döngü boyuncadır. Döngüden sonra bu değişken kullanılamaz. Döngü değişkeninin döngüden çıktıktıktan sonraki değeri algoritmik açıdan gerekmiyorsa for döngüsünün birinci kısmında bildirilmesi kesinlikle tavsiye edilir. Döngü değişkenin birinci kısımda bildirilmesi, birinci kısımda bildirilmeyen döngülerin okunabililiğini/algılanabilirliğini artırır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d ", i);
+		
+		System.out.println();
 	}
 }
 ```
 
+>Aşağıdaki demo örneği inceleyiniz
 
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d ", i);
+		
+		i = 20; //error
+		System.out.println();
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i;
+		
+		for (i = 0; i < n; ++i)
+			System.out.printf("%d ", i);
+			
+		System.out.printf("%ni = %d%n", i);
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d ", i);
+			
+		System.out.println();
+		
+		for (int i = n - 1; i >= 0; --i)
+			System.out.printf("%d ", i);
+		
+		System.out.println();
+	}
+}
+```
+
+>Aşağıdaki demo örnek i değişkeninin ilk döngüden sonraki değeri döngüden sonra kullanılmadığından okunabilirlik/algılanabilirlik açısından iyi yazılmamıştır. Bu örnekte i döngü değikeninin yukarıdaki gibi döngülerin birinci kısımlarından bildirilmesi iyi bir tekniktir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		int i;
+		
+		for (i = 0; i < n; ++i)
+			System.out.printf("%d ", i);
+			
+		System.out.println();
+		
+		for (i = n - 1; i >= 0; --i)
+			System.out.printf("%d ", i);
+		
+		System.out.println();
+	}
+}
+```
+>Aşağıdaki örnekte for döngüsünde yanlışlıkla noktalı virgül kullanılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		int i;
+		
+		for (i = 0; i < n; ++i);
+			System.out.printf("%d ", i);
+			
+		System.out.printf("%ni = %d%n", i);		
+	}
+}
+```
+>Aşağıdaki örnekte yanlışlıkla noktalı koyulması dolayısıyla error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		
+		for (int i = 0; i < n; ++i);
+			System.out.printf("%d ", i); //error
+			
+		System.out.println();		
+	}
+}
+```
+>for döngü deyiminin birinci üçüncü kısımlarında virgül atomu ifadeleri ayırmak için kullanılabilir. Java'da virgül bir bir operatör değildir. Virgülün bu şekilde kullanımı tamamen for döngü deyimine özgü bir sentakstır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		
+		for (int i = 0, k = 2 * n; i < n && k >= 0; ++i, --k)
+			System.out.printf("(%d, %d)%n", i, k);		
+	}
+}
+```
+>for döngüsünde birinci kısımda değişken bildirimi yapılacaksa, virgül ile ayrılacak diğer ifadenin de aynı türden bir değişken bildirimi olması zorunludur. Aksi durumda error oluşur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		
+		for (int i = 0, ++i; i < n && k >= 0; ++i, --k) //error
+			System.out.printf("(%d, %d)%n", i, k);		
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();	
+		
+		for (int i = 0, long k = 2 * n; i < n && k >= 0; ++i, --k) //error
+			System.out.printf("(%d, %d)%n", i, k);		
+	}
+}
+```
+
+>Aşağıdaki demo örnekte klavyeden sıfır girilene kadar alınan sayıların toplamı bulunmaktadır. Şüphesiz örnek özelinde bu yazım okunabilir değildir. for döngüsünün yeteneklerini göstermek için bir puzzle niteliğinde yazılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		int total = 0;
+		int val;
+		
+		for (System.out.println("Sayıları girmeye başlayınız"), System.out.print("Bir sayı giriniz:");
+				(val = Integer.parseInt(kb.nextLine())) != 0; total += val, System.out.print("Bir sayı giriniz:"))
+			;
+		
+		System.out.printf("Toplam:%d%n", total);
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsArmstrongTest.run();		
+	}
+}
+
+class NumberUtilIsArmstrongTest {
+	public static void run()
+	{	
+		for (int n = -1; n < 100_000; ++n) 
+			if (NumberUtil.isArmstrong(n))
+				System.out.println(n);
+	}
+}
+
+class NumberUtil {
+	public static boolean isArmstrong(int a)
+	{
+		return a >= 0 && calculateDigitsPowSum(a) == a;
+	}
+	
+	public static int calculateDigitsPowSum(int a)
+	{
+		int result = 0;
+		int n = countDigits(a);
+		
+		while (a != 0) {
+			result += pow(a % 10, n);
+			a /= 10;
+		}
+		
+		return result;
+	}
+	
+	public static int pow(int a, int b)
+	{
+		int result = 1;
+		
+		for (int i = 0; i < b; ++i)
+			result *= a;
+		
+		return result;
+	}
+	
+	public static int countDigits(int a)
+	{
+		int count = 0;
+		
+		do {
+			++count;
+			a /= 10;
+		} while (a != 0);
+		
+		return count;	
+	}
+}
+```
+
+>for döngüsünde birinci kısmın boş bırakılması durumunda akış for döngü deyimine geldiğinde herhangi bir şey yapılmaz yani doğrudan koşul kontrol edilir
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		int i = 0;
+		
+		//...
+		
+		for (; i < n; ++i)
+			System.out.printf("%d ", i);
+		
+		System.out.printf("%ni = %d%n", i);	
+	}
+}
+
+```
+
+>for döngüsünde üçüncü kısmın boş bırakılması durumunda bir adım tamamlandığında bir sonraki adım için kontrol işleminden önce bir işlem yapılmaz
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n;) {
+			System.out.printf("%d ", i);
+			++i;
+		}
+		System.out.println();
+	}
+}
+```
+
+>Aşağıdaki kullanım while döngü deyimine benzetilebilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		int i = 0;
+		
+		for (; i < n;) {
+			System.out.printf("%d ", i);
+			++i;
+		}
+		
+		System.out.println();
+	}
+}
+
+```
+
+>for döngüsünün ikinci kısmının boş bırakılması sonsuz döngü anlamına gelir. Yani ikinci kısmı boş bırakmak ile ikinci kısma true sabit ifadesini yazmak aynı anşamdadır. Pek çok programcı for döngüsü ile sonsuz döngü oluştururken okunabilirlik açısından tüm kısımları boş bırakmayı tercih ederler:
+```java
+for (;;) 
+	<deyim>
+```
+
+>Aşağıdaki demo örneği  inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; ; ++i)
+			System.out.printf("%d ", i);	
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının faktoriyel değerine geri dönen `factorial` isimli metodu `NumberUtil` sınıfı içerisinde aşağıdaki açıklamalara göre yazınız
+>**Açıklamalar:**
+>- Faktoriyel işlemi şu şekildedir:
+>0! = 1 olmak üzere
+>1! = 1
+>2!= 1 * 2
+>...
+>n! = 1 * 2 * ... * (n - 1) * n
+>- Metot int türüne geri dönecektir
+>- Metot recursive olarak yazılmayacaktır
+>- Faktoriyel çok hızlı büyüyen bir fonksiyon olduğundan test kodunuzu 12! değerine kadar yapmanız tavsiye edilir
