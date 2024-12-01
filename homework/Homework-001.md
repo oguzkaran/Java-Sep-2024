@@ -38,7 +38,8 @@
 
 -   Üç tane sayının ortancası sayıların toplamından sayıların en küçüğünün ve en büyüğünün toplamını çıkartmakla bulunabilir. Metot bu şekilde **yazılmayacaktır.** Yani metot içerisinde sayıların en büyüğünün ve en küçüğünün bulunmasına gerek yoktur.
 
-**3.** Parametresi ile aldığı int türden bir sayının negatif mi, 0(sıfır) mı, pozitif mi olduğunu test eden **signum*** isimli metodu yazınız ve test ediniz. Metot pozitif için 1(bir), negatif için -1(eksi bir) ve sıfır için 0(sıfır) döndürecektir. 
+**3.** Parametresi ile aldığı int türden bir sayının negatif mi, 0(sıfır) mı, pozitif mi olduğunu test eden **signum*** isimli metodu yazınız ve test ediniz. Metot pozitif için 1(bir), negatif için -1(eksi bir) ve sıfır için 0(sıfır) döndürecektir.
+
 **Açıklama:** Math sınıfının signum metodu **kullanılmayacaktır.**
 
 **Çözümlerinizi eğitmene kontrol ettiriniz.**
