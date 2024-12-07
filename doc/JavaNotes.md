@@ -5825,7 +5825,7 @@ class NumberUtil {
 
 ```
 
-**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
 
 >**Açıklamalar:** 
 >- isPrime metodunun hızlı versiyonu kullanılacaktır.
@@ -5898,7 +5898,7 @@ class NumberUtil {
 
 ```
 
-**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
 
 >**Açıklamalar:** 
 >- isPrime metodunun hızlı versiyonu kullanılacaktır.
@@ -6046,6 +6046,7 @@ class App {
 ```
 
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir `n` pozitif değeri için `n-inci` Fibonacci sayısına geri dönen `fibonacciNumber` isimli metodu yazınız ve test ediniz
+
 >**Açıklamalar:**
 >- İlk iki terimi 0 ve 1 olmak üzere bir sonraki terimin önceki iki terimin toplamıyla elde seriye Fibonacci serisi, sayılara ise Fibonacci sayılar denir:
 >0, 1, 1, 2, 3, 5, 8, 13, 21, ...
@@ -6054,6 +6055,7 @@ class App {
 >- Metot taşma durumlarını kontrol etmeyecektir.
 
 >**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük ilk Fibonacci sayısına geri dönenr `nextClosestFibonacciNumber` isimli metodu yazınız ve test ediniz
+
 >**Açıklamalar:**
 >- Metot recursive olarak yazılmayacaktır.
 >- Metot taşma durumlarını kontrol etmeyecektir.
