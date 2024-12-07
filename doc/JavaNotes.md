@@ -5830,3 +5830,230 @@ class NumberUtil {
 >**Açıklamalar:** 
 >- isPrime metodunun hızlı versiyonu kullanılacaktır.
 >- Metot taşma durumlarını kontrol etmeyecektir
+
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilBextClosestPrimeTest.run();	
+	}
+}
+
+class NumberUtilBextClosestPrimeTest {
+	public static void run()
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d sayısından büyük ilk asal sayı:%d%n", a, NumberUtil.nextClosestPrime(a));
+			
+			if (a == 0)
+				return;
+		}
+	}
+}
+
+class NumberUtil {
+	public static long nextClosestPrime(int a)
+	{
+		if (a < 2)
+			return 2;
+		
+		while (!isPrime(++a))
+			;
+		
+		return a;
+	}
+	
+	public static boolean isPrime(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		if (a % 2 == 0)
+			return a == 2;
+		
+		if (a % 3 == 0)
+			return a == 3;
+		
+		if (a % 5 == 0)
+			return a == 5;
+		
+		if (a % 7 == 0)
+			return a == 7;
+	
+		for (long i = 11; i * i <= a; i += 2) 
+			if (a % i == 0)
+				return false;
+		
+		return true;
+	}
+}
+
+```
+
+**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
+
+>**Açıklamalar:** 
+>- isPrime metodunun hızlı versiyonu kullanılacaktır.
+>- Metot taşma durumlarını kontrol etmeyecektir
+
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilBextClosestPrimeTest.run();	
+	}
+}
+
+class NumberUtilBextClosestPrimeTest {
+	public static void run()
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("%d sayısından büyük ilk asal sayı:%d%n", a, NumberUtil.nextClosestPrime(a));
+			
+			if (a == 0)
+				return;
+		}
+	}
+}
+
+class NumberUtil {
+	public static long nextClosestPrime(int a)
+	{
+		if (a < 2)
+			return 2;
+		
+		for (long i = a + 1; !isPrime(i); ++i)			 
+			;
+		
+		return i;
+	}
+	
+	public static boolean isPrime(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		if (a % 2 == 0)
+			return a == 2;
+		
+		if (a % 3 == 0)
+			return a == 3;
+		
+		if (a % 5 == 0)
+			return a == 5;
+		
+		if (a % 7 == 0)
+			return a == 7;
+	
+		for (long i = 11; i * i <= a; i += 2) 
+			if (a % i == 0)
+				return false;
+		
+		return true;
+	}
+}
+
+```
+###### İçiçe Döngüler
+
+>Bir döngünün deyimi başka bir döngü deyimi ise bu durumda **içiçe döngü (nested loop)** yazılmış olur. İçiçe döngüler genelde karşımıza  içiçe 2 döngü veya içiçe 3 döngü biçiminde çıkar. İçiçe 3'den fazla döngüler çok özel durumlarda (algoritmalarda) kullanılır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int m = kb.nextInt();
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < m; ++i)
+			for (int k = n - 1; k >= 0; --k)
+				System.out.printf("(%d, %d)%n", i, k);
+	}
+}
+```
+
+>Bazen programcının döngü içerisinde çağırdığı metot dolayısıyla içiçe döngü oluşabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int m = kb.nextInt();
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < m; ++i)
+			Util.doWork(i, n);		
+	}
+}
+
+class Util {
+	public static void doWork(int i, int n)
+	{
+		for (int k = n - 1; k >= 0; --k)
+			System.out.printf("(%d, %d)%n", i, k);
+	}	
+}
+```
+
+>Aşağıdaki demo örnekte 3 basamaklı Armstrong sayıları içiçe föngü kullanılarak bulunmuştur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		for (int a = 1; a <= 9; ++a)
+			for (int b = 0; b <= 9; ++b)
+				for (int c = 0; c <= 9; ++c)
+					if (100 * a + 10 * b + c == a * a * a + b * b * b + c * c * c)
+						System.out.printf("%d%d%d ", a, b, c);
+		
+		System.out.println();
+	}
+}
+
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir `n` pozitif değeri için `n-inci` Fibonacci sayısına geri dönen `fibonacciNumber` isimli metodu yazınız ve test ediniz
+>**Açıklamalar:**
+>- İlk iki terimi 0 ve 1 olmak üzere bir sonraki terimin önceki iki terimin toplamıyla elde seriye Fibonacci serisi, sayılara ise Fibonacci sayılar denir:
+>0, 1, 1, 2, 3, 5, 8, 13, 21, ...
+>- Metot ne sayısının pozitif olup olmadığını kontrol etmeyecektir.
+>- Metot recursive olarak yazılmayacaktır
+>- Metot taşma durumlarını kontrol etmeyecektir.
+
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük ilk Fibonacci sayısına geri dönenr `nextClosestFibonacciNumber` isimli metodu yazınız ve test ediniz
+>**Açıklamalar:**
+>- Metot recursive olarak yazılmayacaktır.
+>- Metot taşma durumlarını kontrol etmeyecektir.
