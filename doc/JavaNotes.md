@@ -5525,15 +5525,240 @@ class App {
 	}
 }
 ```
+##### 7 Aralık 2024
 
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının faktoriyel değerine geri dönen `factorial` isimli metodu `NumberUtil` sınıfı içerisinde aşağıdaki açıklamalara göre yazınız
 >**Açıklamalar:**
 >- Faktoriyel işlemi şu şekildedir:
->0! = 1 olmak üzere
+>0! = 1
 >1! = 1
 >2!= 1 * 2
 >...
 >n! = 1 * 2 * ... * (n - 1) * n
->- Metot int türüne geri dönecektir
->- Metot recursive olarak yazılmayacaktır
->- Faktoriyel çok hızlı büyüyen bir fonksiyon olduğundan test kodunuzu 12! değerine kadar yapmanız tavsiye edilir
+>- Metot int türüne geri dönecektir.
+>- Metot recursive olarak yazılmayacaktır.
+>- Metot negatif sayılar için 1 değerine geri dönecektir.
+>- Faktoriyel çok hızlı büyüyen bir fonksiyon olduğundan test kodunuzu 12! değerine kadar yapmanız tavsiye edilir.
+
+**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilFactorialTest.run();	
+	}
+}
+
+class NumberUtilFactorialTest {
+	public static void run()
+	{
+		for (int n = -1; n <= 12; ++n)
+			System.out.printf("%d! = %d%n", n, NumberUtil.factorial(n));
+	}
+}
+
+class NumberUtil {
+	public static int factorial(int n)
+	{
+		int result = 1;
+		
+		for (int i = 2; i <= n; ++i)
+			result *= i;
+		
+		return result;				
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayının asal olup olmadığını test eden `isPrime` isimli metodu yazınız ve test ediniz.
+>***Tanım:** Yalnızca 1 sayısına ve kendisine bölünebilen 1'den büyük sayılara asal sayılar denir.
+
+**Çözüm:** Yavaş versiyion
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsPrimeTest.run();	
+	}
+}
+
+class NumberUtilIsPrimeTest {
+	public static void run()
+	{
+		for (long a = -10; a <= 100; ++a)
+			if (NumberUtil.isPrime(a))
+				System.out.printf("%d ", a);
+		
+		System.out.println();
+		System.out.println(NumberUtil.isPrime(1_000_003));
+	}
+}
+
+class NumberUtil {
+	public static boolean isPrime(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		for (long i = 2; i <= a / 2; ++i)
+			if (a % i == 0)
+				return false;
+		
+		return true;
+	}
+}
+```
+
+**Çözüm:** Daha hızlı versiyon
+**Kural:** Bir sayının asal sayı olması için gerek yeter koşul sayının karakökünden küçük veya eşit olan asal sayıların hepsine tam olarak bölünebilmesi gerekir (Sieve of Eratosthenes).
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsPrimeTest.run();	
+	}
+}
+
+class NumberUtilIsPrimeTest {
+	public static void run()
+	{
+		for (long a = -10; a <= 100; ++a)
+			if (NumberUtil.isPrime(a))
+				System.out.printf("%d ", a);
+		
+		System.out.println();
+		System.out.println(NumberUtil.isPrime(1_000_003));
+	}
+}
+
+class NumberUtil {
+	public static boolean isPrime(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		if (a % 2 == 0)
+			return a == 2;
+		
+		if (a % 3 == 0)
+			return a == 3;
+		
+		if (a % 5 == 0)
+			return a == 5;
+		
+		if (a % 7 == 0)
+			return a == 7;
+		
+		for (long i = 11; i * i <= a; i += 2)
+			if (a % i == 0)
+				return false;
+		
+		return true;
+	}
+}
+```
+
+
+>Aşağıdaki basit ve manuel olarak yapılmış test ile metotlar karşılaştırılmıştır. Henüz daha test araçlarını görmediğimizden durumu göstermek bu şekilde yazılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsPrimeTest.run();	
+	}
+}
+
+class NumberUtilIsPrimeTest {
+	public static void run()
+	{
+		System.out.println(NumberUtil.isPrime(1_000_003));
+		System.out.println(NumberUtil.isPrimeSlow(1_000_003));
+	}
+}
+
+class NumberUtil {
+	public static boolean isPrime(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		if (a % 2 == 0)
+			return a == 2;
+		
+		if (a % 3 == 0)
+			return a == 3;
+		
+		if (a % 5 == 0)
+			return a == 5;
+		
+		if (a % 7 == 0)
+			return a == 7;
+		
+		int count = 0;
+		
+		for (long i = 11; i * i <= a; i += 2) {
+			++count;
+			if (a % i == 0)
+				return false;
+		}
+		
+		System.out.printf("isPrime -> count:%d%n", count);
+		return true;
+	}
+	
+	public static boolean isPrimeSlow(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		int count = 0;
+		
+		for (long i = 2; i <= a / 2; ++i) {
+			++count;
+			if (a % i == 0)
+				return false;
+		}
+		
+		System.out.printf("isPrimeSlow -> count:%d%n", count);
+		return true;
+	}
+}
+
+
+```
+
+>Aşağıdaki çok büyük asal sayıları test için kullanabilirsiniz:
+>
+>		6750161072220585911
+>		1603318868174368979
+>		6584583408148485263
+>		6245098347044246839
+>		6285871677077738093
+>		5697859706174583067
+>		710584055392819667
+>		4935060337471977161
+>		3728803592870153407
+>		4331452335614730577
+>		1386437196678024971
+>		1677990107453991593
+>		4765603950744460867
+>		4498306523077899307
+>		4434895834573449257
+
+**Anahtar Notlar:** Bir sayının asal olup olmadığını test etmek için yukarıdaki algoritmadan hızlıları da vardır. Yukarıdaki algoritma ve implementasyonunun programcı tarafından bilinmesi önerilir. 
+
+>**Sınıf Çalışması:** Parametremesi int türden pozitif `n`sayısı için n-inci asal sayıyı döndüren nthPrime isimli metodu NumburUtil sınıfı içerisinde yazınız ve test ediniz
+
+>**Açıklamalar:** 
+>- isPrime metodunun hızlı versiyonu kullanılacaktır
+>- n değerinin negatif olması durumu metot içerisinde kontrol edilmeyecektir
