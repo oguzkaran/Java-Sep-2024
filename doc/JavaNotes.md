@@ -5573,7 +5573,7 @@ class NumberUtil {
 ```
 
 >**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayının asal olup olmadığını test eden `isPrime` isimli metodu yazınız ve test ediniz.
->***Tanım:** Yalnızca 1 sayısına ve kendisine bölünebilen 1'den büyük sayılara asal sayılar denir.
+>**Tanım:** Yalnızca 1 sayısına ve kendisine bölünebilen 1'den büyük sayılara asal sayılar denir.
 
 **Çözüm:** Yavaş versiyion
 ```java
@@ -5613,8 +5613,8 @@ class NumberUtil {
 }
 ```
 
-**Çözüm:** Daha hızlı versiyon
-**Kural:** Bir sayının asal sayı olması için gerek yeter koşul sayının karakökünden küçük veya eşit olan asal sayıların hepsine tam olarak bölünebilmesi gerekir (Sieve of Eratosthenes).
+>**Çözüm:** Daha hızlı versiyon
+>**Kural:** Bir sayının asal sayı olması için gerek yeter koşul sayının karakökünden küçük veya eşit olan asal sayıların hepsine tam olarak bölünebilmesi gerekir (Sieve of Eratosthenes).
 
 ```java
 package csd;
@@ -5757,8 +5757,76 @@ class NumberUtil {
 
 **Anahtar Notlar:** Bir sayının asal olup olmadığını test etmek için yukarıdaki algoritmadan hızlıları da vardır. Yukarıdaki algoritma ve implementasyonunun programcı tarafından bilinmesi önerilir. 
 
->**Sınıf Çalışması:** Parametremesi int türden pozitif `n`sayısı için n-inci asal sayıyı döndüren nthPrime isimli metodu NumburUtil sınıfı içerisinde yazınız ve test ediniz
+>**Sınıf Çalışması:** Parametremesi int türden pozitif `n`sayısı için n-inci asal sayıyı döndüren `nthPrime` isimli metodu NumburUtil sınıfı içerisinde yazınız ve test ediniz
 
 >**Açıklamalar:** 
->- isPrime metodunun hızlı versiyonu kullanılacaktır
->- n değerinin negatif olması durumu metot içerisinde kontrol edilmeyecektir
+>- isPrime metodunun hızlı versiyonu kullanılacaktır.
+>- n değerinin negatif olması durumu metot içerisinde kontrol edilmeyecektir.
+
+>**Çözüm**
+
+``` java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilNthPrimeTest.run();	
+	}
+}
+
+class NumberUtilNthPrimeTest {
+	public static void run()
+	{		
+		for (int n = 1; n <= 50; ++n)
+			System.out.printf("%d -> %d%n", n, NumberUtil.nthPrime(n));
+	}
+}
+
+class NumberUtil {
+	public static long nthPrime(int n)
+	{
+		long val = 2;
+		int count = 0;
+		
+		for (long i = 2; count < n; ++i)
+			if (isPrime(i)) {
+				++count;
+				val = i;
+			}
+		
+		return val;
+	}
+	
+	public static boolean isPrime(long a)
+	{
+		if (a <= 1)
+			return false;
+		
+		if (a % 2 == 0)
+			return a == 2;
+		
+		if (a % 3 == 0)
+			return a == 3;
+		
+		if (a % 5 == 0)
+			return a == 5;
+		
+		if (a % 7 == 0)
+			return a == 7;
+	
+		for (long i = 11; i * i <= a; i += 2) 
+			if (a % i == 0)
+				return false;
+		
+		return true;
+	}
+}
+
+```
+
+**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
+
+>**Açıklamalar:** 
+>- isPrime metodunun hızlı versiyonu kullanılacaktır.
+>- Metot taşma durumlarını kontrol etmeyecektir
