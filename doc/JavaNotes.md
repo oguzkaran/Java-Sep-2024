@@ -6025,7 +6025,7 @@ class Util {
 }
 ```
 
->Aşağıdaki demo örnekte 3 basamaklı Armstrong sayıları içiçe föngü kullanılarak bulunmuştur
+>Aşağıdaki demo örnekte 3 basamaklı Armstrong sayıları içiçe döngü kullanılarak bulunmuştur
 
 ```java
 package csd;
@@ -6045,17 +6045,600 @@ class App {
 
 ```
 
+##### 8 Aralık 2024
+
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir `n` pozitif değeri için `n-inci` Fibonacci sayısına geri dönen `fibonacciNumber` isimli metodu yazınız ve test ediniz
 
 >**Açıklamalar:**
->- İlk iki terimi 0 ve 1 olmak üzere bir sonraki terimin önceki iki terimin toplamıyla elde seriye Fibonacci serisi, sayılara ise Fibonacci sayılar denir:
+>- İlk iki terimi 0 ve 1 olmak üzere bir sonraki terimin önceki iki terimin toplamıyla elde edilen seriye Fibonacci serisi, sayılara ise Fibonacci sayıları denir:
 >0, 1, 1, 2, 3, 5, 8, 13, 21, ...
->- Metot ne sayısının pozitif olup olmadığını kontrol etmeyecektir.
+>- Metot `n` sayısının pozitif olup olmadığını kontrol etmeyecektir.
 >- Metot recursive olarak yazılmayacaktır
 >- Metot taşma durumlarını kontrol etmeyecektir.
 
->**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük ilk Fibonacci sayısına geri dönenr `nextClosestFibonacciNumber` isimli metodu yazınız ve test ediniz
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilFibonacciNumberTest.run();
+	}
+}
+
+
+class NumberUtilFibonacciNumberTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Kaçıncı Fibonacci sayısını istiyorsunuz?");
+			int n = Integer.parseInt(kb.nextLine());
+			
+			if (n <= 0)
+				return;
+			
+			System.out.printf("%d. Fibonacci sayısı:%d%n", n, NumberUtil.fibonacciNumber(n));
+		}
+	}
+}
+
+class NumberUtil {
+	public static int fibonacciNumber(int n)
+	{
+		if (n <= 2)
+			return n - 1;
+		
+		int prev1 = 1, prev2 = 0, result = 1;
+		
+		for (int i = 3; i < n; ++i) {			
+			prev2 = prev1;
+			prev1 = result;
+			result = prev1 + prev2;
+		}
+		
+		return result;		
+	}
+}
+
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük ilk Fibonacci sayısına geri dönen `nextClosestFibonacciNumber` isimli metodu yazınız ve test ediniz
 
 >**Açıklamalar:**
 >- Metot recursive olarak yazılmayacaktır.
 >- Metot taşma durumlarını kontrol etmeyecektir.
+
+>**Çözüm-1:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilNextClosestFibonacciNumberTest.run();
+	}
+}
+
+
+class NumberUtilNextClosestFibonacciNumberTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());			
+			
+			System.out.printf("%d sayısından büyük ilk Fibonacci sayısı:%d%n", a, NumberUtil.nextClosestFibonacciNumber(a));
+			
+			if (a == 0)
+				return;			
+		}
+	}
+}
+
+class NumberUtil {
+	public static int nextClosestFibonacciNumber(int a)
+	{
+		if (a < 0)
+			return 0;
+		
+		int prev1 = 1, prev2 = 0, next;
+		
+		while (true) {
+			next = prev1 + prev2;
+			if (next > a)
+				return next;
+			
+			prev2 = prev1;
+			prev1 = next;
+		}		
+	}
+}
+```
+
+>**Çözüm-2:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilNextClosestFibonacciNumberTest.run();
+	}
+}
+
+
+class NumberUtilNextClosestFibonacciNumberTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());			
+			
+			System.out.printf("%d sayısından büyük ilk Fibonacci sayısı:%d%n", a, NumberUtil.nextClosestFibonacciNumber(a));
+			
+			if (a == 0)
+				return;			
+		}
+	}
+}
+
+class NumberUtil {
+	public static int nextClosestFibonacciNumber(int a)
+	{
+		if (a < 0)
+			return 0;
+		
+		int prev1 = 1, prev2 = 0, next = prev1 + prev2;
+		
+		while (next <= a) {
+			prev2 = prev1;
+			prev1 = next;
+			next = prev1 + prev2;			
+		}		
+		
+		return next;
+	}
+}
+
+```
+
+>**Çözüm-3:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilNextClosestFibonacciNumberTest.run();
+	}
+}
+
+class NumberUtilNextClosestFibonacciNumberTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());			
+			
+			System.out.printf("%d sayısından büyük ilk Fibonacci sayısı:%d%n", a, NumberUtil.nextClosestFibonacciNumber(a));
+			
+			if (a == 0)
+				return;			
+		}
+	}
+}
+
+class NumberUtil {
+	public static int nextClosestFibonacciNumber(int a)
+	{
+		if (a < 0)
+			return 0;
+		
+	
+		int next = 1;
+		
+		for (int prev1 = 1, prev2 = 0; next <= a; prev2 = prev1, prev1 = next, next = prev1 + prev2)
+			;
+		
+		return next;
+	}
+}
+
+```
+##### break Deyimi
+
+>`break` deyimi döngü deyimlerinde ve switch deyiminde kullanılabilen bir kontrol deyimidir. Bir döngü deyiminde akış break deyimine geldiğinde döngü sonlanır. break deyiminin genel biçimi şu şekildedir:
+
+```java
+break [etiket (label) ismi];
+```
+break deyiminin tek başına (etiketsiz) kullanımında akış ilgili döngünün sonrasından devam eder. Yani, break deyiminin kullanıldığı akış break deyimine geldiğinde sonlanmış olur. break deyimin döngü veya switch deyimi dışında kullanımı error oluşturur. break deyimi hangi döngü deyimi içerisinde kullanılmışsa o döngü deyimi sonlanır. break deyimi algoritmaya bağlı olarak herhangi bir döngü deyiminde kullanılabileceği gibi tipik olarak sonsuz döngüden çıkış içinde kullanılabilir.
+
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük ilk Fibonacci sayısına geri dönen `nextClosestFibonacciNumber` isimli metodu yazınız ve test ediniz
+
+>**Açıklamalar:**
+>- Metot recursive olarak yazılmayacaktır.
+>- Metot taşma durumlarını kontrol etmeyecektir.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilNextClosestFibonacciNumberTest.run();
+	}
+}
+
+
+class NumberUtilNextClosestFibonacciNumberTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());			
+			
+			System.out.printf("%d sayısından büyük ilk Fibonacci sayısı:%d%n", a, NumberUtil.nextClosestFibonacciNumber(a));
+			
+			if (a == 0)
+				break;			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+class NumberUtil {
+	public static int nextClosestFibonacciNumber(int a)
+	{
+		if (a < 0)
+			return 0;
+		
+		int prev1 = 1, prev2 = 0, next;
+		
+		while (true) {
+			next = prev1 + prev2;
+			if (next > a)
+				break;
+			
+			prev2 = prev1;
+			prev1 = next;
+		}		
+		
+		return next;
+	}
+}
+```
+> Aşağıdaki demo örnekte içteki döngüde bir koşul gerçekleştiğinde dıştaki döngü de sonlandırılmıştır. Bu işlemin flag değişken ile yapıldığına dikkat ediniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{	
+		boolean exitLoopFlag = false;
+		
+		for (int i = 0; i < 30; ++i) {
+			for (int k = 5; k >= 1; --k) {
+				System.out.printf("(%d, %d)%n", i, k);
+				
+				if ((i + k) % 6 == 0) {
+					exitLoopFlag = true;
+					break;				
+				}
+			}
+			
+			if (exitLoopFlag)
+				break;
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>break deyiminin etiketli (labeled break) kullanımında, yazılan etiket isminin bildirilmiş olduğu döngü sonlanır. Etiket bildiriminin genel biçimi şu şekildedir:
+```java
+<etiket ismi>:
+```
+Etiket ismi değişken isimlendirme kurallarına uygun herhangi bir isim olabilir ancak bir convention olarak etiket isimlerinin tamamı büyük harf ile yazılır, birden fazla kelimeden oluşuyorsa kelimeler arasında alttire karakteri kullanılır. Etiket isimleri tipik olarak döngü deyimlerinde ve switch deyiminde bildirilebilir. Etiketli break deyimi tipik olarak, içiçe döngülerde içteki bir döngü içerisinde dıştaki döngüden çıkış olarak kullanılır. Etiket ismi bildirildiği deyim boyunca görülebilirdir (scope).
+
+>Yukarıdaki demo örnek aşağıdaki gibi etiketli break kullanılarak daha okunabilir/algılanabilir yapılabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		EXIT_LOOP:
+		for (int i = 0; i < 30; ++i) {
+			for (int k = 5; k >= 1; --k) {
+				System.out.printf("(%d, %d)%n", i, k);
+				
+				if ((i + k) % 6 == 0)
+					break EXIT_LOOP;				
+			}
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+##### continue Deyimi
+
+> Bu deyim döngünün kendisini değil o anki adımını sonlandırır. continue deyimi yalnızca döngü deyimlerinde kullanılır. Aksi durumda error oluşur. Akış continue deyimine geldiğinde döngünün adımı sonlandırılır yani bir sonraki adıma geçmek için gereken işlemler yapılır. break deyimi kadar sık kullanılmasa da bazı durumda okunabilirliği/algılanabilirliği artırmak için kullanılabilir. 
+
+>Aşağıdaki demo örneği inceleyiniz. Şüphesiz örnek continue kullanılmadan da yapılır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki tane sayı giriniz:");
+		int x = kb.nextInt();
+		int y = kb.nextInt();
+		
+		for (int i = x; i <= y; ++i) {
+			if (i % 2 != 0)
+				continue;
+			
+			System.out.printf("%d ", i);
+		}
+		
+		System.out.println();
+	}
+}
+
+```
+
+>Aslında continue deyimi de etiketli kullanılabilir. Ancak continue'nun etiketli kullanımı yapısal programlama tekniği açısından çok iyi olmadığından pratikte kullanılmaz. Burada continue deyiminin etiketli kullanımına detaylar ele alınmayacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki tane sayı giriniz:");
+		int x = kb.nextInt();
+		int y = kb.nextInt();
+		
+		CONTINUE_LOOP:
+		for (int i = x; i <= y; ++i) {
+			for (int k = 2 * x; k <= 2 * y; ++k) {
+				System.out.printf("(%d, %d)%n", i, k);
+				
+				if ((i + k) % 8 == 0)
+					continue CONTINUE_LOOP;
+			}
+		}
+		
+		System.out.println();
+	}
+}
+
+```
+>Aşağıdaki demo menü uygulamasını inceleyiniz
+>**Not:** İleride daha iyis yazılacaktır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DemoMenuApp.run();
+	}
+}
+
+class DemoMenuApp {
+	public static void printMenu()
+	{
+		System.out.println("1.Add");
+		System.out.println("2.Update");
+		System.out.println("3.Delete");
+		System.out.println("4.Search");
+		System.out.println("5.Exit");
+		System.out.print("Option:");
+	}
+	
+
+	public static void add()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Add selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void update()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Update selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void delete()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Delete selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void search()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Search selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void doByOption(int option)
+	{
+		if (option == 1)
+			add();
+		else if (option == 2)
+			update();
+		else if (option == 3)
+			delete();
+		else
+			search();
+	}
+	
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			printMenu();
+			int option = Integer.parseInt(kb.nextLine());
+			
+			if (option < 1 || option > 5) {
+				System.out.println("-----------------------------------");
+				System.out.println("Invalid option");
+				System.out.println("-----------------------------------");
+				continue;
+			}
+			
+			if (option == 5)
+				break;
+			
+			doByOption(option);
+		}				
+		
+		System.out.println("-----------------------------------");
+		System.out.println("Thanks");
+		System.out.println("C and System Programmers Association");
+		System.out.println("-----------------------------------");
+	}
+}
+
+```
+**Anahtar Notlar:** Bir programı herhangi bir metot içerisinde sonlandırmak için `System.exit` metodu çağrılabilir. Bu metot parametre olarak int türden çıkış kodu (exit code) bilgisini alır. Çıkış kodunun şu aşamada önemi yoktur
+
+>Aşağıdaki demo menü uygulamasını inceleyiniz
+>**Not:** İleride daha iyis yazılacaktır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DemoMenuApp.run();
+	}
+}
+
+class DemoMenuApp {
+	public static void printMenu()
+	{
+		System.out.println("1.Add");
+		System.out.println("2.Update");
+		System.out.println("3.Delete");
+		System.out.println("4.Search");
+		System.out.println("5.Exit");
+		System.out.print("Option:");
+	}
+	
+
+	public static void add()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Add selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void update()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Update selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void delete()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Delete selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void search()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Search selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void exit()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Thanks");
+		System.out.println("C and System Programmers Association");
+		System.out.println("-----------------------------------");
+		System.exit(0);
+	}
+	
+	public static void invalidOption()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Invalid option");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void doByOption(int option)
+	{
+		if (option == 1)
+			add();
+		else if (option == 2)
+			update();
+		else if (option == 3)
+			delete();
+		else if (option == 4)
+			search();
+		else if (option == 5)
+			exit();
+		else
+			invalidOption();
+	}
+	
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			printMenu();			
+			doByOption(Integer.parseInt(kb.nextLine()));
+		}	
+	}
+}
+
+```
+
+##### switch Deyimi
+
+> 
