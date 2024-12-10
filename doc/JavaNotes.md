@@ -5938,7 +5938,9 @@ class NumberUtil {
 		if (a < 2)
 			return 2;
 		
-		for (long i = a + 1; !isPrime(i); ++i)			 
+		long i;
+
+		for (i = a + 1; !isPrime(i); ++i)			 
 			;
 		
 		return i;
