@@ -3,88 +3,56 @@ package csd;
 class App {
 	public static void main(String[] args)
 	{		
-		DemoMenuApp.run();
+		DateUtilIsValidDateTest.run();
 	}
 }
 
-class DemoMenuApp {
-	public static void printMenu()
-	{
-		System.out.println("1.Add");
-		System.out.println("2.Update");
-		System.out.println("3.Delete");
-		System.out.println("4.Search");
-		System.out.println("5.Exit");
-		System.out.print("Option:");
-	}
-	
-	public static void add()
-	{
-		System.out.println("-----------------------------------");
-		System.out.println("Add selected");
-		System.out.println("-----------------------------------");
-	}
-	
-	public static void update()
-	{
-		System.out.println("-----------------------------------");
-		System.out.println("Update selected");
-		System.out.println("-----------------------------------");
-	}
-	
-	public static void delete()
-	{
-		System.out.println("-----------------------------------");
-		System.out.println("Delete selected");
-		System.out.println("-----------------------------------");
-	}
-	
-	public static void search()
-	{
-		System.out.println("-----------------------------------");
-		System.out.println("Search selected");
-		System.out.println("-----------------------------------");
-	}
-	
-	public static void exit()
-	{
-		System.out.println("-----------------------------------");
-		System.out.println("Thanks");
-		System.out.println("C and System Programmers Association");
-		System.out.println("-----------------------------------");
-		System.exit(0);
-	}
-	
-	public static void invalidOption()
-	{
-		System.out.println("-----------------------------------");
-		System.out.println("Invalid option");
-		System.out.println("-----------------------------------");
-	}
-	
-	public static void doByOption(int option)
-	{
-		if (option == 1)
-			add();
-		else if (option == 2)
-			update();
-		else if (option == 3)
-			delete();
-		else if (option == 4)
-			search();
-		else if (option == 5)
-			exit();
-		else
-			invalidOption();
-	}
-	
+class DateUtilIsValidDateTest {
 	public static void run()
 	{
 		java.util.Scanner kb = new java.util.Scanner(System.in);
 		
-		while (true) {
-			printMenu();			
-			doByOption(Integer.parseInt(kb.nextLine()));
-		}	
+		System.out.println("Gün, ay ve yıl bilgilerini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		if (DateUtil.isValidDate(day, month, year))
+			System.out.printf("%02d/%02d/%04d tarihi geçerlidir%n", day, month, year);
+		else
+			System.out.println("Geçersiz tarih");
+	}
+}
+
+class DateUtil {
+	public static boolean isValidDate(int day, int month, int year)
+	{
+		return 1 <= day && day <= 31 && 1 <= month && month <= 12 && day <= getDays(month, year);
+	}
+	
+	public static int getDays(int month, int year)
+	{
+		int days = 31;
+		
+		switch (month) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				days = 30;
+				break;
+			case 2:
+				days = 28;
+				if (isLeapYear(year))
+					++days;		
+		}		
+		
+		return days;
+	}
+
+	
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
 	}
 }

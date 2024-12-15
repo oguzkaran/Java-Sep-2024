@@ -2666,7 +2666,7 @@ class App {
 
 ##### Constant Folding Optimization
 
->Derleyici sabit ifadelerinin değerlerini hesaplayıp byte code'a yazarlar. Buna **constant folding optimization** denir. Yani aslında sabit ifadelerinin hesaplanmasının çalışma zamanına bir etkisi yoktur. 
+>Derleyiciler sabit ifadelerinin değerlerini hesaplayıp byte code'a yazarlar. Buna **constant folding optimization** denir. Yani aslında sabit ifadelerinin hesaplanmasının çalışma zamanına bir etkisi yoktur. 
 
 >Aşağıdaki demo örnekte 1 ile belirtilen ifadedeki sabit ifadesi hesaplanıp arakoda yazılır
 
@@ -6639,8 +6639,822 @@ class DemoMenuApp {
 	}
 }
 
+
 ```
+
+##### 15 Aralık 2024
 
 ##### switch Deyimi
 
-> 
+> `switch deyimi (switch statement)` sonlu sayıda ve sabitlerden oluşan seçeneklerin eşitlik karşılaştırması için kullanılan bir kontrol deyimidir. switch deyimi belirli koşullar altında if deyimi yerine kullanılabilir. Aslında bu deyim if deyimine göre okunabilirliği/algılanabilirliği artırdığı durumlarda tercih edilir. Şüphesiz if deyimi ile yapılabilen herşey switch deyimiyle yapılamaz. switch deyimine `Java 12` ile birlikte eklentiler yapılmıştır. Bu eklentiler ilerleyen sürümlerde de genişletilmiştir. Hatta bu anlamda `switch expression` da `Java 12` dile birlikte dile dahil edilmiştir. swicth deyimine Java 12'den itibaren yapılan eklentiler `switch expression` başlığı altında ileride ele alınacaktır. 
+>
+>switch deyiminin genel biçimi şu şekildedir:
+
+```java
+switch (<ifade>) {
+	[case <sabit ifadesi>:
+		<deyim>
+	]
+	[case <sabit ifadesi>:
+		<deyim>
+	]
+	...
+
+	[default:
+		<deyim>
+	]
+}
+```
+
+>switch parantezi içerisindeki ifadenin tam sayı türünden (int, long, byte, short) VEYA char türden VEYA String türünden VEYA enum class türünden olmak zorundadır. Bunlar dışında kalan türler için error oluşur. String ve enum class'lar ileride ele alınacaktır. Bir case bölümüne ilişkin ifadenin switch parantezi içerisindeki ifadenin türünden sabit ifadesi olması zorunludur. switch parantezi içerisinde tür ile case bölümüne ilişkin türün farklı olabileceği bazı istisna durumlar vardır, ileride ele alınacaktır. switch deyiminin default bölümü (default case) zorunlu değildir. Akış switch deyimine geldiğinde parantez içerisindeki ifade hesaplanır. Elde edilen değer ile ilk case bölümünden başlamak üzere ilgili sabit ifadesi ile `==` karşılaştırması yapılır. true olan ilk case bölümüne ilişkin deyim çalıştırılır. Eğer hiç bir case bölümünün sabit ifadesi ile karşılaştırma sonucunda true değeri elde edilmezse varsa default kısmı çalıştırılır. switch deyimi tamamlandığında akış switch deyiminden sonraki deyimden devam eder. 
+
+
+>Aşağıdaki demo örneğe ilişkin switch deyimin if deyimi karşılığı şu şekilde yazılabilir:
+
+```java
+if (plate == 34)
+	System.out.println("İstanbul");
+else if (plate == 67)
+	System.out.println("Zonguldak");
+else if (plate == 35)
+	System.out.println("İzmir");
+else if (plate == 6)
+	System.out.println("Ankara");
+else
+	System.out.println("Geçersiz plaka girdiniz");
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Plaka numarasını giriniz:");
+		int plate = kb.nextInt();
+		
+		switch (plate) {
+			case 34:
+				System.out.println("İstanbul");
+				break;
+			case 67:
+				System.out.println("Zonguldak");
+				break;
+			case 35:
+				System.out.println("İzmir");
+				break;
+			case 6:
+				System.out.println("Ankara");
+				break;
+			default:
+				System.out.println("Geçersiz plaka girdiniz");
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");		
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Plaka numarasını giriniz:");
+		int plate = kb.nextInt();
+		
+		switch (plate) {
+			case 34:
+				System.out.println("İstanbul");
+				break;
+			case 67:
+				System.out.println("Zonguldak");
+				break;
+			case 35:
+				System.out.println("İzmir");
+				break;
+			case 6:
+				System.out.println("Ankara");
+				break;
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");		
+	}
+}
+```
+
+>switch deyiminde **aşağı düşme (fall through)** özelliği vardır. switch deyiminde her hangi bölümü çalıştırdığında (case ya da default case) sonraki bir bölüme geçişi engelleyen hehangi kod görülene kadar girilen bölümler de çalıştırılır. break deyimi switch deyimini sonlandırılan ve tipik olarak aşağı düşme durumunu engelleyen bir deyimdir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Plaka numarasını giriniz:");
+		int plate = kb.nextInt();
+		
+		switch (plate) {
+			case 34:
+				System.out.println("İstanbul");
+				break;
+			case 67:
+				System.out.println("Zonguldak");				
+			case 35:
+				System.out.println("İzmir");				
+			case 6:
+				System.out.println("Ankara");
+			default:
+				System.out.println("Geçersiz plaka girdiniz");
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");		
+	}
+}
+
+```
+>switch deyiminin aşağı düşme özelliği yalnızca break deyimi ile engellenmeyebilir. Örneğin return deyimi, bir sonsuz döngü, continue deyimi gibi deyimler de dolaylı da olsa aşağı düşmeyi engeller.
+
+>Aşağıdaki demo örneği incekleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		PlateApp.run();
+	}
+}
+
+
+class PlateApp {
+	public static void doWork()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Plaka numarasını giriniz:");
+			int plate = kb.nextInt();
+			
+			switch (plate) {
+				case 34:
+					System.out.println("İstanbul");
+					break;
+				case 67:
+					System.out.println("Zonguldak");
+					break;
+				case 35:
+					System.out.println("İzmir");
+					break;
+				case 6:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					return;
+				default:
+					System.out.println("Geçersiz plaka girdiniz");
+			}
+		}
+	}
+	
+	public static void run()
+	{		
+		doWork();
+		System.out.println("Tekrar yapıyor musunuz?");	
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		PlateApp.run();
+	}
+}
+
+
+class PlateApp {
+	public static void run()
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Plaka numarasını giriniz:");
+			int plate = kb.nextInt();
+			
+			switch (plate) {
+				case 34:
+					System.out.println("İstanbul");
+					break;
+				case 67:
+					System.out.println("Zonguldak");
+					break;
+				case 35:
+					System.out.println("İzmir");
+					break;
+				case 6:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;
+				default:
+					System.out.println("Geçersiz plaka girdiniz");
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");	
+	}
+}
+```
+
+>switch deyimin aşağı düşme özelliği bazı kodları basitleştirebilir
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = kb.nextInt();
+			
+			switch (code) {
+				case 212:
+				case 216:
+					System.out.println("İstanbul");
+					break;
+				case 372:
+					System.out.println("Zonguldak");
+					break;
+				case 232:
+					System.out.println("İzmir");
+					break;
+				case 312:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;					
+				default:
+					System.out.println("Geçersiz kod girdiniz");
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = kb.nextInt();
+			
+			switch (code) {
+				case 212:
+					System.out.print("Avrupa ");
+				case 216:
+					System.out.println("İstanbul");
+					break;
+				case 372:
+					System.out.println("Zonguldak");
+					break;
+				case 232:
+					System.out.println("İzmir");
+					break;
+				case 312:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;					
+				default:
+					System.out.println("Geçersiz kod girdiniz");
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>switch deyiminde case ve default bölümlerinin çok uzun tutulması durumu okunabilirliği/algılanabilirliği olumsuz etkiler. Böylesi durumlarda programcının ilgili bölümlere ilişkin işlemler için metot yazması ve çağırması daha uygun olur. 
+
+>switch deyiminde default bölümün deyimin neresinde olduğunun önemi yoktur. Yani default bölümün ne zaman çalıştırılacağı değişiklik göstermez şüphesiz switch deyiminin son bölüm olarak yazılması okunabilirlik/algılanabilirlik açısından daha uygundur.
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte default bölümde break deyimi olmazsa aşağı düşme olacaktır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = kb.nextInt();
+			
+			switch (code) {
+				default:
+					System.out.println("Geçersiz kod girdiniz");
+					break;
+				case 212:
+					System.out.print("Avrupa ");
+				case 216:
+					System.out.println("İstanbul");
+					break;
+				case 372:
+					System.out.println("Zonguldak");
+					break;
+				case 232:
+					System.out.println("İzmir");
+					break;
+				case 312:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;					
+				
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte case ifadesinin sabit ifadesi olması zorunluluğu dolayısıyla error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = kb.nextInt();
+			int c = 212;
+			switch (code) {
+				case c: //error
+					System.out.print("Avrupa ");
+				case 216:
+					System.out.println("İstanbul");
+					break;				
+				case 372:
+					System.out.println("Zonguldak");
+					break;				
+				case 232:
+					System.out.println("İzmir");
+					break;
+				case 312:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;
+				default:
+					System.out.println("Geçersiz kod girdiniz");					
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+
+>switch deyiminde aynı değere sahip birden fazla case bölümü geçersizdir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = kb.nextInt();
+			
+			switch (code) {
+				case 212:	
+				case 216: //error
+					System.out.println("İstanbul");
+					break;
+				case 216: //error
+					System.out.println("İstanbul");
+					break;
+				case 372:
+					System.out.println("Zonguldak");
+					break;			
+				case 232:
+					System.out.println("İzmir");
+					break;
+				case 312:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;
+				default:
+					System.out.println("Geçersiz kod girdiniz");					
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+
+```
+>Aşağıdaki demo örnekte aynı değere sahip birden fazla case bölümü olduğundan error oluşur. Burada derleyici sabit ifadelerini arakoda yazarken constant folding optimization yaptığından aynı değere sahip birden fazla case bölümü olduğunu derleme zamanında anlar
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = kb.nextInt();
+			
+			switch (code) {
+				case 212:	
+				case 216: //error
+					System.out.println("İstanbul");
+					break;
+				case 217 - 1: //error
+					System.out.println("İstanbul");
+					break;
+				case 372:
+					System.out.println("Zonguldak");
+					break;			
+				case 232:
+					System.out.println("İzmir");
+					break;
+				case 312:
+					System.out.println("Ankara");
+					break;
+				case 0:
+					break EXIT_LOOP;
+				default:
+					System.out.println("Geçersiz kod girdiniz");					
+			}
+		}
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+```
+
+>Aşağıdaki örnekte switch deyimine ilişkin ifadenin (ve tabii ki case ifadesinin) double türden olması dolayısıyla error oluşur.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		double a = kb.nextDouble();
+		
+		switch (a) { //error
+		case 3.4: //error			
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+```
+
+> switch deyiminin genel biçiminden de anlaşılacağı gibi switch deyiminde ne case bölümü ne de default bölüm zorunlu değildir. Hatta bu durumda switch deyiminde hiç bir bölüm de olmayabilir. Ancak pratikte case bölümü olmayan switch deyiminin bir kullanım amacı yoktur. Ancak bazı puzzle tarzı sorularda (hiç iyi sorular olmasa da) karşımıza çıkabilir. 
+
+> Aşağıdaki demo örnekte switch deyimi kullanılarak switch deyimine ilişkin ifadenin değeri ekrana yazdırılmaktadır. (Ne kadar anlamsız olsa da puzzle olarak anlayınız)
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Plaka numarasını giriniz:");
+		int plate = kb.nextInt();
+		
+		switch (plate) {		
+		default:			
+			System.out.printf("plate = %d%n", plate);
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");		
+	}
+}
+```
+
+>Aşağıdaki demo menü uygulamasını inceleyiniz
+>**Not:** İleride daha iyis yazılacaktır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DemoMenuApp.run();
+	}
+}
+
+class DemoMenuApp {
+	public static void printMenu()
+	{
+		System.out.println("1.Add");
+		System.out.println("2.Update");
+		System.out.println("3.Delete");
+		System.out.println("4.Search");
+		System.out.println("5.Exit");
+		System.out.print("Option:");
+	}
+	
+
+	public static void add()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Add selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void update()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Update selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void delete()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Delete selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void search()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Search selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void exit()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Thanks");
+		System.out.println("C and System Programmers Association");
+		System.out.println("-----------------------------------");
+		System.exit(0);
+	}
+	
+	public static void invalidOption()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Invalid option");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void doByOption(int option)
+	{
+		switch (option) {
+			case 1:
+				add();
+				break;
+			case 2: 
+				update();
+				break;
+			case 3:
+				delete();
+				break;
+			case 4:
+				search();
+				break;
+			case 5:
+				exit();
+			default:
+				invalidOption();
+		}
+	}
+	
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			printMenu();			
+			doByOption(Integer.parseInt(kb.nextLine()));
+		}	
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yılın artık yıl olup olmadığını test eden `isLeapYear` isimli metodu yazınız ve test ediniz.
+
+>**Artık yıl algoritması:** Bir yıl değeri 4 bölünüyor VE 100'e bölünmüyorsa VEYA 400'e bölünüyorsa artık yıldır.
+
+>**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DateUtilIsLeapYearTest.run();
+	}
+}
+
+class DateUtilIsLeapYearTest {
+	public static void run()
+	{
+		for (int year = 1999; year <= 2104; ++year)
+			if (DateUtil.isLeapYear(year))
+				System.out.println(year);
+	}
+}
+
+class DateUtil {
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı gün ay ve yıl bilgisine ilişkin tarihin geçerli bir tarih olup olmadığını döndüren `isValidDate` isimli metodu DateUtil sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz.
+
+>**Not:** İleride daha iyisi yazılacaktır
+
+>**Çözüm-1:** 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DateUtilIsValidDateTest.run();
+	}
+}
+
+class DateUtilIsValidDateTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.println("Gün, ay ve yıl bilgilerini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		if (DateUtil.isValidDate(day, month, year))
+			System.out.printf("%02d/%02d/%04d tarihi geçerlidir%n", day, month, year);
+		else
+			System.out.println("Geçersiz tarih");
+	}
+}
+
+class DateUtil {
+	public static boolean isValidDate(int day, int month, int year)
+	{
+		return 1 <= day && day <= 31 && 1 <= month && month <= 12 && day <= getDays(month, year);
+	}
+	
+	public static int getDays(int month, int year)
+	{
+		int days = 31;
+		
+		switch (month) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				days = 30;
+				break;
+			case 2:
+				days = 28;
+				if (isLeapYear(year))
+					++days;		
+		}		
+		
+		return days;
+	}
+
+	
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	}
+}
+```
+
+>**Çözüm-2:** (Çözümün doğrudan yapıldığına dikkat ediniz)
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DateUtilIsValidDateTest.run();
+	}
+}
+
+class DateUtilIsValidDateTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.println("Gün, ay ve yıl bilgilerini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		if (DateUtil.isValidDate(day, month, year))
+			System.out.printf("%02d/%02d/%04d tarihi geçerlidir%n", day, month, year);
+		else
+			System.out.println("Geçersiz tarih");
+	}
+}
+
+class DateUtil {
+	public static boolean isValidDate(int day, int month, int year)
+	{
+		if (day < 1 || day > 31 || month < 1 || month > 12)
+			return false;
+		
+		int days = 31;
+		
+		switch (month) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				days = 30;
+				break;
+			case 2:
+				days = 28;
+				if (isLeapYear(year))
+					++days;		
+		}	
+		
+		return day <= days;		
+	}
+	
+
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	}
+}
+```
+
