@@ -7462,6 +7462,7 @@ class DateUtil {
 >**Sınıf Çalışması:** Parametresi ile aldığı gün, ay ve yıl bilgilerine ilişkin tarihin yılın kaçıncı günü olduğunu döndüren `getDayOfYear` metodunu DateUtil sınıfı içerisinde aşağıdaki açıklamalaraq göre yazınız
 >
 >**Açıklamalar:** 
+> - Metot geçersiz bir tarih için `-1` değerine geri dönecektir
 >- Metot yukarıdaki metotlar kullanılarak yazılabilir
 >- Metot şu ana kadar işlenmiş olan konular kullanılarak yazılacaktır
 
