@@ -7196,7 +7196,7 @@ class App {
 ```
 
 >Aşağıdaki demo menü uygulamasını inceleyiniz
->**Not:** İleride daha iyis yazılacaktır
+>**Not:** İleride daha iyisi yazılacaktır
 
 ```java
 package csd;
@@ -7585,3 +7585,742 @@ class DateUtil {
 >- 01.01.1900 öncesindeki tarihler geçersiz kabul edilecektir.
 
 >**Not:** İleride daha iyisi yazılacaktır.
+
+**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DateUtilGetDayOfWeekTest.run();
+	}
+}
+
+class DateUtilGetDayOfWeekTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.println("Gün, ay ve yıl bilgilerini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		DateUtil.printDateTR(day, month, year);
+	}
+}
+
+class DateUtil {
+	public static void printDateTR(int day, int month, int year)
+	{
+		int dayOfWeek = getDayOfWeek(day, month, year);	
+		
+		
+		switch (dayOfWeek) {
+			case 0:
+				System.out.printf("%02d/%02d/%04d Pazar%n", day, month, year);
+				break;
+			case 1:
+				System.out.printf("%02d/%02d/%04d Pazartesi%n", day, month, year);
+				break;
+			case 2:
+				System.out.printf("%02d/%02d/%04d Salı%n", day, month, year);
+				break;
+			case 3:
+				System.out.printf("%02d/%02d/%04d Çarşamba%n", day, month, year);
+				break;
+			case 4:
+				System.out.printf("%02d/%02d/%04d Perşembe%n", day, month, year);
+				break;
+			case 5:
+				System.out.printf("%02d/%02d/%04d Cuma%n", day, month, year);
+				break;
+			case 6:
+				System.out.printf("%02d/%02d/%04d Cumartesi%n", day, month, year);
+				break;
+			default:
+				System.out.println("Geçersiz tarih");
+		}
+				
+	}
+	
+	public static int getDayOfWeek(int day, int month, int year)
+	{
+		int totalDays;
+		
+		if (year < 1900 || (totalDays = getDayOfYear(day, month, year)) == -1)
+			return -1;
+		
+		for (int y = 1900; y < year; ++y) {
+			totalDays += 365;
+			if (isLeapYear(y))
+				++totalDays;
+		}
+		
+		return totalDays % 7;		
+	}
+	
+	public static int getDayOfYear(int day, int month, int year)
+	{
+		if (!isValidDate(day, month, year))
+			return -1;
+		
+		return getDayOfYearValue(day, month, year);
+	}
+	
+	public static int getDayOfYearValue(int day, int month, int year)
+	{
+		int dayOfYear = day;
+		
+		switch (month - 1) {
+			case 11:
+				dayOfYear += 30;
+			case 10:
+				dayOfYear += 31;
+			case 9:
+				dayOfYear += 30;
+			case 8:
+				dayOfYear += 31;
+			case 7:
+				dayOfYear += 31;
+			case 6:
+				dayOfYear += 30;
+			case 5:
+				dayOfYear += 31;
+			case 4:
+				dayOfYear += 30;
+			case 3:
+				dayOfYear += 31;
+			case 2:
+				dayOfYear += 28;
+				if (isLeapYear(year))
+					++dayOfYear;
+			case 1:
+				dayOfYear += 31;
+		}
+		
+		return dayOfYear;
+	}
+	
+	public static boolean isValidDate(int day, int month, int year)
+	{
+		return 1 <= day && day <= 31 && 1 <= month && month <= 12 && day <= getDays(month, year);
+	}
+	
+	public static int getDays(int month, int year)
+	{
+		int days = 31;
+		
+		switch (month) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				days = 30;
+				break;
+			case 2:
+				days = 28;
+				if (isLeapYear(year))
+					++days;		
+		}		
+		
+		return days;
+	}
+
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	}
+}
+```
+
+##### switch Expression
+
+>switch expression Java 12 ile birlikte `preview` olarak eklenmiştir. Java 14 ile birlikte `release` duruma gelmiştir. Java programcısı açısından switch expression Java 17 ile kullanılabilir durumdadır. Anımsanacağı gibi pratikte Java 8, 11, 17 ve 21 sürümleri LTS olduklarından kullanılmaktadır. Adından da anlaşılacağı gibi switch expression hem bir deyim hem de bir ifade olarak kullanılabilmektedir. İfade olarak kullanıldığında bir değer üretebilmektedir. switch expression ile birlikte klasik switch deyimi de, yeni eklenen **yield** anahtar sözcüğü ile birlikte bir ifade olarak kullanılabilmektedir. yield anahtar sözcüğü ileride detaylı olarak ele alınacaktır. 
+
+**Anahtar Notlar:** Programlamada hem deyim hem de ifade olarak kullanılan sentaktik elemanlara **ifadesel deyim (expression statament)** de denilmektedir.
+
+>switch expression'ın genel biçimi şu şekildedir:
+
+```java
+switch (<ifade>) {
+	case <si>[,<si>, ...] -> <deyim veya ifade> 
+	case <si>[,<si>, ...] -> <deyim veya ifade> 
+	...
+
+	[default -> <deyim veya ifade>]
+}
+```
+
+>switch espression'ın parantezi içerisindeki ifadeye ilişkin kurallar klasik switch deyimi ile aynıdır. case bölümlerine ilişkin ifadelerin yine klasik switch deyiminde olduğu gibi sabit ifadesi (si) olması zorunludur. switch deyiminde aşağı düşme (fall through) özelliği yoktur. switch expression bir case bölümüne istenildiği sayıda sabit ifadesi virgül ile ayrılacak şekilde yazılabilir. Bu durumda `OR` işlemleri yapılmış olur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Plaka numarasını giriniz:");
+		int plate = kb.nextInt();
+		
+		switch (plate) {
+			case 34 -> System.out.println("İstanbul");		
+			case 67 -> System.out.println("Zonguldak");
+			case 35 -> System.out.println("İzmir");
+			case 6 -> System.out.println("Ankara");
+			default -> System.out.println("Geçersiz plaka girdiniz");
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");		
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Telefon kodunu giriniz:");
+		int code = kb.nextInt();
+		
+		switch (code) {
+			case 212, 216 -> System.out.println("İstanbul");
+			case 372 -> System.out.println("Zonguldak");
+			case 232 ->	System.out.println("İzmir");				
+			case 312-> System.out.println("Ankara");		
+			default -> System.out.println("Geçersiz kod girdiniz");
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+```
+
+>switch expression'a ilişkin bir case bölümünde birden fazla deyim kullanılacaksa veya break, return vb deyimler kullanılacaksa bileşik deyim olarak yazılmalıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		EXIT_LOOP:
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = Integer.parseInt(kb.nextLine());
+			
+			switch (code) {
+				case 212, 216 -> System.out.println("İstanbul");
+				case 372 -> System.out.println("Zonguldak");
+				case 232 ->	System.out.println("İzmir");				
+				case 312-> System.out.println("Ankara");
+				case 0 -> {break EXIT_LOOP;}
+				default -> System.out.println("Geçersiz kod girdiniz");
+			}
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+```
+
+>switch expression ifade olarak kullanıldığında yani ifadenin değeri işleme sokulduğunda default case kesinlikle bulunmalıdır. Aksi durumda error oluşur. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = Integer.parseInt(kb.nextLine());
+			
+			if (code == 0)
+				break;
+			
+			int plate = switch (code) {
+				case 212, 216 -> 34;
+				case 312 -> 6;
+				case 372 -> 67;
+				case 232 -> 35;
+				default -> -1;
+			};
+			
+			if (plate != -1)
+				System.out.printf("Kod:%d -> Plaka:%d%n", code, plate);
+			else
+				System.out.println("Geçersiz giriş!...");
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = Integer.parseInt(kb.nextLine());
+			
+			if (code == 0)
+				break;
+			
+			Util.printByCodeAndPlate(code, switch(code) {
+				case 212, 216 -> 34;
+				case 312 -> 6;
+				case 372 -> 67;
+				case 232 -> 35;
+				default -> -1;
+			});
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+class Util {
+	public static void printByCodeAndPlate(int code, int plate)
+	{
+		if (plate != -1)
+			System.out.printf("Kod:%d -> Plaka:%d%n", code, plate);
+		else
+			System.out.println("Geçersiz giriş!...");
+		
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = Integer.parseInt(kb.nextLine());
+			
+			if (code == 0)
+				break;
+			
+			Util.printByCodeAndPlate(code);
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+class Util {
+	public static void printByCodeAndPlate(int code)
+	{
+		int plate = getPlateByCode(code);
+		
+		if (plate != -1)
+			System.out.printf("Kod:%d -> Plaka:%d%n", code, plate);
+		else
+			System.out.println("Geçersiz giriş!...");
+		
+	}
+	
+	public static int getPlateByCode(int code)
+	{
+		return switch(code) {
+			case 212, 216 -> 34;
+			case 312 -> 6;
+			case 372 -> 67;
+			case 232 -> 35;
+			default -> -1;
+		};
+	}
+}
+```
+
+>switch expression'da bir case bölümünde ya da default case'de birden fazla deyim yazılacaksa, bileşik deyim olarak yazılmalıdır. Bu durumda switch expression ürettiği değer yield anahtar sözüğü ile (yield statement) elde edilebilir. yield deyimi aynı zamanda switch expression'ı da sonlandırır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = Integer.parseInt(kb.nextLine());
+			
+			if (code == 0)
+				break;
+			
+			Util.printByCodeAndPlate(code);
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+class Util {
+	public static void printByCodeAndPlate(int code)
+	{
+		int plate = getPlateByCode(code);
+		
+		if (plate != -1)
+			System.out.printf("Kod:%d -> Plaka:%d%n", code, plate);
+		else
+			System.out.println("Geçersiz giriş!...");
+		
+	}
+	
+	public static int getPlateByCode(int code)
+	{
+		return switch(code) {
+			case 212, 216 -> {System.out.println("İstanbul"); yield 34;}
+			case 312 -> 6;
+			case 372 -> 67;
+			case 232 -> 35;
+			default -> -1;
+		};
+	}
+}
+```
+>yield deyimi ile klasik switch deyimi de expression olarak kullanılabilmektedir:
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Telefon kodunu giriniz:");
+			int code = Integer.parseInt(kb.nextLine());
+			
+			if (code == 0)
+				break;
+			
+			Util.printByCodeAndPlate(code);
+			
+		}
+		
+		System.out.println("Tekrar yapıyor musunuz?");
+	}
+}
+
+class Util {
+	public static void printByCodeAndPlate(int code)
+	{
+		int plate = getPlateByCode(code);
+		
+		if (plate != -1)
+			System.out.printf("Kod:%d -> Plaka:%d%n", code, plate);
+		else
+			System.out.println("Geçersiz giriş!...");
+		
+	}
+	
+	public static int getPlateByCode(int code)
+	{
+		return switch(code) {
+			case 212:
+			case 216:				 
+				yield 34;
+			case 312: 
+				yield 6;
+			case 372:  yield 67;
+			case 232: yield 35;
+			default: yield -1;
+		};
+	}
+}
+```
+
+>Ne zaman switch expression ne zaman klasik switch statement kullanılmalıdır? Programcı buna nasıl karar verecektir? Bu soruya genel bir cevap olarak **Gerekmedikçe klasik switch kullanılması önerilmez.** switch statement tipik olarak şu iki durumda gerekir:
+>
+> - Java 11 ve öncesinde geliştirilen bir proje için zaten switch expression kullanılamaz. Bu durumda switch statement kullanılır.
+> - Aşağı düşme özelliğinin gerektiği durumlarda switch statement tercih edilir.
+
+>Aşağıdaki demo menü uygulamasını inceleyiniz
+>**Not:** İleride daha iyisi yazılacaktır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DemoMenuApp.run();
+	}
+}
+
+class DemoMenuApp {
+	public static void printMenu()
+	{
+		System.out.println("1.Add");
+		System.out.println("2.Update");
+		System.out.println("3.Delete");
+		System.out.println("4.Search");
+		System.out.println("5.Exit");
+		System.out.print("Option:");
+	}
+	
+
+	public static void add()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Add selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void update()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Update selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void delete()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Delete selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void search()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Search selected");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void exit()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Thanks");
+		System.out.println("C and System Programmers Association");
+		System.out.println("-----------------------------------");
+		System.exit(0);
+	}
+	
+	public static void invalidOption()
+	{
+		System.out.println("-----------------------------------");
+		System.out.println("Invalid option");
+		System.out.println("-----------------------------------");
+	}
+	
+	public static void doByOption(int option)
+	{
+		switch (option) {
+			case 1 -> add();
+			case 2 -> update();
+			case 3 -> delete();
+			case 4 -> search();
+			case 5 -> exit();
+			default -> invalidOption();
+		}
+	}
+	
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			printMenu();			
+			doByOption(Integer.parseInt(kb.nextLine()));
+		}	
+	}
+}
+```
+>**Sınıf Çalışması:** Parametresi ile aldığı gün, ay ve yıl bilgilerine ilişkin tarihin yılın hangi günü olduğu bilgisine geri dönen `getDayOfWeek` isimli metodu aşağıdaki açıklamalara göre DateUtil sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz
+>
+>**Açıklamalar:** 
+>- Metot geçersiz bir tarih için `-1` değerine geri dönecektir.
+>- Tarihin hafa gününe geldiği aşağıdaki yöntemle belirlenecektir:
+> 01.01.1900 ile ilgili tarih arasındaki toplam gün sayısı hesaplanır ve 7 değerine göre modu alınır. Bu durumda elde edilen değer 0 ise Pazar, 1 ise Pazartesi, ..., 6 ise Cumartesi gününe ilişkindir.
+>- Metot yukarıdaki metotlar kullanılarak yazılabilir.
+>- Metot şu ana kadar işlenmiş olan konular kullanılarak yazılacaktır.
+>- 01.01.1900 öncesindeki tarihler geçersiz kabul edilecektir.
+
+>**Not:** İleride daha iyisi yazılacaktır.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DateUtilGetDayOfWeekTest.run();
+	}
+}
+
+class DateUtilGetDayOfWeekTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.println("Gün, ay ve yıl bilgilerini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		DateUtil.printDateTR(day, month, year);
+	}
+}
+
+class DateUtil {
+	public static void printDateTR(int day, int month, int year)
+	{
+		int dayOfWeek = getDayOfWeek(day, month, year);	
+		
+		
+		switch (dayOfWeek) {
+			case 0 -> System.out.printf("%02d/%02d/%04d Pazar%n", day, month, year);
+			case 1 -> System.out.printf("%02d/%02d/%04d Pazartesi%n", day, month, year);
+			case 2 -> System.out.printf("%02d/%02d/%04d Salı%n", day, month, year);
+			case 3 -> System.out.printf("%02d/%02d/%04d Çarşamba%n", day, month, year);			
+			case 4 -> System.out.printf("%02d/%02d/%04d Perşembe%n", day, month, year);
+			case 5 -> System.out.printf("%02d/%02d/%04d Cuma%n", day, month, year);
+			case 6 -> System.out.printf("%02d/%02d/%04d Cumartesi%n", day, month, year);
+			default -> System.out.println("Geçersiz tarih");
+		}
+				
+	}
+	
+	public static int getDayOfWeek(int day, int month, int year)
+	{
+		int totalDays;
+		
+		if (year < 1900 || (totalDays = getDayOfYear(day, month, year)) == -1)
+			return -1;
+		
+		for (int y = 1900; y < year; ++y) {
+			totalDays += 365;
+			if (isLeapYear(y))
+				++totalDays;
+		}
+		
+		return totalDays % 7;		
+	}
+	
+	public static int getDayOfYear(int day, int month, int year)
+	{
+		if (!isValidDate(day, month, year))
+			return -1;
+		
+		return getDayOfYearValue(day, month, year);
+	}
+	
+	public static int getDayOfYearValue(int day, int month, int year)
+	{
+		int dayOfYear = day;
+		
+		switch (month - 1) {
+			case 11:
+				dayOfYear += 30;
+			case 10:
+				dayOfYear += 31;
+			case 9:
+				dayOfYear += 30;
+			case 8:
+				dayOfYear += 31;
+			case 7:
+				dayOfYear += 31;
+			case 6:
+				dayOfYear += 30;
+			case 5:
+				dayOfYear += 31;
+			case 4:
+				dayOfYear += 30;
+			case 3:
+				dayOfYear += 31;
+			case 2:
+				dayOfYear += 28;
+				if (isLeapYear(year))
+					++dayOfYear;
+			case 1:
+				dayOfYear += 31;
+		}
+		
+		return dayOfYear;
+	}
+	
+	public static boolean isValidDate(int day, int month, int year)
+	{
+		return 1 <= day && day <= 31 && 1 <= month && month <= 12 && day <= getDays(month, year);
+	}
+	
+	public static int getDays(int month, int year)
+	{
+		
+		return switch (month) {
+			case 4, 6, 9, 11 -> 30;
+			case 2 -> {		
+				if (isLeapYear(year))
+					yield 29;
+				
+				yield 28;
+			}
+			default -> 31;
+		};	
+		
+	}
+
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	}
+}
+```
+
+
+
+##### Farklı Türlerin Birbirine Atanması (Type Conversions)
+
+> 

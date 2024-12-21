@@ -16,12 +16,8 @@ class DateUtilGetDayOfWeekTest {
 		int day = kb.nextInt();
 		int month = kb.nextInt();
 		int year = kb.nextInt();
-		int dayOfYear = DateUtil.getDayOfYear(day, month, year);
-	
-		if (dayOfYear != -1)
-			System.out.printf("%02d/%02d/%04d tarihi yılım %d. günüdür%n", day, month, year, dayOfYear);
-		else
-			System.out.println("Geçersiz tarih");
+		
+		DateUtil.printDateTR(day, month, year);
 	}
 }
 
@@ -32,36 +28,32 @@ class DateUtil {
 		
 		
 		switch (dayOfWeek) {
-			case 0:
-				System.out.printf("%02d/%02d/%04d Pazar%n", day, month, year);
-				break;
-			case 1:
-				System.out.printf("%02d/%02d/%04d Pazartesi%n", day, month, year);
-				break;
-			case 2:
-				System.out.printf("%02d/%02d/%04d Salı%n", day, month, year);
-				break;
-			case 3:
-				System.out.printf("%02d/%02d/%04d Çarşamba%n", day, month, year);
-				break;
-			case 4:
-				System.out.printf("%02d/%02d/%04d Perşembe%n", day, month, year);
-				break;
-			case 5:
-				System.out.printf("%02d/%02d/%04d Cuma%n", day, month, year);
-				break;
-			case 6:
-				System.out.printf("%02d/%02d/%04d Cumartesi%n", day, month, year);
-				break;
-			default:
-				System.out.println("Geçersiz tarih");
+			case 0 -> System.out.printf("%02d/%02d/%04d Pazar%n", day, month, year);
+			case 1 -> System.out.printf("%02d/%02d/%04d Pazartesi%n", day, month, year);
+			case 2 -> System.out.printf("%02d/%02d/%04d Salı%n", day, month, year);
+			case 3 -> System.out.printf("%02d/%02d/%04d Çarşamba%n", day, month, year);			
+			case 4 -> System.out.printf("%02d/%02d/%04d Perşembe%n", day, month, year);
+			case 5 -> System.out.printf("%02d/%02d/%04d Cuma%n", day, month, year);
+			case 6 -> System.out.printf("%02d/%02d/%04d Cumartesi%n", day, month, year);
+			default -> System.out.println("Geçersiz tarih");
 		}
 				
 	}
 	
 	public static int getDayOfWeek(int day, int month, int year)
 	{
+		int totalDays;
 		
+		if (year < 1900 || (totalDays = getDayOfYear(day, month, year)) == -1)
+			return -1;
+		
+		for (int y = 1900; y < year; ++y) {
+			totalDays += 365;
+			if (isLeapYear(y))
+				++totalDays;
+		}
+		
+		return totalDays % 7;		
 	}
 	
 	public static int getDayOfYear(int day, int month, int year)
@@ -113,25 +105,20 @@ class DateUtil {
 	
 	public static int getDays(int month, int year)
 	{
-		int days = 31;
 		
-		switch (month) {
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				days = 30;
-				break;
-			case 2:
-				days = 28;
+		return switch (month) {
+			case 4, 6, 9, 11 -> 30;
+			case 2 -> {		
 				if (isLeapYear(year))
-					++days;		
-		}		
+					yield 29;
+				
+				yield 28;
+			}
+			default -> 31;
+		};	
 		
-		return days;
 	}
 
-	
 	public static boolean isLeapYear(int year)
 	{
 		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
