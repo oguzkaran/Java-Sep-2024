@@ -7457,4 +7457,12 @@ class DateUtil {
 	}
 }
 ```
+##### 21 Aralık 2024
 
+>**Sınıf Çalışması:** Parametresi ile aldığı gün, ay ve yıl bilgilerine ilişkin tarihin yılın kaçıncı günü olduğunu döndüren `getDayOfYear` metodunu DateUtil sınıfı içerisinde aşağıdaki açıklamalaraq göre yazınız
+>
+>**Açıklamalar:** 
+>- Metot yukarıdaki metotlar kullanılarak yazılabilir
+>- Metot şu ana kadar işlenmiş olan konular kullanılarak yazılacaktır
+
+>**Not:** İleride daha iyisi yazılacaktır
