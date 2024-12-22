@@ -8298,7 +8298,6 @@ class DateUtil {
 	
 	public static int getDays(int month, int year)
 	{
-		
 		return switch (month) {
 			case 4, 6, 9, 11 -> 30;
 			case 2 -> {		
@@ -8319,8 +8318,88 @@ class DateUtil {
 }
 ```
 
-
+##### 22 Aralık 2024
 
 ##### Farklı Türlerin Birbirine Atanması (Type Conversions)
 
-> 
+>Java'da farklı türlerin birbirine atanabilmesine/dönüşebilmesine (conversion) ilişkin kurallar belirlidir. `T1` ve `T2` birer tür ismi olmak üzere 
+```java
+	T1 a;
+	T2 b;
+
+	//...
+
+	a = b;
+```
+
+>kodları için `a = b` ifadesine T2 türünden T1 türüne **doğrudan dönüşüm/atama (implicit conversion)** denir. Bu ifade için `T2` türüne **kaynak tür (source type)**, `T1` türüne ise **hedef tür (target/destination type)** denir. Java'da derleyici açısından (yani dilin kuralları olarak) hangi türün hangi türe doğrudan atanabileceği belirlidir. Bu anlamda, doğrudan atanamayan türler de ileride ele alacağımız **tür dönüştürme operatörü (type cast operator)** ile istisna bazı durumlar dışında atanabilmektedir. Tür dönüştürme operatörü ile yapılan dönüşüme **explicit conversion** ya da **type casting** denilmektedir. 
+>
+>Bu bölümde temel türler arasındaki tür dönüştürme kuralları ele alınacaktır. Diğer türler arasındaki dönüşümler kurs boyunca konular içerisinde ayrıca ele alınacaktır.
+>
+>Temel türler arasındaki doğrudan dönüşüme ilişin genel kural şu şekildedir: **Genel olarak bilgi/veri kaybına yol açmayacak dönüşümler doğrudan (implicit) yapılabilir.**
+>
+>Derleyici kaynak türe ilişkin değerin hedef türün sınırları içerisinde olup olmadığına bakmaz ki zaten çoğu zamanda bakamaz. Örneğin değer klavyeden okunursa zaten derleme zamanında hiç bir şekilde bilinemez. Bu durumda derleyici kaynak türden hedef türe doğrudan atamanın geçerli olup olmadığına göre kodu derler. Doğrudan atama geçersizse error oluşur. Doğrudan dönüşüme ilişkin kurallar ayrıca ele alınacaktır.
+
+>`Java Language Specification (JLS)` dökumanında uzunluk (size/length) olarak küçük türden, uzunluk olarak büyük türe yapılan dönüşümlere **widening conversions**, uzunluk olarak büyük türden uzunluk olarak küçük türe yapılan dönüşümlere **narrowing conversions**, her ikisinin birden olduğu dönüşümlere ise **widening and narrowing conversions** denilmektedir. Buradaki terimler dönüşümün geçerli ya da geçersiz olmasından bağımsızdır. Sadece uzunluğa bağlı olarak isimlendirilmişlerdir. Aynı uzunluktaki türler arasındaki dönüşüme genel olarak **identity conversion** denilmektedir. 
+
+>Implicit conversion kuralları istisna bir kaç kural dışında tüm atama durumlarında geçerlidir. İstisna kurallar ayrıca ele alınacaktır. 
+
+>Aşağıdaki demo örnekte a değişkeninin içerisindeki değer derleme zamanında belirli olsa da derleyici bu değere göre dönüşümün geçerliliğini kontrol etmez. Derleyici açısından, long türünden int türüne dönüşümde bilgi kaybı olabileceğinden bu dönüşüm geçersizdir
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		long a = 10;
+		int b;
+		
+		b = a; //error
+	}
+}
+```
+>Aşağıdaki demo örnekte derleyici zaten a değişkeninin içerisindeki değeri anlayamaz. Bu sebeple anlayabileceği kodlarda da (örneğin yukarıdaki kod) anlamaya çalışmaz
+
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		long a = kb.nextLong();
+		int b;
+		
+		b = a; //error
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte int türü sınırları içerisindeki tüm değerler zaten long türü sınırları içerisinde de bulunduğundan bilgi kaybı oluşmaz ve dönüşüm geçerlidir
+```java
+package csd;
+
+class App {
+	public static void main(String [] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		long b;
+		
+		b = a;
+		
+		System.out.printf("a = %d, b = %d%n", a, b);		
+	}
+}
+
+```
+
+###### Temel Türler Arasındaki Doğrudan Dönüşüme İlişkin Ayrıntılar
+
+
