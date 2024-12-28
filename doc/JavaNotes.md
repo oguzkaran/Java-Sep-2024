@@ -8400,6 +8400,398 @@ class App {
 
 ```
 
+##### 28 Aralık 2024
+
 ###### Temel Türler Arasındaki Doğrudan Dönüşüme İlişkin Ayrıntılar
 
+> Küçük tamsyı türünden büyük tamsayı türüne doğrudan atama geçerlidir. Bu dönüşümde kaynak türe ilişkin değer pozitif ise sayının yüksek anlamlı byte'larına ilişkin bitleri sıfır ile beslenir, değer negatif ise işaretin kaybedilmemesi için yüksek anlamlı byte'lara ilişkin bitler 1(bir) ile beslenir. 
+>
+> Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			long b;
+			
+			b = a;
+			
+			
+			System.out.printf("a = %d%n", a);
+			System.out.printf("a = %08X%n", a);
+			System.out.printf("b = %d%n", b);
+			System.out.printf("b = %016X%n", b);
+			
+			if (a == 0)
+				break;
+		}
+	}
+}
+
+```
+
+>Büyük tamsayı türünden küçük tamsayı türüne dönüşüm geçersizdir
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		int a = 10;
+		short b;
+		
+		b = a; //error
+		
+		
+	}
+}
+
+```
+
+>Anımsanacağı gibi Java'da byte ve short türden sabit yoktur. Ancak istisna bir kural olarak **int türden bir sabit eğer hedef tür sınırları içerisindeyse short veya byte türüne doğrudan atanabilir.** Aksi durumda error oluşur.
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		short a;
+		byte b;
+		
+		a = 10;
+		b = 34;
+		
+		//...
+		
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		short a;
+		byte b;
+		
+		a = 10L;
+		b = 128;
+		
+		//...
+		
+	}
+}
+
+```
+
+>Hiç bir türden char türüne doğrudan dönüşüm yapılamaz
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		short a = 10;
+		char c;
+		
+		c = a; //error
+		
+	}
+}
+
+```
+
+>İstisna bir kural olarak **int türden bir sabit char türü sınırları içerisinde kalıyorsa doğrudan dönüşüm yapılabilir.** Aksi durumda error oluşur
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		char c;
+		
+		c = 67;
+	}
+}
+
+```
+
+>short, byte ve char türlerine ilişkin `sınırlar içerisinde kalan int türden bir sabitin doğrudan atanması` istisna kuralları metot çağrısında argümandan pametre değişkenlerine atamada geçersizdir, return ifadesinin geçici değişkene atanmasında geçerlidir. 
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		Sample.foo(10);
+		Sample.bar(10);
+		Sample.tar(10);
+	}
+}
+
+class Sample {
+	public static void foo(short a)
+	{
+		//...
+	}
+	
+	
+	public static void bar(byte a)
+	{
+		//...
+	}
+	
+	public static void tar(char a)
+	{
+		//...
+	}
+}
+
+```
+
+>Bu durumuda verilen error mejasına ilişkin ayrıntılar henüz anlaşılamayabilir. Method overloading konusunda daha detaylı olarak ele alınacaktır
+
+```java
+
+	public static short foo()
+	{
+		//...
+		
+		return 10;
+	}
+	
+	
+	public static byte bar()
+	{
+		//...
+		
+		return 10;
+	}
+	
+	public static char tar()
+	{
+		//...
+		
+		return 10;
+	}
+}
+```
+
+>char türünden short türüne doğrudan dönüşüm geçersizdir. Çünkü char türü sınırları içerisinde short türü sınırları içerisinde tutulabilecek değerlerden büyük değerler de mevcuttur
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		char c = 67;
+		short a;
+		
+		c = a; //error
+		
+	}
+}
+
+```
+
+>char türünden size olarak kendisinden büyük olan tüm türlere doğrudan dönüşüm geçerlidir
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		char c = 67;
+		int a;
+		double b;
+		
+		a = c;
+		b = c;
+		
+	}
+}
+
+```
+
+>Bir gerçek sayı türünden bir tamsayı türüne doğrudan atama geçersizdir
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		float a = 2;
+		long b;
+		
+		b = a; //error
+		
+		
+	}
+}
+
+```
+
+>Bir tamsayı türünden bir gerçek sayı türüne doğrudan atama geçerlidir. Aşağıdaki demo örnekte long türünün uzunluğu float türünden büyük olmasına karşın atama işlemi yapılabilir. Çünkü gerçek sayıların tutuluş formatı tamsayıların tutuluş formatından farklıdır
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		long a = 2;
+		float b;
+		
+		b = a;
+		
+	}
+}
+
+```
+
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		float a;
+		
+		a = 2.3; //error
+		
+	}
+}
+```
+>float türünden double türüne doğrudan atama geçerlidir
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		float a = kb.nextFloat();
+		double b;
+		
+		b = a;
+		System.out.printf("a = %.20f, b = %.20f%n", a, b);
+	}
+}
+```
+
+>Aşağıdaki demo örnekte sabitin sonuna F konması ile sayı float türüyle tutulabilecek en yakın sayıya yuvarlanır
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		float a;
+		
+		a = 2.3F;
+		System.out.printf("a = %.20f%n", a);
+	}
+}
+```
+
+>boolean türünden herhangi bir türe, herhangi bir türden boolean türüne doğrudan dönüşüm geçersizdir
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		boolean b = true;
+		int a;
+		
+		a = b; //error
+	}
+}
+```
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		int a = 0;
+		boolean b;
+		
+		b = a; //error
+	}
+}
+```
+
+>Doğrudan geçerli olan dönüşümlere şu şekilde özetlenebilir:
+
+```java
+	byte -> short, int, long, float, double
+	short -> int, long, float, double
+	int -> long, float, double
+	long -> float, double
+	float -> double
+	char -> int, long, float, double
+```
+
+
+**Anahtar Notlar:** Bir değişkenin türü yaşamı boyunca değişmez. Bir değişkene ilişkin ifadenin değerinin başka bir değişkene atanması o değerin hedef tür biçiminde tutulması demektir.
+
+##### İşlem Öncesi Otomatik Tür Dönüşümleri
+
+>İki operandlı bir operatör için aşağı seviyede farklı türden operandlarla işlem yapılamaz. Örneğin aşağı seviyede int türden bir değer ile long türden bir değer toplama işlemine sokulamaz. İşte de derleyiciler iki operandlı bir operatörün farklı türler ile işlem yaptığını gördüğünde ilgili işlemi ortak bir tür ile yapmak için gereken kodları üretir. Bu dönüştürme işlemini 3 farklı şekilde ele alabilir:
+
+>T1 ve T2 birer tür olmak üzere :
+```java
+T1 t1;
+T2 t2;
+
+//...
+
+t1 <ooperator> t2
+```
+işlemi için:
+>1. T1'i T2'ye dönüştürür. İşlem T2 türünden yapılır ve sonuç T2 türünden elde edilir
+>2. T1 ve T2 ortak bir türe (T3) dönüştürülür. İşlem T3 türünden yapılır. Sonuç T3 türünden 
+>3. Her hangi bir ortak türe dönüşüm yapılamaz. Error oluşur.
+
+>Java'da işlem öncesi otomatik tür dönüşümü kuralları belirlidir ve implicit conversion kurallarına göre yapılır. Derleyicinin yaptığı bu işleme **işlem öncesi otomatik tür dönüşümü** denir. 
 
