@@ -73,7 +73,7 @@
 >
 >**IDE (Integrated Development Environment):** Derleyicler ve yorumlayıcılar komut satırından çalışan ve basit arayüzlere sahip programlardır. Aslında teorik olarak bir uygulamadaki tüm Java dosyaları ve diğer dosyalar basit bir editör programla yazılıp komut satırından derlenebilir. Ancak bu, uygulama büyüdükçe zahmetli olmaya başlar. Bu da programcıya zaman kaybettirir. Bu amaçla pratikte yazılım geliştirmeyi kolaylaştırmak için IDE denilen yazılımlar kullanılır. IDE'lerde örneğin bir takım yardımlar veren editörler, tasarım araçları, test araçları, debug araçları vb. programcının geliştirme sırasında kullandığı araçlar bulunur. Java ile uygulama geliştirmede iki tane IDE yoğun olarak kullanılmaktadır: **Eclipse, IntelliJIDEA**. Biz kursumuzda belirli bir zaman (yaklaşık kursun yarısına kadar) Eclipse, sonrasında IntelliJIDEA kullanacağız.
 
->**Sembollerin ingilizce karşılıkları
+>**Sembollerin ingilizce karşılıkları**
 
 | Sembol | İngilizce Karşılığı                         			|
 |--------|------------------------------------------------------|
@@ -8775,9 +8775,11 @@ class App {
 
 **Anahtar Notlar:** Bir değişkenin türü yaşamı boyunca değişmez. Bir değişkene ilişkin ifadenin değerinin başka bir değişkene atanması o değerin hedef tür biçiminde tutulması demektir.
 
+##### 4 Ocak 2025
+
 ##### İşlem Öncesi Otomatik Tür Dönüşümleri
 
->İki operandlı bir operatör için aşağı seviyede farklı türden operandlarla işlem yapılamaz. Örneğin aşağı seviyede int türden bir değer ile long türden bir değer toplama işlemine sokulamaz. İşte de derleyiciler iki operandlı bir operatörün farklı türler ile işlem yaptığını gördüğünde ilgili işlemi ortak bir tür ile yapmak için gereken kodları üretir. Bu dönüştürme işlemini 3 farklı şekilde ele alabilir:
+>İki operandlı bir operatör için aşağı seviyede farklı türden operandlarla işlem yapılamaz. Örneğin aşağı seviyede int türden bir değer ile long türden bir değer toplama işlemine sokulamaz. İşte derleyiciler iki operandlı bir operatörün farklı türler ile işlem yaptığını gördüğünde ilgili işlemi ortak bir tür ile yapmak için gereken kodları üretir. Derleyicinin yaptığı bu işleme **işlem öncesi otomatik tür dönüşümü** denir. Derleyici bu dönüştürme işlemini 3 farklı şekilde ele alabilir:
 
 >T1 ve T2 birer tür olmak üzere :
 ```java
@@ -8786,12 +8788,271 @@ T2 t2;
 
 //...
 
-t1 <ooperator> t2
+t1 <operator> t2
 ```
 işlemi için:
 >1. T1'i T2'ye dönüştürür. İşlem T2 türünden yapılır ve sonuç T2 türünden elde edilir
->2. T1 ve T2 ortak bir türe (T3) dönüştürülür. İşlem T3 türünden yapılır. Sonuç T3 türünden 
+>2. T1 ve T2 ortak bir türe (T3) dönüştürülür. İşlem T3 türünden yapılır. Sonuç T3 türünden elde edilir.
 >3. Her hangi bir ortak türe dönüşüm yapılamaz. Error oluşur.
 
->Java'da işlem öncesi otomatik tür dönüşümü kuralları belirlidir ve implicit conversion kurallarına göre yapılır. Derleyicinin yaptığı bu işleme **işlem öncesi otomatik tür dönüşümü** denir. 
+>Java'da işlem öncesi otomatik tür dönüşümü kuralları belirlidir ve implicit conversion kurallarına göre yapılır. 
+
+>İşlem öncesi otomatik tür dömüşümü kurallarına ilişkin ayrıntılar şunlardır: (Maddeleri else-if biçiminde değerlendiriniz)
+
+>short, byte ve char türleri kendi aralarında işleme sokulduklarında (türlerin her ikisi de aynı olabilir) önce operandlara ilişkin değerler int türüne dönüştürülür. Bu işleme **integral/integer promotion** denir. Bu işlemin sonucu int türden elde edilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		short a = 10;
+		short b = 20;
+		short c;
+		
+		c = a + b; //error
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		short a = 10;
+		byte b = 20;
+		short c;
+		
+		c = a + b; //error
+	}
+}
+```
+
+**Anahtar Notlar:** Modern sistemlerde iki operandlı tamsayı işlemleri ilgili sistemdeki int ve üstü tamsayı türleri ile yapılabilmektedir. Yani int türünden küçük türlerle işlem yapılamaz. Bu anlamda 32 bit sistemlerde tamsayılar için iki operandlı işlemler genel olarak minimum 32 bit ve üstü (64 bit, 128 bit, ...) uzunluktaki türler ile yapılabilir. Benzer şekilde 64 bit sistemlerde de yine genel olarak 32 bit ve üstü uzunluktaki türler ile yapılabilir. Burada anlatılanların oldukça fazla detayı vardır, yalnızca fikir vermek amaçlı yazılmıştır. 
+
+>Bölme işleminde operandlardan her ikisi de tamsayı türlerindense, işlemin sonucu tamsayı olarak elde edilir. Bölme işleminde elde edilen sonucun noktadan sonraki kısmı atılır.
+
+**Anahtar Notlar:** Bu kuralın bir problem olmadığını, programcının bazı algoritmalarda işine yaradığını anımsayınız. Sayının basamaklara ayrıldığı örnekleri tekrar inceleyiniz.
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		System.out.println(a / b);		
+	}
+}
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		double c;
+		
+		c = a / b;
+		
+		System.out.println(c);		
+	}
+}
+```
+>Büyük tamsayı türü ile küçük tamsayı türü işleme sokulduğunda, küçük tamsayı türüne ilişkin değer büyük tamsayı türüne dönüştürülür ve sonuç büyük tamsayı türünden çıkar. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		short a = 10;
+		long b = 20;
+		long c;
+		
+		c = a + b;
+		
+		System.out.printf("c = %d%n", c);
+	}
+}
+```
+
+>char türü ile kendisinden uzunluk olarak büyük olan bir tür işleme sokulduğundan char türüne ilişkin değer ilgili türe dönüştürülür ve sonuç büyük tür türünden çıkar
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		char ch = 'D';
+		double b = 20;
+		double c;
+		
+		c = ch + b;
+		
+		System.out.printf("c = %f%n", c);
+	}
+}
+```
+>Bir tamsayı türü ile bir gerçek sayı türüişleme sokulduğunbda tamsayı türüne ilişkin değer gerçek sayı türüne dönüştürülür ve sonuç o gerçek sayı türünden çıkar
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		long a = 10;
+		float b = 20;
+		float c;
+		
+		c = a + b;
+		
+		System.out.printf("c = %f%n", c);
+	}
+}
+```
+
+>float ve double işleme sokulduğundan float türüne ilişkin değer double türüne dönüştürülür ve sonuç double türünden çıkar
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		double a = 3.4;
+		float b = 2.3F;
+		double c;
+		
+		c = a + b;
+		
+		System.out.printf("c = %.20f%n", c);
+	}
+}
+```
+
+>boolean türü hiç bir tür ile işleme sokulamaz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		boolean b = true;
+		int a = 10;		
+		int c;
+		
+		c = a + b; //error
+		
+	}
+}
+```
+
+>Peki, derleyici işlem öncesi otomatik tür dönüşümüne ilişkin kodları nasıl üretir? Derleyici bu işlemi geçici değişken (temporary variable) yaratark yapar. Yani geçici değişken yaratan kodu üretir. 
+
+>Aşağıdaki demo örnekte derleyicinin toplama işlemi için ürettiği yaklaşık kod şu şekildedir:
+
+```java
+{
+	long temp = b;
+
+	c = a + temp;
+}
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		long a = 10;
+		int b = 20;
+		long c;
+	
+		c = a + b;
+		
+		//...	
+	}
+}
+```
+
+>Aşağıdaki demo örnekte derleyicinin toplama işlemi için ürettiği yaklaşık kod şu şekildedir:
+
+```java
+{
+	int temp1 = a;
+	int temp2 = b;
+
+	c = temp1 + temp2;
+}
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		short a = 10;
+		short b = 20;
+		int c;
+	
+		c = a + b;
+		
+		//...	
+	}
+}
+```
+
+
+##### 5 Ocak 2025
+
+##### Tür Dönüştürme Operatörü (Type Casting Operator)
+
+>Bu operatör özel amaçlı, tek operandlı ve önek durumundadır. Bu operatörün kullanımına ilişkin genel biçimi şu şekildedir:
+
+```java
+(<tür ismi>)<ifade>
+```
+>Operatör, operandına ilişkin değeri belirtilen türe dönüştürür. Operatörün yan etkisi yoktur. Operatörün ürettiği değer operandına ilişkin değerin, belirtilen türe dönüştürüldüğünde elde edilen değerdir. Bu operatör ile tür dönüştürme işlemi geçici değişken yaratılarak yapılır. Bu operatör ile yapılan dönüşüme **explicit conversion** ya da **type casting** denilmektedir. Genel olarak, implicit olarak yapılamayan dönüşümler explicit olarak yapılabilmektedir. implicit olarak yapılabilen her dönüşüm explicit olarak da yapılabilir. Java'da implicit olarak yapılamayan ancak explicit olarak yapılabilen dönüşümlerde değerlerin nasıl elde edileceği (veri/bilgi kaybı varsa nasıl olacağı) belirlidir. Bu bölümde temel türler arasındaki explicit dönüşümlerde olası bilgi/veri kaybının detayları ele alınacaktır. 
+
+**Anahtar Notlar:** Bir dönüşüm implicit olarak yapılamıyor, explicit olarak yapılabiliyorsa şu anlam çıkartılmalıdır: **Çalışma zamanında bir problem oluşabilir ve derleyici bu programcının yanlışlıkla yapabilme ihtimaline karşılık izin vermiyor. Dolayısıyla bunu programcı isterse yani explicit olarak yapabilir.** Yani programcı tür dönüştürme operatörü kullanarak derleyiciye mantıksal olarak şunu söylemiş olur: **Ben durumun farkındayım bana izin ver, sonuçlarını göze alıyorum :).** **Explicit olarak bile yapılamayan dönüşümler** zaten anlamsız olduklarından geçersizdir. 
+
+>
 
