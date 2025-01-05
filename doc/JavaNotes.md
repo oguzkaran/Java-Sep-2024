@@ -9050,9 +9050,453 @@ class App {
 ```java
 (<tür ismi>)<ifade>
 ```
->Operatör, operandına ilişkin değeri belirtilen türe dönüştürür. Operatörün yan etkisi yoktur. Operatörün ürettiği değer operandına ilişkin değerin, belirtilen türe dönüştürüldüğünde elde edilen değerdir. Bu operatör ile tür dönüştürme işlemi geçici değişken yaratılarak yapılır. Bu operatör ile yapılan dönüşüme **explicit conversion** ya da **type casting** denilmektedir. Genel olarak, implicit olarak yapılamayan dönüşümler explicit olarak yapılabilmektedir. implicit olarak yapılabilen her dönüşüm explicit olarak da yapılabilir. Java'da implicit olarak yapılamayan ancak explicit olarak yapılabilen dönüşümlerde değerlerin nasıl elde edileceği (veri/bilgi kaybı varsa nasıl olacağı) belirlidir. Bu bölümde temel türler arasındaki explicit dönüşümlerde olası bilgi/veri kaybının detayları ele alınacaktır. 
+>Operatör, operandına ilişkin değeri belirtilen türe dönüştürür. Operatörün yan etkisi yoktur. Operatörün ürettiği değer operandına ilişkin değerin, belirtilen türe dönüştürüldüğünde elde edilen değeridir. Bu operatör ile tür dönüştürme işlemi geçici değişken yaratılarak yapılır. Bu operatör ile yapılan dönüşüme **explicit conversion** ya da **type casting** denilmektedir. Genel olarak, implicit yapılamayan dönüşümler explicit olarak yapılabilmektedir. implicit olarak yapılabilen her dönüşüm explicit olarak da yapılabilir. Java'da implicit olarak yapılamayan ancak explicit olarak yapılabilen dönüşümlerde değerlerin nasıl elde edileceği (veri/bilgi kaybı varsa nasıl olacağı) belirlidir. Bu bölümde temel türler arasındaki explicit dönüşümlerde olası bilgi/veri kaybının detayları ele alınacaktır. 
 
-**Anahtar Notlar:** Bir dönüşüm implicit olarak yapılamıyor, explicit olarak yapılabiliyorsa şu anlam çıkartılmalıdır: **Çalışma zamanında bir problem oluşabilir ve derleyici bu programcının yanlışlıkla yapabilme ihtimaline karşılık izin vermiyor. Dolayısıyla bunu programcı isterse yani explicit olarak yapabilir.** Yani programcı tür dönüştürme operatörü kullanarak derleyiciye mantıksal olarak şunu söylemiş olur: **Ben durumun farkındayım bana izin ver, sonuçlarını göze alıyorum :).** **Explicit olarak bile yapılamayan dönüşümler** zaten anlamsız olduklarından geçersizdir. 
+**Anahtar Notlar:** Bir dönüşüm implicit olarak yapılamıyor, explicit olarak yapılabiliyorsa şu anlam çıkartılmalıdır: **Çalışma zamanında bir problem oluşabilir ve derleyici bunu programcının yanlışlıkla yapabilme ihtimaline karşılık izin vermiyor. Dolayısıyla bunu programcı isterse yani explicit olarak yapabilir.** Yani programcı tür dönüştürme operatörü kullanarak derleyiciye mantıksal olarak şunu söylemiş olur: **Ben durumun farkındayım bana izin ver, sonuçlarını göze alıyorum :).** **Explicit olarak bile yapılamayan dönüşümler** zaten anlamsız olduklarından geçersizdir. 
 
->
+>Aşağıdaki demo örnekte bölme işlemi double türü ile yapılacağından sonuç double türden ede edilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		double c;
+		
+		c = (double)a / b;
+		
+		System.out.printf("c = %.20f%n", c);
+	}
+}
+```
+
+###### Tür Dönüştürme Operatörü ile Yapılan Dönüşüme İlişkin Ayrıntılar:
+
+>Burada implicit olarak yapılamayan dönüşümlerin explicit olarak yapılıp yapılmadığı, yapılıyorsa veri/bilgi kaybının nasıl olduğu ele alınmaktadır.
+
+>Büyük tamsayı türünden küçük tamsayı türüne yapılan explicit dönüşümde değerin yüksek anlamlı byte'ları atılır. Bu durumda sayı hedef türün sınırları içerisinde kalıyorsa bilgi kaybı oluşmaz, kalmıyorsa oluşur.
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			long a = Long.parseLong(kb.nextLine());
+			int b;
+			
+			b = (int)a;
+			
+			System.out.printf("a = %d, a = %016X%n", a, a);
+			System.out.printf("b = %d, b = %08X%n", b, b);
+			
+			if (a == 0)
+				break;
+		}
+		
+	}
+}
+
+```
+
+>Büyük tamsayı türünden char türüne yapılan explicit dönüşümde sayının yüksek anlamlı byte değerleri atılır. Elde edilen değer char türüne atanır.
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			long a = Long.parseLong(kb.nextLine());
+			char b;
+			
+			b = (char)a;
+			
+			System.out.printf("a = %d, a = %016X%n", a, a);
+			System.out.printf("b = %c, b = %d, b = %04X%n", b, (int)b, (int)b);
+			
+			if (a == 0)
+				break;
+		}
+		
+	}
+}
+
+```
+
+>short türünden char türüne yapılan explicit dönüşümde sayının bit kalıbı değişmez, yorumlanışı değişir.
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			short a = Short.parseShort(kb.nextLine());
+			char b;
+			
+			b = (char)a;
+			
+			System.out.printf("a = %d, a = %04X%n", a, a);
+			System.out.printf("b = %c, b = %d, b = %04X%n", b, (int)b, (int)b);
+			
+			if (a == 0)
+				break;
+		}
+		
+	}
+}
+
+```
+
+>char türünden short türüne yapılan expliict dönüşümde sayının bit kalıbı değişmez, yorumlanışı değişir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		char c = '\uFFE2';
+		short a;
+		
+		a = (short)c;
+		
+		System.out.printf("c = %c, c = %d, c = %04X%n", c, (int)c, (int)c);
+		System.out.printf("a = %d, a = %04X%n", a, a);
+	}
+}
+```
+>byte türünden char türüne explicit dönüşüm iki aşamada gerçekleştirilir. Birinci aşamada byte türüne ilişkin değer int türüne yükseltilir. İkinci adımda, elde edilen değerin yüksek anlamlı iki byte'ı atılır. 
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			byte a = Byte.parseByte(kb.nextLine());
+			char b;
+			
+			b = (char)a;
+			
+			System.out.printf("a = %d, a = %02X, (int)a = %08X%n", a, a, (int)a);
+			System.out.printf("b = %c, b = %d, b = %04X%n", b, (int)b, (int)b);
+			
+			if (a == 0)
+				break;
+		}		
+	}
+}
+```
+
+>char türünden byte türüne yapılan explicit dönüşümde değerin yüksek anlamlı byte'ı atılır
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		char c = '\uFFE2';
+		byte a;
+		
+		a = (byte)c;
+		
+		System.out.printf("c = %c, c = %d, c = %04X%n", c, (int)c, (int)c);
+		System.out.printf("a = %d, a = %02X%n", a, a);
+	}
+}
+```
+
+>double türünden float türüne yapılan explicit dönüşümde sayı float türü ile temsil edilebilen en yakın sayıya yuvarlanır. Bu durumda gerçek sayıların tutuluş formatına ilişkin yuvarlama hataları (rounding errors) oluşabileceğini anımsayınız
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			double a = Double.parseDouble(kb.nextLine());
+			float b;
+			
+			b = (float)a;
+			
+			System.out.printf("a = %.20f, b = %.20f%n", a, b);
+			
+			if (a == 0)
+				break;
+		}		
+	}
+}
+```
+
+>boolean türünden herhangi bir türe, herhangi bir türden boolean explicit dönüşüm geçersizdir
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		boolean a = true;
+		int b;
+		int x = 10;
+		boolean y;
+		
+		b = (int)a; //error
+		y = (boolean)x; //error
+	}
+}
+```
+**Anahtar Notlar:** int türünün en büyük değerine `Integer.MAX_VALUE`, en küçük değerine ise `Integer.MIN_VALUE` ifadeleri ile erişilebilir. Detaylar ileride ele alınacaktır.
+
+>Gerçek türünden tamsayı ya da char türüne explicit dönüşüm şu şekilde gerçekleşir:
+>- Sayının noktadan sonraki kısmı atılır
+>	- Elde edilen değer hedef türün sınırları içerisinde kalıyorsa doğrudan dönüştürülür
+>	- Elde edilen değer hedef türün sınırları içerisinde kalmıyorsa
+>		- Hedef tür `int, short, byte, char` türlerinden biriyse
+>			- Değer int türü sınırları içerisindeyse tamsayılar (ve char türü) arasındaki dönüşüm kuralları uygulanır.
+>			- Değer int türü sınırları dışındaysa sayının pozitif ya da negatif olması durumuna göre int türünün en büyük ya da en küçük değeri alınır ve tamsayılar (ve char türü) arasındaki dönüşüm kuralları uygulanır.
+>		- Hedef `long` türüyse
+>			- Değer long türü sınırları içerisindeyse elde edilen değer doğrudan dönüştürülür.
+>			- Değer long türü sınırları dışındaysa pozitif ya da negatif olması durumuna göre long türünün en büyük ya da en küçük değeri alınır ve doğrudan dönüştürülür.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		double a = 67.89;
+		byte b;
+		
+		b = (byte)a;
+		
+		System.out.printf("b = %d%n", b);
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		double a = 128.89;
+		byte b;
+		
+		b = (byte)a;
+		
+		System.out.printf("(byte)128 = %d, %02X%n", (byte)128, (byte)128);
+		System.out.printf("b = %d, %02X%n", b, b);
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		double a = -129.89;
+		byte b;
+		
+		b = (byte)a;
+		
+		System.out.printf("(byte)-129 = %d, %02X%n", (byte)-129, (byte)-129);
+		System.out.printf("b = %d, %02X%n", b, b);
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		double a = 5_000_000_000.78;
+		byte b;
+		
+		b = (byte)a;
+		
+		System.out.printf("b = %d, b = %02X%n", b, b);
+		System.out.printf("5_000_000_000 = %016X%n", 5_000_000_000L);
+		System.out.printf("Integer.MAX_VALUE = %08X%n", Integer.MAX_VALUE);		
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		double a = -4_000_000_003.78;
+		byte b;
+		
+		b = (byte)a;
+		
+		System.out.printf("b = %d, b = %02X%n", b, b);
+		System.out.printf("-4_000_000_003 = %016X%n", 4_000_000_003L);
+		System.out.printf("Integer.MIN_VALUE = %08X%n", Integer.MIN_VALUE);		
+	}
+}
+
+```
+
+>Bazı durumlarda tür dönüştürme operatörü kullanılmazsa bilgi kaybı oluşabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		int total, count;
+		
+		total = count = 0;
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			if (a == 0)
+				break;
+			
+			total += a;
+			++count;
+		}
+		
+		double average = (double)total / count;
+		
+		System.out.printf("Ortalama:%.20f%n", average);
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		
+		while (true) {
+			System.out.print("Birinci sayıyı giriniz:");
+			int a = Integer.parseInt(kb.nextLine());
+			
+			System.out.print("İkinci sayıyı giriniz:");
+			int b = Integer.parseInt(kb.nextLine());
+			
+			if (a == 0 && b == 0)
+				break;
+			
+			long total = (long)a + b;
+			
+			System.out.printf("Toplam:%d%n", total);
+		}
+	}
+}
+
+```
+
+>Aşağıdaki örnekte bir sayının basamak sayısı döngü kullanılmadan bulunmuştır. Bu işlemin Matematiksel detayı vardır. Bu işlemin bilinmesi önerilir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilCountDigitsTest.run();		
+	}
+}
+
+class NumberUtilCountDigitsTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Bir sayı giriniz:");
+			long a = Long.parseLong(kb.nextLine());
+			
+			System.out.printf("%d sayısının basamak sayısı:%d%n", a, NumberUtil.countDigits(a));
+			
+			if (a == 0)
+				return;
+		}
+	}
+}
+
+class NumberUtil {
+	public static int countDigits(long a)
+	{
+		if (a == 0)
+			return 1;
+		
+		return (int)Math.log10(Math.abs(a)) + 1;
+	}
+}
+```
+
 
