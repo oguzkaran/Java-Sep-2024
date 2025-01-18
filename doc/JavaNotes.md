@@ -3643,7 +3643,7 @@ class App {
 
 >ifadesini
 >`a += b`
->biçiminde yazmalıdır. Operatörün ürettiği değer yine atanan değerdir. Aslında bu operatör okunabilirliği/algılanabilirliği artırması yanında bazı ifadeleri daha basit (yalın) olarak yazılmasını sağlar.
+>biçiminde yazmalıdır. Operatörün ürettiği değer yine atanan değerdir. Aslında bu operatör okunabilirliği/algılanabilirliği artırması yanında bazı ifadelerin daha basit (yalın) olarak yazılmasını sağlar.
 
 **Anahtar Notlar:** Aslında işlemli atama operatörlerinin genel biçimi yukarıdakinden biraz daha detaylıdır. Bu detaylar ileride ele alınacaktır.
 
@@ -9498,5 +9498,586 @@ class NumberUtil {
 	}
 }
 ```
+
+##### 18 Ocak 2025
+
+>Aslında işlemli atama operatörlerinin genel biçimi şu şekildedir:
+>T1 ve T2 birer tür olmak üzere
+
+```java
+	T1 a;
+	T2 b;
+
+	a <op>= b; //**
+```
+
+>`**` ile belirtilen deyime ilişkin ifadenin açık olarak biçimi şu şekildedir:
+
+```java
+a = (T1)(a <op> b)
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+			
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		a += Math.pow(a,  b); //a = (int)(a + Math.pow(a, b));
+		
+		System.out.printf("a = %d, b = %d%n", a, b);
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsArmstrongTest.run();		
+	}
+}
+
+class NumberUtilIsArmstrongTest {
+	public static void run()
+	{
+		long n = -1;
+		
+		while (n < 3_000_000_000L) {
+			if (NumberUtil.isArmstrong(n))
+				System.out.println(n);
+			
+			++n;
+		}
+	}
+}
+
+class NumberUtil {
+	public static boolean isArmstrong(long a)
+	{
+		return a >= 0 && calculateDigitsPowSum(a) == a;
+	}
+	
+	public static long calculateDigitsPowSum(long a)
+	{
+		long result = 0;
+		int n = countDigits(a);
+		
+		while (a != 0) {
+			result += Math.pow(a % 10, n);
+			a /= 10;
+		}
+		
+		return result;
+	}
+	
+	public static int countDigits(long a)
+	{
+		if (a == 0)
+			return 1;
+		
+		return (int)Math.log10(Math.abs(a)) + 1;
+	}
+}
+```
+
+##### Koşul Operatörü
+
+>Koşul operatörü özel amaçlı, 3 operandlı (ternary) ve araek durumundadır. Bu operatör Java'nın tek 3 operandlı operatörüdür. Bu operatöre İngilizce olarak **conditional operator** ya da **ternary operator** denilmektedir. Operatörün genel biçimi şu şekildedir:
+
+```java
+	<ifade1> ? <ifade2> : <ifade3>
+```
+>Burada `<ifade1>` boolean türden olmalıdır. Aksi durumda error oluşur. Burada `<ifade1>` hesaplandığında elde edilen değer `true` ise `<ifade2>` hesaplanır ve değeri üretilir, `false` ise `<ifade3>` hesaplanır ve değeri üretilir. Yani bu operatör için önce `<ifade1>` yapılır, sonra duruma göre ya `<ifade2>` ya da `<ifade3>` yapılır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = a > b ? a : b;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+
+```
+
+>Koşul operatöründe :'den sonraki ifadenin tamamı 3. operand olarak ele alınır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = a > b ? a : b + 200;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte koşul operatörüne ilişkin ifade paranteze alınarak ürettiği değer 200 değeri ile toplama işlemine sokulmuştur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = (a > b ? a : b) + 200;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte `b + a > b` ifadesinin tamamı koşul operatörünün birinci operandı olarak ele alınır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = b + a > b ? a : b;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte koşul operatörüne ilişkin ifade paranteze alınarak ürettiği değer işleme sokulmuştur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = b + (a > b ? a : b) + 200;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+
+```
+
+>Koşul operatörünün aşağıdaki durumlarda kullanımı okunabilirliği/algılanabilirliği artırır ve bu sebeple if deyimi yerine kullanılması tavsiye edilir:
+>1. Atama operatörü ile kullanımı.
+>2. Metot çağrısında argüman olarak kullanımı.
+>3. Metodun geri dönüş değeri için return deyiminin ifadesinde kullanımı.
+>4. Operatörün ürettiği değerin işleme sokulması durumunda kullanımı.
+
+**Anahtar Notlar:** Anımsanacağı gibi yukarıdaki ilk 3 durumunun her biri birer atama işlemidir.
+
+>Aşağıdaki demo örnekte koşul operatörünün ürettiği değer atama işleminde kullanılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int result;
+		
+		result = a > b ? a : b;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+```
+
+
+
+>Aşağıdaki demo örnekte koşul operatörüne ilişkin ifade argüman olarak kullanılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+	
+		System.out.printf("result = %d%n", a > b ? a : b);
+	}
+}
+```
+
+>Aşağıdaki demo örnekte koşul operatörü return deyiminde kullanılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		System.out.printf("result = %d%n", Util.max(a, b));
+	}
+}
+
+class Util {
+	public static int max(int a, int b)
+	{
+		return a > b ? a : b;
+	}
+}
+```
+
+>Aşağıdaki demo koşul operatörünün ürettiği değer işleme sokulmuştur
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		
+		
+		a += a > b ? a : b;
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+```
+
+>Aşağıdaki demo örnekte koşul operatörünün ikinci ve üçüncü operandları da koşul operatörlerine ilişkin ifadelerdir. Adeta iç içe koşul operatörleri kullanılmıştır Bu örnekte ifadelerin parantez içerisine alınmasına gerek yoktur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int c = kb.nextInt();
+		int result;
+		
+		result = a > b ? a > c ? a : c : b > c ? b : c;
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+```
+
+>Koşul operatöründe ifadelerin karmaşık olması durumunda okuanabilirlik/algılanabilirlik açısından parantez içerisinde yazılması tavsiye edilir
+
+>Yukarıdaki demo örnek aşağıdaki gibi daha okunabilir olarak yazılabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("İki sayı giriniz:");
+		int a = kb.nextInt();
+		int b = kb.nextInt();
+		int c = kb.nextInt();
+		int result;
+		
+		result = (a > b) ? (a > c ? a : c) : (b > c ? b : c);
+		
+		System.out.printf("result = %d%n", result);
+	}
+}
+```
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		NumberUtilIsArmstrongTest.run();		
+	}
+}
+
+class NumberUtilIsArmstrongTest {
+	public static void run()
+	{
+		long n = -1;
+		
+		while (n < 3_000_000_000L) {
+			if (NumberUtil.isArmstrong(n))
+				System.out.println(n);
+			
+			++n;
+		}
+	}
+}
+
+class NumberUtil {
+	public static boolean isArmstrong(long a)
+	{
+		return a >= 0 && calculateDigitsPowSum(a) == a;
+	}
+	
+	public static long calculateDigitsPowSum(long a)
+	{
+		long result = 0;
+		int n = countDigits(a);
+		
+		while (a != 0) {
+			result += Math.pow(a % 10, n);
+			a /= 10;
+		}
+		
+		return result;
+	}
+	
+	public static int countDigits(long a)
+	{
+		return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : (1);
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı gün, ay ve yıl bilgilerine ilişkin tarihin yılın hangi günü olduğu bilgisine geri dönen `getDayOfWeek` isimli metodu aşağıdaki açıklamalara göre DateUtil sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz
+>
+>**Açıklamalar:** 
+>- Metot geçersiz bir tarih için `-1` değerine geri dönecektir.
+>- Tarihin hafa gününe geldiği aşağıdaki yöntemle belirlenecektir:
+> 01.01.1900 ile ilgili tarih arasındaki toplam gün sayısı hesaplanır ve 7 değerine göre modu alınır. Bu durumda elde edilen değer 0 ise Pazar, 1 ise Pazartesi, ..., 6 ise Cumartesi gününe ilişkindir.
+>- Metot yukarıdaki metotlar kullanılarak yazılabilir.
+>- Metot şu ana kadar işlenmiş olan konular kullanılarak yazılacaktır.
+>- 01.01.1900 öncesindeki tarihler geçersiz kabul edilecektir.
+
+>**Not:** İleride daha iyisi yazılacaktır.
+
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		DateUtilGetDayOfWeekTest.run();
+	}
+}
+
+class DateUtilGetDayOfWeekTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.println("Gün, ay ve yıl bilgilerini giriniz:");
+		int day = kb.nextInt();
+		int month = kb.nextInt();
+		int year = kb.nextInt();
+		
+		DateUtil.printDateTR(day, month, year);
+	}
+}
+
+class DateUtil {
+	public static void printDateTR(int day, int month, int year)
+	{
+		int dayOfWeek = getDayOfWeek(day, month, year);	
+		
+		
+		switch (dayOfWeek) {
+			case 0 -> System.out.printf("%02d/%02d/%04d Pazar%n", day, month, year);
+			case 1 -> System.out.printf("%02d/%02d/%04d Pazartesi%n", day, month, year);
+			case 2 -> System.out.printf("%02d/%02d/%04d Salı%n", day, month, year);
+			case 3 -> System.out.printf("%02d/%02d/%04d Çarşamba%n", day, month, year);			
+			case 4 -> System.out.printf("%02d/%02d/%04d Perşembe%n", day, month, year);
+			case 5 -> System.out.printf("%02d/%02d/%04d Cuma%n", day, month, year);
+			case 6 -> System.out.printf("%02d/%02d/%04d Cumartesi%n", day, month, year);
+			default -> System.out.println("Geçersiz tarih");
+		}
+	}
+	
+	public static int getDayOfWeek(int day, int month, int year)
+	{
+		int totalDays;
+		
+		if (year < 1900 || (totalDays = getDayOfYear(day, month, year)) == -1)
+			return -1;
+		
+		for (int y = 1900; y < year; ++y) 
+			totalDays += isLeapYear(y) ? 366 : 365;
+		
+		return totalDays % 7;		
+	}
+	
+	public static int getDayOfYear(int day, int month, int year)
+	{		
+		return (isValidDate(day, month, year)) ? (getDayOfYearValue(day, month, year)) : (-1);
+	}
+	
+	public static int getDayOfYearValue(int day, int month, int year)
+	{
+		int dayOfYear = day;
+		
+		switch (month - 1) {
+			case 11:
+				dayOfYear += 30;
+			case 10:
+				dayOfYear += 31;
+			case 9:
+				dayOfYear += 30;
+			case 8:
+				dayOfYear += 31;
+			case 7:
+				dayOfYear += 31;
+			case 6:
+				dayOfYear += 30;
+			case 5:
+				dayOfYear += 31;
+			case 4:
+				dayOfYear += 30;
+			case 3:
+				dayOfYear += 31;
+			case 2:
+				dayOfYear += isLeapYear(year) ? 29 : 28;
+			case 1:
+				dayOfYear += 31;
+		}
+		
+		return dayOfYear;
+	}
+	
+	public static boolean isValidDate(int day, int month, int year)
+	{
+		return 1 <= day && day <= 31 && 1 <= month && month <= 12 && day <= getDays(month, year);
+	}
+	
+	public static int getDays(int month, int year)
+	{
+		return switch (month) {
+			case 4, 6, 9, 11 -> 30;
+			case 2 -> isLeapYear(year) ? 29 : 28;
+			default -> 31;
+		};	
+		
+	}
+
+	public static boolean isLeapYear(int year)
+	{
+		return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	}
+}
+```
+>Aşağıdaki demo örnek if deyimi yerine koşul operatörü kullanılamazdı değil mi?
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int a = kb.nextInt();
+		
+		if (a > 0)
+			Sample.foo();
+		else
+			Sample.bar();
+	}
+}
+
+class Sample {
+	public static void foo()
+	{
+		System.out.println("foo");
+	}
+	
+	public static void bar()
+	{
+		System.out.println("bar");
+	}
+}
+```
+
+##### Method Overloading
+
+>
 
 
