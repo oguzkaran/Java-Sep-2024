@@ -7,7 +7,7 @@
 
 >1.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -54,7 +54,7 @@ class PrintRelationsApp {
 
 >2.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -95,7 +95,7 @@ class NumberUtil {
 ```
 >2.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -137,7 +137,7 @@ class NumberUtil {
 ```
 >3.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -178,7 +178,7 @@ class NumberUtil {
 
 >3.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -221,7 +221,7 @@ class NumberUtil {
 
 >1.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -279,7 +279,7 @@ class PrintDiamondApp {
 ```
 >2.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -332,7 +332,7 @@ class DurationUtil {
 ```
 >3.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -381,7 +381,7 @@ class NumberUtil {
 
 >4.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -463,7 +463,7 @@ class BallFall {
 ```
 >5.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 ```java
 package csd;
 
@@ -537,7 +537,7 @@ class NumberUtil {
 
 >1.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -637,7 +637,7 @@ class NumberUtil {
 
 >2.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -718,7 +718,7 @@ class NumberUtil {
 
 >2.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -796,7 +796,7 @@ class NumberUtil {
 
 >3.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -850,7 +850,7 @@ class NumberUtil {
 
 >4.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -910,7 +910,7 @@ class NumberUtil {
 
 >5.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -989,7 +989,7 @@ class NumberUtil {
 
 >6.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -1040,7 +1040,7 @@ class NumberUtil {
 
 >7.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -1090,7 +1090,7 @@ class NumberUtil {
 
 >8.sorunun bir çözümü
 >
->**Not:** Çözüm, çalışma sorusunun verildiği tarihe işlenmiş konular kullanılarak yazılmıştır
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
 
 ```java
 package csd;
@@ -1139,6 +1139,75 @@ class NumberUtil {
 			
 			System.out.println(n);
 		}
+	}
+}
+```
+
+#### Homework-004
+
+>Sorunun bir çözümü
+>
+>**Not:** Çözüm, çalışma sorusunun verildiği tarihe kadar işlenmiş konular kullanılarak yazılmıştır
+>**Açıklama:** Soruda birden fazla `Scanner` nesnesi yaratılmaması için ve sorunun verildiği tarihte `referans parametreli metotlar` ele alınmadığı için çözüm az metot kullanılarak yazılmıştır.
+
+```java
+package csd;
+ 
+class App {
+	public static void main(String[] args)
+	{	
+		CalculateTotalMinMaxCountAverageApp.run();								
+	}
+}
+
+class CalculateTotalMinMaxCountAverageApp {
+	public static void printReport(int total, int count, int min, int max)
+	{
+		System.out.printf("Toplam %d değer girildi%n", count);
+		System.out.printf("Max:%d%nMin:%d%nOrtalama:%.6f%n", max, min, (double)total / count);
+	}
+	
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		int total, count, min, max;
+		
+		total = count = 0;
+		max = 0;
+		min = 100;
+		
+		while (true) {
+			int val;
+			
+			while (true) {
+				System.out.print("Bir tamsayı giriniz:");
+				val = Integer.parseInt(kb.nextLine());
+				
+				if (0 <= val && val <= 100)
+					break;
+				
+				System.out.println("Geçersiz değer girdiniz!...Yeni bir değer giriniz:");
+			}
+			
+			++count;
+			total += val;
+			min = Math.min(min, val);
+			max = Math.max(max, val);
+			
+			System.out.println("Yeni bir değer girmek istiyor musunuz? [Evet için 1(bir) Hayır için 0(sıfır) değerlerinden birini giriniz]");
+			
+			int option;
+			
+			do 
+				option = Integer.parseInt(kb.nextLine());			
+			while (option != 0 && option != 1);
+			
+			if (option == 0)
+				break;
+		}
+		
+		printReport(total, count, min, max);
 	}
 }
 ```
