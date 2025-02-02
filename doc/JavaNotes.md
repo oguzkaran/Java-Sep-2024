@@ -10644,7 +10644,6 @@ a = 0x000A; //10
 
 **Anahtar Notlar:** Bu kavramlar yalnızca değişkenlerin bellekte tutulmasıyla ilgili değildir. Network işlemlerinde de verinin iletilmesi noktasın özellikle `IP` protokol ailesinde kullanılmaktadır. Bu konuya ilişkin detaylar `Java ile Uygulama Geliştirme 1 ve 2` ve `Android Programlama` kurslarında ele alınmaktadır. 
 
-
 ##### Değişkenlerin Ömürleri
 
 >Çalıştırılabilen (executable) bir dosya diskte bulunur. Çalıştırılmak istendiğinde diskten alınarak RAM'e yüklenir. Programın çalışması bittiğinde program RAM'den boşaltılır. 
@@ -10710,4 +10709,291 @@ class Sample {
 
 ##### Sınıfların Veri Elemanları
 
+>Sınıf içerisinde, tüm metotların dışında bildirilen değişkenlere **sınıf veri elemanı (data member, member variable, field)** denir. Sınıf veri elemanları da metotlarda olduğu gibi erişim belirleyiciye (public, protected, no-modifier, private) sahip olabilirler. Yine metotlarda olduğu gibi ilgili konuya gelene kadar veri elemanlarımızı `public` olarak bildireceğiz. Sınıf veri elemanları da metotlarda olduğu static ya da non-static olabilirler. static anahtar sözcüğü ile bildirilen bir veri elemanı static, bildirilmeyen veri elemanı ise non-static olur.
 >
+>Sınıf içerisindeki bildirimlere sınıfın **elemanları (members)** denir. Bu anlamda veri elemanları ve metotlar sınıfın elemanlarıdır. Sınıfın başka elemanları da vardır. Konular içerisinde ayrıca ele alınacaktır. 
+>
+>Sınıf veri elemanının faaliyet alanı ve ömrü ileride ele alınacaktır. Sınıf veri elemanları aynı türdense, aynı erişim belirleyiciye sahipse ve static veya non-static olma bakımından aynı ise virgül ile ayrılarak bildirilebilir. Bir sınıf içerisinde aynı isimde birden fazla veri elemanı bildirimi geçersizdir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class Sample {
+	public static int x;
+	
+	public static void foo(int a, int b)
+	{		
+		//...
+	}
+	
+	double y;
+	private int z;
+	protected float t;
+	private static int a, b;
+}
+
+
+class Mample {
+	public int a; //error
+	private static double a; //error
+	//...
+}
+```
+
+>Java'da sınıf dışında değişken bildirimi geçersizdir ya da başka bir deyişle Java'da bir değişkenin bir sınıf içerisinde bildirilmiş olması (veri elemanı, parametre değişkeni veya yerel değişken olarak) gerekir.
+
+```java
+package csd;
+
+int a; //error
+```
+
+>Sınıf bildirimi aslında bir tür bildirimidir. Sınıf bildirimi dışında da tür bildirimleri söz konusudur. Bu şekilde yapılan yani programcının bildirdiği türlere **user defined type (UDT)** denilmektedir. Bu durumda sınıf da bir UDT'dir. Sınıf dışındaki UDT'ler konular içerisinde ele alınacaktır. 
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class Student {
+	//...
+}
+
+class TCPClient {
+	//...
+}
+
+class TCPServer {
+	//...
+}
+```
+
+>Madem ki sınıf bildirimi bir tür bildirimidir, bu durumda sınıf türünden değişkenler bildirilebilir.
+
+>Aşağıdeki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		Student s;
+		TCPClient tc;
+		TCPServer ts;
+		
+		//...
+	}
+}
+
+
+class Student {
+	//...
+}
+
+class TCPClient {
+	//...
+}
+
+class TCPServer {
+	//...
+}
+```
+>Java'da türler kategori olarak iki gruba ayrılır: **değer türleri (value types), referans türleri (reference types).**
+>`T` bir tür ismi olmak üzere, **T türden bir değişken içerisinde bir adres tutuluyorsa T bir referans türüdür ya da başka bir deyişle T türden bir değişkenin içerisindeki değer bir adres ise T bir referans türüdür, değilse değer türüdür.** Java'da temel türler değer türü kategorisindedir. Yani temel türden bir değişken içerisinde adres tutulmaz. Java'da bir sınıf referans türüdür. Öyleyse sınıf türünden bir değişken içerisinde adres tutulur. Java'da temel türler dışında kalan tüm türler (yani UDT'ler) referans türü kategorisindedir.  
+
+**Anahtar Notlar:** Sınıf türünden bir değişkene (aslında bir UDT türünden değişkene) **referans değişken (reference variable)** ya da kısaca **referans (reference)** denir. Java seviyesinde `adres (address)` terimi yerine `referans (reference)` terimi de kullanılmaktadır. Referans dendiğinde, ya adres ya da referans değişken kastedilmiş olur. Buna göre örneğin bir cümlede **reference to an object** ya da benzeri bir içerik söz konusu ise, burada referans adres anlamındadır. Cümle içerisinde örneğin **address of an object is assigned to a reference** gibi içerik söz konusu ise, buradaki referans, değişken anlamındadır. Yukarıdaki içerik **reference of an object is assigned to a reference** biçiminde olsaydı, soldaki referans adres, sağdaki referans ise değişken anlamında olurdu.
+
+>
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		Student s; //s referans (değişken)
+		TCPClient tc; //tc referans (değişken)
+		TCPServer ts; //ts referans (değiiken)
+		
+		//...
+	}
+}
+
+
+class Student {
+	//...
+}
+
+class TCPClient {
+	//...
+}
+
+class TCPServer {
+	//...
+}
+```
+
+>**Peki bir referans değişkene değer olarak verilecek adresi nasıl elde edeceğiz?** Bu sorunun cevabı konu içerisinde verilecektir.
+
+###### Sınıf ve Nesne Kavramları
+>Sınıf ve nesne kavramlarına ilişkin aşağıdaki **çok önemli** maddeler bir temel oluşturmaktadır:
+>- Sınıf türünden bellekte ayrılan bir alana o sınıf türünden `nesne (object)` denir. 
+>- Nesneler `heap alanında` yaratılırlar. Java'da stack'de nesne yaratılamaz.
+>- Java'da bir nesnenin kendisi bir değişkende tutulamaz, adresi tutulabilir. Bu adres de ilgili sınıf türünden bir referans değişkende tutulabilir.
+>- Java'da nesne yaratılması **new** operatörü ile yapılır. new operatörünün kullanımına ilişkin genel biçimi şu şekildedir:
+
+```java
+new <sınıf ismi>([argümanlar]);
+```
+>Bu operatör özel amaçlı, tek operandlı ve önek durumundadır. Operatör yaratılmış olan nesnenin adresini üretir. Bir nesne ve referans değişken için bellekte ne kadar yer ayrıldığı yani kısaca nesnenin ve referansın uzunlukları ileri ele alınacaktır. Bu operatörün yan etkisi yoktur. 
+
+>Aşağıdaki demo örnekte s, tc ve ts birer nesne **DEĞİLDİR**, ilgili türden nesnelerin adreslerini tutabilen referans değişkenlerdir. Örnekte  `*, ** ve ***` ile belirtilen deyimlerde ilgili türden nesneler yaratılmış ve ilgili türden referans değişkenlere adresleri atanmıştır. Bu durumda bir referans değişkene bir nesnenin adresi verildiğinde, o referans değişken o nesneyi gösteriyor (reference to) duruma gelmiş olur. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		Student s; //s referans (değişken)
+		TCPClient tc; //tc referans (değişken)
+		TCPServer ts; //ts referans (değiiken)
+		
+		s = new Student(); //*
+		tc = new TCPClient(); //**
+		ts = new TCPServer(); //***
+		
+		//...
+	}
+}
+
+
+class Student {
+	//...
+}
+
+class TCPClient {
+	//...
+}
+
+class TCPServer {
+	//...
+}
+```
+
+>Bu örnekteki `*, **, ***` atamalarına ilişkin belleğin durumu aşağıdaki şekil ile temsil edilebilir.
+
+![Object-Reference1](./media/object-reference1.png)
+
+>Buradaki adresler temsili olarak yazılmıştır. 
+
+>- Bir nesne ilgili sınıf türünden bir örnektir. Bu sebeple nesne için **instance** terimi de kullanılmaktadır. Bu anlamda nesne yaratma işlemi için **create** ve **instantiate** filleri kullanılmaktadır. 
+>- Referans ve nesne kavramları birbirinden farklıdır. Referans bir nesneyi gösterir. Nesnenin kendisi değildir.
+>- Her new işlemi yeni bir nesne yaratmak demektir.
+>Aşağıdaki demo örnekteki `*, **` atamalarına ilişkin belleğin durumu aşağıdaki şekil ile temsil edilebilir.
+
+![Object-Reference2](./media/object-reference2.png)
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		TCPServer ts1, ts2;
+		
+		ts1 = new TCPServer(); //*
+		ts2 = new TCPServer(); //**
+		
+		//...
+	}
+}
+
+
+class TCPServer {
+	//...
+}
+```
+
+###### Sınıf Veri Elemanları ve Sınıf Dışından Veri Elemanlarına Erişim
+
+>Bu bölümde sınıf veri elemanlarına sınıf dışından erişim ele alınacaktır. Sınıfın dışı, başka bir sınıfın içi demektir. 
+>
+>Sınıfın `non-static` bir veri elemanına sınıf dışından referans ve nokta operatörü ile erişilir. Nokta operatörü özel amaçlı, iki operandlı ve araek durumundadır. Bu operatörün birinci operandı bir referans, ikinci operandı non-static bir veri elemanı ise bu durumda o veri elemanına ilişkin değişkeni üretir. 
+>
+>Sınıfın non-static bir veri elemanı her nesne yaratıldığında o nesnenin içerisinde yaratılır. Yani, sınıfın non-static veri elemanları nesneye özgüdür ya da başka bir deyişle her nesne için ayrıdır. Bu durumda referans ile non-static bir veri elemanına erişmek aslında referansın gösterdiği nesnenin içerisindeki yani nesneye ait veri elemanına erişmek anlamına gelir. 
+
+>Aşağıdaki demo örneği ve belleğin durumunu temsil eden aşağıdaki şekli inceleyiniz
+
+![non-static-fields1](./media/non-static-fields1.png)
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		Sample s1, s2;
+		
+		s1 = new Sample();
+		s2 = new Sample();
+		
+		s1.a = 10;
+		s1.b = true;		
+		s2.a = 20;
+		s2.b = false;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+	}
+}
+
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	//...
+}
+```
+
+>Bir nesne yaratıldığında nesneye ait non-static veri elamanlarına **varsayılan değer (default/zero value)** verilir. Default değer türe özgü mantıksal sıfır değeridir. Yani örneğin `int` türü için `0`, `double` türü için `0.0`, `boolean` türü için `false` değeridir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		Sample s1, s2;
+		
+		s1 = new Sample();
+		s2 = new Sample();
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("------------------------------------");
+		
+		s1.a = 10;
+		s1.b = true;
+		
+		s2.a = 20;
+		s2.b = false;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("------------------------------------");
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	//...
+}
+```
