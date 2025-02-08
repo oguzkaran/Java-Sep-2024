@@ -10917,13 +10917,15 @@ class TCPServer {
 }
 ```
 
-###### Sınıf Veri Elemanları ve Sınıf Dışından Veri Elemanlarına Erişim
+##### 8 Şubat 2025
+
+###### Sınıf Non-static Veri Elemanları ve Sınıf Dışından Non-static Veri Elemanlarına Erişim
 
 >Bu bölümde sınıf veri elemanlarına sınıf dışından erişim ele alınacaktır. Sınıfın dışı, başka bir sınıfın içi demektir. 
 >
 >Sınıfın `non-static` bir veri elemanına sınıf dışından referans ve nokta operatörü ile erişilir. Nokta operatörü özel amaçlı, iki operandlı ve araek durumundadır. Bu operatörün birinci operandı bir referans, ikinci operandı non-static bir veri elemanı ise bu durumda o veri elemanına ilişkin değişkeni üretir. 
 >
->Sınıfın non-static bir veri elemanı her nesne yaratıldığında o nesnenin içerisinde yaratılır. Yani, sınıfın non-static veri elemanları nesneye özgüdür ya da başka bir deyişle her nesne için ayrıdır. Bu durumda referans ile non-static bir veri elemanına erişmek aslında referansın gösterdiği nesnenin içerisindeki yani nesneye ait veri elemanına erişmek anlamına gelir. 
+>**Sınıfın non-static bir veri elemanı her nesne yaratıldığında o nesnenin içerisinde yaratılır. Yani, sınıfın non-static veri elemanları nesneye özgüdür ya da başka bir deyişle her nesne için ayrıdır.** Bu durumda referans ile non-static bir veri elemanına erişmek aslında o referansın gösterdiği nesnenin içerisindeki yani nesneye ait veri elemanına erişmek anlamına gelir. 
 
 >Aşağıdaki demo örneği ve belleğin durumunu temsil eden aşağıdaki şekli inceleyiniz
 
@@ -10994,6 +10996,208 @@ class Sample {
 	public int a;
 	public boolean b;
 	
+	//...
+}
+```
+
+>Aşağıdaki demo örnekte `s` referansına değer verilmeden kullanıldığı için error oluşur
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{		
+		Sample s;
+		
+		s.a = 10; //error 
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	//...
+}
+```
+
+>Sınıfın non-static bir veri elemanı, nesneye özgü olduğundan, nesneye ilişkin kavramın yani programlamada sınıfın bir **karakteristiği (characteristics)** ya da başka bir deyişle bir **öz niteliği (attribute)** belirtir. Bu anlamda bir sınıf non-static veri elemanları ile bir **bileşik türdür (compound type).** Örneğin, geometride bir üçgen kavramı için uygun şartları sağlayan 3 tane kenar olmalıdır. Herhangi bir kenar tek başına bir üçgeni temsil edemez. Bunların 3'ü birden olursa uygun şartları şağlarsa artık üçgen kavramından bahsedilebilir. O zaman programlama olarak düşünürsek, üçgeni temsil eden sınıfa `Triangle` dediğimize bu sınıfın üçgenin kenarlarını temsil eden 3 tane non-static veri elemanı olmalıdır. 
+Dikkat edilirse sınıfın ismi, veri elemanları vb. bilgiler sınıfın ait olduğu **domain** içerisinde temsil ettiği kavrama göre belirlenir. 
+>
+>Non-static bir veri elemanın ömrü (storage duration) nedir? Non-static bir veri elemanı nesne yaratıldığında yaratılır, nesne yok edildiğinde kod edilir. Yani, non-static bir veri elemanın ömrü ait olduğu nesnenin bellekte kalma süresi (yani onun için de ömür diyebiliriz) kadardır. Java'da nesneler `çöp toplayıcı (garbage collector)` tarafından yok edilir. Bir nesnenin yok edilmesine ilişkin detaylar ve garbage colletor'e ilişkin detaylar ileride ele alınacaktır.
+
+###### Sınıf Static Veri Elemanları ve Sınıf Dışından Static Veri Elemanlarına Erişim
+
+>Sınıf static veri elemanları nesne içerisinde yaratılmaz. Sınıfın static bir elemanına sınıf dışıdan sınıf ismi ve nokta operatörü ile erişilebilir. Nokta operatörü sınıf ismi ve static veri elemanı ile kullanıldığında static veri elemanına ilişkin değişkeni üretir. Sınıfın static veri elemanları, ilgili sınıfın bir elemanı (member) ilk kez kullanıldığında (hepsi birden) yaratılır ve program sonuna kadar yaşarlar. Bu durumda static veri elemanları static alanında **yaratılamazlar**. Static veri elemanlarının nerede yaratıldığına ilikin bazı detaylar söz konusu olsa da şu aşamada dolaylı olarak heap'de yaratıldıkları var sayılabilir. Bu durumda bir sınıf için static bir elemanından toplamda bir tane vardır. Bu sebeple static bir elemanına erişmek için nesne yaratılması gerekmez. Bu durumda static bir veri elemanı mantıksal olarak, nesneye özgü değil, türe özgü olarak düşünülebilir.
+>
+>Sınıfın static veri elemanlarına da yaratıldıklarında default değerler atanır. 
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		System.out.printf("Sample.a = %d, Sample.b = %b%n", Sample.a, Sample.b);
+		Sample.a = 10;
+		Sample.b = true;		
+		System.out.printf("Sample.a = %d, Sample.b = %b%n", Sample.a, Sample.b);
+	}
+}
+
+class Sample {
+	public static int a;
+	public static boolean b;
+	
+	//...
+}
+```
+>Aşağıdaki demo örnekte sayaçlar, sınıfları kullanan programcı tarafından tutulmuş ve gerektiğinde artırılmıştır. Bu durumda programcı artırma işlemini unutabilir. Ayrıca başka türler için de sayaçlar tutulması gerektiğinde hem isim açısından hem de kod yükü açısından sınıfları kullanan programcıya bir maliyet getirebilecektir. Buradaki maliyet geliştirme zamanı maliyeti olarak düşünülmelidir. Üstelik örnek, bir demodur ve algoritmik bakımdam pek çok detaylı durum gerçek oyun için söz konusu olacaktır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		DemoWarGameApp.run();
+	}
+}
+
+
+class DemoWarGameApp {
+	public static void run() 
+	{
+		int nAliens = 0;
+		int nSoldiers = 0;
+		//...
+		
+		for (int i = 0; i < 20; ++i) {
+			Alien a = new Alien();
+			
+			//...
+			
+			++nAliens;
+		}
+	
+		
+		//...
+		
+		
+		for (int i = 0; i < 30; ++i) {
+			Soldier s = new Soldier();
+			
+			//...
+			
+			++nSoldiers;
+		}
+		
+		//...
+		System.out.printf("Number Of Aliens:%d%nNumberof Soldiers:%d%n", nAliens, nSoldiers);
+	}
+}
+
+class Alien {
+	public int numberOfArms;
+	public int numberOfHeads;
+	//...
+}
+
+class Soldier {
+	public int title;
+	//...
+}
+
+class Animal {
+	//...
+}
+
+class Building {
+	//...
+}
+
+class Civilian {
+	//...
+}
+
+```
+>Yukarıdaki demo örnekte `count` isimli static veri elemanı her bir sınıfa eklenerek anlatılan problemler çözülebilir
+
+**Anahtar Notlar:** `**` ve `***` ile belirtilen kodların detayları şu an için önemsizdir. Burada sayacın her nesne yaratıldığında artırıldığına odaklanınız. Detaylar ileride ele alınacaktır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		DemoWarGameApp.run();
+	}
+}
+
+class DemoWarGameApp {
+	public static void run() 
+	{
+		//...
+		
+		for (int i = 0; i < 20; ++i) {
+			Alien a = new Alien();
+			
+			//...
+		}
+	
+		
+		//...
+		
+		
+		for (int i = 0; i < 30; ++i) {
+			Soldier s = new Soldier();
+			
+			//...
+		}
+		
+		//...
+		System.out.printf("Number Of Aliens:%d%nNumberof Soldiers:%d%n", Alien.count, Soldier.count);
+	}
+}
+
+class Alien {
+	public static int count;
+	public int numberOfArms;
+	public int numberOfHeads;
+	//...
+	
+	public Alien() //**
+	{
+		++count;
+	}
+	
+	//...
+}
+
+class Soldier {
+	public static int count;
+	public int title;
+	//...
+	public Soldier() //***
+	{
+		++count;
+	}
+	//...
+}
+
+class Animal {
+	public static int count;
+	//...
+}
+
+class Building {
+	public static int count;
+	//...
+}
+
+class Civilian {
+	public static int count;
 	//...
 }
 ```
