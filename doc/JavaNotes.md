@@ -11201,3 +11201,343 @@ class Civilian {
 	//...
 }
 ```
+##### 9 Şubat 2025
+
+>Sınıfın non-static bir veri elemanına sınıf dışından, sınıf ismi ve nokta operatörü ile erişilemez. Çünkü, non-static veri elemanı nesneye özgüdür, dolayısıyla sınıf ismi ile erişim yapıldığında hangi nesne ait olduğu anlaşılamaz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample.a = 10; //error
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	//...
+}
+```
+>Aslında Java'da static bir veri elemanına sınıf dışından referans ve nokta operatörü ile erişilebilir. Bu erişimin sınıf ismi ve nokta operatörü ile erişmekten farkı yoktur. Dilin formal anlatımı gereği bu sentaks geçerlidir ancak Java programcısının static bir veri elemanına bu şekilde erişmesi kesinlikle **tavsiye edilmez.** Bu durum Java programcısı açısından adeta bir `error` gibi değerlendirilmeli ve kesinlikle bu şekilde erişim yapılmamalıdır. Zaten pek çok static kod analizi aracı da bu şekilde erişimlerde uyarı vermektedir. Bu şekilde erişimin kodun okunabililiğini/algılanabilirliğini olumsuz olarak etkilediğine dikkat ediniz.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s = new Sample();
+		
+		s.a = 10; //Gönlümüzün error'u
+		s.b = true; //Gönlümüzün error'u		
+		System.out.printf("Sample.a = %d, Sample.b = %b%n", Sample.a, Sample.b);
+	}
+}
+
+class Sample {
+	public static int a;
+	public static boolean b;
+	
+	//...
+}
+```
+
+###### Sınıf Non-static Metotları ve Sınıf Dışından Non-static Metotlara Erişim
+
+>Sınıfın non-static bir metoduna sınıf dışından referans ve nokta operatörü ile erişilebilir. Sınıf ismi ile erişilemez. Sınıfın non-static metotlarının nesne ile ilişkisi ileride ele alınacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample();
+		Sample s2 = new Sample();
+		
+		s1.foo();
+		s2.foo();
+	}
+}
+
+class Sample {	
+	//...
+	
+	public void foo()
+	{
+		System.out.println("foo");
+	}
+}
+
+
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s = new Sample();		
+		
+		Sample.foo(); //error		
+	}
+}
+
+class Sample {	
+	//...
+	
+	public void foo()
+	{
+		System.out.println("foo");
+	}
+}
+```
+
+**Anahtar Notlar:** non-static metotlar nesne içerisinde tutulmazlar. Aslında metotlar (aşağı seviyede fonksiyon denir) genel olarak ismine `code section` denilen bir bölümde tutulurlar. Bu bölümün detaylar ve Java düzeyinde karşılığı burada ele alınmayacaktır. Bu durumda metotlar ne stack alanında ne de heap alanında tutulurlar.
+
+###### Sınıf Static Metotları ve Sınıf Dışından Static Metotlara Erişim
+
+>Sınıfın static bir metoduna sınıf dışından sınıf ismi ve nokta operatörü ile erişilebilir. static veri elemanlarında olduğu gibi referans ve nokta operatörü kullanılarak erişim mümkündür ancak Java programcısı açısından tavsiye edilen bir kullanım değildir. Çünkü sınıf ismi ile erişmekten farkı yoktur. Sınıfın static metotlarının tür ile ilişkisi ileride ele alınacaktır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample.foo();
+	}
+}
+
+class Sample {	
+	//...
+	
+	public static void foo()
+	{
+		System.out.println("foo");
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s = new Sample();
+		
+		s.foo(); //Gönlümüzün error'u
+	}
+}
+
+class Sample {	
+	//...
+	
+	public static void foo()
+	{
+		System.out.println("foo");
+	}
+}
+```
+
+##### Nesnenin uzunluğu ne kadardır? Referansın uzunluğu ne kadardır?
+
+>Nesne ve referans değişken her ne kadar birbirleri yakın ilişkili olsalar da aynı şeyler değildir. Nesnenin uzunluğu **en az non-static veri elemanlarının toplam uzunluğu kadardır.** Bir referansın uzunluğu **sistemin kaç bit olduğuna bağlıdır. 32 bit sistemde bir referans 32 bit (4 byte) uzunlukta, 64 bit bir sistemde 64 bit (8 byte) uzunluktadır.** 
+>
+>**Buna göre türü ne olursa olsun tüm referansların uzunlukları aynıdır. Aynı türden nesnelerin uzunlukları aynıdır. Farklı türden nesnelerin non-static veri elemanlarına göre uzunlukları farklı olabilir.**
+
+##### Raferansların Birbirina Atanması
+
+>Java'da farklı türden referanslar tür dönüştürme operatörü ile (explicit conversion/casting) bile bibirine atanamazlar. Aynı türden iki referans birbirine doğrundan (implicit) atanabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s = new Sample();
+		Mample m;
+		
+		m = (Mample)s; //error
+		
+	}
+}
+
+class Sample {
+	//...
+}
+
+class Mample {
+	//...
+}
+
+```
+>Aynı türden iki referansın atanması durumunda her iki referans da aynı nesneyi gösteriyor duruma gelir. Bu durumda hangi referans ile nesne erişildiğinin bir önemi yoktur. Aşağıdaki demo örnekte belleğin yaklaşık durumunu temsil eden şekli ve kodları inceleyiniz
+
+![reference-assignment](./media/reference-assignment.png)
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1;
+		Sample s2;
+		
+		
+		s1 = new Sample();
+		s1.a = 10;
+		s1.b = true;
+		
+		s2 = s1;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+		++s1.a;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	//...
+}
+
+```
+
+>Aşağıdaki demo örnekte belleğin yaklaşık durumunu temsil eden şekli ve kodları inceleyiniz
+
+![reference-assignment1](./media/reference-assignment1.png)
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1;
+		Sample s2;
+		
+		
+		s1 = new Sample();
+		s2 = new Sample();
+		s1.a = 10;
+		s1.b = true;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+	
+		s2 = s1;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+		++s1.a;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+		
+		s1 = new Sample();
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+		
+		++s2.a;
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);		
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);
+		System.out.println("-------------------------------------");
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	//...
+}
+```
+>Anımsanacağı gibi Java'da 3 yerde atama işlemi söz konusudur:
+>1. Atama operatörü
+>2. Argümanlardan parametrelere aktarım
+>3. Metodun geri dönüş değerin geçici değişkene atanması
+
+##### Referans Parametreli ve Referansa Geri Dönen Metotlar
+
+>Bir metodun parametresi bir referans ise o metot aynı türden bir referans ile çağrılabilir. Bu durumda metot çağrısında metodun parametre değişkeni olan referans ile argüman olarak geçilen referans aynı nesneyi gösteriyor duruma gelmiş olur. Yani aslında metot içerisinde de ilgili nesneye erişilebilir. Hatta metot içerisinde erişilen nesnede değişiklik yapılabilir.
+
+>Aşağıdaki demo örnekte `***`'a kadar olan kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
+
+![reference-assignment2](./media/reference-assignment2.png)
+>`***` ile `****` arasındaki kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
+
+![reference-assignment3](./media/reference-assignment3.png)
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Date date;
+		
+		date = new Date();
+		
+		date.day = 11;
+		date.month = 7;
+		date.year = 1983;
+		
+		DateUtil.printDate(date);
+		
+		//***
+		
+		DateUtil.changeDate(date, 6, 9, 2021);
+		
+		//****
+		
+		System.out.printf("%02d/%02d/%04d%n", date.day, date.month, date.year);
+	}
+}
+
+class Date {
+	public int day, month, year;
+	//...
+}
+
+class DateUtil {
+	public static void changeDate(Date date, int day, int month, int year)
+	{
+		//...
+		date.day = day;
+		date.month = month;
+		date.year = year;
+	}
+	
+	public static void printDate(Date date)
+	{
+		System.out.printf("%02d/%02d/%04d%n", date.day, date.month, date.year);
+	}
+}
+```
