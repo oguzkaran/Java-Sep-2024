@@ -11505,7 +11505,7 @@ class Sample {
 
 >`****`ve `*****`kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
 
-![reference-assignment2](./media/reference-assignment2.png)
+![reference-assignment5](./media/reference-assignment5.png)
 
 ```java
 package csd;
@@ -11808,7 +11808,7 @@ class Sample {
 }
 ```
 
-- Sınıfın static bir metodu içerisinde aynı sınıfın static bir metodu doğrudan çağrılabilir.
+>- Sınıfın static bir metodu içerisinde aynı sınıfın static bir metodu doğrudan çağrılabilir.
 
 >Aşağıdaki demo örneği inceleyiniz
 
