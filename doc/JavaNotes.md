@@ -11484,16 +11484,28 @@ class Sample {
 >2. Argümanlardan parametrelere aktarım
 >3. Metodun geri dönüş değerin geçici değişkene atanması
 
+##### 15 Şubat 2025
+
 ##### Referans Parametreli ve Referansa Geri Dönen Metotlar
 
 >Bir metodun parametresi bir referans ise o metot aynı türden bir referans ile çağrılabilir. Bu durumda metot çağrısında metodun parametre değişkeni olan referans ile argüman olarak geçilen referans aynı nesneyi gösteriyor duruma gelmiş olur. Yani aslında metot içerisinde de ilgili nesneye erişilebilir. Hatta metot içerisinde erişilen nesnede değişiklik yapılabilir.
+>
+>Bir metodun geri dönüş değeri bir referans türünden olabilir. Böylesi metotlara `referansa geri dönen metotlar`da denilmektedir. Bu durumda bu metodun geri dönüş değerine ilişkin return deyimindeki ifade aynı türden bir adres olabilir. 
 
->Aşağıdaki demo örnekte `***`'a kadar olan kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
+>Aşağıdaki demo örnekte `**`'a  kadar olan kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
+
+![reference-assignment4](./media/reference-assignment4.png)
+
+>`**` ile `***` arasındaki kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir: 
 
 ![reference-assignment2](./media/reference-assignment2.png)
 >`***` ile `****` arasındaki kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
 
 ![reference-assignment3](./media/reference-assignment3.png)
+
+>`****`ve `*****`kodlara ilişkin belleğin yaklaşık durumunu temsil eden şekil aşağıdaki gibidir:
+
+![reference-assignment2](./media/reference-assignment2.png)
 
 ```java
 package csd;
@@ -11502,13 +11514,10 @@ class App {
 	public static void main(String[] args)
 	{
 		Date date;
+	
+		date = DateUtil.createDate(11, 7, 1983);
 		
-		date = new Date();
-		
-		date.day = 11;
-		date.month = 7;
-		date.year = 1983;
-		
+		//**
 		DateUtil.printDate(date);
 		
 		//***
@@ -11517,7 +11526,9 @@ class App {
 		
 		//****
 		
-		System.out.printf("%02d/%02d/%04d%n", date.day, date.month, date.year);
+		DateUtil.printDate(date);
+		
+		//*****
 	}
 }
 
@@ -11535,9 +11546,308 @@ class DateUtil {
 		date.year = year;
 	}
 	
+	public static Date createDate(int day, int month, int year)
+	{
+		//...		
+		Date date = new Date();
+		
+		date.day = day;
+		date.month = month;
+		date.year = year;
+		
+		return date;
+	}
+	
 	public static void printDate(Date date)
 	{
 		System.out.printf("%02d/%02d/%04d%n", date.day, date.month, date.year);
 	}
 }
 ```
+
+###### Sınıf Elemanlarına Sınıf İçerisinden Erişim
+
+>Sınıfın bir elemanına, bir metodu içerisinde aşağıdaki kurallar ile **doğrudan** erişilebilir. Burada `doğrudan` erişim en genel ifadesiyle nokta operatörü kullanılmadan erişim olarak düşünülmelidir:
+>
+>- Sınıfın non-static bir metodu içerisinde aynı sınıfıın non-static bir veri elemanına doğrudan erişilebilir. Doğrudan erişilen bu eleman, non-static metodun çağrıldığı referansın gösterdiği nesnenin veri elemanıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample();
+		Sample s2 = new Sample();
+		
+		s1.foo(10);
+		s2.foo(20);
+		
+		System.out.printf("s1.a = %d%n", s1.a);
+		System.out.printf("s2.a = %d%n", s2.a);
+	}
+}
+
+class Sample {
+	public int a;
+	
+	public void foo(int x)
+	{
+		//...
+		a = x;
+	}
+}
+```
+>- Sınıfın non-static bir metodu içerisinde aynı sınıfın non-static bir metodu doğrudan çağrılabilir. Doğrudan çağrılan metot, çağıran metodun çağrıldığı referans ile çağrılmış olur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample();
+		Sample s2 = new Sample();
+		
+		s1.foo(10);
+		s2.foo(20);
+		
+		System.out.printf("s1.a = %d%n", s1.a);
+		System.out.printf("s2.a = %d%n", s2.a);
+	}
+}
+
+class Sample {
+	public int a;
+	
+	public void foo(int x)
+	{
+		//...
+		bar(x);
+	}
+	
+	public void bar(int x)
+	{
+		//...
+		a = x;
+	}
+}
+```
+
+>Yukarıdaki iki maddenin özeti olarak şu söylenebilir: **Sınıfın non-static bir metodu içersinde, aynı sınıfın non-static tüm elemanlarına (members) doğrudan erişilebilir.**
+
+>- Sınıfın non-static bir metodu içerisinde aynı sınıfın static bir veri elemanına doğrudan erişilebilir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample();
+		Sample s2 = new Sample();
+		
+		s1.foo(10);		
+		s2.foo(20);
+		System.out.printf("Sample.a = %d%n", Sample.a);
+	}
+}
+
+class Sample {
+	public static int a;
+	
+	public void foo(int x)
+	{
+		//...
+		a = x;
+	}
+}
+```
+
+>- Sınıfın non-static bir metodu içerisinde aynı sınıfın static bir metodu doğrudan çağrılabilir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample();
+		Sample s2 = new Sample();
+		
+		s1.foo(10);		
+		s2.foo(20);
+	}
+}
+
+class Sample {
+	//...
+	
+	public void foo(int x)
+	{
+		//...
+		bar();
+	}
+	
+	public static void bar()
+	{
+		//...
+		System.out.println("bar");
+	}
+}
+```
+
+>Yukarıdaki son iki maddenin özeti olarak şu söylenebilir: **Sınıfın non-static bir metodu içerisinde aynı sınıfın static tüm elemanlarına doğrudan erişilebilir.**
+
+>Yukarıdaki dört maddenin özeti olarak şu söylenebilir: **Sınıfın non-static bir içerisinde aynı sınıfın tüm elemanlarına (static veya non-static bakımdan) doğrudan erişilebilir.**
+
+>Sınıfın static bir metodu içerisinde aynı sınıfın non-static bir veri elemanına doğrudan erişilemez. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class Sample {
+	public int a;
+	
+	public static void foo(int x)
+	{
+		//...
+		a = x; //error
+	}
+}
+```
+
+>Sınıfın static bir metodu içerisinde aynı sınıfın non-static bir metodu doğrudan çağrılamaz:
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class Sample {
+	public int a;
+	
+	public static void foo(int x)
+	{
+		//...
+		bar(x); //error
+	}
+	
+	public void bar(int x)
+	{
+		a = x;
+	}
+}
+```
+
+>Yukarıdaki son iki maddenin özeti olarak şu söylenebilir: **Sınıfın static bir metodu içerisinde aynı sınıfın non-static elemanlarına doğrudan erişilemez**
+
+>Aşağıdaki demo örnekte foo içerisinde bar metodunun `doğrudan çağrılmadığına` dikkat ediniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s = new Sample();
+		
+		Sample.foo(20);
+		
+		System.out.printf("main -> s.a = %d;%n", s.a);
+	}
+}
+
+class Sample {
+	public int a;
+	
+	public static void foo(int x)
+	{
+		//...
+		Sample s = new Sample();
+		
+		s.bar(x);		
+		System.out.printf("foo -> s.a = %d%n", s.a);
+	}
+	
+	public void bar(int x)
+	{
+		a = x;
+	}
+}
+```
+
+>- Sınıfın static bir metodu içerisinde aynı sınıfın static bir veri elemanına doğrudan erişilebilir. 
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		System.out.printf("Sample.a = %d%n", Sample.a);
+		Sample.a = 10;		
+		System.out.printf("Sample.a = %d%n", Sample.a);
+	}
+}
+
+class Sample {
+	public static int a;
+	
+	public static void foo(int x)
+	{
+		//...
+		a = x;
+	}
+
+}
+```
+
+- Sınıfın static bir metodu içerisinde aynı sınıfın static bir metodu doğrudan çağrılabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		System.out.printf("Sample.a = %d%n", Sample.a);
+		Sample.a = 10;		
+		System.out.printf("Sample.a = %d%n", Sample.a);
+	}
+}
+
+class Sample {
+	public static int a;
+	
+	public static void foo(int x)
+	{
+		//...
+		bar(x);
+	}
+
+	public static void bar(int x)
+	{
+		//...
+		a = x;
+	}
+}
+```
+
+>Yukarıdaki son iki maddenin özeti olarak şu söylenebilir: **Sınıfın static bir metodu içerisinde aynı sınıfın static elemanlarına doğrudan erişilebilir.**
+
+>Yukarıdaki son dört maddenin özeti olarak şu söylenebilir: **Sınıfın static bir metodu içerisinde aynı sınıfın yalnızca static elemanlarına doğrudan erişilebilir.**
+
+>Yukarıdaki sekiz maddenin özeti olarak şu söylenebilir: **Sınıfın non-static bir metodu içerisinde aynı sınıfın tüm elemanlarına (static veya non-static bakımdan) doğrudan erişilebilirken, sınıfın static bir metodu içerisinde aynı sınıfın yalnızca static elemanlarına doğrudan erişilebilir.**
+
+>Peki, bir metodu ne zaman static, ne zaman non-static yapmalıyız? Buna nasıl vereceğiz? Bir metot ait olduğu sınıfın non-static bir elemanına doğrudan erişecekse zaten non-static yapılmalıdır ancak bir metot ait olduğu sınıfın non-static hiç bir elemanına doğrudan erişmeyecekse non-static yapılabilse de static yapılmalıdır. Bu durumda hem bu metodu çağırırken nesneye (dolayısıyla referensa) ihtiyaç olmaz hem de bir metodun static yapılması aslında non-static metotların okunabilirliğini artırır yani bu durumda bir non-static ise sınıfın non-static elemanlarına kesinlikle erişiyordur algısı oluşur. Bu bir convention'dır ve programcılar bu convention'a uymalıdır.
+
+
+
