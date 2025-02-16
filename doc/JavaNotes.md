@@ -3683,7 +3683,7 @@ class App {
 
 ```
 
-#### Operatör öncelik tablosu
+##### Operatör öncelik tablosu
 
 | Operatör                                  | İlişkisi     |
 |-------------------------------------------|--------------|
@@ -11565,7 +11565,7 @@ class DateUtil {
 }
 ```
 
-###### Sınıf Elemanlarına Sınıf İçerisinden Erişim
+##### Sınıf Elemanlarına Sınıf İçerisinden Erişim
 
 >Sınıfın bir elemanına, bir metodu içerisinde aşağıdaki kurallar ile **doğrudan** erişilebilir. Burada `doğrudan` erişim en genel ifadesiyle nokta operatörü kullanılmadan erişim olarak düşünülmelidir:
 >
@@ -11849,5 +11849,143 @@ class Sample {
 
 >Peki, bir metodu ne zaman static, ne zaman non-static yapmalıyız? Buna nasıl vereceğiz? Bir metot ait olduğu sınıfın non-static bir elemanına doğrudan erişecekse zaten non-static yapılmalıdır ancak bir metot ait olduğu sınıfın non-static hiç bir elemanına doğrudan erişmeyecekse non-static yapılabilse de static yapılmalıdır. Bu durumda hem bu metodu çağırırken nesneye (dolayısıyla referensa) ihtiyaç olmaz hem de bir metodun static yapılması aslında non-static metotların okunabilirliğini artırır yani bu durumda bir non-static ise sınıfın non-static elemanlarına kesinlikle erişiyordur algısı oluşur. Bu bir convention'dır ve programcılar bu convention'a uymalıdır.
 
+##### 16 Şubat 2025
 
+>Aşağıdaki, analitik düzlemde bir noktayı temsil eden `Point` sınıfını ve test kodlarını inceleyiniz.
 
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		PointPrintTest.run();
+	}
+}
+
+class PointPrintTest {
+	public static void run()
+	{
+		Point p1, p2;
+		
+		p1 = new Point();
+		p2 = new Point();
+		
+		p1.x = 100.78;
+		p1.y = 200.34;		
+		p2.x = -900.78;
+		p2.y = 78.4;
+		
+		p1.print();
+		p2.print();
+	}
+}
+```
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		PointEuclideanDistanceTest.run();
+	}
+}
+
+class PointEuclideanDistanceTest {
+	public static void run()
+	{
+		Point p1, p2;
+		
+		p1 = new Point();
+		p2 = new Point();
+		
+		p1.x = 100;
+		p1.y = 200;
+		p2.x = 97;
+		p2.y = 204;
+		
+		p1.print();
+		p2.print();
+		
+		double distance = p1.euclideanDistance(p2);
+		
+		System.out.printf("Distance:%f%n", distance);
+		
+		distance = p1.euclideanDistance(97, 204);
+		
+		System.out.printf("Distance:%f%n", distance);
+	}
+}
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		PointOffsetTest.run();
+	}
+}
+
+class PointOffsetTest {
+	public static void run()
+	{
+		Point p1, p2;
+		
+		p1 = new Point();
+		p2 = new Point();
+		
+		p1.x = 100;
+		p1.y = 200;
+		p2.x = 97;
+		p2.y = 204;		
+		p1.print();
+		p2.print();
+		System.out.println("-----------------");
+		p1.offset(-23, 90.4);
+		p2.offset(100.67, 9.8);		
+		p1.print();
+		p2.print();
+		System.out.println("-----------------");		
+		p1.offset(-23);
+		p2.offset(-23);
+		p1.print();
+		p2.print();
+	}
+}
+```
+
+```java
+class Point {
+	public double x, y;
+	
+	public double euclideanDistance(Point other)
+	{
+		return euclideanDistance(other.x, other.y);
+	}
+	
+	public double euclideanDistance(double a, double b)
+	{
+		return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));
+	}
+	
+	public void offset(double dxy)
+	{
+		offset(dxy, dxy);
+	}
+	
+	public void offset(double dx, double dy)
+	{
+		x += dx;
+		y += dy;
+	}
+	
+	public void print()
+	{
+		System.out.printf("(%f, %f)%n", x, y);
+	}
+}
+```
+
+>
