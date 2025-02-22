@@ -11960,6 +11960,11 @@ class PointOffsetTest {
 class Point {
 	public double x, y;
 	
+	public double euclideanDistance()
+	{
+		return euclideanDistance(0, 0);
+	}
+
 	public double euclideanDistance(Point other)
 	{
 		return euclideanDistance(other.x, other.y);
@@ -11987,5 +11992,274 @@ class Point {
 	}
 }
 ```
+##### 22 Şubat 2025
 
+>Aşağıdaki, bir karmaşık sayıyı (complex number) temsil eden `Complex` sınıfın ve test kodlarını inceleyiniz.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		ComplexGetNormLengthTest.run();
+	}
+}
+
+class ComplexGetNormLengthTest {
+	public static void run()
+	{
+		Complex z = new Complex();
+
+		z.real = 3;
+		z.imag = 4;		
+		z.print();
+		
+		System.out.printf("Length:%f%n", z.getLength());
+		System.out.printf("Norm:%f%n", z.getNorm());
+	}
+}
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		ComplexAddTest.run();
+	}
+}
+
+class ComplexAddTest {
+	public static void run()
+	{
+		Complex z1 = new Complex();
+		Complex z2 = new Complex();
+		Complex z;
+		
+		z1.real = 3;
+		z1.imag = 4;
+		z2.real = -7.6;
+		z2.imag = 9.456;		
+		z1.print();
+		z2.print();	
+		System.out.println("--------------------------------");
+		
+		z = z1.add(z2);		
+		z.print();
+		
+		z = z1.add(5.6);
+		z.print();
+		
+		z = Complex.add(5.6, z1);
+		z.print();
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		ComplexSubtractTest.run();
+	}
+}
+
+class ComplexSubtractTest {
+	public static void run()
+	{
+		Complex z1 = new Complex();
+		Complex z2 = new Complex();
+		Complex z;
+		
+		z1.real = 3;
+		z1.imag = 4;
+		z2.real = -7.6;
+		z2.imag = 9.456;		
+		z1.print();
+		z2.print();	
+		System.out.println("--------------------------------");
+		
+		z = z1.subtract(z2);		
+		z.print();
+		
+		z = z1.subtract(5.6);
+		z.print();
+		
+		z = Complex.subtract(5.6, z1);
+		z.print();
+	}
+}
+
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		ComplexMultiplyTest.run();
+	}
+}
+
+class ComplexMultiplyTest {
+	public static void run()
+	{
+		Complex z1 = new Complex();
+		Complex z2 = new Complex();
+		Complex z;
+		
+		z1.real = 3;
+		z1.imag = 4;
+		z2.real = -7.6;
+		z2.imag = 9.456;		
+		z1.print();
+		z2.print();	
+		System.out.println("--------------------------------");
+		
+		z = z1.multiply(z2);		
+		z.print();
+		
+		z = z1.multiply(5.6);
+		z.print();
+		
+		z = Complex.multiply(5.6, z1);
+		z.print();
+	}
+}
+```
+
+```java
+class Complex {
+	public double real;
+	public double imag;
+	
+	public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		Complex z = new Complex();
+		
+		z.real = re1 + re2;
+		z.imag = im1 + im2;
+		
+		return z;
+	}
+	
+	public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		return add(re1, im1, -re2, -im2);
+	}
+	
+	public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		Complex z = new Complex();
+		
+		z.real = re1 * re2 - im1 * im2;
+		z.imag = re1 * im2 + re2 * im1;
+		
+		return z;
+	}
+	
+	public static Complex add(double value, Complex z)
+	{
+		return add(value, 0, z.real, z.imag);
+	}
+	
+	public Complex add(double value)
+	{
+		return add(real, imag, value, 0);
+	}
+	
+	public Complex add(Complex other)
+	{
+		return add(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex subtract(double value, Complex z)
+	{
+		return subtract(value, 0, z.real, z.imag);
+	}
+	
+	public Complex subtract(double value)
+	{
+		return subtract(real, imag, value, 0);
+	}
+	
+	public Complex subtract(Complex other)
+	{
+		return subtract(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex multiply(double value, Complex z)
+	{
+		return multiply(value, 0, z.real, z.imag);
+	}
+	
+	public Complex multiply(double value)
+	{
+		return multiply(real, imag, value, 0);
+	}
+	
+	public Complex multiply(Complex other)
+	{
+		return multiply(real, imag, other.real, other.imag);
+	}
+
+	//...
+	
+	public Complex getConjugate()
+	{
+		Complex z = new Complex();
+		
+		z.real = real;
+		z.imag = -imag;
+		
+		return z;
+	}
+	
+	public double getNorm()
+	{
+		return Math.sqrt(real * real + imag * imag);
+	}
+	
+	public double getLength()
+	{
+		return getNorm();
+	}
+	
+	public void print()
+	{
+		System.out.printf("|(%f, %f)| = %.3f%n", real, imag, getLength());
+	}
+}
+```
+
+##### Sınıfın Constructor Elemanı
+
+>Çalışma zamanında bir nesnenin yaratılma aşamaları sırasıyla şunlardır:
 >
+>1. Bellekte yer ayrılır
+>2. Non-static olan (ancak final olmayan) veri elemanlarına default değerler verilir.
+>3. Constructor (ctor) çağrılır.
+
+>**Bu üç adım tamamlandığında nesne yaratılmış olur. Herhangi bir adımd bir problem oluştuğunda nesnenin yaratılması tamamlanmamış olur.** Buna ilişkin detaylar konular içerisinde ele alınacaktır.
+
+**Anahtar Notlar:** final veri elemanları ileride ele alınacaktır.
+
+
+>ctor aşağıdaki özelliklere sahip bir metottur:
+>- ctor nesnenin yaratılması aşamasında çağrılır.
+>- ctor overload edilebilir. Buna **constructor overloading** denir.
+>- Sınıf içerisinde programcı tarafından herhangi bir ctor bildirilmemişse **parametresiz ctor (default ctor)** derleyici tarafından içi boş ve public olarak yazılır. Programcı sınıf içerisinde en az bir tane ctor bildirirse derleyici artık default ctor'u yazmaz.
+>- ctor, **ait olduğu sınıf ile aynı isimde olan ve geri dönüş değeri kavramı olmayan** metottur. Burada geri dönüş değeri kavramı olmaması, geri dönüş değeri olmaması anlamına gelmez. ctor için geri dönüş değeri bilgisi yerine herhangi bir şey yazılmaz. Hatta sınıf içerisinde sınıf ismi aynı isimde olan veri geri dönüş değeri bilgisi yazılmış olan bir metot bildirimi geçerlidir. Ancak hiç bir programcı böylesi bir metot yazmaz, yazmaya da ihtiyaç duymaz. Çünkü bu metot ctor anlamına gelmez.
+>- ctor non-static bir metottur.
+>- Hangi ctor'un çağrılacağı new operatöründe geçilen argümanlara göre klasik `method overload resolution` kurallarına göre belirlenir. 
+>- ctor programcı tarafından çağrılamaz. Programcı, nesne yaratılması sırasında hangi ctor'un çağrılacağının belrlendiği kodu yazar.
+>- Nesne yaratılması adımları dolayısıyla ctor çağrılmadan önce non-static olan (fakat final olmayan) veri elamanlarına default değerler verilmiş olur. 
+>- ctor, geri dönüş değeri olmayan bir metot olsa da void bir metot gibi, istenirse return deyimi ctor'u sonlandırmak için kullanılabilir. Burada sonlandırma, ctor'un normal olarak sonlamasına yol açar yani nesne yaratılmış olur. 
+
+
