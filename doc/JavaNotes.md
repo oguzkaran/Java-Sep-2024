@@ -11169,6 +11169,7 @@ class Alien {
 	
 	public Alien() //**
 	{
+		//...
 		++count;
 	}
 	
@@ -11181,6 +11182,7 @@ class Soldier {
 	//...
 	public Soldier() //***
 	{
+		//...
 		++count;
 	}
 	//...
@@ -12238,6 +12240,8 @@ class Complex {
 }
 ```
 
+##### 23 Şubat 2025
+
 ##### Sınıfın Constructor Elemanı
 
 >Çalışma zamanında bir nesnenin yaratılma aşamaları sırasıyla şunlardır:
@@ -12246,20 +12250,584 @@ class Complex {
 >2. Non-static olan (ancak final olmayan) veri elemanlarına default değerler verilir.
 >3. Constructor (ctor) çağrılır.
 
->**Bu üç adım tamamlandığında nesne yaratılmış olur. Herhangi bir adımd bir problem oluştuğunda nesnenin yaratılması tamamlanmamış olur.** Buna ilişkin detaylar konular içerisinde ele alınacaktır.
+>**Bu üç adım tamamlandığında nesne yaratılmış olur. Herhangi bir adımda bir problem oluştuğunda nesnenin yaratılması tamamlanMAmış olur.** Buna ilişkin detaylar konular içerisinde ele alınacaktır.
 
 **Anahtar Notlar:** final veri elemanları ileride ele alınacaktır.
-
 
 >ctor aşağıdaki özelliklere sahip bir metottur:
 >- ctor nesnenin yaratılması aşamasında çağrılır.
 >- ctor overload edilebilir. Buna **constructor overloading** denir.
 >- Sınıf içerisinde programcı tarafından herhangi bir ctor bildirilmemişse **parametresiz ctor (default ctor)** derleyici tarafından içi boş ve public olarak yazılır. Programcı sınıf içerisinde en az bir tane ctor bildirirse derleyici artık default ctor'u yazmaz.
->- ctor, **ait olduğu sınıf ile aynı isimde olan ve geri dönüş değeri kavramı olmayan** metottur. Burada geri dönüş değeri kavramı olmaması, geri dönüş değeri olmaması anlamına gelmez. ctor için geri dönüş değeri bilgisi yerine herhangi bir şey yazılmaz. Hatta sınıf içerisinde sınıf ismi aynı isimde olan veri geri dönüş değeri bilgisi yazılmış olan bir metot bildirimi geçerlidir. Ancak hiç bir programcı böylesi bir metot yazmaz, yazmaya da ihtiyaç duymaz. Çünkü bu metot ctor anlamına gelmez.
+>- ctor, **ait olduğu sınıf ile aynı isimde olan ve geri dönüş değeri kavramı olmayan** metottur. Burada geri dönüş değeri kavramı olmaması, geri dönüş değeri olmaması anlamına gelmez. ctor için geri dönüş değeri bilgisi yerine herhangi bir şey yazılmaz. Hatta sınıf içerisinde sınıf ismi aynı isimde olan ve geri dönüş değeri bilgisi yazılmış olan bir metot bildirimi geçerlidir. Ancak hiç bir programcı böylesi bir metot yazmaz, yazmaya da ihtiyaç duymaz. Çünkü bu metot ctor anlamına gelmez.
 >- ctor non-static bir metottur.
 >- Hangi ctor'un çağrılacağı new operatöründe geçilen argümanlara göre klasik `method overload resolution` kurallarına göre belirlenir. 
->- ctor programcı tarafından çağrılamaz. Programcı, nesne yaratılması sırasında hangi ctor'un çağrılacağının belrlendiği kodu yazar.
+>- ctor programcı tarafından çağrılamaz. Programcı, nesne yaratılması sırasında hangi ctor'un çağrılacağının belirlendiği kodu yazar.
 >- Nesne yaratılması adımları dolayısıyla ctor çağrılmadan önce non-static olan (fakat final olmayan) veri elamanlarına default değerler verilmiş olur. 
 >- ctor, geri dönüş değeri olmayan bir metot olsa da void bir metot gibi, istenirse return deyimi ctor'u sonlandırmak için kullanılabilir. Burada sonlandırma, ctor'un normal olarak sonlamasına yol açar yani nesne yaratılmış olur. 
 
+>Aşağıdaki demo örnekte Sample sınıfında default ctor da dahil 4 tane ctor overload edilmiştir. Mample sınıfında herhangi bir ctor bildirilmediğinden derleyici default ctor'u public ve içi boş olarak yazar
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(); //Default ctor
+		Sample s2 = new Sample(10); //Sample(int) ctor		
+		Sample s3 = new Sample(10.); //Sample(double) ctor
+		Sample s4 = new Sample(10, true); //Sample(int , double) ctor
+		Mample m = new Mample(); //Default ctor
+		
+		//...
+		
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	public Sample()
+	{
+		System.out.println("I am a default ctor");
+	}
+	
+	public Sample(int x)
+	{
+		System.out.println("I am a ctor with parameter type: int");
+	}
+	
+	public Sample(double x)
+	{
+		System.out.println("I am a ctor with parameter type: double");
+	}
+	
+	public Sample(int x, boolean y)
+	{
+		System.out.println("I am a ctor with parameter types: int, boolean");
+	}
+	
+	//...
+}
+
+class Mample {
+	//...
+}
+```
+
+>Aşağıdaki demo örnekte Sample sınıfının default ctor'u artık derleyici tarafından otomatik olarak yazılmaz. Çünkü Sample sınfını yazan programcı bir ctor bildirimi yapmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(); //error
+		Sample s2 = new Sample(10); //	
+		
+		//...
+		
+	}
+}
+
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	public Sample(int x)
+	{
+		System.out.println("I am a ctor with parameter type: int");
+	}
+	
+	//...
+}
+```
+
+>Aşağıdaki demo örnekte ctor çağrısından önce non-static veri elemanlarına default değerler verildiğini gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(); 
+		System.out.println("----------------------------------------");
+		Sample s2 = new Sample(10);		
+		System.out.println("----------------------------------------");
+		Sample s3 = new Sample(10.);
+		System.out.println("----------------------------------------");
+		Sample s4 = new Sample(10, true);
+		System.out.println("----------------------------------------");
+		
+		//...
+		
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	public Sample()
+	{		
+		System.out.printf("a = %d, b = %b%n", a, b);
+		System.out.println("I am a default ctor");
+	}
+	
+	public Sample(int x)
+	{
+		System.out.printf("a = %d, b = %b%n", a, b);
+		System.out.println("I am a ctor with parameter type: int");
+	}
+	
+	public Sample(double x)
+	{
+		System.out.printf("a = %d, b = %b%n", a, b);
+		System.out.println("I am a ctor with parameter type: double");
+	}
+	
+	public Sample(int x, boolean y)
+	{
+		System.out.printf("a = %d, b = %b%n", a, b);
+		System.out.println("I am a ctor with parameter types: int, boolean");
+	}
+	
+	//...
+}
+```
+>Aşağıdaki demo örnekte Sample sınıfının parametresiz `Sample` metodu bildirilmiştir bu durumda bu sınıf default ctor derleyici tarafından yazılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(); 
+	
+		
+		//...
+		
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	public void Sample()
+	{		
+		System.out.printf("a = %d, b = %b%n", a, b);
+		System.out.println("I am a default ctor");
+	}
+
+	//...
+}
+```
+
+>Aşağıdaki demo örnekte default ctor ile nesne yaratılmaya çalışıldığından error oluşur
+
+```java
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(); //error
+	
+		
+		//...
+		
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+	
+	public void Sample()
+	{		
+		System.out.println("I am a method");
+	}
+	
+	public Sample(int x)
+	{
+		System.out.println("I am a ctor with parameter type int");
+	}
+	
+	
+	//...
+}
+
+```
+>Aşağıdaki demo örnekte ctor içerisinde return deyimi kullanılmıştır
+
+```java
+package csd;
+
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(10, true);
+		Sample s2 = new Sample(-10, true);
+		
+		System.out.printf("s1.a = %d, s1.b = %b%n", s1.a, s1.b);
+		System.out.printf("s2.a = %d, s2.b = %b%n", s2.a, s2.b);		
+	}
+}
+
+class Sample {
+	public int a;
+	public boolean b;
+
+	public Sample(int x, boolean y)
+	{
+		if (x <= 0)
+			return;
+		
+		a = x;
+		b = y;		
+	}
+	
+	
+	//...
+}
+
+```
+
+>Peki, ctor ne işe yarar? Ctor, nesne yaratılmadan önce bir takım ilk işlemlerin yapılması amacıyla kullanılır. Bu işlemlerden en tipik olanı non-static veri elemanlarına değer verilmesidir (set). Sınıfın ilgili ctor'ları alfıkları parametre değişkenlerini kullanarak veri elemanlarına değer verebilirler. Bu durum sınıfın domain'i ile ilişkili olarak yazılır. Örneğin tarih işlemi yapan bir `Date` sınıfı gün ay ve yıl bilgisini ctor ile alıp kontrol ederek ilgili veri elemanlarına değer verebilir. Ya da örneğin bir sınıf veritabanı ile işlem yapmak için tasarlanmış ve ilgili bağlantı ctor ile alarak, nesne yaratılmadan önce bağlantıyı sağlamış olabilir. Bu durumda nesne yaratıldığında ilgili işlemler bağlantı sağlanmış olduğu için yapılabilir.
+
+>Point sınıfının ctor'ları ve test kodları
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		PointCtorsTest.run();
+	}
+}
+
+class PointCtorsTest {
+	public static void run()
+	{
+		Point p1 = new Point(100, 100);
+		Point p2 = new Point();
+		Point p3 = new Point(456.7);
+		
+		p1.print();
+		p2.print();
+		p3.print();
+	}
+}
+```
+
+```java
+class Point {
+	public double x, y;
+	
+	public Point()
+	{		
+	}
+	
+	public Point(double a)
+	{
+		x = a;
+	}
+	
+	public Point(double a, double b)
+	{
+		x = a;
+		y = b;
+	}
+	
+	public double euclideanDistance()
+	{
+		return euclideanDistance(0, 0);
+	}
+
+	public double euclideanDistance(Point other)
+	{
+		return euclideanDistance(other.x, other.y);
+	}
+	
+	public double euclideanDistance(double a, double b)
+	{
+		return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));
+	}
+	
+	public void offset(double dxy)
+	{
+		offset(dxy, dxy);
+	}
+	
+	public void offset(double dx, double dy)
+	{
+		x += dx;
+		y += dy;
+	}
+	
+	public void print()
+	{
+		System.out.printf("(%f, %f)%n", x, y);
+	}
+}
+```
+
+>Complex sınıfının ctor'ları ve test kodları
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		ComplexCtorsTest.run();
+	}
+}
+
+class ComplexCtorsTest {
+	public static void run()
+	{
+		Complex z1 = new Complex(3.4, 5.6);
+		Complex z2 = new Complex(4.5);
+		Complex z3 = new Complex();
+		
+		z1.print();
+		z2.print();
+		z3.print();
+	}
+}
+```
+
+```java
+class Complex {
+	public double real;
+	public double imag;
+	
+	public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		Complex z = new Complex();
+		
+		z.real = re1 + re2;
+		z.imag = im1 + im2;
+		
+		return z;
+	}
+	
+	public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		return add(re1, im1, -re2, -im2);
+	}
+	
+	public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		Complex z = new Complex();
+		
+		z.real = re1 * re2 - im1 * im2;
+		z.imag = re1 * im2 + re2 * im1;
+		
+		return z;
+	}
+	
+	public Complex()
+	{		
+	}
+	
+	public Complex(double a)
+	{
+		real = a;
+	}
+	
+	public Complex(double a, double b)
+	{
+		real = a;
+		imag = b;
+	}
+	
+	public static Complex add(double value, Complex z)
+	{
+		return add(value, 0, z.real, z.imag);
+	}
+	
+	public Complex add(double value)
+	{
+		return add(real, imag, value, 0);
+	}
+	
+	public Complex add(Complex other)
+	{
+		return add(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex subtract(double value, Complex z)
+	{
+		return subtract(value, 0, z.real, z.imag);
+	}
+	
+	public Complex subtract(double value)
+	{
+		return subtract(real, imag, value, 0);
+	}
+	
+	public Complex subtract(Complex other)
+	{
+		return subtract(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex multiply(double value, Complex z)
+	{
+		return multiply(value, 0, z.real, z.imag);
+	}
+	
+	public Complex multiply(double value)
+	{
+		return multiply(real, imag, value, 0);
+	}
+	
+	public Complex multiply(Complex other)
+	{
+		return multiply(real, imag, other.real, other.imag);
+	}
+
+	//...
+	
+	public Complex getConjugate()
+	{
+		Complex z = new Complex();
+		
+		z.real = real;
+		z.imag = -imag;
+		
+		return z;
+	}
+	
+	public double getNorm()
+	{
+		return Math.sqrt(real * real + imag * imag);
+	}
+	
+	public double getLength()
+	{
+		return getNorm();
+	}
+	
+	public void print()
+	{
+		System.out.printf("|(%f, %f)| = %.3f%n", real, imag, getLength());
+	}
+}
+```
+
+##### Rassal (Random) Sayı Üretimi
+
+>Rassal sayı üretimi bilgisayar dünyasında çok fazla kullanılmaktadır. Örneğin, bir simülasyon uygulamasında değerle rassal olarak üretilerek simülasyon gerçekleştirilebilir. Geçek hayattı rassallık yazılımda gerçekleştirilemez. Bu anlamda bilgisayar dünyasında rassal sayılar deterministik olarak üretilir. Bu sebeple bilgisayar dünyasında üretilen rassal sayılara **pseudo random numbers** da denilmektedir. 
+>
+>Yazılımda rassal sayı üretiminin kalitesi söz konusudur. Rassal sayı üretimine ilişkin işlemler bir mantık çerçevesinde karmaşıklaştıkça genel olarak kalite artar ancak bu durumda yapılan işlemlere ilişkin bir maliyet de söz konusu olabilmektedir. Bu anlamda bilgisayar dünyasında rassal sayı üretiminin kelitesine ilişkin bilimsel çalışmalar halen devam etmektedir.
+>
+>Java'da rassal sayı üretimine ilişkin pek çok sınıf bulunmaktadır. Özellikle `Java 17`ile birlikte çeşitli rassal algoritmalarının kullanılabilmesine yönelik eklentiler de yapılmıştır. Java'da rassal sayı üretimine ilişkin en temel sınıf `java.util` paketi içerisindeki **Random** sınıfıdır. Bu sınıfın rassal sayı üretimi orta kalitededir. Çoğu zaman yeterli olmaktadır. Zaten yeterli olmadığında programcı diğer algoritmalara yönelir. Java 17'den itibaren Random sınıfına ilişkin rassal sayı üretimine **legacy random** da denilmektedir. Bu sınıf `Donald Knuth`'un `The Art of Computer Programming` kitaplar serisinin ikinci cildinde, `Seminumerical Algorithms` kategorisindeki algoritmayı kullanmaktadır (Section 3.2.1). Kursumuzda, rassal sayı üretimine ilişkin yalnızca Random sınıfı ele alınacaktır. Diğer sınıflar ve algoritmalar `Java ile Uygulama Geliştirme` kurslarında ele alınacaktır. 
+>
+>Bilgisayar dünyasında genel olarak rassal üretiminde ismine **tohum değeri (seed value)** denilen bir değer kullanılır. Aslında rassal sayı üretimi bu değer ile başlar ve her üretimde bu değer güncellenerek devam eder. Yani tohum değeri rassal sayı üretim algoritmasına özgü işlemlerde kullanılır. Random sınıfının default ctor'u ile nesne yaratıldığında tohum değeri, o uygulama içerisimde daha önce yine default kullanılarak yaratılmış olan nesnelere ilişkin tohum değerinden mümkün olduğunca farklı olma eğilimindedir. 
+>
+>Random sınıfının `nextXXX` metotları ile rassal sayılar elde edilebilir. Bu metotlar dışında da çeşitli metotlar bulunmaktadır. Bazı metotlar konular içerisinde ayrıca ele alınacaktır.
+>
+>Random sınıfının parametresiz `nextInt` metodu int türü sınırları içerisinde rassal olarak üretilmiş bir sayıya geri döner.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n; ++i)
+			System.out.println(r.nextInt());
+	}
+}
+```
+
+>Random sınıfının bir tane int parametreli `nextInt`metodu sıfır ile parametresi ile aldığı değer (bound) aralığında üretilmiş rassal sayıya geri döner. Parametresi ile aldığı değer sınıra dahil değildir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d ", r.nextInt(100)); //[0, 100)
+		
+		System.out.println();
+	}
+}
+```
+
+>Random sınıfına Java 17 ile birlikte iki parametreli `nextInt`metodu dolaylı olarak eklenmiştir. Bu metot aldığı parametre değerlerine göre `[origin, bound)` aralığında üretilmiş rassal sayıya geri döner.
+
+**Anahtar Notlar:** Burada `dolaylı olarak eklenmiştir` denmesinin detayları ile ele alınacaktır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d ", r.nextInt(10, 21)); //[10, 21)  -> Since Java 17
+		
+		System.out.println();
+	}
+}
+```
+>Java 17'den önce belirli bir aralıkta rassal sayı üretmek için pek çok yöntem kullanılabilir. Bunlardan basit olan bir tanesi şu şekilde formülüze edilebilir: `[origin, bound)` aralığında rassal olarak int türden bir değer
+
+```java
+	r.nextInt(bound - origin) + origin
+```
+
+şeklinde üretilebilir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		int origin = 10;
+		int bound = 21;
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d ", r.nextInt(bound - origin) + origin); //[origin, bound)
+		
+		System.out.println();
+	}
+}
+```
 
