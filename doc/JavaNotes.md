@@ -11997,6 +11997,13 @@ class Point {
 ##### 22 Şubat 2025
 
 >Aşağıdaki, bir karmaşık sayıyı (complex number) temsil eden `Complex` sınıfın ve test kodlarını inceleyiniz.
+>**Açıklamalar:** $z = a + ib$, $z_1 = a_1 + ib_1$, $z_2 = a_2 + ib_2$ karmaşık sayıları için
+>- $\bar{z} = a - ib$
+>- $|z| = \sqrt{a^2 + b^2}$
+>- $z_1 \pm z_2 = (a_1 \pm a_2) + i(b_1 \pm b2)$
+>- $z_1z_2 = (a_1 + a_2) + i(b_1 + b2)$   
+>- $z_1 / z_2 = (a_1 + a_2) + i(b_1 + b2)$  
+
 
 ```java
 package csd;
@@ -12778,7 +12785,7 @@ class App {
 }
 ```
 
->Random sınıfına Java 17 ile birlikte iki parametreli `nextInt`metodu dolaylı olarak eklenmiştir. Bu metot aldığı parametre değerlerine göre `[origin, bound)` aralığında üretilmiş rassal sayıya geri döner.
+>Random sınıfına Java 17 ile birlikte iki parametreli `nextInt` metodu dolaylı olarak eklenmiştir. Bu metot aldığı parametre değerlerine göre `[origin, bound)` aralığında üretilmiş rassal sayıya geri döner.
 
 **Anahtar Notlar:** Burada `dolaylı olarak eklenmiştir` denmesinin detayları ile ele alınacaktır.
 
@@ -12830,4 +12837,313 @@ class App {
 	}
 }
 ```
+##### 1 Mart 2025
 
+>Random sınıfının parametresiz `nextLong` fonksiyonu long türü sınırları içerisinde rassal olarak üretilmiş bir değere geri döner
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d%n", r.nextLong());
+	}
+}
+```
+>Random sınıfına Java 17 ile birlikte bir ve iki parametreli `nextLong` metotları dolaylı olarak eklenmiştir. Bu metotlar sırasıyla `[0, bound)` ve `[origin, bound)` sınırlar içerisinde rassal olarak üretilmiş değere geri dönerler.
+
+**Anahtar Notlar:** Burada `dolaylı olarak eklenmiştir` denmesinin detayları ile ele alınacaktır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d%n", r.nextLong(4_000_000_000L)); //[0, 4000000000) Since Java 17
+	}
+}
+```
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%d%n", r.nextLong(-4_000_000_000L, 4_000_000_000L)); //[-4000000000, 4000000000) Since Java 17
+	}
+}
+```
+
+>Random sınıfının parametresiz `nextDouble` metodu `[0, 1)` aralığında double türden rassal olarak üretilmiş bir değere geri döner. Java 17 ile birlikte bir ve iki parametreli `nextDouble` metotları dolaylı olarak eklenmiştir. Bu metotlar sırasıyla `[0, bound)` ve `[origin, bound)` sınırlar içerisinde rassal olarak üretilmiş değere geri dönerler.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%.10f%n", r.nextDouble()); //[0, 1)
+	}
+}
+````
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%.10f%n", r.nextDouble(3.45)); //[0, 3.45)
+	}
+}
+````
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%.10f%n", r.nextDouble(3.44, 3.45)); //[3.44, 3.45)
+	}
+}
+```
+>Random sınıfının `nextBoolean` rassal üretilmiş boolean türden bir değere geri döner
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%b%n", r.nextBoolean());
+	}
+}
+```
+
+>nextBoolean olmasaydı yukarıdaki örnek aşağıdaki gibi de yapılabilirdi
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random();
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir sayı giriniz:");
+		int n = kb.nextInt();		
+		
+		for (int i = 0; i < n; ++i)
+			System.out.printf("%b%n", r.nextInt(2) == 1);
+	}
+}
+```
+
+>**Sınıf Çalışması:** Hilesiz bir paranın yazı gelme olasılığını yaklaşık olarak hesaplayan basit simulasyon programını yazınız
+
+>**Çözüm-1:** İleride daha iyisi yazılabilecektir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		CoinTailSimulationApp.run();
+	}
+}
+
+class CoinTailSimulationApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input n:");
+		int n = kb.nextInt();
+		
+		CoinTailSimulation cts = new CoinTailSimulation();
+		
+		cts.run(n);
+		
+		System.out.printf("Number of tails in %d throw:%d and probability:%.10f%n", cts.count, cts.countTails, cts.p);
+	}
+}
+
+class CoinTailSimulation {
+	public double p;
+	public int count;
+	public int countTails;
+	
+	public void run(int n)
+	{	
+		count = n;
+		
+		java.util.Random r = new java.util.Random();
+		
+		for (int i = 0; i < count; ++i)
+			countTails += r.nextInt(2);
+		
+		p = (double) countTails / count;			
+	}
+}
+```
+
+>**Çözüm-2:** İleride daha iyisi yazılabilecektir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		CoinTailSimulationApp.run();
+	}
+}
+
+class CoinTailSimulationApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input n:");
+		int n = kb.nextInt();
+		
+		CoinTailSimulation cts = new CoinTailSimulation();
+		
+		cts.run(n);
+		
+		System.out.printf("Number of tails in %d throw:%d and probability:%.10f%n", cts.count, cts.countTails, cts.p);
+	}
+}
+
+class CoinTailSimulation {
+	public double p;
+	public int count;
+	public int countTails;
+	
+	public void run(int n)
+	{	
+		count = n;
+		
+		java.util.Random r = new java.util.Random();
+		
+		for (int i = 0; i < count; ++i)
+			if (r.nextBoolean())
+				++countTails;
+		
+		p = (double) countTails / count;			
+	}
+}
+```
+
+**Sınıf Çalışması:** Hilesiz iki zarın atılması durumunda çift (ikisinin de aynı) gelme olasılığını hesaplayan basit simülasyon programını yazınız.
+
+>**Çözüm:** İleride daha iyisi yazılabilecektir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		SameDiceSimulationApp.run();
+	}
+}
+
+class SameDiceSimulationApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input n:");
+		int n = kb.nextInt();
+		
+		SameDiceSimulation sds = new SameDiceSimulation();
+		
+		sds.run(n);
+		
+		System.out.printf("Number of same dice in %d throw:%d and probability:%.10f%n", sds.count, sds.sameDiceCount, sds.p);
+	}
+}
+
+class SameDiceSimulation {
+	public double p;
+	public int count;
+	public int sameDiceCount;
+	
+	public static boolean areSame(java.util.Random r)
+	{
+		return r.nextInt(1, 7) == r.nextInt(1, 7);				
+	}
+	
+	public void run(int n)
+	{	
+		count = n;
+		
+		java.util.Random r = new java.util.Random();
+		
+		for (int i = 0; i < count; ++i)
+			if (areSame(r))
+				++sameDiceCount;
+		
+		p = (double) sameDiceCount / count;			
+	}
+}
+```
+
+
+>Tohum değeri her sayı üretiminde kullanılan algoritmaya göre güncellenir. Bu durumda bir işlem aynı tohum değeri ile yapıldığında aynı sonuçlar elde edilir. Örneğin bir programda 10 tane `[1, 100)` aralığında rassal olarak tamsayı üretiliyorsa ve program hep aynı tohum değeri ile çalıştırılırsa (yani aslında kullanılan Random türünden nesneye hep aynı tohum değeri verilirse), hep aynı dizilim üretilir. Random sınıfının default ctor'unun her nesne için farklı tohum değeri verebilmesi tohum değerinin genel olarak zamana bağlı bir değer ile kullanılması ile mümkün olmaktadır. Ancak, bazı uygulamalarda aynı tohum değerinden başlanılması gerekebilir. 
