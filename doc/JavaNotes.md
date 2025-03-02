@@ -12618,13 +12618,8 @@ class Complex {
 	public double imag;
 	
 	public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
-	{
-		Complex z = new Complex();
-		
-		z.real = re1 + re2;
-		z.imag = im1 + im2;
-		
-		return z;
+	{	
+		return new Complex(re1 + re2, im1 + im2);
 	}
 	
 	public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
@@ -12634,12 +12629,7 @@ class Complex {
 	
 	public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
 	{
-		Complex z = new Complex();
-		
-		z.real = re1 * re2 - im1 * im2;
-		z.imag = re1 * im2 + re2 * im1;
-		
-		return z;
+		return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);
 	}
 	
 	public Complex()
@@ -12706,12 +12696,7 @@ class Complex {
 	
 	public Complex getConjugate()
 	{
-		Complex z = new Complex();
-		
-		z.real = real;
-		z.imag = -imag;
-		
-		return z;
+		return new Complex(real, -imag);
 	}
 	
 	public double getNorm()
@@ -13145,5 +13130,316 @@ class SameDiceSimulation {
 }
 ```
 
+##### 2 Mart 2025
 
->Tohum değeri her sayı üretiminde kullanılan algoritmaya göre güncellenir. Bu durumda bir işlem aynı tohum değeri ile yapıldığında aynı sonuçlar elde edilir. Örneğin bir programda 10 tane `[1, 100)` aralığında rassal olarak tamsayı üretiliyorsa ve program hep aynı tohum değeri ile çalıştırılırsa (yani aslında kullanılan Random türünden nesneye hep aynı tohum değeri verilirse), hep aynı dizilim üretilir. Random sınıfının default ctor'unun her nesne için farklı tohum değeri verebilmesi tohum değerinin genel olarak zamana bağlı bir değer ile kullanılması ile mümkün olmaktadır. Ancak, bazı uygulamalarda aynı tohum değerinden başlanılması gerekebilir. 
+>Tohum değeri her sayı üretiminde kullanılan algoritmaya göre güncellenir. Bu durumda bir işlem aynı tohum değeri ile yapıldığında aynı sonuçlar elde edilir. Örneğin bir programda 10 tane `[1, 100)` aralığında rassal olarak tamsayı üretiliyorsa ve program hep aynı tohum değeri ile çalıştırılırsa (yani aslında kullanılan Random türünden nesneye hep aynı tohum değeri verilirse), hep aynı dizilim üretilir. Random sınıfının default ctor'unun her nesne için farklı tohum değeri verebilmesi tohum değerinin genel olarak zamana bağlı bir değer ile kullanılması ile mümkün olmaktadır. Ancak, bazı uygulamalarda aynı tohum değerinden başlatılması gerekebilir. Örneğin bir resim içerisinde, resimde gözle değişiklikler anlaşılamayacak şekilde bir yazı gizlemek için yazının bitleri rassal olarak belirlenen pixel'lere yazılabilir. Bu durumda resimden yazı elde edilirken aynı pixel'lerin elde edilebilmesi için aynı tohum değeriyle üretim yapılması gerekir. Şüphesiz bu işlemin nasıl yapılacağına ilişkin pek çok detay söz konusudur. Burada önemli olan yani odaklanmanız gereken, örnekte tohum değerinin aynı olacak şekilde kullanılmasıdır. Random sınıfının tohum değeri alan long parametreli ctor'u ile nesne yaratıldığında, tohum değeri verilen değerden başlatılmış olur. Ayrıca tohum değerinin belirlenebildiği `setSeed` isimli bir metot da sınıf içerisinde bulunmaktadır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Random r = new java.util.Random(100);
+		
+		for (int i = 0; i < 10; ++i)
+			System.out.printf("%d ", r.nextInt(100));
+		
+		System.out.println();
+	}
+}
+```
+
+>Aşağıdaki demo örnek her çalıştırıldığında ilk 10 sayının dizilimi diğer çalıştırmalardan farklı olacaktır. İkinic 10 sayının dizilimi ise girilen tohum değerine bağlı olduğundan daha önceki bir çalıştırmada girilen tohum değeri ile aynı değer girilirse dizilim aynı olacaktır. Kodu birden fazla kez çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		java.util.Random r = new java.util.Random();
+		
+		System.out.print("Tohum değerini giriniz:");
+		long seed = kb.nextLong();
+		
+		for (int i = 0; i < 10; ++i)
+			System.out.printf("%d ", r.nextInt(100));
+		
+		System.out.println();
+		
+		r.setSeed(seed);
+		
+		for (int i = 0; i < 10; ++i)
+			System.out.printf("%d ", r.nextInt(100));
+		
+		System.out.println();
+	}
+}
+```
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		DemoRandomPointGeneratorApp.run();
+	}
+}
+
+
+class DemoRandomPointGeneratorApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input count and seed value:");
+		int count = kb.nextInt();
+		long seed = kb.nextLong();
+		
+		java.util.Random r = new java.util.Random(seed);
+		
+		for (int i = 0; i < count; ++i) {
+			Point p = PointUtil.createRandomPoint(r, -100, 100);
+			
+			p.print();
+		}
+	}
+}
+
+class PointUtil {
+	public static Point createRandomPoint(java.util.Random r, double origin, double bound)
+	{
+		return new Point(r.nextDouble(origin, bound), r.nextDouble(origin, bound));
+	}
+}
+
+class Point {
+	public double x, y;
+	
+	public Point()
+	{		
+	}
+	
+	public Point(double a)
+	{
+		x = a;
+	}
+	
+	public Point(double a, double b)
+	{
+		x = a;
+		y = b;
+	}
+	
+	public double euclideanDistance()
+	{
+		return euclideanDistance(0, 0);
+	}
+
+	public double euclideanDistance(Point other)
+	{
+		return euclideanDistance(other.x, other.y);
+	}
+	
+	public double euclideanDistance(double a, double b)
+	{
+		return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));
+	}
+	
+	public void offset(double dxy)
+	{
+		offset(dxy, dxy);
+	}
+	
+	public void offset(double dx, double dy)
+	{
+		x += dx;
+		y += dy;
+	}
+	
+	public void print()
+	{
+		System.out.printf("(%f, %f)%n", x, y);
+	}
+}
+```
+
+**Anahtar Notlar:** Burada Random sınıfının önemli bazı metotları ele alınmıştır. Diğer metotlar, başka konular da gerektiğinden daha sonra belirli ölçüde ele alınacaktır. 
+
+##### Immutable Sınıflar
+
+>Bir nesnenin içeriği (genel olarak non-static veri elemanları) nesne yaratıldıktan sonra sınıfı kullanan programcı tarafından değiştirilemiyorsa, bu tarz nesnelerin yaratılabildiği sınıflara **immutable classes** denir. Pek çok immutable sınıfın non-static veri elemanları içsel olarak da bir kez ddeğer alırlar. Immutable bir sınıfın nasıl yazılabileceği ileride ele alınacaktır. Genel olarak bir sınıfın immutable olduğu dökumantasyonunda belirtilir. Belirtilmeyen sınıflar için de sınıfın elemanlarından immutable olup olmadığı anlaşılabilir.
+
+##### Yazılarla İşlemler
+
+>Yazılarla işlemler programlamada çok fazla yapılmaktadır. İrili ufaklı pek çok program içerisinde bir şekilde yazılar kullanılmaktadır. Programlamada, karakterlerden oluşan bir topluluğa ya da genel olarak yazılara **string** terimi karşılık getirilmektedir. Java'da yazı işlemlerinde kullanılabilen en temel sınıf `java.lang.String` isimli sınıftır. JavaSE'de yazılarla işlem yapan başka sınıflar da vardır ancak bunların hemen hepsi String sınıfına yardımcı sınıflardır. 
+
+**Anahtar Notlar:** `java.lang` paketi içerisinde bulunan bir UDT ismi, herhangi bir bildirim yapmadan doğrudan kullanılabilir. Örneğin, `String, System` gibi sınıflar bu paket içerisinde bulunduklarından isimleri doğrudan kullanılabilmektedir. Ancak örneğin Random sınıfı `java.util` paketi içerisinde olduğundan isminin doğru kullanılabilmesi ileride detaylı olarak ele alacağımız bazı bildirimlerin yapılmış olması gerekir. Aksi durumda paket ismi ile erişilmelidir.
+
+>Derleyici bir string literal gördüğünde ve bu string literal'ı ilk kez görüyorsa kabaca şu şekilde bir kod üretir: **String türünden bir nesne yarat ve string literal içerisindeki karakterleri bu String nesnesi ile tutulabilecek duruma getir ve ilgli String nesnesinin adresini (referansını) ver.** Bu durumda string literal ile bir String nesnesinin referansı (adresi) elde edilebilir. `print` ve `println` metotlarının String parametreli overload'ları aldıkları String referansına ilişkin yazıyı ekrana basarlar. `printf` metodu `s` format karakteri ile, aldığı String referansına ilişkin yazıyı ekrana basar. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s = "ankara";
+		
+		System.out.println(s);
+		System.out.printf("Yazı:%s%n", s);
+	}
+}
+```
+
+>`Scanner` sınıfının `nextLine` metodu String referansına geri döner. Metot, klavyeden `enter` girilene kadar alınan yazı için (enter hariç) bir String nesnesi yaratır ve onun referansına geri döner.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Bir yazı giriniz.");	
+		String s = kb.nextLine();
+		
+		System.out.printf("Yazı:(%s)%n", s);
+	}
+}
+```
+
+>Bir String nesnesine ilişkin yazının her bir karakterine ilk karakterinki sıfır olmak üzere birer indeks numarası verilmiştir. Bu durumda bir karakter `charAt`isimli bir metot ile elde edilebilir. Bu metot parametresi ile aldığı indeks numarasında ilişkin karakterin sıra numarasına (char türüne) geri döner. Metoda pozitif ya da negatif bakımdan sınırlar dışında bir indeks numarası verildiğinde exception oluşur. Programlamada yazının karakterlerinin sayısına yazının uzunluğu denir. String sınıfının `length` metodu ile yazının uzunluğu elde edilebilir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input text:");	
+		String s = kb.nextLine();
+		
+		int len = s.length();
+		
+		System.out.printf("Length:%d%n", len);
+		
+		for (int i = 0; i < len; ++i)
+			System.out.printf("%c ", s.charAt(i));
+		
+		System.out.println();	
+	}
+}
+
+```
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input text:");	
+		String s = kb.nextLine();
+		
+		char ch = s.charAt(6);
+		
+		System.out.printf("ch = %c%n", ch);
+	}
+}
+```
+
+>String sınıfı `immutable` bir sınıftır. Yani, bir String nesnesine ilişkin yazı değiştirelemez. String sınıfının yazıda değişiklik yapan metotları, değiştirilmiş yazıya ilişkin yeni bir String nesnesinin referansına geri dönerler. Örneğin, `toUpperCase` metodu yazının tüm karakterlerini büyük harf yapmak (yani büyütmek) için kullanılır. Bu metot değiştirilmiş yazıya ilişkin yeni bir String nesnesinin referansına geri döner.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input text:");	
+		String s = kb.nextLine();
+		String upper;
+		
+		upper = s.toUpperCase();
+		
+		System.out.printf("s = %s%nupper = %s%n", s, upper);
+	}
+}
+
+```
+
+>Benzer şekilde `toLowerCase` metodu da yazıyı küçük harfe çevirir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input text:");	
+		String s = kb.nextLine();
+		String lower;
+		
+		lower = s.toLowerCase();
+		
+		System.out.printf("s = %s%nupper = %s%n", s, lower);
+	}
+}
+
+```
+>Aşağıdaki demo örnekte girilen yazı `MANTIKSAL` olarak küçültülmüştür. Şüphesiz aslında s referansı ilgili nesneden kopartılıp yeni nesneyi göstermesi sağlanarak yapılmıştır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input text:");	
+		String s = kb.nextLine();
+		s = s.toLowerCase();
+		
+		System.out.printf("s = %s%n", s);
+	}
+}
+```
+
+>`toLowerCase` ve `toUpperCase` metotlarının parametreli overload'ları bu bölümde ele alınmayacaktır.
+
+>Peki bir String nesnesi ilgili yazıyı nasıl tutar? Öncelikle yazının karakterleri String nesnesi içerisinde tutulamaz. Aynı türden nesnelerin uzunluklarınının aynı olduğunu anımsayınız. Aslında String nesnesi içerisinde yazıya ilişkin alanın adresi bulunur. Yazılara ilişkin alanların nerede yaratıldığı sistemden sisteme değişiklik göstermektedir. Bu anlamda String sınıfı yazı işlemlerini daha aşağı seviyede yapmaktadır. Bu durumda ilgili yazıya ilişkin alan içsel olarak sistemden sisteme farklı olabilecek şekilde (ve bölgede) yaratılmaktadır. Bir yazının tutuluşuna ilişkin belleğin temsili durumu aşağıdaki gibidir:
+
+![StringInternal](./media/StringInternal.png)
+
+Burada içsel bölge sistemden sisteme farklı olabilmektedir. Bu şekle ilişkin bir kod parçası (code snippet) şu şekildedir:
+
+```java
+String s1 = "ankara";
+String s2 = "istanbul";
+```
