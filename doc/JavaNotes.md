@@ -12000,7 +12000,7 @@ class Point {
 **Açıklamalar:** $z = a + i * b$, $z_1 = a_1 + i * b_1$, $z_2 = a_2 + i * b_2$ karmaşık sayıları için
 >- $\bar{z} = a - i * b$
 >- $|z| = \sqrt{a^2 + b^2}$
->- $z_1 \pm z_2 = (a_1 \pm a_2) + i(b_1 \pm b2)$
+>- $z_1 \pm z_2 = (a_1 \pm a_2) + i * (b_1 \pm b2)$
 >- $z_1z_2 = (a_1 * a_2 - b_1 * b_2) + i * (a_1 * b_2 + a_2 * b_1)$
 >- $z_1 / z_2 =  (1 / |\bar{z_2}|) * (z_1 * \bar{z_2})$ 
 
@@ -13320,7 +13320,7 @@ class App {
 }
 ```
 
->Bir String nesnesine ilişkin yazının her bir karakterine ilk karakterinki sıfır olmak üzere birer indeks numarası verilmiştir. Bu durumda bir karakter `charAt`isimli bir metot ile elde edilebilir. Bu metot parametresi ile aldığı indeks numarasında ilişkin karakterin sıra numarasına (char türüne) geri döner. Metoda pozitif ya da negatif bakımdan sınırlar dışında bir indeks numarası verildiğinde exception oluşur. Programlamada yazının karakterlerinin sayısına yazının uzunluğu denir. String sınıfının `length` metodu ile yazının uzunluğu elde edilebilir. 
+>Bir String nesnesine ilişkin yazının her bir karakterine ilk karakterininki sıfır olmak üzere birer indeks numarası verilmiştir. Bu durumda bir karakter `charAt`isimli bir metot ile elde edilebilir. Bu metot parametresi ile aldığı indeks numarasında ilişkin karakterin sıra numarasına (char türüne) geri döner. Metoda pozitif ya da negatif bakımdan sınırlar dışında bir indeks numarası verildiğinde exception oluşur. Programlamada yazının karakterlerinin sayısına yazının uzunluğu denir. String sınıfının `length` metodu ile yazının uzunluğu elde edilebilir. 
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -13347,7 +13347,6 @@ class App {
 }
 
 ```
-
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -13443,3 +13442,351 @@ Burada içsel bölge sistemden sisteme farklı olabilmektedir. Bu şekle ilişki
 String s1 = "ankara";
 String s2 = "istanbul";
 ```
+##### 8 Mart 2025
+
+**Anahtar Notlar:** Aynı türden referanslar `==` ve `!=` operatörleri ile karşılaştırılabilirler. Farklı türden referansların bu operatörler ile kullanımı error oluşturur. Aynı türden referansların bu operatörler ile kullanımı, aynı nesneyi gösterip göstermediği karşılaştırmasıdır. Yani bu operatörler ile nesnelerin içeriğinin aynı olması karşılaştırması yapılamaz.
+
+Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Sample s1 = new Sample(10);
+		Sample s2 = s1;//new Sample(10);
+		
+		System.out.println(s1 == s2 ? "Aynı nesne" : "Farklı nesneler");
+		System.out.println(s1 != s2 ? "Farklı nesneler" : "Aynı nesne");
+	}
+}
+
+class Sample {
+	public int a;
+	
+	public Sample(int x)
+	{
+		a = x;
+	}
+}
+
+```
+
+>Aşağıdaki demo örnekte iki yazının özdeşlik karşılaştırması değil, referans karşılaştırması yapılmıştır. Bu durumda her karşılaştırma işlemi false değerini üretecektir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Birinci yazıyı giriniz:");
+		String s1 = kb.nextLine();
+				
+		
+		System.out.print("İkinci yazıyı giriniz:");
+		String s2 = kb.nextLine();
+		
+		System.out.println(s1 == s2 ? "Aynı yazı" : "Farklı yazılar");		
+	}
+}
+
+```
+>İki yazının özdeşlik karşılaştırması String sınıfının `equals` metodu ile yapılabilir. Bu metot case-sensitive olarak çalışır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Birinci yazıyı giriniz:");
+		String s1 = kb.nextLine();
+						
+		System.out.print("İkinci yazıyı giriniz:");
+		String s2 = kb.nextLine();
+		
+		System.out.println(s1.equals(s2) ? "Aynı yazı" : "Farklı yazılar");		
+	}
+}
+
+```
+
+>İki yazının case-insnsitive olarak özdeşlik karşılaştırması `equalsIgnoreCase` metodu ile yapılabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Birinci yazıyı giriniz:");
+		String s1 = kb.nextLine();
+
+		System.out.print("İkinci yazıyı giriniz:");
+		String s2 = kb.nextLine();
+		
+		System.out.println(s1.equalsIgnoreCase(s2) ? "Aynı yazı" : "Farklı yazılar");		
+	}
+}
+
+```
+>Derleyici, özdeş `string literal'lar` için aynı adresin verileceği kodları üretir. Yani özdeş `string literal'lar` için toplamda bir tane nesne yaratılmış olur.
+
+>Aşağıdaki demo örnekte `s1 == s2` karşılaştırması sonucunda true değeri üretilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s1 = "ankara";
+		String s2 = "ankara";		
+		
+		System.out.println(s1 == s2);		
+	}
+}
+
+```
+>String sınıfının `concat` metodu ile yazı birleştirmesi (concatenation) yapılabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input first text:");
+			String s1 = kb.nextLine();
+			
+			if ("quit".equals(s1))
+				break;
+
+			System.out.print("Input second text:");
+			String s2 = kb.nextLine();
+
+			String s = s1.concat(s2);
+			
+			System.out.println(s);
+		}
+	}
+}
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input first text:");
+			String s1 = kb.nextLine();
+			
+			if ("quit".equals(s1))
+				break;
+
+			System.out.print("Input second text:");
+			String s2 = kb.nextLine();
+
+			String s = s1.concat(" ".concat(s2));
+			
+			System.out.println(s);
+		}
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input first text:");
+			String s1 = kb.nextLine();
+			
+			if ("quit".equals(s1))
+				break;
+
+			System.out.print("Input second text:");
+			String s2 = kb.nextLine();
+			String s = s1.concat(" ").concat(s2);
+			
+			System.out.println(s);
+		}
+	}
+}
+```
+
+>`+` operatörünün operandları String türündense, bu durumda yazı birleştirmesi yapılır. Birleştirilmiş yazıya ilişkin String referansı üretilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input first text:");
+			String s1 = kb.nextLine();
+			
+			if ("quit".equals(s1))
+				break;
+
+			System.out.print("Input second text:");
+			String s2 = kb.nextLine();
+			String s = s1 + " " + s2;
+			
+			System.out.println(s);
+		}
+	}
+}
+```
+
+>`+` operatörünün bir operandı String türündense, diğer operandın yazı karşılığı elde edilerek birleştirme işlemi yapılır. String türden olmayan operanda ilişkin ifadenin değerinin yazı karşılığının nasıl elde edildiği iler detaylı olarak ele alınacaktır. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input sensor name:");
+			String s1 = kb.nextLine();
+			
+			if ("quit".equals(s1))
+				break;
+
+			System.out.print("Input sensor value:");
+			double value = Double.parseDouble(kb.nextLine());
+			
+			String message = "Sensor Data Value:" + value;
+			
+			//...
+			
+			System.out.println(message);
+		}
+	}
+}
+
+```
+
+>Yukarıdaki kodda, `"Sensor Data Value:" + value` işlemi tür dönüştürme operatörü ile yapılamaz değil mi? Ya da başka bir deyişle yazı karşılığı tür dönüştürme operatörü ile elde edilemez değil mi?
+
+>Length'i sıfır olan yani hiç bir karakter içermeyen bir yazıya **boş string (empty string)** denir. Boş string en kolay olarak iki tane iki tırnağı yan yana getirerek bir string literal biçiminde elde edilebilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s = "";
+		
+		System.out.printf("Length:%d%n", s.length());
+	}
+}
+```
+
+>Bir String'in boş olup olmadığı çeşitli şekillerde anlaşılabilir. Örneğin, uzunluğunun sıfır olup olmadığı kontrol edilebilir ya da örneğin `""` ile özdeşlik kontrolü (equals metodu ile) yapılabilir. Pratikte bu kontrol çok gerekli olduğundan String sınıfında `isEmpty` isimli bir metot bulundurulmuştur. Bu durumda hem okunabilirlik/anlaşılabilirlik hem de kolay yazım açısından `isEmpty` metodunun kullanılması tavsiye edilir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			if (s.isEmpty()) {
+				System.out.println("String is empty, please input again");
+				continue;
+			}
+			
+			System.out.printf("Text:%s%n", s);
+	
+		}
+		
+	}
+}
+```
+
+>String sınıfının `substring` metotları yazının belli bir kısmını elde etmek için kullanılır. Bu metodun tek parametreli overload'u aldığı indeks numarasından itibaren sonuna kadar olan yazıya geri döner. iki parametreli overload'u `[beginIndex, endIndex)` aralığındaki yazıya geri döner.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s = "ankara";
+		
+		System.out.println(s.substring(2)); //kara
+		System.out.println(s.substring(2, 5)); //kar
+	}
+}
+```
+>substring metodunun tek parametreli overload'una yazının uzunluğu indeks olarak verildiğinde boş string'e geri döner. Yazının sınırları dışında kalan tüm diğer indeks değerleri için exception oluşur. substring metodunun iki parametreli overload'una yazı sınırları içerisinde kalması koşuluyla beginIndex ve endIndex değerleri aynı verildiğinde yine boş string'e geri döner. Verilen değer yazı sınırları uzunluk değerinden büyükse (eşit olabilir) veya negatif ise exception oluşur.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input text:");
+		String s = kb.nextLine();
+		
+		System.out.printf("Text:%s%n", s);
+		System.out.println(s.substring(s.length()).isEmpty() ? "Empty String" : "Non-empty string");
+		System.out.println(s.substring(s.length(), s.length()).isEmpty() ? "Empty String" : "Non-empty string");
+	}
+}
+```
+
+>**Sınıf Çalışması:** Klavyeden quit girilene kadar alınan yazıları aralarında `-` karakteri şekilde birleştirilmiş yeni bir yazı elde eden programı yazınız.
+>
+>**Açıklamalar:** 
+>- Programda dizi kullanılmayacaktır.
+>- Boş string girildiğinde yazıya dahil edilmeyecektir.
+>- `-` karakteri elde edilen yazıda yalnızca girilmiş olan yazıların arasında bulunacaktır, başında ya da sonunda bulunmayacaktır.
+
+
