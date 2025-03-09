@@ -13782,11 +13782,304 @@ class App {
 }
 ```
 
->**Sınıf Çalışması:** Klavyeden quit girilene kadar alınan yazıları aralarında `-` karakteri şekilde birleştirilmiş yeni bir yazı elde eden programı yazınız.
+#### 9 Mart 2025
+
+>**Sınıf Çalışması:** Klavyeden `quit` girilene kadar alınan yazıları aralarında `-` karakteri olacak şekilde birleştirilmiş yeni bir yazı elde eden programı yazınız.
 >
 >**Açıklamalar:** 
 >- Programda dizi kullanılmayacaktır.
 >- Boş string girildiğinde yazıya dahil edilmeyecektir.
 >- `-` karakteri elde edilen yazıda yalnızca girilmiş olan yazıların arasında bulunacaktır, başında ya da sonunda bulunmayacaktır.
+>**Not:** İleride daha iyisi yazılacaktır
 
+>**Çözüm-1:**
 
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		JoinWithHyphenApp.run();
+	}
+}
+
+class JoinWithHyphenApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		String str = "";
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+		
+			if (s.isEmpty())
+				continue;
+			
+			if (!str.isEmpty())
+				str += "-";
+			
+			str += s;
+		}
+		
+		System.out.printf("(%s)%n", str);
+	}
+}
+```
+>**Çözüm-2:** İlk çözüme göre daha efektif sayılabilir
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		JoinWithHyphenApp.run();
+	}
+}
+
+class JoinWithHyphenApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		String str = "";
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+		
+			if (s.isEmpty())
+				continue;
+			
+			str += s + "-";			
+		}
+		
+		if (!str.isEmpty())
+			str = str.substring(0, str.length() - 1);
+		
+		System.out.printf("(%s)%n", str);
+	}
+}
+```
+
+>String sınıfının `indexOf` metotları yazı içerisinde bir karakteri ya da bir yazıyı aramak için kullanılır. Metotlar ilk bulduklarına ilişkin indeks numarasına geri dönerler. Bulamazlarsa `-1` değerine geri dönerler. Bu metotlar şunlardır:
+>**1. indexOf(char ch):** Yazı içerisinde parametresi ile aldığı karakteri arar ilk bulduğunun indeks numarasına geri döner. 
+>**2. indexOf(char ch, int fromIndex):** Yazı içerisinde parametresi ile aldığı karakteri, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun indeks numarasına geri döner. 
+>**3. indexOf(String str):** Yazı içerisinde parametresi ile aldığı yazıyı arar ilk bulduğunum ilk karakterinin indeks numarasına geri döner. 
+>**4. indexOf(String str, int fromIndex):** Yazı içerisinde parametresi ile aldığı yazıyı, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun ilk karakterinin indeks numarasına geri döner. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s = "Bugün hava çok güzel, çok çok güzel";
+		
+		System.out.printf("Index:%d%n", s.indexOf('ç'));
+		System.out.printf("Index:%d%n", s.indexOf('ç', 12));
+		System.out.printf("Index:%d%n", s.indexOf('ç', 27));
+		
+		System.out.printf("Index:%d%n", s.indexOf("çok"));
+		System.out.printf("Index:%d%n", s.indexOf("çok", 12));
+		System.out.printf("Index:%d%n", s.indexOf("çok", 27));
+	}
+}
+```
+
+**Sınıf Çalışması:** Parametresi ile aldığı iki yazıdan birinci içerisinde ikincisinden kaç tane olduğu bilgisine geri dönen `countString` isimli metodu `StringUtil` sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz
+
+ 
+
+>Test kodu
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilCountStringTest.run();
+	}
+}
+
+class StringUtilCountStringTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input first text:");
+			String s1 = kb.nextLine();
+			
+			if ("quit".equals(s1))
+				break;
+			
+			System.out.print("Input second text:");
+			String s2 = kb.nextLine();
+			
+			System.out.printf("Count:%d%n", StringUtil.countString(s1, s2));			
+		}
+	}
+}
+```
+
+**Çözüm-1:**
+
+```java
+class StringUtil {
+	public static int countString(String s1, String s2)
+	{
+		int count = 0;
+		int i = 0;
+		
+		while ((i = s1.indexOf(s2, i)) != -1) {
+			++count;
+			++i;
+		}		
+		
+		return count;
+	}
+}
+```
+**Çözüm-2:**
+
+```java
+class StringUtil {
+	public static int countString(String s1, String s2)
+	{
+		int count = 0;
+		int i = -1;
+		
+		while ((i = s1.indexOf(s2, i + 1)) != -1)
+			++count;
+		
+		return count;
+	}
+}
+```
+
+**Çözüm-3:**
+
+```java
+class StringUtil {
+	public static int countString(String s1, String s2)
+	{
+		int count = 0;
+		
+		for (int i = -1; (i = s1.indexOf(s2, i + 1)) != -1; ++count)
+			;
+	
+		return count;
+	}
+}
+```
+**Soru:**
+>**IntegerDecimalOccurence:** String pattern matching in decimal representations of ints.
+>
+>**Task description:**
+>Two integers A and B are given. We are interested in positions at which decimal representation of A occurs as a substring in the decimal representation of B (counting from 0) For example:
+>
+>- 53 occurs in 1953786 at position 2.
+>- 78 occurs in 1953786786 at positions 4 and 7
+>- 57 does not occur in 153786.
+>
+>Decimal representations are assumed to be big-endian and without leading zeros (the only exception being the number 0, whose decimal representation is "0")
+>
+>Write function
+
+```java
+		class Solution { public int solution(int A, int B); }	
+```
+
+>that, given two integers A and B, returns the leftmost position at which A occurs in B the function should return -1 if A does not occur in B.
+>
+>For example, given A = 53 and B = 195378653, the function should return 2, as explained above.\
+>Assume that:	
+>- A and B are integers within the range `[0..999,999,999]`
+>
+>In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment.
+
+**Çözüm-1:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		SolutionTest.run();
+	}
+}
+
+class SolutionTest {
+	public static void run()
+	{
+		Solution s = new Solution(); 
+
+		System.out.printf("Index:%d%n", s.solution(53, 195378653));		
+		System.out.printf("Index:%d%n", s.solution(54, 195378653));
+	}
+}
+
+class Solution { 
+	public int solution(int A, int B)
+	{
+		return (B + "").indexOf(A + "");
+	}
+}
+```
+
+**Soru:**
+
+>Aşağıdaki programın ekran çıktısını yazınız
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		System.out.println("Java" + 10 + 11);
+		System.out.println(10 + 11 + "Java");
+	}
+}
+```
+>**Ekran çıktısı:**
+
+```java
+Java1011
+21Java
+```
+
+>Java'da aşağıdaki koşullardan birini sağlayan bir karakter `whitespace` karakterdir. Tersine whitespace bir karakter aşağıdaki koşullardan birini sağlar (if and only if):
+>  	
+>- Karakter "Unicode space" karakter ve "Non-breaking space" olmayan karakterlerdendir. Unicode space karakterler şunlardır:  Space Separator, Line Separator, Paragraph Separator. Bu karakterler UNICODE'da çeşitli kategorilerdir. Detaylar burada ele alınmayacaktır. Bu karakterlere Character sınıfının SPACE_SEPERATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR isimli static veri elemanları ile elde edilebilir. non-breaking space karakterler şunlardır: '\u00A0', '\u2007', '\u202F'
+>- '\t' 		horizontal tabulation
+>- '\n' 		line feed (LF)
+>- '\u000B' 	vertical tabulation
+>- '\f' 		form tabulation
+>- '\r' 		carriage return (CR)
+>- '\u001C' 	file separator
+>- '\u001D' 	group separator
+>- '\u001E' 	record separator
+>- '\u001F' 	unit separator
+>
+>`java.lang`paketi içerisinde `Character` isimli sınıfın bir karakter ile çeşitli işlemler yapabilen yararlı metotları bulunur. Bu sınıfın bu tarz metotları özellikle String sınıfına yardımcı olarak düşünülebilir. Bu metotlardan bir grubu `isXXX` biçiminde boolean türüne geri dönen metotlardır, bir grubu `toXXX` biçiminde genel olarak dönüştürme yapan metotlardır. Bu sınıfın elemanları oldukça fazladır. Bu metotlaran bazıları şunlardır:
+- `isWhiteSpace:` Karakterin whitespace karakter olup olmadığını test eder.
+- `isDigit`: Karakterin bir rakam karakteri olup olmadığını test eder.
+- `isLetter`: Karakterin alfabetik bir karakter olup olmadığını test eder.
+- `isUpperCase`: Karakterin büyük harf olup olmadığını test eder.
+- `isLowerCase`: Karakterin küçük harf olup olmadığını test eder. 
+- `toLowerCase`: Karakterin varsa küçük karşılığını döndürür, yoksa karakterin kendisine geri döner.
+- `toUpperCase`: Karakterin varsa büyük karşılığını döndürür, yoksa karakterin kendisine geri döner.
+
+>Bu sınıfa ait bir metodun genel olarak hem int hem de char parametreli overload'ları bulunur. Bu durumda bu metotlar sıra numarası (code point) 65535'den büyük olan karakterler ile de kullanılabilmektedir.
+
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yazıyı baş harfi büyük geri kalan karakterleri küçük olacak şekilde çeviren ve bu yazıya geri dönen `capitalize` isimli metodu `StringUtil` sınıfı içerisinde yazınız ve test ediniz.
