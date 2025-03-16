@@ -14082,4 +14082,396 @@ Java1011
 
 >Bu sınıfa ait bir metodun genel olarak hem int hem de char parametreli overload'ları bulunur. Bu durumda bu metotlar sıra numarası (code point) 65535'den büyük olan karakterler ile de kullanılabilmektedir.
 
+##### 16 Mart 2025
+
 >**Sınıf Çalışması:** Parametresi ile aldığı bir yazıyı baş harfi büyük geri kalan karakterleri küçük olacak şekilde çeviren ve bu yazıya geri dönen `capitalize` isimli metodu `StringUtil` sınıfı içerisinde yazınız ve test ediniz.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilCapitalizeTest.run();
+	}
+}
+
+
+class StringUtilCapitalizeTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			System.out.printf("(%s)%n", StringUtil.capitalize(s));
+
+			if ("quit".equals(s))
+				break;
+		}
+	}
+}
+
+class StringUtil {
+	public static String capitalize(String s)
+	{
+		return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
+	}
+}
+
+```
+
+>String sınıfının `trim` metodu yazının başındaki (leading) ve sonundaki (trailing) boşluk karakterlerini siler. Bu metot `[\u0000, \u0020]` aralığındaki boşluk karakterkleri için çalışır. Diğer boşluk (whitespace) karakterlerini silmez. Java 11 ile birlikte tüm whitespace karakterler için çalışan `strip` isimli bir metot String sınıfına eklenmiştir. Ayrıca Java 11 ile birlikte yazının yalnızca başındaki boşluk karakterlerini silen `stripLeading` ve yalnızca sonundaki boşluk karakterlerini silen `stripTrailing` isimli iki metot daha eklenmiştir. Java 11 öncesi için trim metodunun tüm whitespace karakterler için çalışan, yalnızca başındaki ve sonundaki boşluk karakterlerini silen metotlar bulunmadığında programcı gerekirse bunu kendisi yazabilir. Her ne kadar trim metodu pratikte çoğu durumda işimizi görse de Java 11+ ile çalışıyorsak strip metodunu tercih etmeliyiz. Bu metotlar karakterler arasındaki boşluk karakterlerini silmez.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			System.out.printf("(%s)%n", s.trim());
+			System.out.printf("(%s)%n", s.strip());
+			System.out.printf("(%s)%n", s.stripLeading());
+			System.out.printf("(%s)%n", s.stripTrailing());
+
+			if ("quit".equals(s))
+				break;
+		}
+	}
+}
+```
+
+>**Sınıf Çalışması:** Aşağıdaki belirtilen metotları açıklamalara göre yazınız ve aşağıdaki kod ile test ediniz.
+
+```java
+	public static String trim(String s);
+	public static String trimLeading(String s);
+	public static String trimTrailing(String s);
+```
+>**Açıklamalar:** 
+>- Metotlar Java 11 öncesi için yazılacaktır.
+>- Metotlar sırasıyla yazının başındaki ve sonundaki, yazının yalnızca başındaki ve yazının yalnızce sonundaki boşluk (whitespace) karakterleri silecektir.
+>- Metotlar `StringUtil` sınıfı içerisinde yazılacaktır
+
+>**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilTrimsTest.run();
+	}
+}
+
+
+class StringUtilTrimsTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.trim(s));
+			System.out.printf("(%s)%n", StringUtil.trimLeading(s));
+			System.out.printf("(%s)%n", StringUtil.trimTrailing(s));
+		}
+	}
+}
+
+class StringUtil {
+	public static String trim(String s)
+	{
+		return trimLeading(trimTrailing(s));
+	}
+	
+	public static String trimLeading(String s)
+	{
+		 int i = 0;
+		 
+		 for (; i < s.length() && Character.isWhitespace(s.charAt(i)); ++i)
+			 ;
+		 
+		 return s.substring(i);
+	}
+
+	public static String trimTrailing(String s)
+	{
+		 int i = s.length() - 1;
+		 
+		 for (; i >= 0 && Character.isWhitespace(s.charAt(i)); --i)
+			 ;
+		 
+		 return s.substring(0, i + 1);
+	}
+}
+```
+
+>String sınıfının immutable özelliğinin maliyetli olması durumunda string işlemleri için String sınıfına yardımcı `java.lang` paketi içerisinde `StringBuilder` isimli sınıf kullanılabilir. Bu sınıf immutable değildir. `StringBuilder` sınıfı yazı üzerinde değişiklik yapabilen pek çok yararlı metoda sahiptir. `StringBuilder` sınıfı `String` sınıfına bir alternatif olarak düşünülmemelidir. Bu sınıf yardımcı bir sınıftır ve String sınıfının immutable olmasının dezavantaj oluşturduğu durumlarda tercih edilmelidir. Örneğin, bir yazının tersini döndüren reverse isimli bir metot aşağıdaki gibi yazılabilir:
+
+```java
+public static String reverse(String s)
+{
+	String str = "";
+	
+	for (int i = s.length() - 1; i >= 0; --i)
+		str += s.charAt(i);
+	
+	return str;
+}
+```
+
+>Burada dikkat edilirse her adımda bir String nesnesi yaratılmakta ve yaratılmış nesne bir sonraki adımda ilgili referanstan kopartılmakte ve artık kullanılmaz duruma gelmektedir. Bu durumda metoda verilen yazı ne kadar uzunsa yaklaşık o kadar sayıda nesne yaratma maaliyeti söz konusudur. İşte StringBuilder sınıfı ile bu maaliyet ortadan kaldırılabilir.
+>
+**Anahtar Notlar:** StringBuilder sınıfının pek çok metodu çağrılan StringBuilder referansına geri döner. Bu şekildeki sınıflar ve metotları, ileride ele alacağımız `fluent pattern`'e uygun olarak yazılmışlardır. 
+
+>StringBuilder sınıfının `append` metotları yazıya ekleme yapmak için kullanılır. StringBuilder sınıfının default ctor'u ile length'i sıfır olan bir yazıya ilişkin bir StringBuilder nesnesi yaratılır, String parametreli ctor'u ile yazının karakterlerinden oluşan bir StringBuilder nesnesi yaratılmış olur. StringBuilder sınıfının da String sınıfındaki gibi substring metotları bulunmaktadır. String sınıfının toString metodu ile yazıya ilişkin String nesnesi referansı elde edilebilir. StringBuilder sınıfının `length` ve `isEmpty` metotları da bulundurulmuştur. StringBuilder sınıfının `charAt` metodu vardır ayrıca verilen bir indeksteki karakteri set eden `setCharAt` isimli bir metodu da vardır.
+
+>Aşağıdaki demo örnekte girilen yazıların aralarına `-` konarak birleştirilmesi StringBuilder ile yapılmıştır. String sınıfı `+` operatörü kullanılarak yapılması görece maliyetlidir.
+
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		JoinWithHyphenApp.run();
+	}
+}
+
+class JoinWithHyphenApp {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		StringBuilder sb = new StringBuilder();
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+		
+			if (s.isEmpty())
+				continue;
+			
+			sb.append(s).append('-');	
+		}
+		
+		String str = sb.isEmpty() ? "" : sb.substring(0, sb.length() - 1);
+		
+		System.out.printf("(%s)%n", str);
+	}
+}
+```
+
+>StringBuilder sınıfının burada ele alınmayan pek çok metodu vardır. Burada ve `Java ile Uygulama Geliştirme I-II` ve `Android Programlama` kurslarında kullanıldıkça öğrenilecektir.
+
+>Aşağıdaki demo örnekte reverse metodu StringBuilder kullanılarak daha efektif yazılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilReverseTest.run();
+	}
+}
+class StringUtilReverseTest {
+	public static void run() 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.reverse(s));
+		}
+	}
+}
+
+class StringUtil {
+	public static String reverse(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = s.length() - 1; i >= 0; --i)
+			sb.append(s.charAt(i));
+		
+		return sb.toString();
+	}
+}
+```
+
+>Aşağıdaki demo örnekte reverse metodu StringBuilder sınıfının reverse metodu kullanılarak yazılmıştır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilReverseTest.run();
+	}
+}
+class StringUtilReverseTest {
+	public static void run() 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.reverse(s));
+		}
+	}
+}
+
+class StringUtil {
+	public static String reverse(String s)
+	{
+		return new StringBuilder(s).reverse().toString();
+	}
+}
+```
+
+>Aşağıdaki, parametresi ile aldığı bir yazının küçük harflerini büyük harfe, büyük harflerini küçük harfe dönüştüren `changeCase` isimli metodun çeşitli yazılışlarını inceleyiniz.
+
+>Test Kodu:
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilChangeCaseTest.run();
+	}
+}
+class StringUtilChangeCaseTest {
+	public static void run() 
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.changeCase(s));
+		}
+	}
+}
+```
+
+>Yavaş versiyon (tavsiye edilmez)
+
+```java
+class StringUtil {
+	public static String changeCase(String s)
+	{
+		String str = "";
+		
+		for (int i = 0; i < s.length(); ++i) {
+			char c = s.charAt(i);
+			
+			str += Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c);
+		}
+		
+		return str;
+	}
+}
+```
+
+>Hızlı versiyon
+
+```java
+class StringUtil {
+	public static String changeCase(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < s.length(); ++i) {
+			char c = s.charAt(i);
+			
+			sb.append(Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));
+		}
+		
+		return sb.toString();
+	}
+}
+```
+
+>Hızlı versiyon
+
+```java
+class StringUtil {
+	public static String changeCase(String s)
+	{
+		StringBuilder sb = new StringBuilder(s);
+		
+		for (int i = 0; i < sb.length(); ++i) {
+			char c = sb.charAt(i);
+			
+			sb.setCharAt(i, Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));
+		}
+		
+		return sb.toString();
+	}
+}
+```
+
+>**Sınıf Çalışması:**  Parametresi ile aldığı bir yazının Türkçe pangram olup olmadığını test eden `isPangramTR` ve İngilizce pangram olup olmadığını test eden `isPangramEN` isimli metotları yazınız ve test ediniz
+>**Açıklamalar:** 
+>- İlgili dilin alfabesindeki tüm karakterler kullanılarak elde edilen ve içerisinde hiç özel isim geçmeyen anlamlı cümlelere pangram denir. Örneğin İngilizce'de tipik olarak `The quick brown fox jumps over the lazy dog` cümlesi kullanılır. Türkçe'de tipik olarak `Pijamalı hasta yağız şoföre çabucak güvendi.` cümlesi kullanılır.
+>- Metotlar cümlenin anlamına ve özel isim içerip içermediğine bakmayacaktır.
+
+>**Sınıf Çalışması:** Aşağıdaki metotları açıklamalara göre StringUtil sınıfı içerisinde yazınız ve test ediniz.
+```java
+		public static String padLeading(String s, int n, char ch);
+		public static String padLeading(String s, int n);
+		public static String padTrailing(String s, int n, char ch);
+		public static String padTrailing(String s, int n);
+```
+>**Açıklamalar:** 
+>- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı
+uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili 
+yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
+```java
+padLeading("ankara", 8, 'x');
+```
+>çağrısı ile `xxankara` yazısı elde edilecektir. Örneğin:
+
+```java
+padLeading("ankara", 5, 'x');
+```
+>çağrısı ile `ankara` yazısı elde edilecektir.
+>- padLeading metodunun iki parametreli overload'u yazıyı space karakteri ile besleyecektir.
+>- padTrailing metotları padLeading'in yaptıklarını sondan besleyecek şekilde yapacaktır.
+>- Metotlar Java 11 öncesi için yazılacaktır.
