@@ -14446,11 +14446,169 @@ class StringUtil {
 	}
 }
 ```
+##### 22 Mart 2025
 
 >**Sınıf Çalışması:**  Parametresi ile aldığı bir yazının Türkçe pangram olup olmadığını test eden `isPangramTR` ve İngilizce pangram olup olmadığını test eden `isPangramEN` isimli metotları yazınız ve test ediniz
 >**Açıklamalar:** 
 >- İlgili dilin alfabesindeki tüm karakterler kullanılarak elde edilen ve içerisinde hiç özel isim geçmeyen anlamlı cümlelere pangram denir. Örneğin İngilizce'de tipik olarak `The quick brown fox jumps over the lazy dog` cümlesi kullanılır. Türkçe'de tipik olarak `Pijamalı hasta yağız şoföre çabucak güvendi.` cümlesi kullanılır.
 >- Metotlar cümlenin anlamına ve özel isim içerip içermediğine bakmayacaktır.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilIsPangramTest.run();
+	}
+}
+
+
+class StringUtilIsPangramTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		StringUtilIsPangramTRTest.run(kb);
+		StringUtilIsPangramENTest.run(kb);
+	}
+}
+
+class StringUtilIsPangramTRTest {
+	public static void run(java.util.Scanner kb)
+	{
+		while (true) {
+			System.out.print("Bir yazı giriniz:");
+			String s = kb.nextLine();
+			
+			if ("elma".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPangramTR(s) ? "Pangram" : "Pangram değil");
+		}
+	}
+}
+
+class StringUtilIsPangramENTest {
+	public static void run(java.util.Scanner kb)
+	{
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPangramEN(s) ? "Pangram" : "Not a pangram");
+		}
+	}
+}
+
+class StringUtil {
+	public static boolean isPangramEN(String s)
+	{
+		return isPangram(s.toLowerCase(), "abcdefghijklmnopqrstuwxvyz");
+	}
+	
+	public static boolean isPangramTR(String s)
+	{
+		return isPangram(s.toLowerCase(), "abcçdefgğhıijklmnoöprsştuüvyz");
+	}
+	
+	public static boolean isPangram(String s, String alphabet)
+	{
+		for (int i = 0; i < alphabet.length(); ++i)
+			if (s.indexOf(alphabet.charAt(i)) == -1)
+				return false;
+		
+		return true;
+	}
+}
+
+```
+>Yukarıdaki soruda yalnızca İngilizce alfabedeki karakterler için metot şu şekillerde de yazılabilir. Çünkü İngilizce alfadeki karakterler, karakter tablosunda sırayla dizilmişlerdir.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilIsPangramTest.run();
+	}
+}
+
+
+class StringUtilIsPangramTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPangramEN(s) ? "Pangram" : "Not a pangram");
+		}
+	}
+}
+
+class StringUtil {	
+	public static boolean isPangramEN(String s)
+	{
+		for (char c = 'a'; c <= 'z'; ++c)
+			if (s.indexOf(c) == -1)
+				return false;
+		
+		return true;
+	}
+}
+
+```
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilIsPangramTest.run();
+	}
+}
+
+
+class StringUtilIsPangramTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPangramEN(s) ? "Pangram" : "Not a pangram");
+		}
+	}
+}
+
+class StringUtil {	
+	public static boolean isPangramEN(String s)
+	{
+		for (int i = 0; i < 26; ++i)
+			if (s.indexOf('a' + i) == -1)
+				return false;
+		
+		return true;
+	}
+}
+```
 
 >**Sınıf Çalışması:** Aşağıdaki metotları açıklamalara göre StringUtil sınıfı içerisinde yazınız ve test ediniz.
 ```java
@@ -14472,6 +14630,701 @@ padLeading("ankara", 8, 'x');
 padLeading("ankara", 5, 'x');
 ```
 >çağrısı ile `ankara` yazısı elde edilecektir.
->- padLeading metodunun iki parametreli overload'u yazıyı space karakteri ile besleyecektir.
+>- padLeading metodunun iki parametreli overload'u yazıyı `space` karakteri ile besleyecektir.
 >- padTrailing metotları padLeading'in yaptıklarını sondan besleyecek şekilde yapacaktır.
 >- Metotlar Java 11 öncesi için yazılacaktır.
+
+>**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilPadLeadingTrailingTest.run();
+	}
+}
+
+class StringUtilPadLeadingTrailingTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.print("Input new length:");
+			int n = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("(%s)%n", StringUtil.padLeading(s, n, 'x'));
+			System.out.printf("(%s)%n", StringUtil.padLeading(s, n));
+			System.out.printf("(%s)%n", StringUtil.padTrailing(s, n, 'x'));
+			System.out.printf("(%s)%n", StringUtil.padTrailing(s, n));
+		}
+	}
+}
+
+class StringUtil {	
+	public static String padLeading(String s, int n, char ch)
+	{
+		int len = s.length();
+		
+		return len < n ? repeat(ch, n - len) + s : s;
+	}
+	
+	public static String padLeading(String s, int n)
+	{
+		return padLeading(s, n, ' ');
+	}
+	
+	public static String padTrailing(String s, int n, char ch)
+	{
+		int len = s.length();
+		
+		return len < n ? s + repeat(ch, n - len) : s;
+	}
+	
+	public static String padTrailing(String s, int n)
+	{
+		return padTrailing(s, n, ' ');
+	}
+	
+	public static String repeat(char ch, int n)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		while (n-- > 0)
+			sb.append(ch);
+		
+		return sb.toString();
+	}
+}
+```
+
+>Java 11 ile birlikte `repeat` isimli bir metot eklenmiştir. Bu metot parametresi aldığı değer kadar ilgili yazıyı çoklar.
+
+>**Sınıf Çalışması:** Aşağıdaki metotları açıklamalara göre StringUtil sınıfı içerisinde yazınız ve test ediniz.
+```java
+		public static String padLeading(String s, int n, char ch);
+		public static String padLeading(String s, int n);
+		public static String padTrailing(String s, int n, char ch);
+		public static String padTrailing(String s, int n);
+```
+>**Açıklamalar:** 
+>- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı
+uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili 
+yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
+```java
+padLeading("ankara", 8, 'x');
+```
+>çağrısı ile `xxankara` yazısı elde edilecektir. Örneğin:
+
+```java
+padLeading("ankara", 5, 'x');
+```
+>çağrısı ile `ankara` yazısı elde edilecektir.
+>- padLeading metodunun iki parametreli overload'u yazıyı `space` karakteri ile besleyecektir.
+>- padTrailing metotları padLeading'in yaptıklarını sondan besleyecek şekilde yapacaktır.
+>- Metotlar Java 11+ için yazılacaktır.
+
+>**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilPadLeadingTrailingTest.run();
+	}
+}
+
+class StringUtilPadLeadingTrailingTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.print("Input new length:");
+			int n = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("(%s)%n", StringUtil.padLeading(s, n, 'x'));
+			System.out.printf("(%s)%n", StringUtil.padLeading(s, n));
+			System.out.printf("(%s)%n", StringUtil.padTrailing(s, n, 'x'));
+			System.out.printf("(%s)%n", StringUtil.padTrailing(s, n));
+		}
+	}
+}
+
+class StringUtil {	
+	public static String padLeading(String s, int n, char ch)
+	{
+		int len = s.length();
+		
+		return len < n ? (ch + "").repeat(n - len) + s : s;
+	}
+	
+	public static String padLeading(String s, int n)
+	{
+		return padLeading(s, n, ' ');
+	}
+	
+	public static String padTrailing(String s, int n, char ch)
+	{
+		int len = s.length();
+		
+		return len < n ? s + (ch + "").repeat(n - len) : s;
+	}
+	
+	public static String padTrailing(String s, int n)
+	{
+		return padTrailing(s, n, ' ');
+	}
+}
+```
+
+>Java 11 ile birlikte `isBlank` isimli bir metot eklenmiştir. Bu metot yazının tamamı boşluk (whitespace) karakterlerinden oluşuyorsa veya boş string ise true değerine geri döner.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+	
+			if (s.isBlank()) {
+				System.out.println("String can not be blank or empty, please input again");
+				continue;
+			}
+			
+			System.out.printf("Text:%s%n", s);
+		}
+	}
+}
+```
+
+>String sınıfının `valueOf` isimli metotları vardır. Bu metotlar ile temel türden değerlerin yazı karşılıkları elde edilebilir. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+	
+		System.out.print("Input two number:");
+		int a = kb.nextInt();
+		double b = kb.nextDouble();
+		
+		String str1 = String.valueOf(a);		
+		String str2 = String.valueOf(b);
+		
+		System.out.printf("str1 = %s, str2 = %s%n", str1, str2);
+	}
+}
+```
+
+>**Sınıf Çalışması:** Aşağıdaki metotları açıklamalara göre StringUtil sınıfı içerisinde yazınız ve test ediniz.
+```java
+		public static String padLeading(String s, int n, char ch);
+		public static String padLeading(String s, int n);
+		public static String padTrailing(String s, int n, char ch);
+		public static String padTrailing(String s, int n);
+```
+>**Açıklamalar:** 
+>- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı
+uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili 
+yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
+```java
+padLeading("ankara", 8, 'x');
+```
+>çağrısı ile `xxankara` yazısı elde edilecektir. Örneğin:
+
+```java
+padLeading("ankara", 5, 'x');
+```
+>çağrısı ile `ankara` yazısı elde edilecektir.
+>- padLeading metodunun iki parametreli overload'u yazıyı `space` karakteri ile besleyecektir.
+>- padTrailing metotları padLeading'in yaptıklarını sondan besleyecek şekilde yapacaktır.
+>- Metotlar Java 11+ için yazılacaktır.
+
+>**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilPadLeadingTrailingTest.run();
+	}
+}
+
+class StringUtilPadLeadingTrailingTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.print("Input new length:");
+			int n = Integer.parseInt(kb.nextLine());
+			
+			System.out.printf("(%s)%n", StringUtil.padLeading(s, n, 'x'));
+			System.out.printf("(%s)%n", StringUtil.padLeading(s, n));
+			System.out.printf("(%s)%n", StringUtil.padTrailing(s, n, 'x'));
+			System.out.printf("(%s)%n", StringUtil.padTrailing(s, n));
+		}
+	}
+}
+
+class StringUtil {	
+	public static String padLeading(String s, int n, char ch)
+	{
+		int len = s.length();
+		
+		return len < n ? String.valueOf(ch).repeat(n - len) + s : s;
+	}
+	
+	public static String padLeading(String s, int n)
+	{
+		return padLeading(s, n, ' ');
+	}
+	
+	public static String padTrailing(String s, int n, char ch)
+	{
+		int len = s.length();
+		
+		return len < n ? s + String.valueOf(ch).repeat(n - len) : s;
+	}
+	
+	public static String padTrailing(String s, int n)
+	{
+		return padTrailing(s, n, ' ');
+	}
+}
+```
+
+**Anahtar Notlar:** Aldığı parametreleri kullanarak bir nesnenin referansına geri dönen metotlara **factory methods** denilmektedir. Bu metotlar genel olarak static metotlar biçiminde yazılırlar. Bu metotlar ile nesnenin yaratılma detayları programcıdan soyutlanmış olur. Bu anlamda String sınıfının valueOf metotları factory metotlardır. JavaSE'de bazı sınıfların factory metotları bulunur. Java 8 'de kadar bu tarz metotların isimleri genel olarak **valueOf** biçimindedir. Java 8'den itibaren eklenen sınıflara ilişkin factory metotlar **of** biçiminde isimlendirilmiştir. 
+
+>String sınıfının `contains' metodu yazı içerisinde parametresi ile aldığı yazının olup olmadığını test etmek için kullanılır. 
+
+>**Sınıf Çalışması:**  Parametresi ile aldığı bir yazının Türkçe pangram olup olmadığını test eden `isPangramTR` ve İngilizce pangram olup olmadığını test eden `isPangramEN` isimli metotları yazınız ve test ediniz
+>**Açıklamalar:** 
+>- İlgili dilin alfabesindeki tüm karakterler kullanılarak elde edilen ve içerisinde hiç özel isim geçmeyen anlamlı cümlelere pangram denir. Örneğin İngilizce'de tipik olarak `The quick brown fox jumps over the lazy dog` cümlesi kullanılır. Türkçe'de tipik olarak `Pijamalı hasta yağız şoföre çabucak güvendi.` cümlesi kullanılır.
+>- Metotlar cümlenin anlamına ve özel isim içerip içermediğine bakmayacaktır.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilIsPangramTest.run();
+	}
+}
+
+
+class StringUtilIsPangramTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		StringUtilIsPangramTRTest.run(kb);
+		StringUtilIsPangramENTest.run(kb);
+	}
+}
+
+class StringUtilIsPangramTRTest {
+	public static void run(java.util.Scanner kb)
+	{
+		while (true) {
+			System.out.print("Bir yazı giriniz:");
+			String s = kb.nextLine();
+			
+			if ("elma".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPangramTR(s) ? "Pangram" : "Pangram değil");
+		}
+	}
+}
+
+class StringUtilIsPangramENTest {
+	public static void run(java.util.Scanner kb)
+	{
+		while (true) {
+			System.out.print("Input a text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPangramEN(s) ? "Pangram" : "Not a pangram");
+		}
+	}
+}
+
+class StringUtil {
+	public static boolean isPangramEN(String s)
+	{
+		return isPangram(s.toLowerCase(), "abcdefghijklmnopqrstuwxvyz");
+	}
+	
+	public static boolean isPangramTR(String s)
+	{
+		return isPangram(s.toLowerCase(), "abcçdefgğhıijklmnoöprsştuüvyz");
+	}
+	
+	public static boolean isPangram(String s, String alphabet)
+	{
+		for (int i = 0; i < alphabet.length(); ++i)
+			if (!s.contains(String.valueOf(alphabet.charAt(i))))
+				return false;
+		
+		return true;
+	}
+}
+```
+
+**Anahtar Notlar:** contains metodunun paramtresi `CharSequence` türündendir. CharSequence türü ileride ele alınacaktır. CharSequence türüne String ya da StringBuilder türünden bir referans doğrudan atanabilir. 
+
+>java.util.Scanner sınıfının çalışma sistemi gereği, bazı sistemlerde `nextLine` metodu ve temel türlere ilişkin `nextXXX` metotları peşpeşe kullanılmamalıdır. Bu aslında Scanner sınıfı açısından bir problem değildir, bu sınıfın içsel çalışması ile ilgilidir. Detayının bu anlamda önemi yoktur. Programcı bu tip durumlarda nextLine ile birlikte `parseXXX` metotlarını kullanmalıdır
+
+>Aşağıdaki demo örnek bazı sistemlerde istenildiği gibi çalışmayacaktır.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input name:");
+			String name = kb.nextLine();
+			
+			if ("quit".equals(name))
+				break;
+			
+			System.out.print("Input number:");
+			int number = kb.nextInt();
+		
+			System.out.printf("%d, %s%n", number, name);
+		}
+	}
+}
+```
+
+>Yukarıdaki örnek aşağıdaki gibi yapılmalıdır
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input name:");
+			String name = kb.nextLine();
+			
+			if ("quit".equals(name))
+				break;
+			
+			System.out.print("Input number:");
+			int number = Integer.parseInt(kb.nextLine());
+			
+			
+			System.out.printf("%d, %s%n", number, name);
+		}
+	}
+}
+```
+
+>`Integer` sınıfının `parseInt`, `Long` sınıfının `parseLong`, `Double` sınıfının `parseDouble`, `Short` sınıfının `parseShort`, `Byte` sınıfının `parseByte`, `Float` sınıfının `parseFloat` ve `Boolean` sınıfının `parseBoolean` metotları yazıyı ilgili türe çevirmek için kullanılır. `parseBoolean` dışında kalan diğer `parseXXX` metotları çeviremedikleri durumda exception oluşur. `parseBoolean` metodu çeviremediği durumda false değerine geri döner. Aslında `parseBoolean` metodu case-insensitive olarak `true` yazısı için true, diğer tüm yazılar için false değerine geri döner. 
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input a number:");
+		String str = kb.nextLine();		
+		int a = Integer.parseInt(str);
+		
+		System.out.printf("a = %d%n", a);
+	}
+}
+```
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input status:");
+		String str = kb.nextLine();		
+		boolean a = Boolean.parseBoolean(str);
+		
+		System.out.printf("a = %b%n", a);
+	}
+}
+```
+
+>String sınıfının `format` metodunun parametrik yapısı ve dolayısıyla kullanılan format karakterleri `printf` ile tamamen aynıdır. `format` metodu ekrana basmak yerine formatlanmış yazıya geri döner. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input a number:");
+		String str = kb.nextLine();		
+		int a = Integer.parseInt(str);
+		
+		String message = String.format("a = %d", a);
+		
+		System.out.println(message);
+	}
+}
+```
+
+>Point sınıfının aşağıdaki kodlarını inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Point p1 = new Point(100, 100);
+		Point p2 = new Point();
+		Point p3 = new Point(100);
+		
+		String str1 = p1.toString();
+		String str2 = p2.toString();
+		String str3 = p3.toString();
+		
+		System.out.println(str1);
+		System.out.println(str2);
+		System.out.println(str3);
+	}
+}
+```
+```java
+class Point {
+	public double x, y;
+	
+	public Point()
+	{		
+	}
+	
+	public Point(double a)
+	{
+		x = a;
+	}
+	
+	public Point(double a, double b)
+	{
+		x = a;
+		y = b;
+	}
+	
+	public double euclideanDistance()
+	{
+		return euclideanDistance(0, 0);
+	}
+
+	public double euclideanDistance(Point other)
+	{
+		return euclideanDistance(other.x, other.y);
+	}
+	
+	public double euclideanDistance(double a, double b)
+	{
+		return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));
+	}
+	
+	public void offset(double dxy)
+	{
+		offset(dxy, dxy);
+	}
+	
+	public void offset(double dx, double dy)
+	{
+		x += dx;
+		y += dy;
+	}
+	
+	public String toString()
+	{
+		return String.format("(%f, %f)", x, y);
+	}
+}
+```
+
+>Complex sınıfının aşağıdaki kodlarını inceleyiniz
+```java
+
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Complex z = new Complex(3.4, 5);
+		String strZ = z.toString();
+		
+		System.out.println(strZ);		
+	}
+}
+````
+
+```java
+class Complex {
+	public double real;
+	public double imag;
+	
+	public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{	
+		return new Complex(re1 + re2, im1 + im2);
+	}
+	
+	public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		return add(re1, im1, -re2, -im2);
+	}
+	
+	public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);
+	}
+	
+	public Complex()
+	{		
+	}
+	
+	public Complex(double a)
+	{
+		real = a;
+	}
+	
+	public Complex(double a, double b)
+	{
+		real = a;
+		imag = b;
+	}
+	
+	public static Complex add(double value, Complex z)
+	{
+		return add(value, 0, z.real, z.imag);
+	}
+	
+	public Complex add(double value)
+	{
+		return add(real, imag, value, 0);
+	}
+	
+	public Complex add(Complex other)
+	{
+		return add(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex subtract(double value, Complex z)
+	{
+		return subtract(value, 0, z.real, z.imag);
+	}
+	
+	public Complex subtract(double value)
+	{
+		return subtract(real, imag, value, 0);
+	}
+	
+	public Complex subtract(Complex other)
+	{
+		return subtract(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex multiply(double value, Complex z)
+	{
+		return multiply(value, 0, z.real, z.imag);
+	}
+	
+	public Complex multiply(double value)
+	{
+		return multiply(real, imag, value, 0);
+	}
+	
+	public Complex multiply(Complex other)
+	{
+		return multiply(real, imag, other.real, other.imag);
+	}
+
+	//...
+	
+	public Complex getConjugate()
+	{
+		return new Complex(real, -imag);
+	}
+	
+	public double getNorm()
+	{
+		return Math.sqrt(real * real + imag * imag);
+	}
+	
+	public double getLength()
+	{
+		return getNorm();
+	}
+	
+	public String toString()
+	{
+		return String.format("|(%f, %f)| = %.3f", real, imag, getLength());
+	}
+}
+
+```
+
+
+
