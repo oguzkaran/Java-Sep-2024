@@ -8400,7 +8400,7 @@ class App {
 
 ```
 
-##### 28 Aralık 2024
+###### 28 Aralık 2024
 
 ###### Temel Türler Arasındaki Doğrudan Dönüşüme İlişkin Ayrıntılar
 
@@ -10917,7 +10917,7 @@ class TCPServer {
 }
 ```
 
-##### 8 Şubat 2025
+###### 8 Şubat 2025
 
 ###### Sınıf Non-static Veri Elemanları ve Sınıf Dışından Non-static Veri Elemanlarına Erişim
 
@@ -11203,7 +11203,7 @@ class Civilian {
 	//...
 }
 ```
-##### 9 Şubat 2025
+###### 9 Şubat 2025
 
 >Sınıfın non-static bir veri elemanına sınıf dışından, sınıf ismi ve nokta operatörü ile erişilemez. Çünkü, non-static veri elemanı nesneye özgüdür, dolayısıyla sınıf ismi ile erişim yapıldığında hangi nesne ait olduğu anlaşılamaz
 
@@ -15219,7 +15219,7 @@ class App {
 		System.out.println(strZ);		
 	}
 }
-````
+```
 
 ```java
 class Complex {
@@ -15325,6 +15325,626 @@ class Complex {
 }
 
 ```
+
+###### 23 Mart 2025
+
+>Java 15 ile birlikte `formatted` isimli bir metot String sınıfına eklenmiştir. Bu metot format metodunun non-static versiyonu olarak düşünülebilir. Bu durumda programcı, Java 15+ yani ticari olarak Java 17+ ile çalışıyorsa format metodu yerine bu metodu kullanması önerilir. 
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input a number:");
+		String str = kb.nextLine();		
+		int a = Integer.parseInt(str);
+		
+		String message = "a = %d".formatted(a);
+		
+		System.out.println(message);
+	}
+}
+```
+
+>Point sınıfının aşağıdaki kodlarını inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Point p1 = new Point(100, 100);
+		Point p2 = new Point();
+		Point p3 = new Point(100);
+		
+		String str1 = p1.toString();
+		String str2 = p2.toString();
+		String str3 = p3.toString();
+		
+		System.out.println(str1);
+		System.out.println(str2);
+		System.out.println(str3);
+	}
+}
+```
+
+```java
+class Point {
+	public double x, y;
+	
+	public Point()
+	{		
+	}
+	
+	public Point(double a)
+	{
+		x = a;
+	}
+	
+	public Point(double a, double b)
+	{
+		x = a;
+		y = b;
+	}
+	
+	public double euclideanDistance()
+	{
+		return euclideanDistance(0, 0);
+	}
+
+	public double euclideanDistance(Point other)
+	{
+		return euclideanDistance(other.x, other.y);
+	}
+	
+	public double euclideanDistance(double a, double b)
+	{
+		return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));
+	}
+	
+	public void offset(double dxy)
+	{
+		offset(dxy, dxy);
+	}
+	
+	public void offset(double dx, double dy)
+	{
+		x += dx;
+		y += dy;
+	}
+	
+	public String toString()
+	{
+		return "(%f, %f)".formatted(x, y);
+	}
+}
+```
+
+
+>Complex sınıfının aşağıdaki kodlarını inceleyiniz
+```java
+
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		Complex z = new Complex(3.4, 5);
+		String strZ = z.toString();
+		
+		System.out.println(strZ);		
+	}
+}
+```
+
+
+```java
+class Complex {
+	public double real;
+	public double imag;
+	
+	public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{	
+		return new Complex(re1 + re2, im1 + im2);
+	}
+	
+	public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		return add(re1, im1, -re2, -im2);
+	}
+	
+	public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	{
+		return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);
+	}
+	
+	public Complex()
+	{		
+	}
+	
+	public Complex(double a)
+	{
+		real = a;
+	}
+	
+	public Complex(double a, double b)
+	{
+		real = a;
+		imag = b;
+	}
+	
+	public static Complex add(double value, Complex z)
+	{
+		return add(value, 0, z.real, z.imag);
+	}
+	
+	public Complex add(double value)
+	{
+		return add(real, imag, value, 0);
+	}
+	
+	public Complex add(Complex other)
+	{
+		return add(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex subtract(double value, Complex z)
+	{
+		return subtract(value, 0, z.real, z.imag);
+	}
+	
+	public Complex subtract(double value)
+	{
+		return subtract(real, imag, value, 0);
+	}
+	
+	public Complex subtract(Complex other)
+	{
+		return subtract(real, imag, other.real, other.imag);
+	}
+	
+	public static Complex multiply(double value, Complex z)
+	{
+		return multiply(value, 0, z.real, z.imag);
+	}
+	
+	public Complex multiply(double value)
+	{
+		return multiply(real, imag, value, 0);
+	}
+	
+	public Complex multiply(Complex other)
+	{
+		return multiply(real, imag, other.real, other.imag);
+	}
+
+	//...
+	
+	public Complex getConjugate()
+	{
+		return new Complex(real, -imag);
+	}
+	
+	public double getNorm()
+	{
+		return Math.sqrt(real * real + imag * imag);
+	}
+	
+	public double getLength()
+	{
+		return getNorm();
+	}
+	
+	public String toString()
+	{
+		return "|(%f, %f)| = %.3f".formatted(real, imag, getLength());
+	}
+}
+```
+
+>String sınıfının `replace` metotları String içerisindeki bir karakterin ya da bir yazının hepsini başka bir karakter ya da bir yazı ile değiştirmek için kullanılır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s = "ankara";
+		String str;
+		
+		str = s.replace('a', 'c');
+		
+		System.out.println(str);
+	}
+}
+
+
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		String s = "Bugün hava çok güzel, çok çok güzel";
+		String str;
+		
+		str = s.replace("çok", "az");
+		
+		System.out.println(str);
+	}
+}
+
+```
+
+
+
+>**Soru:** Aşağıdaki metodu açıklamalara göre yazınız
+```java
+public static String repeat(int n, char ch);
+```
+>**Açıklamalar:** 
+>- Metot parametresi ile n değeri kadar çoklanmış ch karakterlerinden oluşan yazıya geri dönecektir.
+>- Metot Java 17 ile String sınıfına eklenen repeat metodu kullanılarak yazılmayacaktır.
+>- Metot döngü kullanılmadan yazılacaktır.
+
+>**Çözüm-1:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilRepeatTest.run();
+	}
+}
+
+class StringUtilRepeatTest {
+	public static void run()
+	{
+		System.out.println(StringUtil.repeat(3, 'x'));
+		System.out.println(StringUtil.repeat(5, 'x'));
+	}
+}
+
+class StringUtil {
+	public static String repeat(int n, char ch)
+	{
+		return ("%0" + n + "d").formatted(0).replace('0', ch);
+	}
+}
+```
+
+>**Çözüm-2:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringUtilRepeatTest.run();
+	}
+}
+
+class StringUtilRepeatTest {
+	public static void run()
+	{
+		System.out.println(StringUtil.repeat(3, 'x'));
+		System.out.println(StringUtil.repeat(5, 'x'));
+	}
+}
+
+class StringUtil {
+	public static String repeat(int n, char ch)
+	{
+		return ("%" + n + "c").formatted(' ').replace(' ', ch);
+	}
+}
+```
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yazının palindrom olup olmadığını test eden `isPalindrome`isimli metodu yazınız ve test ediniz
+>**Açıklamalar:**
+>- Alfabetik karakterler dışındaki karakterin tersten okunuşu da (yazılışı da) aynı ise yazı bir palindromdur: Örneğin: `Ey Edip Adana'da pide ye`, `Anastas mum satsana`, `Ali Papila`. 
+>- Palindrom case-insensitive olarak belirlenecektir.
+
+>**Çözüm:**
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringIsPalindromeTest.run();
+	}
+}
+
+class StringIsPalindromeTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.println(StringUtil.isPalindrome(s) ? "Palindrome" : "Not a palindrome");
+		}
+	}
+}
+
+class StringUtil {
+	public static boolean isPalindrome(String s)
+	{
+		int left = 0;
+		int right = s.length() - 1;
+		
+		while (left < right) {
+			char cLeft = s.charAt(left);
+			
+			if (!Character.isLetter(cLeft)) {
+				++left;
+				continue;
+			}
+			
+			char cRight = s.charAt(right);
+			
+			if (!Character.isLetter(cRight)) {
+				--right;
+				continue;
+			}
+			
+			if (Character.toLowerCase(cLeft) != Character.toLowerCase(cRight))
+				return false;
+			
+			++left;
+			--right;
+		}
+		
+		return true;
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yazının içerisindeki whitespace karakteri atan `removeWhitespaces`isimli metodu `StringUtil`sınıfı içerisinde yazınız test ediniz.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringRemoveWhitespacesTest.run();
+	}
+}
+
+class StringRemoveWhitespacesTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.removeWhitespaces(s));
+		}
+	}
+}
+
+
+class StringUtil {
+	public static String removeWhitespaces(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < s.length(); ++i) {
+			char c = s.charAt(i);
+			
+			if (!Character.isWhitespace(c))
+				sb.append(c);
+		}
+		
+		return sb.toString();
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yazının içerisindeki alfabetik karakterlerden oluşan yazıya dönen `letters`isimli metodu `StringUtil`sınıfı içerisinde yazınız test ediniz.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringLettersTest.run();
+	}
+}
+
+class StringLettersTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.letters(s));
+		}
+	}
+}
+
+
+class StringUtil {
+	public static String letters(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < s.length(); ++i) {
+			char c = s.charAt(i);
+			
+			if (Character.isLetter(c))
+				sb.append(c);
+		}			
+		
+		return sb.toString();
+	}
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yazının içerisindeki sayısal karakterlerden oluşan yazıya dönen `digits`isimli metodu `StringUtil`sınıfı içerisinde yazınız test ediniz.
+
+>**Çözüm:**
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		StringLettersTest.run();
+	}
+}
+
+class StringLettersTest {
+	public static void run()
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		while (true) {
+			System.out.print("Input text:");
+			String s = kb.nextLine();
+			
+			if ("quit".equals(s))
+				break;
+			
+			System.out.printf("(%s)%n", StringUtil.digits(s));
+		}
+	}
+}
+
+
+class StringUtil {
+	public static String digits(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < s.length(); ++i) {
+			char c = s.charAt(i);
+			
+			if (Character.isDigit(c))
+				sb.append(c);
+		}			
+		
+		return sb.toString();
+	}
+}
+```
+
+>String sınıfının `startsWith` ve `endsWith` metotları sırasıyla yazı, parametresi ile yazı ile başlıyorsa ve bitiyorsa true değerine, aksi durumda false değerine geri dönerler
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input url:");
+		String url = kb.nextLine();
+		
+		if (!url.startsWith("https://"))
+			url = "https://" + url;
+		
+		System.out.println(url);
+	}
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		java.util.Scanner kb = new java.util.Scanner(System.in);
+		
+		System.out.print("Input email:");
+		String email = kb.nextLine();
+		
+		if (!email.endsWith(".com"))
+			email += ".com";
+		
+		System.out.println(email);
+		
+	}
+}
+```
+>String sınıfının `compareTo` aşağıdaki kurallara göre karşılaştırma işlemini yapar:
+```java
+	result = s1.compareTo(s2);
+```
+>çağrısı için şu şekilde çalışır.
+>- result > 0 <=> s1 yazısı, s2 yazısından sonra gelir
+>- result < 0 <=> s1 yazısı, s2 yazısından önce gelir
+>- result == 0 <=> s1 yazısı, s2 yazısı ile özdeştir.
+>Buradaki karşılaştırma detaylar göz ardı edilirse `lexicographically` olarak yani karakter tablosundaki sıraya göre yapılır. Bu metot case-sensitive olarak karşılaştırma yapar.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		System.out.println("oguz".compareTo("ozan"));	
+		System.out.println("ozan".compareTo("oguz"));
+		System.out.println("Ozan".compareTo("oguz"));
+		System.out.println("ozan".compareTo("oğuz"));
+	}
+}
+```
+>String sınıfında case-insensitive olarak karşılaştılatırma yapan compareToIgnoreCase metodu da bulundurulmuştur.
+
+```java
+package csd;
+
+class App {
+	public static void main(String[] args)
+	{
+		System.out.println("Ozan".compareToIgnoreCase("ozan"));
+	}
+}
+```
+
+**Anahtar Notlar:** String sınıfının diğer metotları konnular içerisinde ele alınacaktır
+
+**Anahtar Notlar:** Java 13 ile birlikte (yan pratikte Java 17 ile kullanılabilen) `Text Block` denilen bir String literal biçimi dile eklenmiştir. Text block konusu ileride ayrı bir bölüm olarak ele alınacaktır.
 
 
 
