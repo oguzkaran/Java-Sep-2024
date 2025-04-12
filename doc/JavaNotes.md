@@ -8489,8 +8489,8 @@ class App {
 		short a;
 		byte b;
 		
-		a = 10L;
-		b = 128;
+		a = 10L; //error
+		b = 128; //error
 		
 		//...
 		
@@ -11029,7 +11029,7 @@ Dikkat edilirse sınıfın ismi, veri elemanları vb. bilgiler sınıfın ait ol
 
 ###### Sınıf Static Veri Elemanları ve Sınıf Dışından Static Veri Elemanlarına Erişim
 
->Sınıf static veri elemanları nesne içerisinde yaratılmaz. Sınıfın static bir elemanına sınıf dışıdan sınıf ismi ve nokta operatörü ile erişilebilir. Nokta operatörü sınıf ismi ve static veri elemanı ile kullanıldığında static veri elemanına ilişkin değişkeni üretir. Sınıfın static veri elemanları, ilgili sınıfın bir elemanı (member) ilk kez kullanıldığında (hepsi birden) yaratılır ve program sonuna kadar yaşarlar. Bu durumda static veri elemanları static alanında **yaratılamazlar**. Static veri elemanlarının nerede yaratıldığına ilikin bazı detaylar söz konusu olsa da şu aşamada dolaylı olarak heap'de yaratıldıkları var sayılabilir. Bu durumda bir sınıf için static bir elemanından toplamda bir tane vardır. Bu sebeple static bir elemanına erişmek için nesne yaratılması gerekmez. Bu durumda static bir veri elemanı mantıksal olarak, nesneye özgü değil, türe özgü olarak düşünülebilir.
+>Sınıf static veri elemanları nesne içerisinde yaratılmaz. Sınıfın static bir elemanına sınıf dışıdan sınıf ismi ve nokta operatörü ile erişilebilir. Nokta operatörü sınıf ismi ve static veri elemanı ile kullanıldığında static veri elemanına ilişkin değişkeni üretir. Sınıfın static veri elemanları, ilgili sınıfın bir elemanı (member) ilk kez kullanıldığında (hepsi birden) yaratılır ve program sonuna kadar yaşarlar. Bu durumda static veri elemanları stack alanında **yaratılamazlar**. Static veri elemanlarının nerede yaratıldığına ilikin bazı detaylar söz konusu olsa da şu aşamada dolaylı olarak heap'de yaratıldıkları var sayılabilir. Bu durumda bir sınıf için static bir elemanından toplamda bir tane vardır. Bu sebeple static bir elemanına erişmek için nesne yaratılması gerekmez. Bu durumda static bir veri elemanı mantıksal olarak, nesneye özgü değil, türe özgü olarak düşünülebilir.
 >
 >Sınıfın static veri elemanlarına da yaratıldıklarında default değerler atanır. 
 ```java
@@ -15946,7 +15946,7 @@ class App {
 
 **Anahtar Notlar:** Java 13 ile birlikte (yan pratikte Java 17 ile kullanılabilen) `Text Block` denilen bir String literal biçimi dile eklenmiştir. Text block konusu ileride ayrı bir bölüm olarak ele alınacaktır.
 
-###### 5 Nisan 2025
+###### 5 Nisan 2025 - 12 Nisan 2025
 
 ##### Paketler
 
@@ -15954,21 +15954,42 @@ class App {
 
 >Paketlere ilişkin detaylar şunlardır:
 >- `javac` her UDT için bir `.class` uzantılı dosya üretir. İşte bu dosyalara `byte code (BC)` denir. 
->- UDT'ler aynı derleme biriminde olsa bile herbiri için farklı BC üretilir.
+>- UDT'ler aynı dosyada bildirilse bile herbiri için farklı BC üretilir.
 >- Bir UDT herhangi bir pakette olabilir. Bir proje içerisindeki UDT'lerin aynı paket içerisinde olması gerekmez.
->- Bir UDT'nin başka bir derleme biriminden kullanılması için, UDT'nin .class uzantılı dosyasının ait olduğu paketle aynı isimde bir dizinde (directory) olması gerekir. Java'da kullanılan tipik IDE'ler bu işlemi otomatik olarak yaparlar. Yani, BC'leri uygun yerlerinde üretirler. Derleme birimleri için böyle bir zorunluluk yoktur. Yani derleme işlemi herhangi bir dizin içerisinde yapılabilir. Ancak, IDE'lerde genel olarak derleme birimleri için de pakete ilişkin dizinde olma zorunludur.
+>- Bir UDT'nin başka bir derleme biriminden kullanılabilmesi için, UDT'nin .class uzantılı dosyasının ait olduğu paketle aynı isimde bir dizinde (directory) olması gerekir. Java'da kullanılan tipik IDE'ler bu işlemi otomatik olarak yaparlar. Yani, BC'leri uygun yerlerinde üretirler. Derleme birimleri için böyle bir zorunluluk yoktur. Yani derleme işlemi herhangi bir dizin içerisinde yapılabilir. Ancak, IDE'lerde genel olarak derleme birimleri için de pakete ilişkin dizinde olma zorunludur.
 >- Bir UDT'nin ismine bulunduğu paket dışından (başka bir paketin içinden) paket ismi ve nokta operatörü ile erişilebilir. Bir UDT'ye ait olduğu paket dışından erişlebilmesi için `public` olarak bildirilmesi gerekir. public olarak bildirilmeyen UDT'lere yalnızca ait olduğu paketteki diğer UDT'lerden erişilebilir. public olarak bildirilmeyen UDT'ler için **friendly** ya da **internal** terimi de kullanılmaktadır.
->- Farklı paketlerde bulunan UDT'lerin BC'lerinin bulunduğu pakete ilişkin dizinlerin uygulamanın çalışmaya başladığı yerde olması gerekir. Bu durumda tüm paketlerin uygulamanın çalışmaya başladığı dizinde olması gerekir. Uygulamanın çalışmaya başladığı dizin `java` programının çalıştırıldığı dizindir.
+>- Farklı paketlerde bulunan UDT'lerin BC'lerinin bulunduğu pakete ilişkin dizinlerin uygulamanın çalışmaya başladığı yerde olması gerekir. Bu durumda tüm paketlerin uygulamanın çalışmaya başladığı dizinde olması gerekir. Uygulamanın çalışmaya başladığı dizin `java` programının çalıştırıldığı dizindir. java programı default olarak JavaSE'de bulunan sınıflar için BC'lerin bulunduğu yerlere de bakar. Bunlar `Java ile Uygulama Geliştirme` kurslarında ayrıca ele alınacaktır. 
 >- Uygulamada kullanılan sınıflar içerisinde bir tane main metodu olmak zorunda değildir. java programına verilen sınıfın uygun main metodu çalıştırılır. main metodunun prototipi kesinlikle aşağıdaki gibi olmalıdır:
 
 ```java
 public static void main(String[] args)
 ```
 >Bu prototipte uygunluğu bozmayacak tek değişiklik parametre ismidir. java programına verilen sınıfın uygun main metodu olmaması durumunda exception oluşur. Akışın başladığı main metoduna **entry point** dendiğini anımsayınız. Entry point olarak belirlenen main metodunun ait olduğu UDT'nin sınıf olması zorunludur. `Java 21` birlikte entry point olarak belirlenen main metodunun prototipine ilişkin bazı esnek kullanımlar söz konusu olmaktadır. Bunlar `Java ile Uygulama Geliştirme` kurslarında ayrıca ele alınacaktır. 
->- public olarak bildirilen bir UDT, ismi ile aynı isimde olan bir `.java` uzantılı dosyada bulunmalıdır. Tersine bir `.java`dosyasında public olarak bildirilen bir UDT dosya ismi ile aynı isimde olabilir. Aksi durumda error oluşur. 
->- Bir java dosyasında dosya ile aynı isimde bir UDT olmak zorunda değildir. Ancak pratikte çok kullanılan bir durum değildir.
+>- public olarak bildirilen bir UDT, ismi ile aynı isimde olan bir `.java` uzantılı dosyada bulunmalıdır. Tersine bir `.java` dosyasında public olarak bildirilen bir UDT, dosya ismi ile aynı isimde olabilir. Aksi durumda error oluşur. 
+>- Bir java dosyasında, dosya ile aynı isimde bir UDT olmak zorunda değildir. Ancak pratikte kullanımı tavsiye edilmez.
 >- Paket bildirimi, kaynak kod içerisinde tüm bildirimlerden önce olmalıdır. Dolayısıyla bir java dosyasında birden fazla paket bildirimi geçersizdir. Bu durumda iki UDT farklı pakette ise kesinlikle farklı java dosyalarında bildirilmelidir.
 >- Birden fazla java dosyasında aynı isimde paket bildirimi geçerlidir. Bu durumda bu dosyalardaki UDT'ler aynı pakette bildirilmiş olur.
 >- Bir paket içerisinde aynı isimde birden fazla UDT bildirimi geçersizdir. 
->- **Farklı** paketler aynı isimde UDT bildirimleri geçerlidir.
+>- **Farklı** paketler içerisinde aynı isimde UDT bildirimleri geçerlidir. Bu UDT'lerin isimleri aynı olsa da (hatta kodları birebir aynı bile olsa) farklı türlerdir.
+>- Bir paketin **alt paketleri (sub-packages)** olabilir. Alt paket bildiriminin genel biçimi şu şekildedir:
 
+```java
+package <paket ismi>[.<alt paket ismi>.<alt paket ismi>...];
+```
+>Örneğin 
+```java
+package csd.util;
+```
+>Burada util paketi csd paketinin bir alt paketidir. Alt paket içerisindeki bir UDT'nin BC'si paket hiyerarşisinde uygun alt dizinde olmalıdır. IDE'ler üretilen kodları uygun yerlerinde konuşlandırırlar.
+>- Paketler iç içe bile olsa farklı paketlerdir. Yani örneğin `csd`paketi içerisinde `SerialPort` isimli bir sınıf varken, `csd.util` paketi içerisinde de `SerialPort` bir sınıf olabilir. Çünkü bunlar farklı paketlerdir.
+>- Paketler aslında isim çakışmasını egellemek için düşünülmüştür.
+>- Paket isimleri genel olarak, bir firmaya özgü tekil (unique) bir bilgi olan domain isimleri kullanılarak belirlenir. Örneğin, CSD'nin paketleri, domain ismi `csystem.org` olduğundan **org.csystem** ile başlatılır. Yani CSD'nin tüm UDT'leri org.csystem paketi altındaki paketlerde bildirilir. Bu bir convention'dır ve profesyonel programcılar bu convention'a uyarlar. Pratikte domain isminden türetilen paket altında doğrudan UDT bildirilmez. Bir UDT en az bu paket altındaki bir alt paket içerisinde bildirilir. Yani aslında domain isminden türetilen bir paket ismi **taban paket (base package)** olarak düşünülebilir. Programcının okunabilir/algılanabilir olması ve isim çakışması oluşmaması açısından bir UDT'yi uygun isimde bir paket hiyerarşisi altına koyması gerekir. Bu anlamda alt paketlerin fazla olması bir sorun oluşturmaz. Paket isimlendirmede programcı anlamlı olacak şekilde cömert davranmalıdır.
+>- Paket isimleri bir convention olarak tamamı küçük harf şekilde bildrilir. Birden fazla kelimeden oluşuyorsa bitişik olarak yazılır. Örneğin:
+
+```java
+	org.csystem.math.geometry
+	org.springframework.data.annotation
+```
+>- JavaSE içerisindeki tüm paketler ve UDT'ler `java` isimli bir paket altından bildirilmiştir. Bu anlamda programcının java paketi içerisinde bildirim yapması iyi bir teknik değildir. Zaten, domain isminden paket ismi üretme convention'ını kullanan bir programcı (ki kesin kullanmalıdır), java paketi paketi içerisinde bildirim yapmayı düşünmez.
+>- `java.lang` paketi içersisindeki UDT'ler her yerden görülebilirdir. Yani bu paket içerisindeki bir UDT ismi herhangi bir bildirim yapmadan ya da paket ismi yazmadan doğrudan kullanılabilir. Örneğin, `String, Integer, System, Character, Double` sınıfları `java.lang` paketi içerisinde bildirilmişlerdir.
+>- Hiç bir paket altında bildirilmeyen bir UDT **isimsiz paket (unnamed package)** içerisinde bildirilmiş olıur. Pratikte bir uygulama içerisinde isimsiz paket altında bir UDT bildirimi yapılmaz. Bunun nedeni ileride anlaşılacaktır.
