@@ -15993,3 +15993,303 @@ package csd.util;
 >- JavaSE içerisindeki tüm paketler ve UDT'ler `java` isimli bir paket altından bildirilmiştir. Bu anlamda programcının java paketi içerisinde bildirim yapması iyi bir teknik değildir. Zaten, domain isminden paket ismi üretme convention'ını kullanan bir programcı (ki kesin kullanmalıdır), java paketi paketi içerisinde bildirim yapmayı düşünmez.
 >- `java.lang` paketi içersisindeki UDT'ler her yerden görülebilirdir. Yani bu paket içerisindeki bir UDT ismi herhangi bir bildirim yapmadan ya da paket ismi yazmadan doğrudan kullanılabilir. Örneğin, `String, Integer, System, Character, Double` sınıfları `java.lang` paketi içerisinde bildirilmişlerdir.
 >- Hiç bir paket altında bildirilmeyen bir UDT **isimsiz paket (unnamed package)** içerisinde bildirilmiş olıur. Pratikte bir uygulama içerisinde isimsiz paket altında bir UDT bildirimi yapılmaz. Bunun nedeni ileride anlaşılacaktır.
+
+###### 13 Nisan 2025
+
+##### İsim Arama
+
+>Derleyici kod içerisinde kulanılan bir ismi gördüğünde bu ismin bildirimini arar. Buna **isim arama (name lookup)** denir. Derleyici bir ismi bildirim noktasında aramaz. Derleyici ismi bulduğunda yani bildirimini bulduğunda, o ismin geçerli olarak kullanılıp kullanılmadığına bakar. Eğer bulunamazsa veya geçersiz olarak kullanılmışsa error oluşur. Bu iki durum farklı error'lardır. Yani aslında derleyici önce isim araması yapar, bulduktan sonra geçerlilik kontrolünü yapar.
+
+
+>Aşağıdaki demo örnekte `**` ve `***` ile belirtilen hatalar ilgili isimlerin bulunup geçersiz kullanılmasından dolayı oluşmuştur. `*` ile belirtilen hata ismin bulunamamasından dolayı oluşmuştur
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		int a;
+		boolean b = false;
+		
+		++x; //error:*
+		++a; //error:**
+		++b; //error:***
+		
+	}
+}
+```
+>Kod içerisinde bir isim iki şekilde kullanılabilir: **nitelikli (qualified)**, **niteliksiz (unqualified)**.
+
+>Bir isim nokta operatörünün sağında kalıyorsa nitelikli, kalmıyorsa niteliksiz kullanılmış olur. Niteliksiz kullanım ya nokta operatörünün solunda kalmak ya da doğrudan kullanmak biçimindedir.
+
+>Nitelikli kullanılan br isim nitelikli isim arama kurallarına göre, niteliksiz kullanılan bir isim niteliksiz isim arama kurallarına göre aranır.
+
+>Nitelikli ve niteliksiz isim arama kurallarını genel ve özel kurallar olarak ikiye ayırabiliriz. Bu bölümde önce genel kurallar sonrasında özeller kurallar ele alınacaktır.
+
+**Anahtar Notlar:** Buradaki **qualified** ve **unqualified** terimleri algısal olarak olumlu ya da olumsuz bir anlam ifade etmemektedir. Tamamen kullanım biçimlerine ilişkin terimlerdir.
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample s; //Sample niteliksiz aranır, s aranmaz
+		
+		s = new Sample(); //s niteliksiz aranır, Sample niteliksiz aranır
+		
+		s.y = 10; //s niteliksiz aranır, y niteikli aranır		
+		s.foo(20); //s niteliksiz aranır, foo nitelikli aranır
+	}
+}
+
+class Sample { //Sample aranmaz
+	public int y; // y aranmaz
+	
+	public void foo(int a) //foo aranmaz, a aranmaz
+	{
+		++a; //a niteliksiz aranır
+		int x; //x aranmaz
+		
+		x = y; //x niteliksiz, y niteliksiz aranır
+		
+		--x; //x niteliksiz
+	}
+}
+```
+
+###### Niteliksiz İsim Arama Genel Kuralları
+
+>Niteliksiz isim arama genel kuralları şu şekildedir. Bu kurallar `else-if` biçiminde değerlendirilmeldir. Yani bulunursa bir sonraki adıma geçilmemektedir.
+
+>1. İsim metot içerisinde kullanılmışsa kullanılan noktadan yukarıya doğru (yani öncesinde) metot içerisinde aranır. Bu aramaya metodun parametre değişkenleri de dahildir. 
+
+```java
+class Sample { 
+	public int y;
+	
+	public void foo(int a) 
+	{
+		int x;
+		
+		x = a;
+	}
+}
+```
+
+>2. İsim, sınıf içerisinde, tüm metotların (ve ctor'ların) dışında her yerde aranır. Bulunamazsa taban sınıflara da bulununcaya ya bulunamayıncaya kadar bakılır. Taban sınıf (super class) kavramı türetme (inheritance) konusunda ele alınacaktır.
+
+```java
+class Sample { 
+	public void foo(int a) 
+	{
+		y = a;
+	}
+	
+	public int y;
+	
+	public void bar()
+	{
+		//...
+	}
+}
+```
+
+>Yukarıdaki iki maddenin sonucu olarak, bir metodun parametre değişkeni veya bir yerel değişken ile sınıf veri veri elemanı aynı isimde olabilir. Bu durumda ilgili metot içerisinde veri elemanı ismi gölgelenmiş (shadowing/masking) olur. Bu durumda veri elemanına ilgili metot içerisinde nasıl erişileceği ileride ele alınacaktır.
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample s;
+		
+		s = new Sample();
+		
+		s.foo(20);
+		
+		System.out.printf("s.y = %d%n", s.y);
+	}
+}
+
+class Sample { 
+	public int y;
+	
+	public void foo(int y) 
+	{
+		y = 10;
+	}
+}
+```
+>3.İsim, kullanılan metodun ait olduğu sınıfın ait olduğu paket içerisinde aranır. Burada bulunamazsa alt ve üst paketlere bakılmaz. 
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample s; //**
+		
+		s = new Sample();		
+		s.foo(20);
+		
+		System.out.printf("s.y = %d%n", s.y);
+	}
+}
+
+class Sample { 
+	public int y;
+	
+	public void foo(int y) 
+	{
+		y = 10;
+	}
+}
+```
+
+>Aşağıdaki demo örnekte Sample ismi üst pakette aranmaz
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample s; //error		
+	
+	}
+}
+
+```
+
+```java
+package org.csystem;
+
+public class Sample {
+	//...
+}
+
+```
+>Aşağıdaki demo örnekte Sample ismi alt paketlerde aranmaz
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample s; //error		
+	
+	}
+}
+
+```
+```java
+package org.csystem.app.sample;
+
+public class Sample {
+	//...
+}
+```
+
+>4. İsim, `import on demand declaration` olarak belirtilen paketlerin hepsinde aranır. Detaylar ileride ele alınacaktır.
+
+>Yukarıdaki 4 adımın sounda ilgili isim bulunamazsa, `bulanamamasından dolayı` error oluşur.
+
+>Paket isimleri niteliksiz isim aramaya dahil değildir. Yani, bir paket içerisinde arama yapılırken paket isimleri niteliksiz aramaya dahil edilmez.
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		sample.Sample s; //error
+	}
+}
+
+```
+
+```java
+package org.csystem.app.sample;
+
+public class Sample {
+	//...
+}
+
+```
+
+Bu örnekte `sample` paketinde (dikkat bir paketin altında olmayan sample paketi) bir Sample sınıfı olsaydı o sınıf bulunmuş olacaktı.
+
+###### Nitelikli İsim Arama Genel Kuralları
+
+>Nitelikli isim arama genel kuralları şu şekildedir. Bu kurallar `else-if` biçiminde değerlendirilmeldir. Yani bulunursa bir sonraki adıma geçilmemektedir.
+
+>1. Aranan ismin solunda bir UDT ismi varsa, isim o UDT içerisinde aranır. Bulunamazsa taban sınıflara bulununcaya ya da bulunamayaıncaya kadar bakılır.
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample.foo(10);
+		
+		System.out.printf("Sample.x = %d%n", Sample.x);
+	}
+}
+
+
+class Sample {
+	public static int x;
+	
+	public static void foo(int a)
+	{
+		x = a;
+	}
+}
+```
+
+>2. Aranan ismin solunda bir referans varsa, isim referansın türüne ilişkin UDT içerisinde aranır. Bulunamazsa taban sınıflara bulununcaya ya da bulunamayaıncaya kadar bakılır.
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		Sample s = new Sample();
+		
+		s.foo(10);
+		
+		System.out.printf("s.x = %d%n", s.x);
+	}
+}
+
+class Sample {
+	public int x;
+	
+	public void foo(int a)
+	{
+		x = a;
+	}
+}
+```
+
+>3. Aranan ismin solunda bir paket ismi varsa, isim o paket içerisinde aranı. Bulunamazsa alt veya üst paketlere bakılmaz.
+
+```java
+package org.csystem.app;
+
+class App {
+	public static void main(String [] args)
+	{
+		org.csystem.math.Complex z;
+	}
+}
+```
+
+>Yukarıda anlatılan kurallara göre isimsiz paket içerisinde bildirilen bir UDT'ye başka bir paketten erişilemez. Bu durumda isimsiz paket içerisinde bildirilen bir UDT ancak isimsiz paket içerisinde bildirilen başka bir UDT'den erişilebilirdir. Bu sebeple pratikte isimsiz paket içerisinde UDT bildirimi tavsiye edilmez ve yapılmaz.
+
