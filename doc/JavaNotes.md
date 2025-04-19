@@ -15994,6 +15994,490 @@ package csd.util;
 >- `java.lang` paketi içersisindeki UDT'ler her yerden görülebilirdir. Yani bu paket içerisindeki bir UDT ismi herhangi bir bildirim yapmadan ya da paket ismi yazmadan doğrudan kullanılabilir. Örneğin, `String, Integer, System, Character, Double` sınıfları `java.lang` paketi içerisinde bildirilmişlerdir.
 >- Hiç bir paket altında bildirilmeyen bir UDT **isimsiz paket (unnamed package)** içerisinde bildirilmiş olıur. Pratikte bir uygulama içerisinde isimsiz paket altında bir UDT bildirimi yapılmaz. Bunun nedeni ileride anlaşılacaktır.
 
+>Aşağıdaki sınıfları ve paketleri inceleyiniz
+
+```java
+package org.csystem.math.geometry;  
+  
+public class Point {  
+    public double x, y;  
+      
+    public Point()  
+    {       
+    }  
+      
+    public Point(double a)  
+    {  
+       x = a;  
+    }  
+      
+    public Point(double a, double b)  
+    {  
+       x = a;  
+       y = b;  
+    }  
+      
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.x, other.y);  
+    }  
+      
+    public double euclideanDistance(double a, double b)  
+    {  
+       return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       x += dx;  
+       y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return "(%f, %f)".formatted(x, y);  
+    }  
+}
+```
+
+```java
+package org.csystem.math;  
+
+public class Complex {  
+    public double real;  
+    public double imag;  
+      
+    public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz  
+    {    
+       return new Complex(re1 + re2, im1 + im2);  
+    }  
+      
+    public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz  
+    {  
+       return add(re1, im1, -re2, -im2);  
+    }  
+      
+    public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz  
+    {  
+       return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);  
+    }  
+      
+    public Complex()  
+    {       
+    }  
+      
+    public Complex(double a)  
+    {  
+       real = a;  
+    }  
+      
+    public Complex(double a, double b)  
+    {  
+       real = a;  
+       imag = b;  
+    }  
+      
+    public static Complex add(double value, Complex z)  
+    {  
+       return add(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex add(double value)  
+    {  
+       return add(real, imag, value, 0);  
+    }  
+      
+    public Complex add(Complex other)  
+    {  
+       return add(real, imag, other.real, other.imag);  
+    }  
+      
+    public static Complex subtract(double value, Complex z)  
+    {  
+       return subtract(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex subtract(double value)  
+    {  
+       return subtract(real, imag, value, 0);  
+    }  
+      
+    public Complex subtract(Complex other)  
+    {  
+       return subtract(real, imag, other.real, other.imag);  
+    }  
+      
+    public static Complex multiply(double value, Complex z)  
+    {  
+       return multiply(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex multiply(double value)  
+    {  
+       return multiply(real, imag, value, 0);  
+    }  
+      
+    public Complex multiply(Complex other)  
+    {  
+       return multiply(real, imag, other.real, other.imag);  
+    }  
+  
+    //...  
+    public Complex getConjugate()  
+    {  
+       return new Complex(real, -imag);  
+    }  
+      
+    public double getNorm()  
+    {  
+       return Math.sqrt(real * real + imag * imag);  
+    }  
+      
+    public double getLength()  
+    {  
+       return getNorm();  
+    }  
+      
+    public String toString()  
+    {  
+       return "|(%f, %f)| = %.3f".formatted(real, imag, getLength());  
+    }  
+}
+```
+
+```java
+package org.csystem.util.numeric;  
+  
+public class NumberUtil {  
+    public static long calculateDigitsPowSum(long a)  
+    {  
+        long result = 0;  
+        int n = countDigits(a);  
+  
+        while (a != 0) {  
+            result += (long) Math.pow(a % 10, n);  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int countDigits(long a)  
+    {  
+        return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : 1;  
+    }  
+  
+    public static int digitsSum(int a)  
+    {  
+        int total = 0;  
+  
+        while (a != 0) {  
+            total += a % 10;  
+            a /= 10;  
+        }  
+  
+        return Math.abs(total);  
+    }  
+  
+    public static int factorial(int n)  
+    {  
+        int result = 1;  
+  
+        for (int i = 2; i <= n; ++i)  
+            result *= i;  
+  
+        return result;  
+    }  
+  
+    public static int fibonacciNumber(int n)  
+    {  
+        if (n <= 2)  
+            return n - 1;  
+  
+        int prev1 = 1, prev2 = 0, result = 1;  
+  
+        for (int i = 3; i < n; ++i) {  
+            prev2 = prev1;  
+            prev1 = result;  
+            result = prev1 + prev2;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static boolean isArmstrong(long a)  
+    {  
+        return a >= 0 && calculateDigitsPowSum(a) == a;  
+    }  
+  
+    public static boolean isEven(int a)  
+    {  
+        return a % 2 == 0;  
+    }  
+  
+    public static boolean isOdd(int a)  
+    {  
+        return !isEven(a);  
+    }  
+  
+    public static boolean isPrime(long a)  
+    {  
+        if (a <= 1)  
+            return false;  
+  
+        if (a % 2 == 0)  
+            return a == 2;  
+  
+        if (a % 3 == 0)  
+            return a == 3;  
+  
+        if (a % 5 == 0)  
+            return a == 5;  
+  
+        if (a % 7 == 0)  
+            return a == 7;  
+  
+        for (long i = 11; i * i <= a; i += 2)  
+            if (a % i == 0)  
+                return false;  
+  
+        return true;  
+    }  
+    public static int nextClosestFibonacciNumber(int a)  
+    {  
+        if (a < 0)  
+            return 0;  
+  
+        int prev1 = 1, prev2 = 0, next;  
+  
+        while (true) {  
+            next = prev1 + prev2;  
+            if (next > a)  
+                break;  
+  
+            prev2 = prev1;  
+            prev1 = next;  
+        }  
+  
+        return next;  
+    }  
+  
+    public static long nextClosestPrime(int a)  
+    {  
+        if (a < 2)  
+            return 2;  
+  
+        long i;  
+  
+        for (i = a + 1; !isPrime(i); ++i)  
+            ;  
+  
+        return i;  
+    }  
+  
+    public static long nthPrime(int n)  
+    {  
+        long val = 2;  
+        int count = 0;  
+  
+        for (long i = 2; count < n; ++i)  
+            if (isPrime(i)) {  
+                ++count;  
+                val = i;  
+            }  
+  
+        return val;  
+    }  
+  
+    public static int reverse(int a)  
+    {  
+        int result = 0;  
+  
+        while (a != 0) {  
+            result = result * 10 + a % 10;  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+}
+```
+
+```java
+package org.csystem.util.string;  
+  
+public class StringUtil {  
+    public static String capitalize(String s)  
+    {  
+        return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();  
+    }  
+  
+    public static String changeCase(String s)  
+    {  
+        StringBuilder sb = new StringBuilder(s);  
+  
+        for (int i = 0; i < sb.length(); ++i) {  
+            char c = sb.charAt(i);  
+  
+            sb.setCharAt(i, Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static int countString(String s1, String s2)  
+    {  
+        int count = 0;  
+  
+        for (int i = -1; (i = s1.indexOf(s2, i + 1)) != -1; ++count)  
+            ;  
+  
+        return count;  
+    }  
+  
+    public static String digits(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isDigit(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static boolean isPalindrome(String s)  
+    {  
+        int left = 0;  
+        int right = s.length() - 1;  
+  
+        while (left < right) {  
+            char cLeft = s.charAt(left);  
+  
+            if (!Character.isLetter(cLeft)) {  
+                ++left;  
+                continue;  
+            }  
+  
+            char cRight = s.charAt(right);  
+  
+            if (!Character.isLetter(cRight)) {  
+                --right;  
+                continue;  
+            }  
+  
+            if (Character.toLowerCase(cLeft) != Character.toLowerCase(cRight))  
+                return false;  
+  
+            ++left;  
+            --right;  
+        }  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangram(String s, String alphabet)  
+    {  
+        for (int i = 0; i < alphabet.length(); ++i)  
+            if (s.indexOf(alphabet.charAt(i)) == -1)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangramEN(String s)  
+    {  
+        return isPangram(s.toLowerCase(), "abcdefghijklmnopqrstuwxvyz");  
+    }  
+  
+    public static boolean isPangramTR(String s)  
+    {  
+        return isPangram(s.toLowerCase(), "abcçdefgğhıijklmnoöprsştuüvyz");  
+    }  
+  
+    public static String letters(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isLetter(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static String padLeading(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? String.valueOf(ch).repeat(n - len) + s : s;  
+    }  
+  
+    public static String padLeading(String s, int n)  
+    {  
+        return padLeading(s, n, ' ');  
+    }  
+  
+    public static String padTrailing(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? s + String.valueOf(ch).repeat(n - len) : s;  
+    }  
+  
+    public static String padTrailing(String s, int n)  
+    {  
+        return padTrailing(s, n, ' ');  
+    }  
+  
+    public static String reverse(String s)  
+    {  
+        return new StringBuilder(s).reverse().toString();  
+    }  
+  
+    public static String trim(String s)  
+    {  
+        return trimLeading(trimTrailing(s));  
+    }  
+  
+    public static String trimLeading(String s)  
+    {  
+        int i = 0;  
+  
+        for (; i < s.length() && Character.isWhitespace(s.charAt(i)); ++i)  
+            ;  
+  
+        return s.substring(i);  
+    }  
+  
+    public static String trimTrailing(String s)  
+    {  
+        int i = s.length() - 1;  
+  
+        for (; i >= 0 && Character.isWhitespace(s.charAt(i)); --i)  
+            ;  
+  
+        return s.substring(0, i + 1);  
+    }  
+}
+```
+
 ###### 13 Nisan 2025
 
 ##### İsim Arama
@@ -16293,3 +16777,251 @@ class App {
 
 >Yukarıda anlatılan kurallara göre isimsiz paket içerisinde bildirilen bir UDT'ye başka bir paketten erişilemez. Bu durumda isimsiz paket içerisinde bildirilen bir UDT ancak isimsiz paket içerisinde bildirilen başka bir UDT'den erişilebilirdir. Bu sebeple pratikte isimsiz paket içerisinde UDT bildirimi tavsiye edilmez ve yapılmaz.
 
+###### 19 Nisan 2025
+
+##### import Bildirimleri
+
+>import bildirimleri niteliklendirmeyi azaltmak ve kodu daha yalın olarak yazabilmek için düşünülmüştür. import bildirimlerinin UDT ismi bakımından genel olarak iki kullanım biçimi vardır:
+>- import on demand declaration
+>- import single name declaration
+>
+>Tüm bu import bildirimlerine ilişkin ortak özellikler şunlardır:
+>- import bildirimleri bir derleme biriminde paket bildiriminden sonra, tüm diğer bildirimlerden önce bulunmalıdır. Aksi durumda error oluşur.
+>- Birden fazla import bildirimi geçerlidir ve import bildirimlerinin sırasının önemi yoktur
+>- import bildirimleri niteliksiz kullanılan isimler için (yani niteliksiz kullanılan isimlerin aranması için) geçerlidir. Nitelikli isim aramada bir etkileri yoktur.
+>- Bir import bildirimi yalnızca bildirildiği derleme biriminde geçerlidir.
+
+**Anahtar Notlar:** import bildirimi bir kütüphaneyi projeye dahil etmek demek **DEĞİLDİR.** Bir kütüphaneyi bir projeye dahil etmek için çeşitli yöntemler kullanılmaktadır. Bir kütüphaneyi proje dahil etme yöntemleri `Java ile Uygulama Geliştirme I` kursunda ele alınacaktır.
+###### import on demand declaration
+
+>Bu bildirimin genel biçimi şu şekildedir:
+
+```java
+import <paket ismi>[.<alt paket listesi>].*;
+```
+
+>Niteliksiz isim arama genel kurallarına göre isim, paket içerisinde bulunamazsa bu şekilde bildirilmiş olan **tüm paketlerde aranır**. Burada da yine alt veya üst paketlere bakılmaz. Bu bildirim adeta bir paketi `isim arama anlamında` derleme birimine ilişkin pakete dahil (inject) etmektir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.*;  
+import org.csystem.math.geometry.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random r = new Random();  
+  
+       System.out.print("Bir sayı giriniz:");  
+       int n = kb.nextInt();  
+  
+       for (int i = 0; i < n; ++i) {  
+          Point p = new Point(r.nextDouble(-100, 100), r.nextDouble(-100, 100));  
+  
+          System.out.println(p.toString());  
+       }  
+    }  
+}
+```
+
+
+>Arama tüm import on demand declaration'a ilişkin paketlerde yapılacağından birden pakette aynı ismin bulunması durumundan error oluşur (ambiguity error).
+
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.*;  
+import com.ahmetarslan.util.math.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle c;  //error
+    }  
+}
+```
+
+```java
+package com.ahmetarslan.util.math;  
+  
+public class Circle {  
+    //...
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.*;  
+import org.csystem.math.geometry.*;  
+import org.csystem.math.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random r = new Random();  
+  
+       System.out.print("Bir sayı giriniz:");  
+       int n = kb.nextInt();  
+  
+       for (int i = 0; i < n; ++i) {  
+          Point p = new Point(r.nextDouble(-100, 100), r.nextDouble(-100, 100));  
+          Complex z = new Complex(r.nextDouble(-100, 100), r.nextDouble(-100, 100));  
+  
+          System.out.println(p.toString());  
+          System.out.println(z.toString());  
+       }  
+    }  
+}
+```
+
+>Aşağıdaki test kodunu ve ilgili metotları inceleyiniz
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.*;
+import java.util.*;  
+  
+public class StringUtilRanTextTRENTest {  
+    public static void run()  
+    {  
+        Scanner kb = new Scanner(System.in);  
+        Random random = new Random();  
+  
+        System.out.print("Input count:");  
+        int count = kb.nextInt();  
+  
+        System.out.println(StringUtil.randomTextTR(random, count));  
+        System.out.println(StringUtil.randomTextEN(random, count));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+##### import single name declaration
+
+>Bu bildirimin UDT isimleri için (import single type declaration) genel biçimi şu şekildedir:
+
+```java
+import <paket ismi>[.<alt paket listesi>].<UDT ismi>
+```
+
+>Bu bildirimde belirtilen UDT ismi derleme birimi boyunca her yerde niteliksiz olarak kullanılabilir (visible) ya da başka bir deyişle buradaki bildirim, bu ismin derleme birimi boyunca kullanılabileceğini yani bu isim için niteliksiz isim arama genel kurallarının uygulanmayacağını belirtir.
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Scanner;  
+import java.util.Random;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.math.Complex;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random r = new Random();  
+  
+       System.out.print("Bir sayı giriniz:");  
+       int n = kb.nextInt();  
+  
+       for (int i = 0; i < n; ++i) {  
+          Point p = new Point(r.nextDouble(-100, 100), r.nextDouble(-100, 100));  
+          Complex z = new Complex(r.nextDouble(-100, 100), r.nextDouble(-100, 100));  
+  
+          System.out.println(p.toString());  
+          System.out.println(z.toString());  
+       }  
+    }  
+}
+```
+
+>Aşağıdaki test kodunu ve ilgili metotları inceleyiniz
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+public class StringUtilRanTextTRENTest {  
+    public static void run()  
+    {  
+        Scanner kb = new Scanner(System.in);  
+        Random random = new Random();  
+  
+        System.out.print("Input count:");  
+        int count = kb.nextInt();  
+  
+        System.out.println(StringUtil.randomTextTR(random, count));  
+        System.out.println(StringUtil.randomTextEN(random, count));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>import single name declaration'da aynı ismin birden fazla paketten bildirimi error oluşturur. Çünkü bu bildirim ile bir isim artık niteliksiz kullanılabilirdir. Bu durumda aynı ismin birden fazla bildirimi error oluşturur
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.Circle;  
+import com.ahmetarslan.util.math.Circle; //error  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle c;   
+    }  
+}
+```
+
+
+```java
+package com.ahmetarslan.util.math;  
+  
+public class Circle {  
+    //...
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+}
+```
+
+
+>Programcı mümkün olduğunca `import single name declaration` tercih etmelidir. Aslında bu bildirim ile artık ismin kullanımında iki anlamlılık (ambiguity) oluşmayacağından tavsiye edilir. IDE'ler genel olarak default kullanımlarda `import single name declaration'a` yönelik import bildirimleri üretirler. Şüphesiz bu üretimler çeşitlik konfigürasyonlar ile değiştirilebilmektedir. Bu konfigürasyonlar programcıdan programcıya farklı olarak kullanılabilmektedir. 

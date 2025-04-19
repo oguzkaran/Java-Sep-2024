@@ -1,7 +1,9 @@
 package org.csystem.util.string;
 
+import java.util.Random;
+
 /**
- * Uility class for string operations
+ * Utility class for string operations
  * Last Update: 19th April 2025
  * @author Java-Sep-2024 Group
  */
@@ -133,6 +135,26 @@ public class StringUtil {
     public static String padTrailing(String s, int n)
     {
         return padTrailing(s, n, ' ');
+    }
+
+    public static String randomText(Random random, int count, String sourceText)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < count; ++i)
+            sb.append(sourceText.charAt(random.nextInt(sourceText.length())));
+
+        return sb.toString();
+    }
+
+    public static String randomTextTR(Random random, int count)
+    {
+        return randomText(random, count, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");
+    }
+
+    public static String randomTextEN(Random random, int count)
+    {
+        return randomText(random, count, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
     }
 
     public static String reverse(String s)

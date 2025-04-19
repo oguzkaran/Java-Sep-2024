@@ -1,6 +1,5 @@
 package org.csystem.math.geometry;
 
-
 /**
  * Point class that represents a point in org.csystem.geometry
  * Last Update: 12th April 2025
