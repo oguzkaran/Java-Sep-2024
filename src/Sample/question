@@ -1,6 +1,6 @@
 package org.csystem.app;
 
-import com.ahmetarslan.util.math.Circle;
+import org.csystem.app.Circle;
 import com.huseyinyilmaz.math.Circle;
 
 class App {

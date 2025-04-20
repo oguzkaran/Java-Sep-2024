@@ -16253,6 +16253,7 @@ public class NumberUtil {
   
         return true;  
     }  
+    
     public static int nextClosestFibonacciNumber(int a)  
     {  
         if (a < 0)  
@@ -16919,7 +16920,7 @@ public class StringUtilRanTextTRENTest {
 }
 ```
 
-##### import single name declaration
+###### import single name declaration
 
 >Bu bildirimin UDT isimleri için (import single type declaration) genel biçimi şu şekildedir:
 
@@ -17025,3 +17026,485 @@ public class Circle {
 
 
 >Programcı mümkün olduğunca `import single name declaration` tercih etmelidir. Aslında bu bildirim ile artık ismin kullanımında iki anlamlılık (ambiguity) oluşmayacağından tavsiye edilir. IDE'ler genel olarak default kullanımlarda `import single name declaration'a` yönelik import bildirimleri üretirler. Şüphesiz bu üretimler çeşitlik konfigürasyonlar ile değiştirilebilmektedir. Bu konfigürasyonlar programcıdan programcıya farklı olarak kullanılabilmektedir. 
+
+###### 20 Nisan 2025
+
+>Aşağıdaki demo örnekte `Circle` ismi niteliksiz isim arama genel kuralları uygulanacağından `org.csystem.app` paketi içerisindeki `Circle` bulunacaktır
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle.foo();  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+```java
+package org.csystem.app;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("org.csystem.app.Circle.foo");  
+    }  
+}
+```
+
+>Aşağıdaki demo örneke `Circle` ismi niteliksiz isim arama genel kuralları uygulanmayacağından `com.huseyinyilmaz.math` paketi içerisindeki `Circle` bulunacaktır 
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.Circle;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle.foo();  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+```java
+package org.csystem.app;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("org.csystem.app.Circle.foo");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte `com.huseyinyilmaz.math.Circle` sınıfı public olmadığı için error oluşacaktır. Yani isim bulunmuştur ancak geçerli bir şekilde kullanılmamıştır
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.Circle; //error  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+```java
+package org.csystem.app;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("org.csystem.app.Circle.foo");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte `org.csystem.app.Circle` friendly bir sınıf olduğundan error oluşmaz
+
+```java
+
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle.foo();  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+```java
+package org.csystem.app;  
+  
+class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("org.csystem.app.Circle.foo");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte `com.ahmetarslan.util.math.Circle` sınıfı firendly sınıf olduğundan ambiguity oluşmaz. Bu durum `önce isim bulunur sonra erişim kontrolü yapılır` önermesine tamamıyla aykırı değildir ancak yine de özel bir durumdur
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.*;  
+import com.ahmetarslan.util.math.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle.foo();  
+    }  
+}
+```
+
+```java
+package com.ahmetarslan.util.math;  
+  
+class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.ahmetarslan.util.math.Circle.foo");  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+>Aşağıdaki demo örmekte `com.ahmetarslan.util.math.Circle` sınıfı friendly sınıf olduğundan import bildirimi geçersizdir. Buradaki hata, faklı paketlerdeki aynı UDT'lerin (yani Circle'ların) import single type declaration olarak bildirilmesinden dolayı oluşmaz
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.Circle;  
+import com.ahmetarslan.util.math.Circle;  //error
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle.foo();  
+    }  
+}
+```
+
+```java
+package com.ahmetarslan.util.math;  
+  
+class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.ahmetarslan.util.math.Circle.foo");  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte Circle sınıfı aynı derleme biriminde de olduğundan, farklı paketteki diğer Circle sınıfı import single declaration olarak yazılamaz. Burada hatanın hangisi olduğu önemsizdir. Bu da özel durumlardan biridir
+
+```java
+package org.csystem.app;  
+  
+import com.huseyinyilmaz.math.Circle;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Circle.foo();  
+    }  
+}  
+  
+class Circle {
+    //...  
+    public static void foo()  
+    {  
+       System.out.println("org.csystem.app.Circle.foo");  
+    }  
+}
+```
+
+```java
+package com.huseyinyilmaz.math;  
+  
+public class Circle {  
+    //...  
+    public static void foo()  
+    {  
+        System.out.println("com.huseyinyilmaz.math.Circle.foo");  
+    }  
+}
+```
+
+##### import static bildirimleri
+
+>import static bildirimleri static elemanların kullanımındaki niteliklendirmeyi azaltmak düşünülmüştür. import static bildirimleri `Java 5` ile dile eklenmiştir. Bu bildirimler iki biçime ayrılır:
+>
+>- import static on demand declaration
+>- import static single member declaration
+>
+>import bildirimleri için yazılan ortak özellikler bu bildirimler için de geçerlidir. 
+>
+
+###### import static on demand declaration
+
+Bu bildirimin genel biçimi şu şekildedir:
+
+```java
+import static <paket ismi>[.<alt paket listesi>].<UDT ismi>.*;
+```
+
+>Bu bildirim ile niteliksiz kullanılan bir isim, niteliksiz isim arama genel kurallarına göre ilgili pakette de bulunamazsa import static bildirimine ilişkin UDT'de de aranır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+import static java.lang.Math.*;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random r = new Random();  
+       System.out.print("Bir sayı giriniz:");  
+       int count = kb.nextInt();  
+  
+       for (int i = 0; i < count; ++i) {  
+          int val = r.nextInt(100);  
+  
+          System.out.printf("%d -> %f%n", val, sqrt(val));  
+       }  
+       System.out.printf("PI = %.20f%n", PI);
+    }  
+}
+```
+
+>Point sınıfı
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.*;  
+  
+public class Point {  
+    public double x, y;  
+      
+    public Point()  
+    {       
+    }  
+      
+    public Point(double a)  
+    {  
+       x = a;  
+    }  
+      
+    public Point(double a, double b)  
+    {  
+       x = a;  
+       y = b;  
+    }  
+      
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.x, other.y);  
+    }  
+      
+    public double euclideanDistance(double a, double b)  
+    {  
+       return sqrt((x - a) * (x - a) + (y - b) * (y - b));  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       x += dx;  
+       y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return "(%f, %f)".formatted(x, y);  
+    }  
+}
+```
+
+###### import single member declaration
+
+>Bu bildirimin genel biçimi şu şekildedir:
+
+```java
+import static <paket ismi>[.<alt paket listesi>].<UDT ismi>.<static eleman>;
+```
+
+>Bu bildirim ile ilgili static eleman tüm derleme birimi boyunca niteliksiz olarak kullanılabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+import static java.lang.Math.PI;  
+import static java.lang.Math.sqrt;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random r = new Random();  
+       System.out.print("Bir sayı giriniz:");  
+       int count = kb.nextInt();  
+  
+       for (int i = 0; i < count; ++i) {  
+          int val = r.nextInt(100);  
+  
+          System.out.printf("%d -> %f%n", val, sqrt(val));  
+       }  
+  
+       System.out.printf("PI = %.20f%n", PI);  
+    }  
+}
+```
+
+>Point sınıfı
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.sqrt;  
+
+public class Point {  
+    public double x, y;  
+      
+    public Point()  
+    {       
+    }  
+      
+    public Point(double a)  
+    {  
+       x = a;  
+    }  
+      
+    public Point(double a, double b)  
+    {  
+       x = a;  
+       y = b;  
+    }  
+      
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.x, other.y);  
+    }  
+      
+    public double euclideanDistance(double a, double b)  
+    {  
+       return sqrt((x - a) * (x - a) + (y - b) * (y - b));  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       x += dx;  
+       y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return "(%f, %f)".formatted(x, y);  
+    }  
+}
+```
+
+
+**Anahtar Notlar:** Paketler ve isim arama konularına ilişkin burada ele alınmayan bazı kurallar ya konular içerisinde ele alınacaktır ya da pratikte kullanılmadığından ele alınmayacaktır.
+

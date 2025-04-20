@@ -1,5 +1,7 @@
 package org.csystem.math.geometry;
 
+import static java.lang.Math.sqrt;
+
 /**
  * Point class that represents a point in org.csystem.geometry
  * Last Update: 12th April 2025
@@ -36,7 +38,7 @@ public class Point {
 	
 	public double euclideanDistance(double a, double b)
 	{
-		return Math.sqrt((x - a) * (x - a) + (y - b) * (y - b));
+		return sqrt((x - a) * (x - a) + (y - b) * (y - b));
 	}
 	
 	public void offset(double dxy)

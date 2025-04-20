@@ -1,6 +1,5 @@
 package org.csystem.math;
 
-
 /**
  * Complex class that represents a complex number
  * Last Update: 12th April 2025

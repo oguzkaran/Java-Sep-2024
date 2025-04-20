@@ -2,7 +2,7 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 19th April 2025
+ * Last Update: 20th April 2025
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
@@ -19,22 +19,41 @@ public class NumberUtil {
         return result;
     }
 
+    public static int countHardyRamanujan(int n)
+    {
+        int count = 0;
+
+        EXIT_LOOP:
+        for (int x = 1; x * x * x < n; ++x)
+            for (int y = x + 1; x * x * x + y * y * y <= n; ++y) {
+                if (x * x * x + y * y * y == n) {
+                    if (++count == 2)
+                        break EXIT_LOOP;
+
+                    ++x;
+                }
+            }
+
+        return count;
+    }
+
+    public static int sumFactorialOfDigits(int n)
+    {
+        int total = 0;
+
+        while (n != 0) {
+            total += factorial(n % 10);
+            n /= 10;
+        }
+
+        return total;
+    }
+
     public static int countDigits(long a)
     {
         return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : 1;
     }
 
-    public static int digitsSum(int a)
-    {
-        int total = 0;
-
-        while (a != 0) {
-            total += a % 10;
-            a /= 10;
-        }
-
-        return Math.abs(total);
-    }
 
     public static int factorial(int n)
     {
@@ -62,14 +81,45 @@ public class NumberUtil {
         return result;
     }
 
+    public static int indexOfPrime(long a)
+    {
+        int i = 1;
+        long val = 2;
+
+        while (true) {
+            if (val == a)
+                return i;
+
+            if (isPrime(val))
+                ++i;
+
+            ++val;
+        }
+    }
+
     public static boolean isArmstrong(long a)
     {
         return a >= 0 && calculateDigitsPowSum(a) == a;
     }
 
+    public static boolean isDecimalHarshad(int a)
+    {
+        return a > 0 && a % sumDigits(a) == 0;
+    }
+
     public static boolean isEven(int a)
     {
         return a % 2 == 0;
+    }
+
+    public static boolean isFactorian(int n)
+    {
+        return n > 0 && sumFactorialOfDigits(n) == n;
+    }
+
+    public static boolean isHardyRamanujan(int n)
+    {
+        return n > 0 && countHardyRamanujan(n) == 2;
     }
 
     public static boolean isOdd(int a)
@@ -100,6 +150,35 @@ public class NumberUtil {
 
         return true;
     }
+
+    public static boolean isPrimeX(long a)
+    {
+        long sum = a;
+        boolean result;
+
+        while ((result = isPrime(sum)) && sum > 9)
+            sum = sumDigits(sum);
+
+        return result;
+    }
+
+    public static boolean isSuperPrime(long a)
+    {
+        return isPrime(a) && isPrime(indexOfPrime(a));
+    }
+
+    public static int mid(int a, int b, int c)
+    {
+        int result = c;
+
+        if (a <= b && b <= c || c <= b && b <= a)
+            result = b;
+        else if (b <= a && a <= c || c <= a && a <= b)
+            result = a;
+
+        return result;
+    }
+
     public static int nextClosestFibonacciNumber(int a)
     {
         if (a < 0)
@@ -156,5 +235,17 @@ public class NumberUtil {
         }
 
         return result;
+    }
+
+    public static int sumDigits(long a)
+    {
+        int total = 0;
+
+        while (a != 0) {
+            total += a % 10;
+            a /= 10;
+        }
+
+        return Math.abs(total);
     }
 }
