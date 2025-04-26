@@ -17508,3 +17508,321 @@ public class Point {
 
 **Anahtar Notlar:** Paketler ve isim arama konularına ilişkin burada ele alınmayan bazı kurallar ya konular içerisinde ele alınacaktır ya da pratikte kullanılmadığından ele alınmayacaktır.
 
+###### 26 Nisan 2025
+
+##### Diziler
+
+>Elemanları **aynı türden** olan ve bellekte **peş peşe** olacak şekilde yaratılan veri yapısına **dizi (array)** denir. Diziler programlamada en temel veri yapılarıdır. Hatta önemli bazı veri yapıları da dizi kullanılarak implemente edilirler. 
+>
+>Diziler Java'da sınıfsal olarak temsil edilmişlerdir. Dolayısıyla, Java'da diziler heap'de yaratılırlar. Java'da stack'de dizi yaratılamaz. T bir tür ismi olmak üzere bir dizi referansı bildiriminin iki biçimi vardır:
+
+```java
+T [] a;
+T b[];
+```
+
+>Burada a ve b referans değişkenlerdir. Henüz daha dizi yaratılmamıştır. İkinci biçime **C stili (C-style)** bildirim denilmektedir. Java programcısının birinci biçimi kullanması tavsiye edilir. Hatta bazı static kod analizi araçlarının default konfigürasyonunda ikinci biçim için uyarı verilebilmektedir. Biz de kodlama birinci biçimi tercih edeceğiz. Örneğin 
+
+```java
+int [] a;
+int b[];
+```
+
+>Burada a ve b referansları `int türden bir dizinin` adresini tutabilirler. `T türden dizi` her bir elemanı `T` türünden olan dizi demektir. 
+
+
+>Birinci biçim ile ikinci biçimin tek farkı virgül değişken bildirimlerinde orataya çıkmaktadır:
+
+```java
+int []a, b, c; // a, b ve c int türden dizi referansları
+int x[], y, z; // x int türden bir dizi referansı, y ve z int türden değişkenler
+```
+
+>Dizi yaratmak için yine `new` operatörü kullanılır. Dizi yaratmak için new operatörünün kullanımının genel biçimi şu şekildedir:
+
+```java
+new <tür ismi>[<değeri int türüne doğrudan dönüşebilen türden bir ifade>];
+```
+
+>Burada `[]` içerisinde verilen değere dizinin **uzunluğu (length)** denir. Uzunluk dizinin eleman sayısıdır, bellekte kapladığı byte uzunluğu değildir. Java'da dizi uzunluğunun sabit ifadesi (constant expression) olması gerekmez. Dizi yaratıldıktan sonra uzunluğu değiştirilemez. Dizi uzunluğunun negatif bir değer olarak verilmesi durumunda exception oluşur. Dizinin uzunluğuna `length`veri elemanı ile erişilebilir. length veri elemanı `read only` biçimdedir değeri değiştirilmeye çalışılması error olur. Dizi elemanlarına erişmek için **`[]` operatörü (subscription operator)** kullanılır. Bu operatör, özel amaçlı, iki operandlı ve ara ek durumdadır. Operatör öncelik tablosunun birinci seviyesindedir. Operatörün birinci operandı bir dizi referansı, ikinci operandı ise `int` türüne doğrudan dönüşebilen bir değer olmalıdır. İkinci operandına **indeks (index)** denilmektedir. Dizinin ilk elemanına `sıfır` numaralı indeks değeri ile erişilebilir. Yani bu durumda dizinin elemanlarına erişmek için kullanılan indeks değerleri `[0, length)` aralığında olmalıdır aksi durumda yani bu aralık dışındaki değerler için exception oluşur. Operator, dizinin verilen indeks numarasındaki elemanına ilişkin değişkeni üretir. Bu durumda atama operatörünün solunda (left value) kullanılabilir. Dizi yaratıldığında elemanların her birine `default` değerler atanır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Random random = new Random();  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Input count:");  
+       int n = kb.nextInt();  
+  
+       int [] a;  
+       boolean [] b;  
+  
+       a = new int[n];  
+       b = new boolean[n];  
+  
+       System.out.printf("Length of a:%d%n", a.length);  
+       System.out.printf("Length of b:%d%n", b.length);  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%d ", a[i]);  
+  
+       System.out.println();  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%b ", b[i]);  
+  
+       System.out.println();  
+  
+       for (int i = 0; i < a.length; ++i) {  
+          a[i] = random.nextInt(100);  
+          b[i] = random.nextBoolean();  
+       }  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%d ", a[i]);  
+  
+       System.out.println();  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%b ", b[i]);  
+  
+       System.out.println();  
+  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Random random = new Random();  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Input count:");  
+       int n = kb.nextInt();  
+  
+       int [] a;  
+  
+       a = new int[n];  
+  
+       a[5] = 10;  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%d ", a[i]);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Bir diziyi ilk değerleme (initialization) dizi yaratılırken yapılan ilk değerlemeye denir. Bu işlem `{}` ile yapılır. `{}` içerisindeki ifadeler (yani aslında değerler) virgül ile ayrılırlar. Dizinin eleman sayısı, verilen değerlerin sayısıdır. Yani, ilk değer verme işleminde dizi nesnesi yaratılır ve elemanlar ilk değer olarak verilir. İlk değer verme sentaksında yine new operatörü kullanılır ancak `[]` içerisi boş bırakılır. `[]` içerisinin boş bırakılmaması ilk değer vermede error oluşturur. Diziye ilk değer verilirken aynı zamanda elde edilen adresi tutan referans değişkene de ilk değer veriliyorsa new operatörü kullanılmadan yalnızca küme parantezi ile değerler verilebilir. Yani, bu durumda new operatörü kullanılmasına gerek yoktur. Bu durum argümandan parametreye aktarımda geçersizdir.
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte diziye ilk değer verilirken referans değişkene ilk değer verilmediği new operatörü kullanılmalıdır. Aksi durumda error oluşur
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       int [] a;  
+  
+       a = new int[]{1, 2, 3, 4, 5};  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%d ", a[i]);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte diziye ilk değer verilirken referans değişkene de ilk değer verildiğinden new operatörü kullanılmasa da geçerlidir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       int [] a = {1, 2, 3, 4, 5};  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%d ", a[i]);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Diziye ilk değer verme sentaksında, son elemandan sonra bir tane virgül geçerlidir. Buna **trailing comma** denir. Bu virgülü yazmakla yazmamak arasında. bir fark yoktur. Trailing comma'nın programcının yaklaşımına göre iki temel kullanımı (kolaylık sağlaması anlamında) söz konusu olabilmektedir:
+>
+>1. Programcı henüz ilk değerleri kod içerisinde tamamlamadığını belirtmek için kullanabilir
+>2. Verilen ilk değerlerin geliştirme aşamasında yerlerinin çok sık bir biçimde değiştirilmesi durumunda değiştirme kolaylığı sağlayabilmektedir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       int [] a = {5, 1, 4, 3, 2, };  
+  
+       for (int i = 0; i < a.length; ++i)  
+          System.out.printf("%d ", a[i]);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Bir metodun parametre değişkeni bir dizi referansı olabilir
+
+```java
+package org.csystem.app;  
+  
+import static org.csystem.util.array.ArrayUtil.print;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       int [] a = {1, 2, 3, 4, 5};  
+  
+       print(a);  
+    }  
+}
+```
+
+>Bir metodun geri dönüş değeri de bir dizi referansı olabilir
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.array.ArrayUtil.generateRandomArray;  
+import static org.csystem.util.array.ArrayUtil.print;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       Random random = new Random();  
+       int [] a = generateRandomArray(random, 10, 1, 100);  
+  
+       //...  
+       print(a);  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizinin elemanlarının toplamına geri dönen `sum` ve elemanlarının ortalamasına geri dönen `average` isimli metotları ArrayUtil sınıfı içerisinde yazınız ve test ediniz
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilAverageTest {  
+    public static void run()  
+    {  
+        int [] a = {1, 2, 3, 4, 5, 6};  
+        double delta = 0.00000001;  
+  
+        System.out.println(Math.abs(ArrayUtil.average(a) - 3.5) < delta);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilSumTest {  
+    public static void run()  
+    {  
+        int [] a = {1, 2, 3, 4, 5, 6};  
+  
+        System.out.println(ArrayUtil.sum(a) == 21);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>Sıfır elemanları yani uzunluğu sıfır olan bir dizi yaratılabilir. Bu durumda bu dizi içerisinde herhangi bir değer tutulamaz ancak dizi yaratılmış olur. Uzunluğu sıfır olan dizilere **boş dizi (empty array)** de denilmektedir. Boş diziler bazı durumlarda kontrol amaçlı kullanılabilmektedir. Örneği bir metot bir takım değerlere göre bir dizi yaratıp döncek olsun. Metoda geçilen parametrelere ilişkin argümanlar geçersiz olması durumunda metot boş dizi referansına geri dönebilir. Bu durumda metodu çağıran programcı geri dönen dizinin eleman saysını kontrol ederek geçerlilik kontrolü yapabilir. Boş dizi yaratmanın sentaks olarak yöntemleri şunlardır:
+
+```java
+int [] a = new int[0];
+
+a = new int[]{};
+
+a = new int[]{,};
+
+int [] b = {};
+
+int [] c = {,};
+```
+
+```java
+package org.csystem.app;  
+
+class App {  
+    public static void main(String [] args)  
+    {  
+       int [] a = new int[0];  
+  
+       System.out.printf("Length:%d%n", a.length);  
+         
+       a = new int[]{};  
+       System.out.printf("Length:%d%n", a.length);  
+         
+       a = new int[]{,};  
+       System.out.printf("Length:%d%n", a.length);  
+  
+       int [] b = {};  
+       System.out.printf("Length:%d%n", b.length);  
+  
+       int [] c = {,};  
+       System.out.printf("Length:%d%n", c.length);  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizinin en büyük elemanına geri dönen `max` ve en küçük elemanına geri dönen `min` isimli metotları `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz.
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizinin elemanlarının her birini ikinci parametresi ile aldığı int türden değer ile toplayan `add` isimli metodu `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz ve test ediniz. Çıkarma, ve çarma işlemleri için de `subtract` ve `multiply` metotlarını yazınız.
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden dizi ters-yüz eden `reverse` isimli metodu `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz. Metodu ikinci bir dizi kullanmadan yazınız.
+
+
+
