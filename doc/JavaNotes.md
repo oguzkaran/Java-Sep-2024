@@ -17818,11 +17818,347 @@ class App {
 }
 ```
 
+###### 27 Nisan 2025
+
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizinin en büyük elemanına geri dönen `max` ve en küçük elemanına geri dönen `min` isimli metotları `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import static org.csystem.util.array.ArrayUtil.max;  
+import static org.csystem.util.array.ArrayUtil.min;  
+  
+public class ArrayUtilMinMaxTest {  
+    public static void run()  
+    {  
+        int [] a = {1, -3, 5, 90, -34, 56, 89, 3, -4};  
+  
+        System.out.println(max(a) == 90);  
+        System.out.println(min(a) == -34);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
 
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizinin elemanlarının her birini ikinci parametresi ile aldığı int türden değer ile toplayan `add` isimli metodu `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz ve test ediniz. Çıkarma, ve çarma işlemleri için de `subtract` ve `multiply` metotlarını yazınız.
 
+>**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.array.ArrayUtil.add;  
+import static org.csystem.util.array.ArrayUtil.generateRandomArray;  
+import static org.csystem.util.array.ArrayUtil.print;  
+  
+public class ArrayUtilAddTest {  
+    public static void run()  
+    {  
+        Random random = new Random();  
+  
+        int [] a = generateRandomArray(random, 10, -10, 11);  
+        int val = random.nextInt(-10, 10);  
+  
+        System.out.printf("val = %d%n", val);  
+        print(a);  
+        add(a, val);  
+        print(a);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.array.test;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.array.ArrayUtil.generateRandomArray;  
+import static org.csystem.util.array.ArrayUtil.multiply;  
+import static org.csystem.util.array.ArrayUtil.print;  
+  
+public class ArrayUtilMultiplyTest {  
+    public static void run()  
+    {  
+        Random random = new Random();  
+  
+        int [] a = generateRandomArray(random, 10, -10, 11);  
+        int val = random.nextInt(-10, 10);  
+  
+        System.out.printf("val = %d%n", val);  
+        print(a);  
+        multiply(a, val);  
+        print(a);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.array.test;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.array.ArrayUtil.generateRandomArray;  
+import static org.csystem.util.array.ArrayUtil.print;  
+import static org.csystem.util.array.ArrayUtil.subtract;  
+  
+public class ArrayUtilSubtractTest {  
+    public static void run()  
+    {  
+        Random random = new Random();  
+  
+        int [] a = generateRandomArray(random, 10, -10, 11);  
+        int val = random.nextInt(-10, 10);  
+  
+        System.out.printf("val = %d%n", val);  
+        print(a);  
+        subtract(a, val);  
+        print(a);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden dizi ters-yüz eden `reverse` isimli metodu `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz. Metodu ikinci bir dizi kullanmadan yazınız.
 
+>**Metodun bir implementasyonu:**
 
+```java
+public static void reverse(int [] a)  
+{  
+    for (int i = 0; i < a.length / 2; ++i)  
+        swap(a, i, a.length - 1 - i);  
+}
+```
 
+>**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.array.ArrayUtil.generateRandomArray;  
+import static org.csystem.util.array.ArrayUtil.print;  
+import static org.csystem.util.array.ArrayUtil.reverse;  
+  
+public class ArrayUtilReverseTest {  
+    public static void run()  
+    {  
+        Random random = new Random();  
+  
+        int [] a = generateRandomArray(random, random.nextInt(5, 11), 0, 10);  
+  
+        print(a);  
+        reverse(a);  
+        print(a);  
+  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden dizi için, ters-yüz edilmiş yeni bir diziye geri dönen `reversed` isimli metodu `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz.
+
+**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.array.ArrayUtil.generateRandomArray;  
+import static org.csystem.util.array.ArrayUtil.print;  
+import static org.csystem.util.array.ArrayUtil.reversed;  
+  
+public class ArrayUtilReversedTest {  
+    public static void run()  
+    {  
+        Random random = new Random();  
+  
+        int [] a = generateRandomArray(random, random.nextInt(5, 11), 0, 10);  
+  
+        print(a);  
+        int [] r = reversed(a);  
+        print(a);  
+        print(r);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Sayısal loto kuponu üreten programı yazınız
+>
+>**Açıklamalar:** 
+>- Bir sayısal loto kuponu içerisinde `[1, 49]`aralığında birbirinden farklı 6 tane sayı bulunur. 
+>- Sayılar, artan sırada (ascending) yani küçükten büyüğe olacak şekilde sıralanır.
+>- Programı mümkün olduğunda NYPT yaklaşımı ile yazınız. Bunun için `NumericLottery` isimli bir sınıf ile üretim yapma işlemini temsil edebilirsiniz.
+
+>**NumericLotteryApp sınıfı**
+
+```java
+package org.csystem.app.game.lottery;  
+  
+import org.csystem.game.lottery.NumericLottery;  
+import org.csystem.util.array.ArrayUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+public class NumericLotteryApp {  
+    public static void run()  
+    {  
+        Random random = new Random();  
+        Scanner kb = new Scanner(System.in);  
+        NumericLottery numericLottery = new NumericLottery(random);  
+  
+        while (true) {  
+            System.out.print("Input count:");  
+            int count = Integer.parseInt(kb.nextLine());  
+  
+            if (count <= 0)  
+                break;  
+  
+            while (count--  > 0)  
+                ArrayUtil.print(numericLottery.getColumn());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>**NumericLottery sınıfı**
+
+>**Çözüm-1:** 
+
+```java
+package org.csystem.game.lottery;  
+  
+import java.util.Arrays;  
+import java.util.Random;  
+  
+public class NumericLottery {  
+    public Random random;  
+  
+    public NumericLottery(Random r)  
+    {  
+        random = r;  
+    }  
+  
+    public int [] getColumn()  
+    {  
+        int [] column = new int[6];  
+  
+        for (int i = 0; i < column.length; ++i) {  
+            boolean repeat;  
+  
+            do {  
+                repeat = false;  
+                column[i] = random.nextInt(1, 50);  
+  
+                for (int k = 0; k < i; ++k)  
+                    if (column[i] == column[k]) {  
+                        repeat = true;  
+                        break;  
+                    }  
+            } while (repeat);  
+        }  
+  
+        Arrays.sort(column);  
+  
+        return column;  
+    }  
+}
+```
+
+>Burada `Arrays` sınıfının `sort` metodu küçükten büyüğe sıralamak için kullanılmıştır. Arrays sınıfının ve sort metodunun detayları şu an için önemsizdir.
+
+>**Çözüm-2:** Bu çözüm ikinci çözüme göre daha iyi bir yaklaşımdır. 
+
+```java
+package org.csystem.game.lottery;  
+  
+import java.util.Random;  
+  
+public class NumericLottery {  
+    public Random random;  
+  
+    public static int [] getColumns(boolean [] flags)  
+    {  
+        int [] column = new int[6];  
+  
+        int idx = 0;  
+  
+        for (int i = 1; i < flags.length; ++i)  
+            if (flags[i])  
+                column[idx++] = i;  
+  
+        return column;  
+    }  
+  
+    public boolean [] getFlags()  
+    {  
+        boolean [] flags = new boolean[50];  
+  
+        for (int i = 0; i < 6; ++i) {  
+            int val;  
+  
+            while (true) {  
+                val = random.nextInt(1, 50);  
+  
+                if (!flags[val])  
+                    break;  
+            }  
+  
+            flags[val] = true;  
+        }  
+  
+        return flags;  
+    }  
+  
+    public NumericLottery(Random r)  
+    {  
+        random = r;  
+    }  
+  
+    public int [] getColumn()  
+    {  
+        return getColumns(getFlags());  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayının basamaklarından oluşan diziye geri dönen `digits` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz. Sayı negatifse basamaklar pozitif olarak elde edilecektir.
