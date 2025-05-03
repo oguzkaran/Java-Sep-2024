@@ -18161,4 +18161,161 @@ public class NumericLottery {
 }
 ```
 
+###### 3 Mayıs 2025
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden iki dizi için eşitlik karşılaştırması yapan `equals` isimli metodu `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz.
+>
+>**Açıklamalar:** 
+>- Dizilerin eşit olması için karşılıklı elemanlarının aynı olması gerekir.
+>- JavaSE'de bu işlemi yapan standart metotlar vardır. Bunlar kullanılmayacaktır.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilEqualsTest {  
+    public static void run()  
+    {  
+        int [] a = {1, 2, 3, 4, 5};  
+        int [] b = {1, 2, 3, 4, 5};  
+        int [] c = {1, 2, 3, 4, 6};  
+        int [] d = {1, 2, 3, 4};  
+  
+        System.out.println(ArrayUtil.equals(a, b));  
+        System.out.println(ArrayUtil.equals(a, c));  
+        System.out.println(ArrayUtil.equals(b, c));  
+        System.out.println(ArrayUtil.equals(a, d));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+ 
 >**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayının basamaklarından oluşan diziye geri dönen `digits` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz. Sayı negatifse basamaklar pozitif olarak elde edilecektir.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.numeric.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+import static org.csystem.util.numeric.NumberUtil.digits;  
+  
+public class NumberUtilDigitsTest {  
+    public static void run()  
+    {  
+        long a = 12345678901234L;  
+        int [] ad = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4};  
+        long b = -12345678901234L;  
+  
+        System.out.println(ArrayUtil.equals(digits(a), ad));  
+        System.out.println(ArrayUtil.equals(digits(b), ad));  
+  
+        a = 0;  
+        ad = new int[1];  
+        System.out.println(ArrayUtil.equals(digits(a), ad));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Aşağıda prototipi verilen metodu açıklamalara göre `ArrayUtil` sınıfı içerisinde yazınız ve test ediniz
+
+```java
+public static int [] histogramData(int [] a, int n);
+```
+
+>**Açıklamalar**
+>- Metodun parametresi ile aldığı dizi içerisinde `[0, n]` aralığında değerler bulunacaktır
+>- Metot, parametresi ile aldığı dizi içerisindeki sayılar için her birinden kaç tane (sıklık sayısı) olduğu bilgisine geri dönecektir.
+>- Metot, dizinin elemanlarının aralıkta olup olmadığı, n sayısının pozitif olup olmadığı gibi geçerlilik kontrolleri yapmayacaktır.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilHistogramDataTest {  
+    public static void run()  
+    {  
+        int [] a = {1, 2, 9, 2, 8, 9, 2, 1, 0, 0, 1, 3, 4, 3, 0, 9, 9, 8, 2, 1, 9};  
+        int [] counts = {3, 4, 4, 2, 1, 0, 0, 0, 2, 5, 0};  
+  
+        System.out.println(ArrayUtil.equals(ArrayUtil.histogramData(a, 10), counts));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+##### Bölümleme Algoritması (Partition Algorithm)
+
+>Bu algoritmada amaç, bir dizinin belirli bir koşula uyan elemanlarının dizinin başına, koşula uymayanların ise dizinin sonuna getirilmesidir. Bu algoritma başka bir dizi kullanmadan gerçekleştirilebilir. Dizi bölümlendikten sonra ilk koşula uymayan elemanın indeks değerine **bölümleme indeksi (partition index)** denir. Bu durumda dizinin tüm elemanları koşula uyuyorsa bölümleme indeksi dizinin uzunluğudur, hiç bir eleman koşulan uymuyorsa bölümleme indeksi sıfır değerindedir. Bu algoritma tipik olarak şu şekildedir: Öne dizinin koşula uymayan ilk elemanı bulunur. Daha sonra ikinci bir indeks, koşula uymayan ilk elemandan sonraki elemana konumlandırılır. İkinci indeksteki eleman koşula uyuyorsa, birinci indeksteki eleman ile yer değiştirilir. İkinci indeksteki eleman koşula uymuyorsa herhangi bir değiştirme işlemi yapılmaz, yalnızca ikinci indeks bir sonraki elemana konumlandırılır. Böylece ilerlenir. Bu durumda ikinci indeks ile dizinin son elemanı da kontrol edilip ilgili işlemler yapıldıktan sonra birinci indeks artık bölümleme indeksi olur.
+
+
+>Örneğin
+
+>3 9 -5 6 7 -4 2 6 9 11 -56 17 11 2 dizisi için 6 sayısından küçük olan elemanların bölümlenmesi şu şekilde yapılabilir:
+>1.indeks (i1): 1
+>2.indekİ (i2): 2
+>3 -5 9 6 7 -4 2 6 9 11 -56 17 11 2
+>i1:2
+>i2:3
+>3 -5 9 6 7 -4 2 6 9 11 -56 17 11 2
+>i1:2
+>i2:4
+>3 -5 9 6 7 -4 2 6 9 11 -56 17 11 2
+>i1:2
+>i2:5
+>3 -5 -4 6 7 9 2 6 9 11 -56 17 11 2
+>i1:3
+>i2:6
+>3 -5 -4 2 7 9 6 6 9 11 -56 17 11 2
+>i1:4
+>i2:7
+>. . .
+
+>ArrayUtil sınıfındaki örnek bir implementasyonun test kodları:
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilPartitionTest {  
+    public static void run()  
+    {  
+        int [] a = {3, 9, -5, 6, 7};  
+        int [] target = {3, -5, 9, 6, 7};  
+        int pi = 2;  
+  
+        int result = ArrayUtil.partition(a, 6);  
+        System.out.println(ArrayUtil.equals(a, target));  
+        System.out.println(pi == result);  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+###### Dizilerin Sıraya Dizilmesi
+

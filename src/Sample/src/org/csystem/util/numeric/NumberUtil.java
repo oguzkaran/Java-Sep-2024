@@ -2,7 +2,7 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 20th April 2025
+ * Last Update: 3rd May 2025
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
@@ -54,6 +54,16 @@ public class NumberUtil {
         return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : 1;
     }
 
+    public static int [] digits(long a)
+    {
+        a = Math.abs(a);
+        int [] result = new int[countDigits(a)];
+
+        for (int i = result.length - 1; i >= 0; result[i--] = (int)(a % 10), a /= 10)
+            ;
+
+        return result;
+    }
 
     public static int factorial(int n)
     {

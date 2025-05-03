@@ -1,10 +1,11 @@
 package org.csystem.util.array;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 27th April 2025
+ * Last Update: 3rd May 2025
  * @author Java-Sep-2024 Group
  */
 public class ArrayUtil {
@@ -17,6 +18,18 @@ public class ArrayUtil {
     public static double average(int [] a)
     {
         return (double) sum(a) / a.length;
+    }
+
+    public static boolean equals(int [] a, int [] b)
+    {
+        if (a.length != b.length)
+            return false;
+
+        for (int i = 0; i < a.length; ++i)
+            if (a[i] != b[i])
+                return false;
+
+        return true;
     }
 
     public static void fillRandomArray(int [] a, Random random, int min, int bound)
@@ -32,6 +45,16 @@ public class ArrayUtil {
         fillRandomArray(a, random, min, bound);
 
         return a;
+    }
+
+    public static int [] histogramData(int [] a, int n)
+    {
+        int [] counts = new int[n + 1];
+
+        for (int i = 0; i < a.length; ++i)
+            ++counts[a[i]];
+
+        return counts;
     }
 
     public static int max(int [] a)
@@ -57,6 +80,40 @@ public class ArrayUtil {
     {
         for (int i = 0; i < a.length; ++i)
             a[i] *= val;
+    }
+
+    public static int partition(int [] a, int threshold)
+    {
+        int pi = 0;
+
+        while (pi != a.length && a[pi] < threshold)
+            ++pi;
+
+        if (pi == a.length)
+            return pi;
+
+        for (int i = pi + 1; i < a.length; ++i)
+            if (a[i] < threshold)
+                swap(a, i, pi++);
+
+        return pi;
+    }
+
+    public static int partitionByEven(int [] a)
+    {
+        int pi = 0;
+
+        while (pi != a.length && a[pi] % 2 == 0)
+            ++pi;
+
+        if (pi == a.length)
+            return pi;
+
+        for (int i = pi + 1; i < a.length; ++i)
+            if (a[i] % 2 == 0)
+                swap(a, i, pi++);
+
+        return pi;
     }
 
     public static void print(int [] a, String sep, String end)
