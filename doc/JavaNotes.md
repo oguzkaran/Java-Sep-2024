@@ -16897,10 +16897,12 @@ class App {
 ```java
 package org.csystem.util.string.test;  
   
-import org.csystem.util.string.*;
-import java.util.*;  
+import org.csystem.util.string.StringUtil;  
   
-public class StringUtilRanTextTRENTest {  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+public class StringUtilRandomTextTRENTest {  
     public static void run()  
     {  
         Scanner kb = new Scanner(System.in);  
@@ -16971,7 +16973,7 @@ import org.csystem.util.string.StringUtil;
 import java.util.Random;  
 import java.util.Scanner;  
   
-public class StringUtilRanTextTRENTest {  
+public class StringUtilRandomTextTRENTest {  
     public static void run()  
     {  
         Scanner kb = new Scanner(System.in);  
@@ -18270,7 +18272,7 @@ public class ArrayUtilHistogramDataTest {
 
 
 >Örneğin
-
+>
 >3 9 -5 6 7 -4 2 6 9 11 -56 17 11 2 dizisi için 6 sayısından küçük olan elemanların bölümlenmesi şu şekilde yapılabilir:
 >1.indeks (i1): 1
 >2.indekİ (i2): 2
@@ -18317,5 +18319,245 @@ public class ArrayUtilPartitionTest {
 }
 ```
 
+###### 4 Mayıs 2025
 ###### Dizilerin Sıraya Dizilmesi
+
+>Dizilerin sıraya dizilmesine (sorting) yönelik pek çok algoritma bulunmaktadır. Sıralama işleminin artan sırada (ascending) ya da başka bir deyişle küçükten büyüğe (mantıksal) yapılmasında **doğal sıralama (natural sort order)** denir. Azalan sırada ya da başka bir deyişle büyükten küçüğe (mantıksal) sıralama işlemine `descending order` denilmektedir. Bu bölümede **kabarcık sıralama (bubble sort)** ve **seçerek sıralama (selection sort)** algoritmaları ele alınacaktır. Bu algoritmalar doğal sıralayacak biçimde anlatılacaktır ancak hem ascending hem de descending order biçimleri implemente edilecektir.
+
+**Anahtar Notlar:** Algoritmaların karşılaştırılmasına yönelik iki ölçüt kullanılır: **hız (speed)**, **kaynak kullanımı (resource usage)**. Burada ele alınacak olan sıralama algoritmaları bu anlamda karşılaştırılmayacaktır. `Algoritma Analizi` konusu içerisinde buradaki sıralama algoritmalarının da karşılaştırması ayrıca yapılacaktır.
+
+>**Kabarcık Sıralama (Bubble Sort) Algoritması:** Bu algoritmada dizinin yan yana iki elemanı karşılaştırılır. Duruma göre yer değiştirilir. Her yinelemede en büyük eleman daraltılmış dizinin sonuna gider. Böylece her yinelemede bir geriye kadar gidilmiş olur:
+>
+>Örneğin: 
+>
+>23 9 67 -7 35 -5 18 22 68 45 -11 4 16
+>9 23 -7 35 -5 18 22 67 45 -11 4 16 68
+>9 -7 23 -5 18 22 35 45 -11 4 16 67 68
+>-7 9 -5 18 22 23 35 -11 4 16 45 67 68
+>-7 -5 9 18 22 23 -11 4 16 35 45 67 68
+>. . . 
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilBubbleSortDescendingTest {  
+    public static void run()  
+    {  
+        int [] a = {3, 9, -5, 6, 7, -8};  
+        int [] target = {9, 7, 6, 3, -5, -8};  
+  
+        ArrayUtil.bubbleSort(a, true);  
+        System.out.println(ArrayUtil.equals(a, target));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilBubbleSortAscendingTest {  
+    public static void run()  
+    {  
+        int [] a = {3, 9, -5, 6, 7, -8};  
+        int [] target = {-8, -5, 3, 6, 7, 9};  
+  
+        ArrayUtil.bubbleSort(a);  
+        System.out.println(ArrayUtil.equals(a, target));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+
+>**Seçerek Sıralama (Seçerek Sort) Algoritması:** Bu algoritmada dizinin en küçük elemanı bulunur, ilk eleman ile yer değiştirilir. Dizi bir daraltılır. Aynı işlem daraltılmış dizi için yapılır. Böylece ilerlenir.
+>
+>Örneğin: 
+>
+> 23 9 67 -7 35 -5 18 22 68 45 -11 4 16
+> -11 9 67 -7 35 -5 18 22 68 45 23 4 16
+> -11 -7 67 9 35 -5 18 22 68 45 23 4 16
+> -11 -7 -5 9 35 67 18 22 68 45 23 4 16
+> . . .
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilSelectionSortAscendingTest {  
+    public static void run()  
+    {  
+        int [] a = {3, 9, -5, 6, 7, -8};  
+        int [] target = {-8, -5, 3, 6, 7, 9};  
+  
+        ArrayUtil.selectionSort(a);  
+        System.out.println(ArrayUtil.equals(a, target));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilSelectionSortDescendingTest {  
+    public static void run()  
+    {  
+        int [] a = {3, 9, -5, 6, 7, -8};  
+        int [] target = {9, 7, 6, 3, -5, -8};  
+  
+        ArrayUtil.selectionSort(a, true);  
+        System.out.println(ArrayUtil.equals(a, target));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+###### char Türden Diziler
+
+>char türden diziler `String` sınıfına benzetilebilir. char türden diziler (aslında tüm diziler) immutable değildir. Bu anlamda char türden diziler String sınıfına yardımcı olarak da kullanılabilir. Örneğin String sınıfının immutable olmasından dolayı oluşabilecek maliyetli bir durum için char türden bir dizi kullanılabilir. Şüphesiz böyle bir durumda `StringBuilder` sınıfı da String sınıfına yardımcı olarak tercih edilebilir. Aslında StringBuilder sınıfı da içsel olarak char türden dizi kullanılarak yazılabilir. String sınıfının `toCharArray` metodu, yazıya ilişkin karakterlerden oluşan char türden bir dizi referansına geri döner. Bu metot her çağrıda yeni bir dizi yaratır. String sınıfının `char []` parametreli ctor'ları ile char türden dizi içerisindeki karakterleri tutan bir String nesnesi elde edilebilir. String sınıfının `char []` parametresi alan 3 parametreli ctor'u ikinci parametresi ile aldığı indeksten itibaren, 3. parametresi ile aldığı sayı kadar karakterden oluşan bir String nesnesi yaratılmasını sağlar. Ayrıca String sınıfının `char []` parametresi alan `valueOf` factory metotları da tek parametreli ve 3 parametreli olarak bulunmaktadır. Bu metotlar ile char türden diziden String nesnesi elde edilebilir. 
+
+>Aşağıdaki demo örnekte `StringUtil` sınıfı içerisinde bulunan `changeCase` metodu char türden dizi kullanılarak yine etkin bir biçimde yazılmıştır
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       ChangeCaseTest.run();  
+    }  
+}  
+  
+class ChangeCaseTest {  
+    public static void run()  
+    {  
+       String s = "AnKaRa";  
+       String expected = "aNkArA";  
+  
+       System.out.println(Util.changeCase(s).equals(expected));  
+    }  
+}  
+  
+class Util {  
+    public static String changeCase(String s)  
+    {  
+       char [] c = s.toCharArray();  
+  
+       for (int i = 0; i < c.length; ++i)  
+          c[i] = Character.isUpperCase(c[i]) ? Character.toLowerCase(c[i]) : Character.toUpperCase(c[i]);  
+  
+       return String.valueOf(c);  
+    }  
+}
+```
+
+
+>Aşağıdaki demo örnekte `StringUtil` sınıfı içerisinde bulunan `reverse` metodu char türden dizi kullanılarak yine etkin bir biçimde yazılmıştır
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       ReverseTest.run();  
+    }  
+}  
+  
+class ReverseTest {  
+    public static void run()  
+    {  
+       String s = "ankara";  
+       String expected = "arakna";  
+  
+       System.out.println(Util.reverse(s).equals(expected));  
+    }  
+}  
+  
+class Util {  
+    public static String reverse(String s)  
+    {  
+       char [] c = s.toCharArray();  
+  
+       for (int i = 0; i < c.length / 2; ++i) {  
+          char temp = c[i];  
+  
+          c[i] = c[c.length - 1 - i];  
+          c[c.length - 1 - i] = temp;  
+       }  
+  
+       return String.valueOf(c);  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte `StringUtil` sınıfı içerisinde bulunan `digits` metodu char türden dizi kullanılarak yine etkin bir biçimde yazılmıştır
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String [] args)  
+    {  
+       DigitsTest.run();  
+    }  
+}  
+  
+class DigitsTest {  
+    public static void run()  
+    {  
+       String s = "Bugün hava 23 derece yarın 25 derece olacakmış";  
+       String expected = "2325";  
+  
+       System.out.println(Util.digits(s).equals(expected));  
+    }  
+}  
+  
+class Util {  
+    public static String digits(String s)  
+    {  
+       char [] c = new char[s.length()];  
+       int idx = 0;  
+  
+       for (int i = 0; i < c.length; ++i) {  
+          char ch = s.charAt(i);  
+  
+          if (Character.isDigit(ch))  
+             c[idx++] = ch;  
+       }  
+  
+       return String.valueOf(c, 0, idx);  
+    }  
+}
+```
+
+>Yukarıdaki metotlarda char türden diziden String elde etme işlemi ilgili ctor'lar kullanılarak da yapılabilir.
+
+###### Referans Dizileri
+
+>
 

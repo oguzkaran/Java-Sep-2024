@@ -3,21 +3,34 @@ package org.csystem.app;
 class App {
 	public static void main(String [] args)
 	{
-		int [] a = new int[0];
+		DigitsTest.run();
+	}
+}
 
-		System.out.printf("Length:%d%n", a.length);
+class DigitsTest {
+	public static void run()
+	{
+		String s = "Bugün hava 23 derece yarın 25 derece olacakmış";
+		String expected = "2325";
 
-		a = new int[]{};
-		System.out.printf("Length:%d%n", a.length);
+		System.out.println(Util.digits(s).equals(expected));
+	}
+}
 
-		a = new int[]{,};
-		System.out.printf("Length:%d%n", a.length);
+class Util {
+	public static String digits(String s)
+	{
+		char [] c = new char[s.length()];
+		int idx = 0;
 
-		int [] b = {};
-		System.out.printf("Length:%d%n", b.length);
+		for (int i = 0; i < c.length; ++i) {
+			char ch = s.charAt(i);
 
-		int [] c = {,};
-		System.out.printf("Length:%d%n", c.length);
+			if (Character.isDigit(ch))
+				c[idx++] = ch;
+		}
+
+		return new String(c, 0, idx);
 	}
 }
 

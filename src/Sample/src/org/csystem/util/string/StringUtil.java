@@ -139,7 +139,7 @@ public class StringUtil {
 
     public static String randomText(Random random, int count, String sourceText)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(count);
 
         for (int i = 0; i < count; ++i)
             sb.append(sourceText.charAt(random.nextInt(sourceText.length())));

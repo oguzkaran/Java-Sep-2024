@@ -1,14 +1,68 @@
 package org.csystem.util.array;
 
-import java.util.Arrays;
 import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 3rd May 2025
+ * Last Update: 4th May 2025
  * @author Java-Sep-2024 Group
  */
 public class ArrayUtil {
+
+    public static void bubbleSortAscending(int [] a)
+    {
+        for (int i = 0; i < a.length - 1; ++i)
+            for (int k = 0; k < a.length - 1 - i; ++k)
+                if (a[k + 1] < a[k])
+                    swap(a, k, k + 1);
+    }
+
+    public static void bubbleSortDescending(int [] a)
+    {
+        for (int i = 0; i < a.length - 1; ++i)
+            for (int k = 0; k < a.length - 1 - i; ++k)
+                if (a[k] < a[k + 1])
+                    swap(a, k, k + 1);
+    }
+
+    public static void selectionSortAscending(int [] a)
+    {
+        int min, minIndex;
+
+        for (int i = 0; i < a.length - 1; ++i) {
+            min = a[i];
+            minIndex = i;
+
+            for (int k = i + 1; k < a.length; ++k)
+                if (a[k] < min) {
+                    min = a[k];
+                    minIndex = k;
+                }
+
+            a[minIndex] = a[i];
+            a[i] = min;
+        }
+    }
+
+    public static void selectionSortDescending(int [] a)
+    {
+        int max, maxIndex;
+
+        for (int i = 0; i < a.length - 1; ++i) {
+            max = a[i];
+            maxIndex = i;
+
+            for (int k = i + 1; k < a.length; ++k)
+                if (max < a[k]) {
+                    max = a[k];
+                    maxIndex = k;
+                }
+
+            a[maxIndex] = a[i];
+            a[i] = max;
+        }
+    }
+
     public static void add(int [] a, int val)
     {
         for (int i = 0; i < a.length; ++i)
@@ -18,6 +72,20 @@ public class ArrayUtil {
     public static double average(int [] a)
     {
         return (double) sum(a) / a.length;
+    }
+
+    public static void bubbleSort(int [] a)
+    {
+        bubbleSort(a, false);
+    }
+
+
+    public static void bubbleSort(int [] a, boolean descending)
+    {
+        if (descending)
+            bubbleSortDescending(a);
+        else
+            bubbleSortAscending(a);
     }
 
     public static boolean equals(int [] a, int [] b)
@@ -138,6 +206,15 @@ public class ArrayUtil {
             swap(a, first++, last--);
     }
 
+    public static void reverse(char [] a)
+    {
+        int first = 0;
+        int last = a.length - 1;
+
+        while (first < last)
+            swap(a, first++, last--);
+    }
+
     public static int [] reversed(int [] a)
     {
         int [] result = new int[a.length];
@@ -147,6 +224,20 @@ public class ArrayUtil {
             result[len - 1 - i] = a[i];
 
         return result;
+    }
+
+    public static void selectionSort(int [] a)
+    {
+        selectionSort(a, false);
+    }
+
+
+    public static void selectionSort(int [] a, boolean descending)
+    {
+        if (descending)
+            selectionSortDescending(a);
+        else
+            selectionSortAscending(a);
     }
 
     public static void subtract(int [] a, int val)
@@ -167,6 +258,14 @@ public class ArrayUtil {
     public static void swap(int [] a, int i, int k)
     {
         int temp = a[i];
+
+        a[i] = a[k];
+        a[k] = temp;
+    }
+
+    public static void swap(char [] a, int i, int k)
+    {
+        char temp = a[i];
 
         a[i] = a[k];
         a[k] = temp;
