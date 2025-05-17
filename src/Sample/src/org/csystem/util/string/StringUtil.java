@@ -4,10 +4,41 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 19th April 2025
+ * Last Update: 17th May 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {
+    public static String [] onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
+    public static String [] tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
+
+    public static String [] onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    public static String [] tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+
+    public static String numToStr3DigitTR(int val)
+    {
+        if (val == 0)
+            return "sıfır";
+
+        StringBuilder sb = new StringBuilder(val < 0 ? "eksi" : "");
+
+        val = Math.abs(val);
+        int a = val / 100;
+        int b = val / 10 % 10;
+        int c = val % 10;
+
+        if (a != 0) {
+            if (a != 1)
+                sb.append(onesTR[a]);
+
+            sb.append("yüz");
+        }
+
+        sb.append(tensTR[b]);
+        sb.append(onesTR[c]);
+
+        return sb.toString();
+    }
+
     public static String capitalize(String s)
     {
         return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
@@ -113,6 +144,13 @@ public class StringUtil {
         return sb.toString();
     }
 
+    public static String numToStrTR(int val)
+    {
+        //...
+
+        return numToStr3DigitTR(val);
+    }
+
     public static String padLeading(String s, int n, char ch)
     {
         int len = s.length();
@@ -155,6 +193,47 @@ public class StringUtil {
     public static String randomTextEN(Random random, int count)
     {
         return randomText(random, count, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
+    }
+
+    public static String [] randomTexts(Random random, int count, int min, int bound, String sourceText)
+    {
+        String [] texts = new String[count];
+
+        for (int i = 0; i < count; ++i)
+            texts[i] = randomText(random, random.nextInt(min, bound), sourceText);
+
+        return texts;
+    }
+
+    public static String [] randomTextsTR(Random random, int count, int min, int bound)
+    {
+        return randomTexts(random, count, min, bound, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");
+    }
+
+    public static String [] randomTextsEN(Random random, int count, int min, int bound)
+    {
+        return randomTexts(random, count, min, bound, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
+    }
+
+
+    public static String [] randomTexts(Random random, int count, int n, String sourceText)
+    {
+        String [] texts = new String[count];
+
+        for (int i = 0; i < count; ++i)
+            texts[i] = randomText(random, n, sourceText);
+
+        return texts;
+    }
+
+    public static String [] randomTextsTR(Random random, int count, int n)
+    {
+        return randomTexts(random, count, n, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");
+    }
+
+    public static String [] randomTextsEN(Random random, int count, int n)
+    {
+        return randomTexts(random, count, n, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
     }
 
     public static String reverse(String s)

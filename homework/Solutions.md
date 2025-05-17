@@ -545,11 +545,11 @@ package csd;
 class App {
 	public static void main(String[] args)
 	{		
-		SatifyConditionsApp.run();
+		SatisfyConditionsApp.run();
 	}
 }
 
-class SatifyConditionsApp {
+class SatisfyConditionsApp {
 	public static boolean isCondition1Satisfied(int a, int b, int c)
 	{
 		return 100 * c + 10 * b + a > 100 * a + 10 * b + c;

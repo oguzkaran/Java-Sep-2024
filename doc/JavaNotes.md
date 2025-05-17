@@ -18557,7 +18557,413 @@ class Util {
 
 >Yukarıdaki metotlarda char türden diziden String elde etme işlemi ilgili ctor'lar kullanılarak da yapılabilir.
 
+
+###### 17 Mayıs 2025
+
 ###### Referans Dizileri
 
+>Her bir elemanı bir referans olan dizilere **referans dizileri (reference arrays)** denir. Bu durumda dizinin her bir elemanı ilgili türden bir adres tutar. Bu durumda bir referans dizisinin yaratılması, elemanı olan her bir referansın gösterdiği nesnenin yaratılması anlamına gelmez. Yani bir referans dizisi yaratıldıktan sonra, dizinin elemanları olan referanslar kullanılmadan önce uygun adreslerin verilmesi gerekir. Bir referans dizisi ilk değer verilmeden yaratıldığında her bir referansa `null` değeri verilmiş olur. 
+
+**Anahtar Notlar:** Programlamada kullanılmayan adrese `null adres (null address/null pointer)` denir. Java'da null adres (Java düzeyinde null reference da denebilir) `null` isimli bir sabit ile temsil edilir. `null`, bir referansın default değeri olarak atanır. null adrese ilişkin diğerler detaylar ileride ayrı bir bölüm olarak ele alınacaktır. 
+
+>Aşağıdaki demo örnekte referans dizisi yaratılmış ancak dizinin elemanları olan referanslar null adresi tuttuğundan nesne varmışcasına erişmeye çalışmak exception oluşumuna yol açar
+
+```java
+package org.csystem.app;  
+  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Bir sayı giriniz:");  
+       int n = kb.nextInt();  
+  
+       Sample [] samples = new Sample[n];  
+  
+       for (int i = 0; i < n; ++i)  
+          samples[i].x = i * 10;  
+  
+       for (int i = 0; i < n; ++i)  
+          System.out.printf("%d ", samples[i].x);  
+  
+       System.out.println();  
+    }  
+}  
+  
+class Sample {  
+    public int x;  
+  
+    public Sample(int a)  
+    {  
+       x = a;  
+    }  
+  
+    //...  
+}
+```
+
+>Yukarıdaki örnek aşağıdaki gibi, her bir referansa yeni yaratılmış bir nesnenin adresi verilerek yapılabilir. Şüphesiz duruma göre (yani senaryoya göre) referanslara verilecek adresler daha önceden yaratılmış nesnelerin adresleri de olabilir. Çözüm durumu anlatmak için yapılmıştır
+
+```java
+package org.csystem.app;  
+  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Bir sayı giriniz:");  
+       int n = kb.nextInt();  
+  
+       Sample [] samples = new Sample[n];  
+  
+       for (int i = 0; i < n; ++i)  
+          samples[i] = new Sample(i * 10);  
+  
+       for (int i = 0; i < n; ++i)  
+          System.out.printf("%d ", samples[i].x);  
+  
+       System.out.println();  
+    }  
+}  
+  
+class Sample {  
+    public int x;  
+  
+    public Sample(int a)  
+    {  
+       x = a;  
+    }  
+  
+    //...  
+}
+```
+
+>Referans dizilerine ilk değer verilmesi aslında referans dizisinin elemanları olan referanslara adreslerin verilmesi demektir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Sample s1 = new Sample(67);  
+       Sample s2 = new Sample(123);  
+       Sample [] samples = {new Sample(10), s1, new Sample(20), s1, s2, new Sample(10)};  
+  
+       for (int i = 0; i < samples.length; ++i)  
+          System.out.printf("%d ", samples[i].x);  
+  
+       System.out.println();  
+    }  
+}  
+  
+class Sample {  
+    public int x;  
+  
+    public Sample(int a)  
+    {  
+       x = a;  
+    }  
+  
+    //...  
+}
+```
+
+>Pratikte String türden diziler çok fazla kullanılmaktadır. String türden bir diziye ilk değer olarak String literal'lar da verilebilir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String[] names = {"Ahmet Arslan", "Hüseyin Yılmaz", "Recep Ulaş Uzun", "İsmail Emre Doğan", "Oğuz Karan"};  
+  
+       for (int i = 0; i< names.length; ++i)  
+          System.out.println(names[i].toLowerCase());  
+    }  
+}
+```
+
+
+>**Sınıf Çalışması:** Parametresi ile aldığı gün, ay ve yıl bilgilerine ilişkin tarihin yılın hangi günü olduğu bilgisine geri dönen `getDayOfWeek` isimli metodu aşağıdaki açıklamalara göre DateUtil sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz
 >
+>**Açıklamalar:** 
+>- Metot geçersiz bir tarih için `-1` değerine geri dönecektir.
+>- Tarihin hafa gününe geldiği aşağıdaki yöntemle belirlenecektir:
+> 01.01.1900 ile ilgili tarih arasındaki toplam gün sayısı hesaplanır ve 7 değerine göre modu alınır. Bu durumda elde edilen değer 0 ise Pazar, 1 ise Pazartesi, ..., 6 ise Cumartesi gününe ilişkindir.
+>- Metot yukarıdaki metotlar kullanılarak yazılabilir.
+>- Metot şu ana kadar işlenmiş olan konular kullanılarak yazılacaktır.
+>- 01.01.1900 öncesindeki tarihler geçersiz kabul edilecektir.
+>
+>**Not:** İleride daha iyisi yazılacaktır.
+
+```java
+package org.csystem.datetime.util.test;  
+  
+import org.csystem.datetime.util.DateUtil;  
+  
+class DateAppTR {  
+    public static void run()  
+    {  
+       java.util.Scanner kb = new java.util.Scanner(System.in);  
+  
+       System.out.print("Gün, ay ve yıl bilgilerini giriniz:");  
+       int day = kb.nextInt();  
+       int month = kb.nextInt();  
+       int year = kb.nextInt();  
+  
+       DateUtil.printDateTR(day, month, year);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+```java
+package org.csystem.datetime.util.test;  
+  
+import org.csystem.datetime.util.DateUtil;  
+  
+class DateAppEN {  
+    public static void run()  
+    {  
+       java.util.Scanner kb = new java.util.Scanner(System.in);  
+  
+       System.out.print("Input day month and year values:");  
+       int day = kb.nextInt();  
+       int month = kb.nextInt();  
+       int year = kb.nextInt();  
+  
+       DateUtil.printDateEN(day, month, year);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+```java
+package org.csystem.datetime.util;  
+  
+public class DateUtil {  
+    public static int [] daysOfMonths = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  
+    public static String [] daysOfWeekTR = {"Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"};  
+    public static String [] monthsTR = {"", "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz",  
+          "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"};  
+    public static String [] daysOfWeekEN = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};  
+    public static String [] monthsEN = {"", "January", "February", "March", "April", "May", "June", "July",  
+          "August", "September", "October", "November", "December"};  
+  
+    public static void printDateTR(int day, int month, int year)  
+    {  
+       int dayOfWeek = getDayOfWeek(day, month, year);  
+  
+       if (dayOfWeek != -1)  
+          System.out.printf("%d %s %d %s%n", day, monthsTR[month], year, daysOfWeekTR[dayOfWeek]);  
+       else  
+          System.out.println("Geçersiz tarih");  
+    }  
+      
+    public static void printDateEN(int day, int month, int year)  
+    {  
+       int dayOfWeek = getDayOfWeek(day, month, year);  
+  
+       if (dayOfWeek != -1)  
+          System.out.printf("%d%s %s %d %s%n", day, getDaySuffix(day), monthsEN[month], year, daysOfWeekEN[dayOfWeek]);  
+       else  
+          System.out.println("Geçersiz tarih");  
+    }  
+  
+    public static int getDayOfWeek(int day, int month, int year)  
+    {  
+       int totalDays;  
+  
+       if (year < 1900 || (totalDays = getDayOfYear(day, month, year)) == -1)  
+          return -1;  
+  
+       for (int y = 1900; y < year; ++y)  
+          totalDays += isLeapYear(y) ? 366 : 365;  
+  
+       return totalDays % 7;  
+    }  
+  
+    public static int getDayOfYear(int day, int month, int year)  
+    {  
+       if (!isValidDate(day, month, year))  
+          return -1;  
+  
+       return getDayOfYearValue(day, month, year);  
+    }  
+  
+    public static int getDayOfYearValue(int day, int month, int year)  
+    {  
+       int dayOfYear = day;  
+  
+       for (int m = month - 1; m >= 1; --m)  
+          dayOfYear += getDays(m, year);  
+  
+       return dayOfYear;  
+    }  
+  
+    public static boolean isValidDate(int day, int month, int year)  
+    {  
+       return 1 <= day && day <= 31 && 1 <= month && month <= 12 && day <= getDays(month, year);  
+    }  
+  
+    public static String getDaySuffix(int day)  
+    {  
+       return switch (day) {  
+          case 1, 21, 31 -> "st";  
+          case 2, 22 -> "nd";  
+          case 3, 23 -> "rd";  
+          default -> "th";  
+       };  
+    }  
+  
+    public static int getDays(int month, int year)  
+    {  
+       return month == 2 && isLeapYear(year) ? 29 : daysOfMonths[month];  
+    }  
+  
+    public static boolean isLeapYear(int year)  
+    {  
+       return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;  
+    }  
+}
+```
+
+>StringUtil sınıfının `randomTextsTR` ve `randomTextsEN` fonksiyonları
+
+
+>**Test Kodları**
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+public class StringUtilRandomTextsTRENTest {  
+    public static void run()  
+    {  
+        Scanner kb = new Scanner(System.in);  
+        Random random = new Random();  
+  
+        System.out.print("Input count:");  
+        int count = kb.nextInt();  
+  
+        String [] textsTR = StringUtil.randomTextsTR(random, count, 5, 11);  
+        String [] textsEN = StringUtil.randomTextsEN(random, count, 5, 11);  
+  
+        for (int i = 0; i < textsTR.length; ++i)  
+            System.out.printf("%s ", textsTR[i]);  
+  
+        System.out.println();  
+  
+        for (int i = 0; i < textsEN.length; ++i)  
+            System.out.printf("%s ", textsEN[i]);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>StringUtil sınıfının `randomTextsTR` ve `randomTextsEN` fonksiyonları
+
+>**Test Kodları**
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+public class StringUtilRandomTextsTRENFixedTest {  
+    public static void run()  
+    {  
+        Scanner kb = new Scanner(System.in);  
+        Random random = new Random();  
+  
+        System.out.print("Input count:");  
+        int count = kb.nextInt();  
+  
+        System.out.print("Input n:");  
+        int n = kb.nextInt();  
+  
+        String [] textsTR = StringUtil.randomTextsTR(random, count, n);  
+        String [] textsEN = StringUtil.randomTextsEN(random, count, n);  
+  
+        for (int i = 0; i < textsTR.length; ++i)  
+            System.out.printf("%s ", textsTR[i]);  
+  
+        System.out.println();  
+  
+        for (int i = 0; i < textsEN.length; ++i)  
+            System.out.printf("%s ", textsEN[i]);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı en fazla üç basamaklı bir sayının Türkçe okunuşunu döndüren `numToStr3Digit` isimli metodu `StringUtil`sınıfı içerisinde yazınız ve test ediniz.
+>
+>**Açıklamalar:** Metot sayının 3 basamaktan büyük olması kontrolünü yapmayacaktır
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilNumToStrTRTest {  
+    public static void run()  
+    {  
+       System.out.println(StringUtil.numToStrTR(123).equals("yüzyirmiüç"));  
+       System.out.println(StringUtil.numToStrTR(-123).equals("eksiyüzyirmiüç"));  
+       System.out.println(StringUtil.numToStrTR(103).equals("yüzüç"));  
+       System.out.println(StringUtil.numToStrTR(-103).equals("eksiyüzüç"));  
+       System.out.println(StringUtil.numToStrTR(604).equals("altıyüzdört"));  
+       System.out.println(StringUtil.numToStrTR(-604).equals("eksialtıyüzdört"));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+
+
+>**Sınıf Çalışması:** Aşağıda prototipi verilen metodu StringUtil sınıfı içerisinde açıklamalara göre yazınız
+
+```java
+public static String join(String [] s, String delimiter)
+```
+
+>**Açıklamalar:** 
+>- Metot birinci parametresi ile aldığı String dizisi ile tutulan yazıları ikinci parametresi ile aldığı ayraç ile birleştirilmiş bir yazıya geri dönecektir.
+>- Metot parametre geçerlilik kontrolü yapmayacaktır.
+>- Aslında String sınıfında bu işlemi yapan join isimli bir metot vardır. Bu **kullanılmayacaktır.**
 
