@@ -18954,9 +18954,9 @@ public class StringUtilNumToStrTRTest {
 }
 ```
 
+###### 18 Mayıs 2025
 
-
->**Sınıf Çalışması:** Aşağıda prototipi verilen metodu StringUtil sınıfı içerisinde açıklamalara göre yazınız
+>**Sınıf Çalışması:** Aşağıda prototipi verilen metodu `StringUtil` sınıfı içerisinde açıklamalara göre yazınız
 
 ```java
 public static String join(String [] s, String delimiter)
@@ -18965,5 +18965,241 @@ public static String join(String [] s, String delimiter)
 >**Açıklamalar:** 
 >- Metot birinci parametresi ile aldığı String dizisi ile tutulan yazıları ikinci parametresi ile aldığı ayraç ile birleştirilmiş bir yazıya geri dönecektir.
 >- Metot parametre geçerlilik kontrolü yapmayacaktır.
->- Aslında String sınıfında bu işlemi yapan join isimli bir metot vardır. Bu **kullanılmayacaktır.**
+>- Aslında JavaSE'de bu işlemi yapmanın yolları vardır. Bunlar **kullanılmayacaktır.**
+>- Metodun delimiter'ı char olarak alan oveload'unu yazınız.
+>- Metodun delimiter almadığında doğrudan birleştirme yapan overload'unu yazınız.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilJoinWithDelimiterTest {  
+    public static void run()  
+    {  
+       String [] s1 = {"ankara", "istanbul", "izmir", "zonguldak", "kastamonu"};  
+       String [] s2 = {"ankara"};  
+       String s1Expected = "ankara, istanbul, izmir, zonguldak, kastamonu";  
+       String s2Expected = "ankara";  
+  
+       System.out.println(StringUtil.join(s1, ", ").equals(s1Expected));  
+       System.out.println(StringUtil.join(s2, ", ").equals(s2Expected));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilJoinDirectTest {  
+    public static void run()  
+    {  
+       String [] s1 = {"ankara", "istanbul", "izmir", "zonguldak", "kastamonu"};  
+       String [] s2 = {"ankara"};  
+       String s1Expected = "ankaraistanbulizmirzonguldakkastamonu";  
+       String s2Expected = "ankara";  
+  
+       System.out.println(StringUtil.join(s1).equals(s1Expected));  
+       System.out.println(StringUtil.join(s2).equals(s2Expected));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilJoinWithCharDelimiterTest {  
+    public static void run()  
+    {  
+       String [] s1 = {"ankara", "istanbul", "izmir", "zonguldak", "kastamonu"};  
+       String [] s2 = {"ankara"};  
+       String s1Expected = "ankara-istanbul-izmir-zonguldak-kastamonu";  
+       String s2Expected = "ankara";  
+  
+       System.out.println(StringUtil.join(s1, '-').equals(s1Expected));  
+       System.out.println(StringUtil.join(s2, '-').equals(s2Expected));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Yukarıdaki join metodunun aşağıdaki gibi prototipe sahip overload'unu açıklamalara göre yazınız
+```java
+public static String join(String [] s, String delimiter, boolean ignoreEmpties)
+```
+
+>**Açıklamalar:** 
+>- Metodun 3 parametresi dizi içerisindeki boş string'lerin birleştirilip birleştirilmeyeceğine yönelik flag değeridir.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilJoinWithDelimiterIgnoreEmptiesTest {  
+    public static void run()  
+    {  
+       String [] s1 = {"ankara", "istanbul", "izmir", "", "zonguldak", "", "kastamonu", ""};  
+       String [] s2 = {"ankara"};  
+       String s1ExpectedWithEmpties = "ankara, istanbul, izmir, , zonguldak, , kastamonu, ";  
+       String s1ExpectedIgnoreEmpties = "ankara, istanbul, izmir, zonguldak, kastamonu";  
+       String s2Expected = "ankara";  
+  
+       System.out.println(StringUtil.join(s1, ", ", true).equals(s1ExpectedIgnoreEmpties));  
+       System.out.println(StringUtil.join(s1, ", ", false).equals(s1ExpectedWithEmpties));  
+       System.out.println(StringUtil.join(s2, ", ", true).equals(s2Expected));  
+       System.out.println(StringUtil.join(s2, ", ", false).equals(s2Expected));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Yukarıdaki join metodunun aşağıdaki gibi prototipe sahip overload'unu açıklamalara göre yazınız.
+
+```java
+public static String join(String [] s, String delimiter, int ignoreStatus)
+```
+
+>**Açıklamalar:** 
+>- Metodun 3 parametresinin alabileceği değerlere göre anlamları şu şekildedir:
+>	- 0(sıfır) ise tüm yazılar aynı biçimde birleştirilecektir.
+>	- 1 (bir) ise boş string'ler birleştirilmeyecektir.
+>	- 2(iki) ise blank string'ler birleştirilmeyecektir.
+
+>**Test Kodları:**
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilJoinWithDelimiterIgnoreStatusTest {  
+    public static void run()  
+    {  
+       String [] s1 = {"ankara", "istanbul", "   ", "izmir", "", "zonguldak", "", " ", "kastamonu", ""};  
+       String [] s2 = {"ankara"};  
+       String s1ExpectedWithAll = "ankara, istanbul,    , izmir, , zonguldak, ,  , kastamonu, ";  
+       String s1ExpectedIgnoreEmpties = "ankara, istanbul,    , izmir, zonguldak,  , kastamonu";  
+       String s1ExpectedIgnoreBlanks = "ankara, istanbul, izmir, zonguldak, kastamonu";  
+       String s2Expected = "ankara";  
+  
+       System.out.println(StringUtil.join(s1, ", ", 1).equals(s1ExpectedIgnoreEmpties));  
+       System.out.println(StringUtil.join(s1, ", ", 2).equals(s1ExpectedIgnoreBlanks));  
+       System.out.println(StringUtil.join(s1, ", ", 0).equals(s1ExpectedWithAll));  
+       System.out.println(StringUtil.join(s2, ", ", 1).equals(s2Expected));  
+       System.out.println(StringUtil.join(s2, ", ", 2).equals(s2Expected));  
+       System.out.println(StringUtil.join(s2, ", ", 0).equals(s2Expected));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+###### Programın Komut Satır Argümanları
+
+>Program çalıştırılırken programa verilen yazılara **komut satırı argümanları (command line arguments)** denir.  Komut satırı argümanları `terminal/console/shell/command prompt` üzerinden boşluk (whitespace) karakterleri ile ayrılacak şekilde verilebilmektedir. Bir Java programı çalıştırıldığında komut satırı argümanlarından oluşan bir String dizisi yaratılır ve dizinin referansı main metoduna argüman olarak verilir. Yani main metodu JVM tarafından komut satırı argümanlarından oluşan dizi referansı ile çağrılır. Program çalıştırılırken hiç komut satırı argümanı verilmemişse main, sıfır elemanlı dizi referansı ile çağrılır. Bu durumda programcı, komut satırı argümanlarını alarak ilgili işlemleri yapar. Komut satırı argümanları işletim sistemi tarafından programa aktarılır. Şüphesiz bir Java programı için komut satırı argümanları işletim sistemi tarafından JVM'e aktarılır, JVM ilgili diziyi yaratarak main metodunu çağırır. Modern pek çok işletim sisteminde program ismi de ilk komut satırı argümanı olarak geçilir. Java'da main metoduna geçilen dizide işletim sistemi nasıl davranırsa davransın yalnızca komut satırı argümanları bulunur, program ismi bulunmaz. Programın komut satırı argümanlarının anlamı programın senaryosuna özgüdür. Dolayısıyla komut satırı argüman saysı da önemli olabilmektedir. Bu durumda programcı main metoduna geçilen dizinin uzunluğuna bakarak komut satırı argüman sayısını elde edebilir. Bazı programlar komut satırı argüman sayısının istenen biçimde olmaması durumunda ilgili hata mesajlarını vererek programı sonlandırmayı tercih edebilirler. 
+
+>Aşağıdaki demo örnekte komut satırı argümanları yazdırılmıştır
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       for (int i = 0; i < args.length; ++i)  
+          System.out.println(args[i]);  
+    }  
+}
+```
+
+**Anahtar Notlar:** Programlar hata mesajlarını genellikle **standard err (stderr)** denilen bir dosyaya yazarlar. Java'da stderr dosyasına yazma yapmak için `System` sınıfının `err` referansı kullanılabilir. `stdin, stdout ve stderr` dosyalarına ilişkin detaylar ileride ele alınacaktır.
+
+>Aşağıdaki demo örnekte komut satırı argüman sayısı kontrol edilmiş ve geçersizse program stderr'ye yazma yapılarak sonlandırılmıştır. Örnekte parseInt metotlarında dolayı oluşabilecek exception durumları ele alınmamıştır
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       if (args.length != 3) {  
+          System.err.println("usage: java org.csystem.app.App <count> <min> <bound>");  
+          System.exit(1);  
+       }  
+  
+       Random random = new Random();  
+       int count = Integer.parseInt(args[0]);  
+       int min = Integer.parseInt(args[1]);  
+       int bound = Integer.parseInt(args[2]);  
+  
+       for (int i = 0; i < count; ++i)  
+          System.out.printf("%d ", random.nextInt(min, bound));  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+package org.csystem.app;  
+  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       checkLengthEquals(3, args.length, "usage: java org.csystem.app.App <count> <min> <bound>");  
+  
+       Random random = new Random();  
+       int count = Integer.parseInt(args[0]);  
+       int min = Integer.parseInt(args[1]);  
+       int bound = Integer.parseInt(args[2]);  
+  
+       for (int i = 0; i < count; ++i)  
+          System.out.printf("%d ", random.nextInt(min, bound));  
+  
+       System.out.println();  
+    }  
+}
+```
+
+
 

@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 17th May 2025
+ * Last Update: 18th May 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {
@@ -128,6 +128,72 @@ public class StringUtil {
     public static boolean isPangramTR(String s)
     {
         return isPangram(s.toLowerCase(), "abcçdefgğhıijklmnoöprsştuüvyz");
+    }
+
+    public static String join(String [] s)
+    {
+        return join(s, "");
+    }
+
+    public static String join(String [] s, char delimiter)
+    {
+        return join(s, String.valueOf(delimiter));
+    }
+
+    public static String join(String [] s, String delimiter)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < s.length; ++i)
+            sb.append(s[i]).append(delimiter);
+
+        return sb.substring(0, sb.length() - delimiter.length());
+    }
+
+    public static String join(String [] s, char delimiter, boolean ignoreEmpties)
+    {
+        return join(s, String.valueOf(delimiter), ignoreEmpties);
+    }
+
+    public static String join(String [] s, String delimiter, boolean ignoreEmpties)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < s.length; ++i) {
+            if (ignoreEmpties) {
+                if (!s[i].isEmpty())
+                    sb.append(s[i]).append(delimiter);
+            }
+            else
+                sb.append(s[i]).append(delimiter);
+        }
+
+        return sb.substring(0, sb.length() - delimiter.length());
+    }
+
+    public static String join(String [] s, char delimiter, int ignoreStatus)
+    {
+        return join(s, String.valueOf(delimiter), ignoreStatus);
+    }
+
+    public static String join(String [] s, String delimiter, int ignoreStatus)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < s.length; ++i) {
+            if (ignoreStatus == 1) {
+                if (!s[i].isEmpty())
+                    sb.append(s[i]).append(delimiter);
+            }
+            else if (ignoreStatus == 2) {
+                if (!s[i].isBlank())
+                    sb.append(s[i]).append(delimiter);
+            }
+            else
+                sb.append(s[i]).append(delimiter);
+        }
+
+        return sb.substring(0, sb.length() - delimiter.length());
     }
 
     public static String letters(String s)
