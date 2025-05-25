@@ -1,11 +1,11 @@
-package org.csystem.datetime.util.test;
+package org.csystem.app.datetime;
 
-import org.csystem.datetime.util.DateUtil;
+import java.util.Scanner;
 
 class DateAppEN {
 	public static void run()
 	{
-		java.util.Scanner kb = new java.util.Scanner(System.in);
+		Scanner kb = new Scanner(System.in);
 
 		System.out.print("Input day month and year values:");
 		int day = kb.nextInt();

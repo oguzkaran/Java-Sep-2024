@@ -18705,14 +18705,14 @@ class App {
 >**Not:** İleride daha iyisi yazılacaktır.
 
 ```java
-package org.csystem.datetime.util.test;  
+package org.csystem.app.datetime;  
   
-import org.csystem.datetime.util.DateUtil;  
+import java.util.Scanner;  
   
 class DateAppTR {  
     public static void run()  
     {  
-       java.util.Scanner kb = new java.util.Scanner(System.in);  
+       Scanner kb = new Scanner(System.in);  
   
        System.out.print("Gün, ay ve yıl bilgilerini giriniz:");  
        int day = kb.nextInt();  
@@ -18730,14 +18730,14 @@ class DateAppTR {
 ```
 
 ```java
-package org.csystem.datetime.util.test;  
+package org.csystem.app.datetime;  
   
-import org.csystem.datetime.util.DateUtil;  
+import java.util.Scanner;  
   
 class DateAppEN {  
     public static void run()  
     {  
-       java.util.Scanner kb = new java.util.Scanner(System.in);  
+       Scanner kb = new Scanner(System.in);  
   
        System.out.print("Input day month and year values:");  
        int day = kb.nextInt();  
@@ -18755,7 +18755,7 @@ class DateAppEN {
 ```
 
 ```java
-package org.csystem.datetime.util;  
+package org.csystem.app.datetime;  
   
 public class DateUtil {  
     public static int [] daysOfMonths = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  
@@ -18775,10 +18775,9 @@ public class DateUtil {
        else  
           System.out.println("Geçersiz tarih");  
     }  
-      
+  
     public static void printDateEN(int day, int month, int year)  
-    {  
-       int dayOfWeek = getDayOfWeek(day, month, year);  
+    {     int dayOfWeek = getDayOfWeek(day, month, year);  
   
        if (dayOfWeek != -1)  
           System.out.printf("%d%s %s %d %s%n", day, getDaySuffix(day), monthsEN[month], year, daysOfWeekEN[dayOfWeek]);  
@@ -18927,24 +18926,24 @@ public class StringUtilRandomTextsTRENFixedTest {
 }
 ```
 
->**Sınıf Çalışması:** Parametresi ile aldığı en fazla üç basamaklı bir sayının Türkçe okunuşunu döndüren `numToStr3Digit` isimli metodu `StringUtil`sınıfı içerisinde yazınız ve test ediniz.
+>**Sınıf Çalışması:** Parametresi ile aldığı en fazla üç basamaklı bir sayının Türkçe okunuşunu döndüren `numToStr3Digit` isimli metodu `NumberUtil`sınıfı içerisinde yazınız ve test ediniz.
 >
 >**Açıklamalar:** Metot sayının 3 basamaktan büyük olması kontrolünü yapmayacaktır
 
 ```java
-package org.csystem.util.string.test;  
+package org.csystem.util.numeric.test;  
   
-import org.csystem.util.string.StringUtil;  
+import static org.csystem.util.numeric.NumberUtil.numToStrTR;  
   
-public class StringUtilNumToStrTRTest {  
+public class NumberUtilNumToStrTRTest {  
     public static void run()  
     {  
-       System.out.println(StringUtil.numToStrTR(123).equals("yüzyirmiüç"));  
-       System.out.println(StringUtil.numToStrTR(-123).equals("eksiyüzyirmiüç"));  
-       System.out.println(StringUtil.numToStrTR(103).equals("yüzüç"));  
-       System.out.println(StringUtil.numToStrTR(-103).equals("eksiyüzüç"));  
-       System.out.println(StringUtil.numToStrTR(604).equals("altıyüzdört"));  
-       System.out.println(StringUtil.numToStrTR(-604).equals("eksialtıyüzdört"));  
+       System.out.println(numToStrTR(123).equals("yüzyirmiüç"));  
+       System.out.println(numToStrTR(-123).equals("eksiyüzyirmiüç"));  
+       System.out.println(numToStrTR(103).equals("yüzüç"));  
+       System.out.println(numToStrTR(-103).equals("eksiyüzüç"));  
+       System.out.println(numToStrTR(604).equals("altıyüzdört"));  
+       System.out.println(numToStrTR(-604).equals("eksialtıyüzdört"));  
     }  
   
     public static void main(String[] args)  
@@ -19197,6 +19196,1091 @@ class App {
           System.out.printf("%d ", random.nextInt(min, bound));  
   
        System.out.println();  
+    }  
+}
+```
+
+###### 26 Mayıs 2025
+
+>String sınıfının `split` isimli metodu ile bir yazı ayraç (delimiter/separator) ya da ayraçlara göre parçalanabilir. Bu metot parametresi ile ayraç veya ayraçlara ilişkin bir yazı alır. Bu metot ayraç veya ayraçlara ilişkin yazıyı bir `düzenli ifade (regular expression)` pattern'i olarak alır.
+
+**Anahtar Notlar:** Bir yazı içerisinde belirli kalıplara (pattern) uygun yazıları aramak için düzenli ifade motorları (regular expression engines/regex engines) kullanılır. Örneğin bir yazı içerisinde sayıların bulunması isteniyorsa ya da örneğin bir yazı içerisinde gg/aa/yyyy formatındaki tarih bilgileri bulunması isteniyorsa ya da örneğin bir yazı içerisinde a ile başlayan ve z biten ve içerisinde rakamların olmadığı yazılar bulunmak isteniyorsa düzenli ifadeler kullanılır. Düzenli ifadeler `Java ile Uygulama Geliştirme` kurslarında detaylı olarak ele alınacaktır.
+
+>Aşağıdaki demo örnekte yazı SPACE karakteri ayraç olacak şekilde parçalanmıştır.
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "Bugün hava çok güzel. Bu güzel havada ders mi yapılır?";  
+       String [] str = s.split(" ");  
+  
+       for (int i = 0; i < str.length; ++i)  
+          System.out.println(str[i]);  
+    }  
+}
+```
+
+> **Burada split metodunun kullanımında en çok karşılaşılan regex pattern'leri ele alınacaktır. Pattern'lere ilişkin detayların bilinmesine şu aşamada gerek yoktur. Birer kalıp olarak hatırlanması önerilir.**
+> split metodunda ayraçların `[` ile `]` arasında yazılması önerilir. Bazı karakterlerin regex olarak özel anlamları vardır ve tek başına split metoduna verildiklerinde doğrudan ayraç olarak ele alınmaz. Bu sebeple `[` ile `]` arasında yazılması uygundur. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "Bugün hava çok güzel. Bu güzel havada ders mi yapılır?";  
+       String [] str = s.split("[.]");  
+  
+       for (int i = 0; i < str.length; ++i)  
+          System.out.println(str[i]);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "Bugün hava çok güzel.Bu güzel havada ders mi yapılır?";  
+       String [] str = s.split("[ .]");  
+  
+       for (int i = 0; i < str.length; ++i)  
+          System.out.println(str[i]);  
+    }  
+}
+```
+
+> Eğer`[` veya `]`  ayraç olarak kullanılacaksa ters bölü ile yazılmalıdır.
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "Bugün hava[çok]güzel.Bu güzel havada ders mi yapılır?";  
+       String [] str = s.split("[ \\[.\\]]");  
+  
+       for (int i = 0; i < str.length; ++i)  
+          System.out.println(str[i]);  
+    }  
+}
+```
+
+>**Yine belirtmekte fayda var ki bu kalıbın da istisna durumları yani detayları söz konusudur.** Ancak pratikte çoğu zaman işimizi görmektedir. `[` ile `]`  arasındaki karakterlerin en az bir tanesinin bulunması durumunda ayraç olarak ele alınır. Örneğin `s.split("[ \\[.\\]]+")` çağrısı virgül, space ve nokta karakterlerini ayraç kabul et anlamındadır.  Ancak burada iki ayraç yan yana geldiğinde aralarındaki boş string de diziye eklenir. 
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "Bugün hava [çok] güzel. Bu güzel havada ders mi yapılır?";  
+       String [] str = s.split("[ \\[.\\]]");  
+  
+       for (int i = 0; i < str.length; ++i)  
+          System.out.println(str[i]);  
+    }  
+}
+```
+
+
+>Boş string eklenmesi istenmiyorsa yani ayraçların istenildiği kadar yan yana olması durumunda da ayraç olması isteniyorsa `]`'den sonra + konmalıdır: `s.split("[ \\[.\\]]+")+")
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "Bugün hava [çok] güzel. Bu güzel havada ders mi yapılır?";  
+       String [] str = s.split("[ \\[.\\]]+");  
+  
+       for (int i = 0; i < str.length; ++i)  
+          System.out.println(str[i]);  
+    }  
+}
+```
+
+
+>Kolay kullanım açısından StringUtil sınıfına ayraçları doğrudan kabul eden bir split metodu eklenebilir. Aşağıda kullanılan split metodu yukarıdaki anlatılan kalıplara uygun yazılmıştır. İstisna ve detay olabilecek durumlar `Java ile Uygulama Geliştirme` kurslarında eklenecektir.
+
+```java
+package org.csystem.util.string.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+import org.csystem.util.string.StringUtil;  
+  
+public class StringUtilSplitTest {  
+    public static void run()  
+    {  
+        String s = "The quick brown [fox] jumps over the lazy dog.";  
+        String [] str = {"The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"};  
+        String [] strWithEmpties = {"The", "quick", "brown", "", "fox", "", "jumps", "over", "the", "lazy", "dog"};  
+  
+        System.out.println(ArrayUtil.equals(StringUtil.split(s, " ][.", false), strWithEmpties));  
+        System.out.println(ArrayUtil.equals(StringUtil.split(s, " ][.", true), str));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+SSSSSSSSSSSSSSSSSSS
+
+>**Sınıf Çalışması:** Klavyeden aşağıdaki formatta girilen yazıyı açıklamalara göre ayrıştırınız:
+>`<student number>:<fullname>:<birth date>:<lecture name>:<midterm grade>:<final grade>`
+>
+>**Açıklamalar:**
+>- Yazıya ilişkin format geçerlilik kontrolü yapılmayacaktır.
+>- Yazıya ilişkin bir örnek şu şekildedir: `12345:Oğuz Karan:1976-09-10:Matematik:67:90
+>- Öğrenci numarası sayıya çevrilmeyecektir.
+>- Doğum tarihi `yyyy-mm-dd` biçiminde olacaktır.
+>- Vize ve final notları int türden olacaktır.
+>- Yazının parse edilmesinden sonra  `vize * %40 + final * %60` formülüne göre en az notu `50` hesaplananın geçebildiği bir sistemde aşağıdaki gibi bir çıktı üretilecektir.
+
+
+```java
+Student Information:
+Number: 12345
+Name: Oğuz Karan
+Birth Date: 10th September 1976 Friday
+Lecture Name: Matematik
+Midterm Grade:67
+Final Grade:90
+Grade: 80.8
+Status: Success
+```
+
+>- Geçme notu (Grade) noktadan sonra tek basamak olacak şekilde yuvarlanacaktır.
+>- Doğum tarihi için JavaSe'de veya başka bir kütüphanede bulunan sınıflar ya da metotlar kullanılmayacaktır. Bunun için DateUtil sınıfını kullanabilirsiniz. Hatta gerekirse eklentiler de yapabilirsiniz.
+>- Durum (Status) bilgisi `Success veya Fail` biçiminde yazdırılacaktır.
+
+>Ders sırasında yazılmış olan bazı sınıflar:
+
+```java
+package org.csystem.util.array;  
+  
+import java.util.Random;  
+  
+/**  
+ * Utility class for array operations * Last Update: 25th May 2025 * @author Java-Sep-2024 Group */public class ArrayUtil {  
+  
+    public static void bubbleSortAscending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k + 1] < a[k])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    public static void bubbleSortDescending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k] < a[k + 1])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    public static void selectionSortAscending(int [] a)  
+    {  
+        int min, minIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            min = a[i];  
+            minIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (a[k] < min) {  
+                    min = a[k];  
+                    minIndex = k;  
+                }  
+  
+            a[minIndex] = a[i];  
+            a[i] = min;  
+        }  
+    }  
+  
+    public static void selectionSortDescending(int [] a)  
+    {  
+        int max, maxIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            max = a[i];  
+            maxIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (max < a[k]) {  
+                    max = a[k];  
+                    maxIndex = k;  
+                }  
+  
+            a[maxIndex] = a[i];  
+            a[i] = max;  
+        }  
+    }  
+  
+    public static void add(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] += val;  
+    }  
+  
+  
+    public static double average(int [] a)  
+    {  
+        return (double) sum(a) / a.length;  
+    }  
+  
+    public static void bubbleSort(int [] a)  
+    {  
+        bubbleSort(a, false);  
+    }  
+  
+  
+    public static void bubbleSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            bubbleSortDescending(a);  
+        else  
+            bubbleSortAscending(a);  
+    }  
+  
+    public static boolean equals(int [] a, int [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (a[i] != b[i])  
+                return false;  
+  
+        return true;  
+    }  
+  
+  
+    public static boolean equals(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equals(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equalsIgnoreCase(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equalsIgnoreCase(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static void fillRandomArray(int [] a, Random random, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] = random.nextInt(min, bound);  
+    }  
+  
+    public static int [] generateRandomArray(Random random, int count, int min, int bound)  
+    {  
+        int [] a = new int[count];  
+  
+        fillRandomArray(a, random, min, bound);  
+  
+        return a;  
+    }  
+  
+    public static int [] histogramData(int [] a, int n)  
+    {  
+        int [] counts = new int[n + 1];  
+  
+        for (int i = 0; i < a.length; ++i)  
+            ++counts[a[i]];  
+  
+        return counts;  
+    }  
+  
+    public static int max(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.max(result, a[i]);  
+  
+        return result;  
+    }  
+  
+    public static int min(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.min(result, a[i]);  
+  
+        return result;  
+    }  
+    public static void multiply(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] *= val;  
+    }  
+  
+    public static int partition(int [] a, int threshold)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] < threshold)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] < threshold)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static int partitionByEven(int [] a)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] % 2 == 0)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] % 2 == 0)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static void print(int [] a, String sep, String end)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            System.out.printf("%d%s", a[i], sep);  
+  
+        System.out.print(end);  
+    }  
+  
+    public static void print(int [] a)  
+    {  
+        print(a, " ", "\n");  
+    }  
+  
+    public static void reverse(int [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static void reverse(char [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static int [] reversed(int [] a)  
+    {  
+        int [] result = new int[a.length];  
+        int len = a.length;  
+  
+        for (int i = len - 1; i >= 0; --i)  
+            result[len - 1 - i] = a[i];  
+  
+        return result;  
+    }  
+  
+    public static void selectionSort(int [] a)  
+    {  
+        selectionSort(a, false);  
+    }  
+  
+  
+    public static void selectionSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            selectionSortDescending(a);  
+        else  
+            selectionSortAscending(a);  
+    }  
+  
+    public static void subtract(int [] a, int val)  
+    {  
+        add(a, -val);  
+    }  
+  
+    public static long sum(int [] a)  
+    {  
+        long total = 0;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            total += a[i];  
+  
+        return total;  
+    }  
+  
+    public static void swap(int [] a, int i, int k)  
+    {  
+        int temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+  
+    public static void swap(char [] a, int i, int k)  
+    {  
+        char temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+}
+```
+
+```java
+package org.csystem.util.string;  
+  
+import java.util.Random;  
+  
+public class StringUtil {  
+    public static String capitalize(String s)  
+    {  
+        return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();  
+    }  
+  
+    public static String changeCase(String s)  
+    {  
+        StringBuilder sb = new StringBuilder(s);  
+  
+        for (int i = 0; i < sb.length(); ++i) {  
+            char c = sb.charAt(i);  
+  
+            sb.setCharAt(i, Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static int countString(String s1, String s2)  
+    {  
+        int count = 0;  
+  
+        for (int i = -1; (i = s1.indexOf(s2, i + 1)) != -1; ++count)  
+            ;  
+  
+        return count;  
+    }  
+  
+    public static String digits(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isDigit(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static boolean isPalindrome(String s)  
+    {  
+        int left = 0;  
+        int right = s.length() - 1;  
+  
+        while (left < right) {  
+            char cLeft = s.charAt(left);  
+  
+            if (!Character.isLetter(cLeft)) {  
+                ++left;  
+                continue;  
+            }  
+  
+            char cRight = s.charAt(right);  
+  
+            if (!Character.isLetter(cRight)) {  
+                --right;  
+                continue;  
+            }  
+  
+            if (Character.toLowerCase(cLeft) != Character.toLowerCase(cRight))  
+                return false;  
+  
+            ++left;  
+            --right;  
+        }  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangram(String s, String alphabet)  
+    {  
+        for (int i = 0; i < alphabet.length(); ++i)  
+            if (s.indexOf(alphabet.charAt(i)) == -1)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangramEN(String s)  
+    {  
+        return isPangram(s.toLowerCase(), "abcdefghijklmnopqrstuwxvyz");  
+    }  
+  
+    public static boolean isPangramTR(String s)  
+    {  
+        return isPangram(s.toLowerCase(), "abcçdefgğhıijklmnoöprsştuüvyz");  
+    }  
+  
+    public static String join(String [] s)  
+    {  
+        return join(s, "");  
+    }  
+  
+    public static String join(String [] s, char delimiter)  
+    {  
+        return join(s, String.valueOf(delimiter));  
+    }  
+  
+    public static String join(String [] s, String delimiter)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length; ++i)  
+            sb.append(s[i]).append(delimiter);  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, boolean ignoreEmpties)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreEmpties);  
+    }  
+  
+    public static String join(String [] s, String delimiter, boolean ignoreEmpties)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length; ++i) {  
+            if (ignoreEmpties) {  
+                if (!s[i].isEmpty())  
+                    sb.append(s[i]).append(delimiter);  
+            }  
+            else  
+                sb.append(s[i]).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, int ignoreStatus)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreStatus);  
+    }  
+  
+    public static String join(String [] s, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length; ++i) {  
+            if (ignoreStatus == 1) {  
+                if (!s[i].isEmpty())  
+                    sb.append(s[i]).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s[i].isBlank())  
+                    sb.append(s[i]).append(delimiter);  
+            }  
+            else  
+                sb.append(s[i]).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String letters(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isLetter(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static String padLeading(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? String.valueOf(ch).repeat(n - len) + s : s;  
+    }  
+  
+    public static String padLeading(String s, int n)  
+    {  
+        return padLeading(s, n, ' ');  
+    }  
+  
+    public static String padTrailing(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? s + String.valueOf(ch).repeat(n - len) : s;  
+    }  
+  
+    public static String padTrailing(String s, int n)  
+    {  
+        return padTrailing(s, n, ' ');  
+    }  
+  
+    public static String randomText(Random random, int count, String sourceText)  
+    {  
+        StringBuilder sb = new StringBuilder(count);  
+  
+        for (int i = 0; i < count; ++i)  
+            sb.append(sourceText.charAt(random.nextInt(sourceText.length())));  
+  
+        return sb.toString();  
+    }  
+  
+    public static String randomTextTR(Random random, int count)  
+    {  
+        return randomText(random, count, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");  
+    }  
+  
+    public static String randomTextEN(Random random, int count)  
+    {  
+        return randomText(random, count, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");  
+    }  
+  
+    public static String [] randomTexts(Random random, int count, int min, int bound, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(random, random.nextInt(min, bound), sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(Random random, int count, int min, int bound)  
+    {  
+        return randomTexts(random, count, min, bound, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");  
+    }  
+  
+    public static String [] randomTextsEN(Random random, int count, int min, int bound)  
+    {  
+        return randomTexts(random, count, min, bound, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");  
+    }  
+  
+  
+    public static String [] randomTexts(Random random, int count, int n, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(random, n, sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(Random random, int count, int n)  
+    {  
+        return randomTexts(random, count, n, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");  
+    }  
+  
+    public static String [] randomTextsEN(Random random, int count, int n)  
+    {  
+        return randomTexts(random, count, n, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");  
+    }  
+  
+    public static String reverse(String s)  
+    {  
+        return new StringBuilder(s).reverse().toString();  
+    }  
+  
+    public static String [] split(String s, String delimiters)  
+    {  
+        return split(s, delimiters, false);  
+    }  
+  
+    public static String [] split(String s, String delimiters, boolean removeEmpties)  
+    {  
+        StringBuilder sbRegex = new StringBuilder("[");  
+  
+        for (int i = 0; i < delimiters.length(); ++i) {  
+            char c = delimiters.charAt(i);  
+  
+            if (c == ']' || c == '[')  
+                sbRegex.append('\\');  
+  
+            sbRegex.append(c);  
+        }  
+  
+        sbRegex.append(']');  
+  
+        if (removeEmpties)  
+            sbRegex.append('+');  
+  
+        return s.split(sbRegex.toString());  
+    }  
+  
+    public static String trim(String s)  
+    {  
+        return trimLeading(trimTrailing(s));  
+    }  
+  
+    public static String trimLeading(String s)  
+    {  
+        int i = 0;  
+  
+        for (; i < s.length() && Character.isWhitespace(s.charAt(i)); ++i)  
+            ;  
+  
+        return s.substring(i);  
+    }  
+  
+    public static String trimTrailing(String s)  
+    {  
+        int i = s.length() - 1;  
+  
+        for (; i >= 0 && Character.isWhitespace(s.charAt(i)); --i)  
+            ;  
+  
+        return s.substring(0, i + 1);  
+    }  
+}
+```
+
+```java
+package org.csystem.util.numeric;  
+  
+public class NumberUtil {  
+    public static String [] onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};  
+    public static String [] tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};  
+  
+    public static String [] onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};  
+    public static String [] tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};  
+  
+    public static String numToStr3DigitTR(int val)  
+    {  
+        if (val == 0)  
+            return "sıfır";  
+  
+        StringBuilder sb = new StringBuilder(val < 0 ? "eksi" : "");  
+  
+        val = Math.abs(val);  
+        int a = val / 100;  
+        int b = val / 10 % 10;  
+        int c = val % 10;  
+  
+        if (a != 0) {  
+            if (a != 1)  
+                sb.append(onesTR[a]);  
+  
+            sb.append("yüz");  
+        }  
+  
+        sb.append(tensTR[b]);  
+        sb.append(onesTR[c]);  
+  
+        return sb.toString();  
+    }  
+    public static long calculateDigitsPowSum(long a)  
+    {  
+        long result = 0;  
+        int n = countDigits(a);  
+  
+        while (a != 0) {  
+            result += (long) Math.pow(a % 10, n);  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int countHardyRamanujan(int n)  
+    {  
+        int count = 0;  
+  
+        EXIT_LOOP:  
+        for (int x = 1; x * x * x < n; ++x)  
+            for (int y = x + 1; x * x * x + y * y * y <= n; ++y) {  
+                if (x * x * x + y * y * y == n) {  
+                    if (++count == 2)  
+                        break EXIT_LOOP;  
+  
+                    ++x;  
+                }  
+            }  
+  
+        return count;  
+    }  
+  
+    public static int sumFactorialOfDigits(int n)  
+    {  
+        int total = 0;  
+  
+        while (n != 0) {  
+            total += factorial(n % 10);  
+            n /= 10;  
+        }  
+  
+        return total;  
+    }  
+  
+    public static int countDigits(long a)  
+    {  
+        return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : 1;  
+    }  
+  
+    public static int [] digits(long a)  
+    {  
+        a = Math.abs(a);  
+        int [] result = new int[countDigits(a)];  
+  
+        for (int i = result.length - 1; i >= 0; result[i--] = (int)(a % 10), a /= 10)  
+            ;  
+  
+        return result;  
+    }  
+  
+    public static int factorial(int n)  
+    {  
+        int result = 1;  
+  
+        for (int i = 2; i <= n; ++i)  
+            result *= i;  
+  
+        return result;  
+    }  
+  
+    public static int fibonacciNumber(int n)  
+    {  
+        if (n <= 2)  
+            return n - 1;  
+  
+        int prev1 = 1, prev2 = 0, result = 1;  
+  
+        for (int i = 3; i < n; ++i) {  
+            prev2 = prev1;  
+            prev1 = result;  
+            result = prev1 + prev2;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int indexOfPrime(long a)  
+    {  
+        int i = 1;  
+        long val = 2;  
+  
+        while (true) {  
+            if (val == a)  
+                return i;  
+  
+            if (isPrime(val))  
+                ++i;  
+  
+            ++val;  
+        }  
+    }  
+  
+    public static boolean isArmstrong(long a)  
+    {  
+        return a >= 0 && calculateDigitsPowSum(a) == a;  
+    }  
+  
+    public static boolean isDecimalHarshad(int a)  
+    {  
+        return a > 0 && a % sumDigits(a) == 0;  
+    }  
+  
+    public static boolean isEven(int a)  
+    {  
+        return a % 2 == 0;  
+    }  
+  
+    public static boolean isFactorian(int n)  
+    {  
+        return n > 0 && sumFactorialOfDigits(n) == n;  
+    }  
+  
+    public static boolean isHardyRamanujan(int n)  
+    {  
+        return n > 0 && countHardyRamanujan(n) == 2;  
+    }  
+  
+    public static boolean isOdd(int a)  
+    {  
+        return !isEven(a);  
+    }  
+  
+    public static boolean isPrime(long a)  
+    {  
+        if (a <= 1)  
+            return false;  
+  
+        if (a % 2 == 0)  
+            return a == 2;  
+  
+        if (a % 3 == 0)  
+            return a == 3;  
+  
+        if (a % 5 == 0)  
+            return a == 5;  
+  
+        if (a % 7 == 0)  
+            return a == 7;  
+  
+        for (long i = 11; i * i <= a; i += 2)  
+            if (a % i == 0)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPrimeX(long a)  
+    {  
+        long sum = a;  
+        boolean result;  
+  
+        while ((result = isPrime(sum)) && sum > 9)  
+            sum = sumDigits(sum);  
+  
+        return result;  
+    }  
+  
+    public static boolean isSuperPrime(long a)  
+    {  
+        return isPrime(a) && isPrime(indexOfPrime(a));  
+    }  
+  
+    public static int mid(int a, int b, int c)  
+    {  
+        int result = c;  
+  
+        if (a <= b && b <= c || c <= b && b <= a)  
+            result = b;  
+        else if (b <= a && a <= c || c <= a && a <= b)  
+            result = a;  
+  
+        return result;  
+    }  
+  
+    public static int nextClosestFibonacciNumber(int a)  
+    {  
+        if (a < 0)  
+            return 0;  
+  
+        int prev1 = 1, prev2 = 0, next;  
+  
+        while (true) {  
+            next = prev1 + prev2;  
+            if (next > a)  
+                break;  
+  
+            prev2 = prev1;  
+            prev1 = next;  
+        }  
+  
+        return next;  
+    }  
+  
+    public static long nextClosestPrime(int a)  
+    {  
+        if (a < 2)  
+            return 2;  
+  
+        long i;  
+  
+        for (i = a + 1; !isPrime(i); ++i)  
+            ;  
+  
+        return i;  
+    }  
+  
+    public static String numToStrTR(int val)  
+    {  
+        //...  
+  
+        return numToStr3DigitTR(val);  
+    }  
+  
+    public static long nthPrime(int n)  
+    {  
+        long val = 2;  
+        int count = 0;  
+  
+        for (long i = 2; count < n; ++i)  
+            if (isPrime(i)) {  
+                ++count;  
+                val = i;  
+            }  
+  
+        return val;  
+    }  
+  
+    public static int reverse(int a)  
+    {  
+        int result = 0;  
+  
+        while (a != 0) {  
+            result = result * 10 + a % 10;  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int sumDigits(long a)  
+    {  
+        int total = 0;  
+  
+        while (a != 0) {  
+            total += a % 10;  
+            a /= 10;  
+        }  
+  
+        return Math.abs(total);  
     }  
 }
 ```

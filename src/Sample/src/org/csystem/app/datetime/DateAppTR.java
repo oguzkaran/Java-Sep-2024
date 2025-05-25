@@ -1,11 +1,11 @@
-package org.csystem.datetime.util.test;
+package org.csystem.app.datetime;
 
-import org.csystem.datetime.util.DateUtil;
+import java.util.Scanner;
 
 class DateAppTR {
 	public static void run()
 	{
-		java.util.Scanner kb = new java.util.Scanner(System.in);
+		Scanner kb = new Scanner(System.in);
 
 		System.out.print("Gün, ay ve yıl bilgilerini giriniz:");
 		int day = kb.nextInt();

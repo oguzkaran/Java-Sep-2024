@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 4th May 2025
+ * Last Update: 25th May 2025
  * @author Java-Sep-2024 Group
  */
 public class ArrayUtil {
@@ -69,6 +69,7 @@ public class ArrayUtil {
             a[i] += val;
     }
 
+
     public static double average(int [] a)
     {
         return (double) sum(a) / a.length;
@@ -95,6 +96,31 @@ public class ArrayUtil {
 
         for (int i = 0; i < a.length; ++i)
             if (a[i] != b[i])
+                return false;
+
+        return true;
+    }
+
+
+    public static boolean equals(String [] a, String [] b)
+    {
+        if (a.length != b.length)
+            return false;
+
+        for (int i = 0; i < a.length; ++i)
+            if (!a[i].equals(b[i]))
+                return false;
+
+        return true;
+    }
+
+    public static boolean equalsIgnoreCase(String [] a, String [] b)
+    {
+        if (a.length != b.length)
+            return false;
+
+        for (int i = 0; i < a.length; ++i)
+            if (!a[i].equalsIgnoreCase(b[i]))
                 return false;
 
         return true;

@@ -4,41 +4,10 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 18th May 2025
+ * Last Update: 25th May 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {
-    public static String [] onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
-    public static String [] tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
-
-    public static String [] onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    public static String [] tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-
-    public static String numToStr3DigitTR(int val)
-    {
-        if (val == 0)
-            return "sıfır";
-
-        StringBuilder sb = new StringBuilder(val < 0 ? "eksi" : "");
-
-        val = Math.abs(val);
-        int a = val / 100;
-        int b = val / 10 % 10;
-        int c = val % 10;
-
-        if (a != 0) {
-            if (a != 1)
-                sb.append(onesTR[a]);
-
-            sb.append("yüz");
-        }
-
-        sb.append(tensTR[b]);
-        sb.append(onesTR[c]);
-
-        return sb.toString();
-    }
-
     public static String capitalize(String s)
     {
         return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
@@ -210,13 +179,6 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String numToStrTR(int val)
-    {
-        //...
-
-        return numToStr3DigitTR(val);
-    }
-
     public static String padLeading(String s, int n, char ch)
     {
         int len = s.length();
@@ -305,6 +267,32 @@ public class StringUtil {
     public static String reverse(String s)
     {
         return new StringBuilder(s).reverse().toString();
+    }
+
+    public static String [] split(String s, String delimiters)
+    {
+        return split(s, delimiters, false);
+    }
+
+    public static String [] split(String s, String delimiters, boolean removeEmpties)
+    {
+        StringBuilder sbRegex = new StringBuilder("[");
+
+        for (int i = 0; i < delimiters.length(); ++i) {
+            char c = delimiters.charAt(i);
+
+            if (c == ']' || c == '[')
+                sbRegex.append('\\');
+
+            sbRegex.append(c);
+        }
+
+        sbRegex.append(']');
+
+        if (removeEmpties)
+            sbRegex.append('+');
+
+        return s.split(sbRegex.toString());
     }
 
     public static String trim(String s)

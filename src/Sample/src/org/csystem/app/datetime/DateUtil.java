@@ -1,4 +1,4 @@
-package org.csystem.datetime.util;
+package org.csystem.app.datetime;
 
 public class DateUtil {
 	public static int [] daysOfMonths = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -20,8 +20,7 @@ public class DateUtil {
 	}
 
 	public static void printDateEN(int day, int month, int year)
-	{
-		int dayOfWeek = getDayOfWeek(day, month, year);
+	{		int dayOfWeek = getDayOfWeek(day, month, year);
 
 		if (dayOfWeek != -1)
 			System.out.printf("%d%s %s %d %s%n", day, getDaySuffix(day), monthsEN[month], year, daysOfWeekEN[dayOfWeek]);

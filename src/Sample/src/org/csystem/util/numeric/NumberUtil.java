@@ -6,6 +6,36 @@ package org.csystem.util.numeric;
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
+    public static String [] onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
+    public static String [] tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
+
+    public static String [] onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    public static String [] tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+
+    public static String numToStr3DigitTR(int val)
+    {
+        if (val == 0)
+            return "sıfır";
+
+        StringBuilder sb = new StringBuilder(val < 0 ? "eksi" : "");
+
+        val = Math.abs(val);
+        int a = val / 100;
+        int b = val / 10 % 10;
+        int c = val % 10;
+
+        if (a != 0) {
+            if (a != 1)
+                sb.append(onesTR[a]);
+
+            sb.append("yüz");
+        }
+
+        sb.append(tensTR[b]);
+        sb.append(onesTR[c]);
+
+        return sb.toString();
+    }
     public static long calculateDigitsPowSum(long a)
     {
         long result = 0;
@@ -219,6 +249,13 @@ public class NumberUtil {
             ;
 
         return i;
+    }
+
+    public static String numToStrTR(int val)
+    {
+        //...
+
+        return numToStr3DigitTR(val);
     }
 
     public static long nthPrime(int n)
