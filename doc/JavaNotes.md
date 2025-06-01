@@ -4425,7 +4425,7 @@ class EquationUtil  {
 
 **Anahtar Notlar:** while döngüsü dendiğinde akla ilk gelen kontrolün başta yapıldığı while döngüsüdür. Kontrolün sonra yapıldığı while döngüsü `do-while` döngüsü olarak adlandırılır. Buna göre kursumuz while döngüsü dendiğinde kontrolün başta yapıldığı, do-while döngüsü dendiğinde ise kontrolün sonra yapıldığı while döngüsü anlaşılacaktır.
 
-**Anahtar Notlar:** for-each ileride ele alınacaktır.
+**Anahtar Notlar:** for-each döngü deyimi ileride ele alınacaktır.
 
 ###### Kontrolün başta yapıldığı while döngüsü
 
@@ -20285,5 +20285,521 @@ public class NumberUtil {
 }
 ```
 
+###### for-each Döngü Deyimi
 
+>for-each döngü deyimi Java 1.5 ile dile eklenmiştir. Bu döngü deyimi **dolaşılabilir (iterable)** türler ile kullanılabilmektedir. Diziler bu anlamda dolaşılabilir türlerdir, dolayısıyla for-each döngü deyimi diziler ile kullanılabilmektedir. İleride dolaşılabilir olan başka sınıflar da ele alınacaktır.  for-each döngüsü deyimine **enhanced for loop** ya da **range based loop** ya da **special for loop** de denilebilmektedir. 
+
+**Anahtar Notlar:** Bir sınıfın iterable olarak bildirimi yani bir sınıf ile for-each deyiminin kullanılabilmesi `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır. 
+
+>**Java programcısı for-each döngü deyiminin kullanılabildiği VE okunabilirliği/algılanabilirliği olumsuz etkilemediği durumda KESİNLİKLE bu döngü deyimini kullanmalıdır.** 
+>
+>for-each döngü deyiminin genel biçimi şu şekildedir:
+
+```java
+for (<tür> <değişken> : <dolaşılabilir türden referans>)
+	<deyim>
+```
+
+>Burada döngü değişkeni dolaşılabilir türün her bir elemanının doğrudan atanabildiği (implicit conversion) türden olmalıdır. Aksi durumda error oluşur. Bu döngüde her adımda, dolaşılabilir  türün elemanı baştan sona olmak üzere döngü değişkenine atanır. Örneğin, dolabilir tür bir dizi ise her adımda dizinin ilgili elemanı döngü değişenine atanmış olur. Bu döngü ile dizi baştan sonra dolaşılmış olur. Dikkat edilirse bu döngüde, dizinin bir elemanına indeks ile erişilmez.
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       int [] a = {6, 11, 10, 9, 7};  
+  
+       for (int val : a)  
+          System.out.printf("%d ", val);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+
+>for-each döngü deyiminde döngü değişkenine atama işlemi doğrudan yapılır. Bu durumda aşağıdaki demo örnekte error oluşur
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       int [] a = {6, 11, 10, 9, 7};  
+  
+       for (short val : a) //error  
+          System.out.printf("%d ", val);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+
+>Aşağıdaki demo örnek geçerlidir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       int [] a = {6, 11, 10, 9, 7};  
+  
+       for (long val : a)  
+          System.out.printf("%d ", val);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Şüphesiz, aşağıdaki örnekte dizinin elemanları iki katına çıkartılmaz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       int [] a = {6, 11, 10, 9, 7};  
+  
+       for (int val : a)  
+          val *= 2;  
+  
+       for (int val : a)  
+          System.out.printf("%d ", val);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Aslında for-each döngüsü for döngüsü yerine de dolaylı da olsa kullanılabilir. Örneğin bir dizinin elemanlarına atama yapmak için indeks numarası gerekir. Programcı böyle bir durumda for-each döngü deyiminde indeks için ayrı bir değişken belirleyerek yine for-each'i kullanabilir. Ancak bu durum okunabilirlik/algılanabilirlik açısından olumsuz bir durum oluşturur. Bu durumda programcı klasik for döngü deyimini tercih etmelidir. Aşağıdaki demo örnekte dizinin elemanlarının her birinin iki katına çıkartılması için klasik for döngüsü kullanılsaydı daha okunabilir/algılanabilir olurdu:
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       int [] a = {6, 11, 10, 9, 7};  
+       int i = 0;  
+  
+       for (int val : a)  
+          a[i++] *= 2;  
+  
+       for (int val : a)  
+          System.out.printf("%d ", val);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Buna göre for-each döngüsü bir dizi için ne zaman tercih edilmemelidir? Aslında bu sorunun yanıtı oldukça basittir. Ne zaman, indeks numarası gerekirse o zaman kullanılmamalıdır. Bu durum şu şekilde de söylenebilir: indeks gerekmediği her durumda for-each kullanılmalıdır.
+
+>for-each deyiminde `:` atomunda sonraki ifade bir kez yapılır:
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       for (int val : Sample.getIntArray())  
+          System.out.printf("%d ", val);  
+  
+       System.out.println();  
+    }  
+}  
+  
+class Sample {  
+    public static int [] getIntArray()  
+    {  
+       System.out.println("getIntArray called");  
+  
+       return new int[]{6, 11, 10, 9, 7};  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String [] people = {"Ahmet Arslan", "Recep Ulaş Uzun", "Oğuz Karan"};  
+  
+       for (String s : people)  
+          System.out.println(s.toUpperCase());  
+    }  
+}
+```
+
+>Java'da String sınıfı dolaşılabilir bir sınıf olmadığından for-each döngüsüyle aşağıdaki gibi dolaşılabilir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "ankara";  
+  
+       for (char c : s) //error  
+          System.out.printf("%c ", c);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+>Aşağıdaki örnekte String sınıfının toCharArray metodu çağrılarak char türden dizi dolaşılmıştır
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       String s = "ankara";  
+  
+       for (char c : s.toCharArray())  
+          System.out.printf("%c ", c);  
+  
+       System.out.println();  
+    }  
+}
+```
+
+###### Dizi Dizileri ve Matrisler
+
+>Bir dizinin her bir elemanı yine bir dizi referansı ise bu durumda bu diziye artık **dizi dizisi (array of array)** denir. Programlamada dizi dizisi için **jagged array** terimi de kullanılmaktadır. Örneğin, `int[][] a;` bildiriminde a referansı her bir elemanı `int []` türünden bir dizi türündendir. Yani aslında bu bir referans dizisidir. Dizi dizisi yaratılırken new operatörü ile birlikte iki tane `[]` kullanılmalıdır. Bu durumda ilk köşeli parantez ana dizinin uzunluğunu belirtir. Dizi yaratılırken ikinci köşeli parantezin içerisi boş bırakılabilir. İlk köşeli parantezin içerisinin boş bırakılması ilk değer verme sentaksı dışında error oluşturur. Bu durumda dizinin her bir elemanı olan referanslara default değer yani null değeri atanır. Bir dizi dizisinin her bir elemanı olan referansların gösterdiği dizilerinde her birinin uzunluğu aynı ise bu dizi artık bir matrisi temsil edebilir. Yani örneğin ana dizinin `m`, elemanı olan her bir dizinin uzunlukları `n` ise bu dizi dizisi `m * n'lik` bir matris olarak kullanılabilir. 
+
+**Anahtar Notlar:** Java'da çok boyutlu dizi (multi dimensional array) yoktur. Yan Java'da `matris iki boyutlu bir dizidir` demek teknik olarak doğru değildir. Teknik olarak matris de bir dizi dizisidir. 
+
+>Aşağıdaki demo örnekte bir matrisin elemanları rassal olarak üretilmiştir
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random random = new Random();  
+  
+       System.out.print("Input row and column of the matrix:");  
+       int m = kb.nextInt();  
+       int n = kb.nextInt();  
+  
+       int [][] a;  
+  
+       a = new int[m][];  
+  
+       for (int i = 0; i < a.length; ++i) {  
+          a[i] = new int[n];  
+          for (int j = 0; j < n; ++j)  
+             a[i][j] = random.nextInt(1, 100);  
+       }  
+  
+       for (int i = 0;  i < m; ++i) {  
+          for (int j = 0; j < n; ++j)  
+             System.out.printf("%02d ", a[i][j]);  
+  
+          System.out.println();  
+       }  
+    }  
+}
+```
+
+>Bir dizi dizisinin yaratılması sırasında ana dizisi dışında kalan köşeli parantezlerin içerisinde uzunluk yazıldığında ilgili diziler default değerleri ile otomatik olarak o uzunlukta yaratılır. Bu özellik Java 1.5 ile dile eklenmiştir. Yukarıdaki örnek aşağıdaki gibi yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random random = new Random();  
+  
+       System.out.print("Input row and column of the matrix:");  
+       int m = kb.nextInt();  
+       int n = kb.nextInt();  
+  
+       int [][] a;  
+  
+       a = new int[m][n];  
+  
+       for (int i = 0; i < a.length; ++i)  
+          for (int j = 0; j < n; ++j)  
+             a[i][j] = random.nextInt(1, 100);  
+  
+       for (int i = 0;  i < m; ++i) {  
+          for (int j = 0; j < n; ++j)  
+             System.out.printf("%02d ", a[i][j]);  
+  
+          System.out.println();  
+       }  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte dizi dizisi yaratılırken ikinci köşeli parantezin içerisininde n yazılması gereksiz mi olurdu?
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random random = new Random();  
+  
+       System.out.print("Input row and column of the matrix:");  
+       int m = kb.nextInt();  
+       int n = kb.nextInt();  
+  
+       int [][] a;  
+  
+       a = new int[m][];  
+  
+       for (int i = 0; i < a.length; ++i)  
+          a[i] = ArrayUtil.randomArray(random, n, 1, 100);  
+  
+       for (int i = 0;  i < m; ++i) {  
+          for (int j = 0; j < n; ++j)  
+             System.out.printf("%02d ", a[i][j]);  
+  
+          System.out.println();  
+       }  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte bir dizi dizisi (hatta matris) for-each döngü deyimi ile dolaşılmıştır
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+       Random random = new Random();  
+  
+       System.out.print("Input row and column of the matrix:");  
+       int m = kb.nextInt();  
+       int n = kb.nextInt();  
+  
+       int [][] a;  
+  
+       a = new int[m][n];  
+  
+       for (int i = 0; i < a.length; ++i)  
+          a[i] = ArrayUtil.randomArray(random, n, 1, 100);  
+  
+       for (int [] array : a) {  
+          for (int e : array)  
+             System.out.printf("%d ", e);  
+  
+          System.out.println();  
+       }  
+    }  
+}
+```
+
+>Dizi dizilerine ilk değer iç içe küme parantezleri ile verilebilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       int [][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+       int [][] b = {{1, 2, 5, 6, 6}, {4, 5}, {7, 8, 9}, {0, 1, 2, 6}};  
+  
+       ArrayUtil.print(a);  
+       System.out.println();  
+       ArrayUtil.print(b);  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizi dizisi referansının matris olup olmadığını test eden `isMatrix` isimli metodu `MatrixUtil` isimli sınıf içerisinde yazınız ve aşağıdaki kod ile test ediniz
+
+```java
+package org.csystem.util.matrix.test;  
+  
+import org.csystem.util.matrix.MatrixUtil;  
+  
+public class MatrixUtilIsMatrixTest {  
+    public static void run()  
+    {  
+        int [][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+        int [][] b = {{1, 2, 5, 6, 6}, {4, 5}, {7, 8, 9}, {0, 1, 2, 6}};  
+  
+        System.out.println(MatrixUtil.isMatrix(a));  
+        System.out.println(!MatrixUtil.isMatrix(b));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir dizi dizisi referansının kare matris olup olmadığını test eden `isSquareMatrix` isimli metodu `MatrixUtil` isimli sınıf içerisinde yazınız ve aşağıdaki kod ile test ediniz
+
+```java
+package org.csystem.util.matrix.test;  
+  
+import org.csystem.util.matrix.MatrixUtil;  
+  
+public class MatrixUtilIsSquareMatrixTest {  
+    public static void run()  
+    {  
+        int [][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};  
+        int [][] b = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+        int [][] c = {{1, 2, 5, 6, 6}, {4, 5}, {7, 8, 9}, {0, 1, 2, 6}};  
+  
+        System.out.println(MatrixUtil.isSquareMatrix(a));  
+        System.out.println(!MatrixUtil.isSquareMatrix(b));  
+        System.out.println(!MatrixUtil.isSquareMatrix(c));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>Aşağıdaki test kodlarına metotları ilgili sınıflarda inceleyiniz
+
+```java
+package org.csystem.util.array.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ArrayUtilArrayOfIntArrayEqualsTest {  
+    public static void run()  
+    {  
+        int [][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};  
+        int [][] b = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};  
+        int [][] c = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+        int [][] d = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+        int [][] e = {{1, 2, 5, 6, 6}, {4, 5}, {7, 8, 9}, {0, 1, 2, 6}};  
+        int [][] f = {{1, 2, 5, 6, 6}, {4, 5}, {7, 8, 9}, {0, 1, 2, 6}};  
+  
+        System.out.println(ArrayUtil.equals(a, b));  
+        System.out.println(ArrayUtil.equals(c, d));  
+        System.out.println(!ArrayUtil.equals(a, c));  
+        System.out.println(ArrayUtil.equals(e, f));  
+        System.out.println(!ArrayUtil.equals(a, f));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.util.matrix.test;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class MatrixUtilArrayOfIntArrayEqualsTest {  
+    public static void run()  
+    {  
+        int [][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};  
+        int [][] b = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};  
+        int [][] c = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+        int [][] d = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {0, 1, 2}};  
+  
+        System.out.println(ArrayUtil.equals(a, b));  
+        System.out.println(ArrayUtil.equals(c, d));  
+        System.out.println(!ArrayUtil.equals(a, c));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden iki matrisin toplamından oluşan matrise geri dönen `add` isimli metodu `MatrixUtil` sınıfı içerisinde yazınız ve test ediniz
+>
+>**Açıklamalar:** 
+>- Metot matris olup olmama kontrolü yapmayacaktır
+>- Metot matrislerin toplanıp toplanamayacağını kontrol etmeyecektir
+>- İki matrisin toplamı karşılıklı elemanların toplamından elde edilen yeni bir matristir
+
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden iki matrisin farkından oluşan matrise geri dönen `subtract` isimli metodu `MatrixUtil` sınıfı içerisinde yazınız ve test ediniz
+
+>**Açıklamalar:** 
+>- Metot matris olup olmama kontrolü yapmayacaktır
+>- Metot matrislerin toplanıp toplanamayacağını kontrol etmeyecektir
+>- İki matrisin farkı karşılıklı elemanların farkından elde edilen yeni bir matristir
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir matris ile, ikinci parametresi ile aldığı int türden bir sayıyı toplayan ve matrisi buna göre değiştiren `addBy` isimli metodu yazınız ve test ediniz
+>
+>**Açıklamalar:** 
+>- Metot matris olup olmama kontrolü yapmayacaktır
+>- Metot matrislerin toplanıp toplanamayacağını kontrol etmeyecektir.
+>- Bir matrisin bir sayı (scaler) ile toplamı tüm elemanların o sayı ile toplanmasıdır.
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir matrisden, ikinci parametresi ile aldığı int türden bir sayıyı çıkartan ve matrisi buna göre değiştiren `subtractBy` isimli metodu yazınız ve test ediniz
+>
+>**Açıklamalar:** 
+>- Metot matris olup olmama kontrolü yapmayacaktır
+>- Metot matrislerin toplanıp toplanamayacağını kontrol etmeyecektir.
+>- Bir matrisin bir sayı (scaler) ile farkı tüm elemanların o sayı ile farkıdır.
+
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir matris ile, ikinci parametresi ile aldığı int türden bir sayıyı çarpan ve matrisi buna göre değiştiren `multiplyBy` isimli metodu yazınız ve test ediniz
+>
+>**Açıklamalar:** 
+>- Metot matris olup olmama kontrolü yapmayacaktır
+>- Metot matrislerin toplanıp toplanamayacağını kontrol etmeyecektir.
+>- Bir matrisin bir sayı (scaler) ile çarpımı tüm elemanların o sayı ile çarpmaktır.
+
+
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir kare matrisin esas köşegeni (diagonal) üzerinde elemanların toplamına geri dönen `sumDiagonal` isimli metodu `MatrixUtil` isimli sınıfın içerisinde yazınız ve test ediniz
+>**Açıklamalar:** 
+>- Metot kare matris olup olmama kontrolü yapmayacaktır
+>- `n * n'lik` bir matrisin esas köşegeni üzerindeki elemanlar `a[0][0], a[1][1], ..., a[n - 1][n - 1]`
+>- Metot long türüne geri dönecektir.
 

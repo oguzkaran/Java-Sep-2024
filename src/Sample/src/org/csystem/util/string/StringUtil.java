@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 25th May 2025
+ * Last Update: 1st June 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {
@@ -109,12 +109,12 @@ public class StringUtil {
         return join(s, String.valueOf(delimiter));
     }
 
-    public static String join(String [] s, String delimiter)
+    public static String join(String [] str, String delimiter)
     {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < s.length; ++i)
-            sb.append(s[i]).append(delimiter);
+        for (String s : str)
+            sb.append(s).append(delimiter);
 
         return sb.substring(0, sb.length() - delimiter.length());
     }
@@ -124,17 +124,17 @@ public class StringUtil {
         return join(s, String.valueOf(delimiter), ignoreEmpties);
     }
 
-    public static String join(String [] s, String delimiter, boolean ignoreEmpties)
+    public static String join(String [] str, String delimiter, boolean ignoreEmpties)
     {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < s.length; ++i) {
+        for (String s : str) {
             if (ignoreEmpties) {
-                if (!s[i].isEmpty())
-                    sb.append(s[i]).append(delimiter);
+                if (!s.isEmpty())
+                    sb.append(s).append(delimiter);
             }
             else
-                sb.append(s[i]).append(delimiter);
+                sb.append(s).append(delimiter);
         }
 
         return sb.substring(0, sb.length() - delimiter.length());
@@ -145,21 +145,21 @@ public class StringUtil {
         return join(s, String.valueOf(delimiter), ignoreStatus);
     }
 
-    public static String join(String [] s, String delimiter, int ignoreStatus)
+    public static String join(String [] str, String delimiter, int ignoreStatus)
     {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < s.length; ++i) {
+        for (String s : str) {
             if (ignoreStatus == 1) {
-                if (!s[i].isEmpty())
-                    sb.append(s[i]).append(delimiter);
+                if (!s.isEmpty())
+                    sb.append(s).append(delimiter);
             }
             else if (ignoreStatus == 2) {
-                if (!s[i].isBlank())
-                    sb.append(s[i]).append(delimiter);
+                if (!s.isBlank())
+                    sb.append(s).append(delimiter);
             }
             else
-                sb.append(s[i]).append(delimiter);
+                sb.append(s).append(delimiter);
         }
 
         return sb.substring(0, sb.length() - delimiter.length());
@@ -242,7 +242,6 @@ public class StringUtil {
     {
         return randomTexts(random, count, min, bound, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
     }
-
 
     public static String [] randomTexts(Random random, int count, int n, String sourceText)
     {

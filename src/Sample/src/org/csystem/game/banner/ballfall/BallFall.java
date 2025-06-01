@@ -5,8 +5,7 @@ public class BallFall {
 
 	public static void writeSpaces(StringBuilder sb, int begin, int end)
 	{
-		for (int i = begin; i < end; ++i)
-			sb.append(' ');
+        sb.append(" ".repeat(Math.max(0, end - begin)));
 	}
 	
 	public static void writeBall(StringBuilder sb, int ballIndex, int end)

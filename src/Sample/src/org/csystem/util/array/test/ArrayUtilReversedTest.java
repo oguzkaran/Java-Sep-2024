@@ -2,7 +2,7 @@ package org.csystem.util.array.test;
 
 import java.util.Random;
 
-import static org.csystem.util.array.ArrayUtil.generateRandomArray;
+import static org.csystem.util.array.ArrayUtil.randomArray;
 import static org.csystem.util.array.ArrayUtil.print;
 import static org.csystem.util.array.ArrayUtil.reversed;
 
@@ -11,7 +11,7 @@ public class ArrayUtilReversedTest {
     {
         Random random = new Random();
 
-        int [] a = generateRandomArray(random, random.nextInt(5, 11), 0, 10);
+        int [] a = randomArray(random, random.nextInt(5, 11), 0, 10);
 
         print(a);
         int [] r = reversed(a);

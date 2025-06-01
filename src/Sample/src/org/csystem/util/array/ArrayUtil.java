@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 25th May 2025
+ * Last Update: 1st June 2025
  * @author Java-Sep-2024 Group
  */
 public class ArrayUtil {
@@ -69,7 +69,6 @@ public class ArrayUtil {
             a[i] += val;
     }
 
-
     public static double average(int [] a)
     {
         return (double) sum(a) / a.length;
@@ -101,6 +100,19 @@ public class ArrayUtil {
         return true;
     }
 
+    public static boolean equals(int [][] a, int [][] b)
+    {
+        if (a.length != b.length)
+            return false;
+
+        int len = a.length;
+
+        for (int i = 0; i < len; ++i)
+            if (!equals(a[i], b[i]))
+                return false;
+
+        return true;
+    }
 
     public static boolean equals(String [] a, String [] b)
     {
@@ -126,13 +138,20 @@ public class ArrayUtil {
         return true;
     }
 
+    public static void fillRandomArray(int [][] a, Random random, int min, int bound)
+    {
+        for (int i = 0; i < a.length; ++i)
+            for (int j = 0; j < a[i].length; ++j)
+                a[i][j] = random.nextInt(min, bound);
+    }
+
     public static void fillRandomArray(int [] a, Random random, int min, int bound)
     {
         for (int i = 0; i < a.length; ++i)
             a[i] = random.nextInt(min, bound);
     }
 
-    public static int [] generateRandomArray(Random random, int count, int min, int bound)
+    public static int [] randomArray(Random random, int count, int min, int bound)
     {
         int [] a = new int[count];
 
@@ -145,8 +164,8 @@ public class ArrayUtil {
     {
         int [] counts = new int[n + 1];
 
-        for (int i = 0; i < a.length; ++i)
-            ++counts[a[i]];
+        for (int val : a)
+            ++counts[val];
 
         return counts;
     }
@@ -212,8 +231,8 @@ public class ArrayUtil {
 
     public static void print(int [] a, String sep, String end)
     {
-        for (int i = 0; i < a.length; ++i)
-            System.out.printf("%d%s", a[i], sep);
+        for (int val : a)
+            System.out.printf("%d%s", val, sep);
 
         System.out.print(end);
     }
@@ -221,6 +240,12 @@ public class ArrayUtil {
     public static void print(int [] a)
     {
         print(a, " ", "\n");
+    }
+
+    public static void print(int [][] a)
+    {
+        for (int [] array : a)
+            print(array);
     }
 
     public static void reverse(int [] a)
@@ -275,8 +300,8 @@ public class ArrayUtil {
     {
         long total = 0;
 
-        for (int i = 0; i < a.length; ++i)
-            total += a[i];
+        for (int val : a)
+            total += val;
 
         return total;
     }

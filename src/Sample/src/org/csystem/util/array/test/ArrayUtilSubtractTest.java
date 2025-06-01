@@ -2,7 +2,7 @@ package org.csystem.util.array.test;
 
 import java.util.Random;
 
-import static org.csystem.util.array.ArrayUtil.generateRandomArray;
+import static org.csystem.util.array.ArrayUtil.randomArray;
 import static org.csystem.util.array.ArrayUtil.print;
 import static org.csystem.util.array.ArrayUtil.subtract;
 
@@ -11,7 +11,7 @@ public class ArrayUtilSubtractTest {
     {
         Random random = new Random();
 
-        int [] a = generateRandomArray(random, 10, -10, 11);
+        int [] a = randomArray(random, 10, -10, 11);
         int val = random.nextInt(-10, 10);
 
         System.out.printf("val = %d%n", val);
