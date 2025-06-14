@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 1st June 2025
+ * Last Update: 14th June 2025
  * @author Java-Sep-2024 Group
  */
 public class ArrayUtil {
@@ -67,6 +67,13 @@ public class ArrayUtil {
     {
         for (int i = 0; i < a.length; ++i)
             a[i] += val;
+    }
+
+    public static void addBy(int [][] a, int value)
+    {
+        for (int i = 0; i < a.length; ++i)
+            for (int j = 0; j < a[i].length; ++j)
+                a[i][j] += value;
     }
 
     public static double average(int [] a)
@@ -195,6 +202,13 @@ public class ArrayUtil {
             a[i] *= val;
     }
 
+    public static void multiplyBy(int [][] a, int value)
+    {
+        for (int i = 0; i < a.length; ++i)
+            for (int j = 0; j < a[i].length; ++j)
+                a[i][j] *= value;
+    }
+
     public static int partition(int [] a, int threshold)
     {
         int pi = 0;
@@ -229,23 +243,39 @@ public class ArrayUtil {
         return pi;
     }
 
+    public static void print(int [] a, int n, String sep, String end)
+    {
+        String fmt = "%%0%dd%%s".formatted(n);
+        for (int i = 0; i < a.length - 1; ++i)
+            System.out.printf(fmt, a[i], sep);
+
+        System.out.printf(fmt, a[a.length - 1], end);
+    }
+
     public static void print(int [] a, String sep, String end)
     {
-        for (int val : a)
-            System.out.printf("%d%s", val, sep);
-
-        System.out.print(end);
+        print(a, 1, sep, end);
     }
 
     public static void print(int [] a)
     {
         print(a, " ", "\n");
     }
+    public static void print(int [] a, int n)
+    {
+        print(a, n, " ", "\n");
+    }
+
+
+    public static void print(int [][] a, int n)
+    {
+        for (int [] array : a)
+            print(array, n);
+    }
 
     public static void print(int [][] a)
     {
-        for (int [] array : a)
-            print(array);
+        print(a, 1);
     }
 
     public static void reverse(int [] a)
@@ -294,6 +324,11 @@ public class ArrayUtil {
     public static void subtract(int [] a, int val)
     {
         add(a, -val);
+    }
+
+    public static void subtractBy(int [][] a, int value)
+    {
+        addBy(a, -value);
     }
 
     public static long sum(int [] a)

@@ -2,7 +2,7 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 3rd May 2025
+ * Last Update: 14th Jun 2025
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
@@ -11,6 +11,18 @@ public class NumberUtil {
 
     public static String [] onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     public static String [] tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+
+    public static int [] digits(long a, int n)
+    {
+        a = Math.abs(a);
+        int divider = (int)Math.pow(10, n);
+        int [] result = new int[(a != 0) ? ((int)Math.log10(Math.abs(a)) / n + 1) : 1];
+
+        for (int i = result.length - 1; i >= 0; result[i--] = (int)(a % divider), a /= divider)
+            ;
+
+        return result;
+    }
 
     public static String numToStr3DigitTR(int val)
     {
@@ -86,13 +98,17 @@ public class NumberUtil {
 
     public static int [] digits(long a)
     {
-        a = Math.abs(a);
-        int [] result = new int[countDigits(a)];
+        return digits(a, 1);
+    }
 
-        for (int i = result.length - 1; i >= 0; result[i--] = (int)(a % 10), a /= 10)
-            ;
+    public static int [] digitsInTwos(long a)
+    {
+        return digits(a, 2);
+    }
 
-        return result;
+    public static int [] digitsInThrees(long a)
+    {
+        return digits(a, 3);
     }
 
     public static int factorial(int n)

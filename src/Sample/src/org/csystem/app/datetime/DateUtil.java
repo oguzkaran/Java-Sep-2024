@@ -11,21 +11,36 @@ public class DateUtil {
 
 	public static void printDateTR(int day, int month, int year)
 	{
-		int dayOfWeek = getDayOfWeek(day, month, year);
+		String dateStr = getLongDateTR(day, month, year);
 
-		if (dayOfWeek != -1)
-			System.out.printf("%d %s %d %s%n", day, monthsTR[month], year, daysOfWeekTR[dayOfWeek]);
+		if (!dateStr.isEmpty())
+			System.out.println(dateStr);
 		else
 			System.out.println("Geçersiz tarih");
 	}
 
 	public static void printDateEN(int day, int month, int year)
-	{		int dayOfWeek = getDayOfWeek(day, month, year);
+	{
+		String dateStr = getLongDateEN(day, month, year);
 
-		if (dayOfWeek != -1)
-			System.out.printf("%d%s %s %d %s%n", day, getDaySuffix(day), monthsEN[month], year, daysOfWeekEN[dayOfWeek]);
+		if (!dateStr.isEmpty())
+			System.out.println(dateStr);
 		else
-			System.out.println("Geçersiz tarih");
+			System.out.println("Invalid date");
+	}
+
+	public static String getLongDateEN(int day, int month, int year)
+	{
+		int dayOfWeek = getDayOfWeek(day, month, year);
+
+		return dayOfWeek != -1 ? "%d%s %s %d %s".formatted(day, getDaySuffix(day), monthsEN[month], year, daysOfWeekEN[dayOfWeek]) : "";
+	}
+
+	public static String getLongDateTR(int day, int month, int year)
+	{
+		int dayOfWeek = getDayOfWeek(day, month, year);
+
+		return dayOfWeek != -1 ? "%d %s %d %s%n".formatted(day, monthsTR[month], year, daysOfWeekTR[dayOfWeek]) : "";
 	}
 
 	public static int getDayOfWeek(int day, int month, int year)

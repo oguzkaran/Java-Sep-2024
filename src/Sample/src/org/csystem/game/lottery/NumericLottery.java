@@ -43,8 +43,18 @@ public class NumericLottery {
         random = r;
     }
 
-    public int [] getColumn()
+    public int [] getNumbers()
     {
         return getColumns(getFlags());
+    }
+
+    public int [][] getNumbers(int n)
+    {
+        int [][] columns = new int[n][];
+
+        for (int i = 0; i < n; ++i)
+            columns[i] = getNumbers();
+
+        return columns;
     }
 }

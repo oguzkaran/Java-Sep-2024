@@ -20,8 +20,7 @@ public class NumericLotteryApp {
             if (count <= 0)
                 break;
 
-            while (count--  > 0)
-                ArrayUtil.print(numericLottery.getColumn());
+            ArrayUtil.print(numericLottery.getNumbers(count), 2);
         }
     }
 

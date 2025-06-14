@@ -1,15 +1,17 @@
 package org.csystem.app;
 
-import org.csystem.util.array.ArrayUtil;
-import org.csystem.util.matrix.MatrixUtil;
-
-import java.util.Random;
+import java.util.Scanner;
 
 class App {
 	public static void main(String[] args)
 	{
-		int [][] a = MatrixUtil.randomMatrix(new Random(), 3, 4, 1, 100);
+		Scanner kb = new Scanner(System.in);
 
-		ArrayUtil.print(a);
+		System.out.print("Bir sayı giriniz:");
+		long a = kb.nextLong();
+
+		System.out.printf("Eleman sayısı:%d%n", (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) / 1 : 1);
+		System.out.printf("2'şerli Eleman sayısı:%d%n", (a != 0) ? ((int)Math.log10(Math.abs(a)) / 2 + 1) : 1);
+		System.out.printf("3'erli Eleman sayısı:%d%n", (a != 0) ? ((int)Math.log10(Math.abs(a)) / 3 + 1) : 1);
 	}
 }
