@@ -3,7 +3,7 @@ package org.csystem.math.geometry;
 import static java.lang.Math.sqrt;
 
 /**
- * Point class that represents a point in org.csystem.geometry
+ * Point class that represents a point in cartesian coordinates
  * Last Update: 12th April 2025
  * @author Java-Sep-2024 Group
  */
@@ -25,7 +25,7 @@ public class Point {
 		x = a;
 		y = b;
 	}
-	
+
 	public double euclideanDistance()
 	{
 		return euclideanDistance(0, 0);

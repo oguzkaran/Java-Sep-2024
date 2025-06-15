@@ -1,17 +1,39 @@
 package org.csystem.app;
 
-import java.util.Scanner;
-
 class App {
 	public static void main(String[] args)
 	{
-		Scanner kb = new Scanner(System.in);
+		Date birthDate = new Date(10, 9, 1976);
 
-		System.out.print("Bir sayı giriniz:");
-		long a = kb.nextLong();
+		System.out.printf("%02d/%02d/%04d%n", birthDate.getDay());
 
-		System.out.printf("Eleman sayısı:%d%n", (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) / 1 : 1);
-		System.out.printf("2'şerli Eleman sayısı:%d%n", (a != 0) ? ((int)Math.log10(Math.abs(a)) / 2 + 1) : 1);
-		System.out.printf("3'erli Eleman sayısı:%d%n", (a != 0) ? ((int)Math.log10(Math.abs(a)) / 3 + 1) : 1);
+		birthDate.setDay(6);
 	}
 }
+
+class Date {
+	private int m_day, m_month, m_year;
+
+	public Date(int day, int month, int year)
+	{
+		//...
+
+		m_day = day;
+		m_month = month;
+		m_year = year;
+	}
+
+	public int getDay() //accessor / getter
+	{
+		return m_day;
+	}
+
+	public void setDay(int val) // mutator / setter
+	{
+		//...
+		m_day = val;
+	}
+
+	//...
+}
+

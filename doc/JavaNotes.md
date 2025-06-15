@@ -22413,7 +22413,376 @@ public class StringUtil {
 }
 ```
 
+###### 15 Haziran 2025
 ##### Sınıf Elemanlarının Temel Erişim Belirleyicileri
 
+>Anımsanacağı gibi sınıf elemanları (members) şu **erişim belirleyicilere (access modifiers)** sahip olabilirler: **public, no-modifier, protected, private.** Burada `no-modifier` bildirimde herhangi bir erişim belirleyicisi yazmamak demektir. Java'da no-modifier'ın diğerlerinden farklı bir anlamı vardır. Bu bölümde öncelikle erişim belirleyicilerin sentaks ve semantik kuralları ele alınacak, sonrasında NYPT'de kullanımı anlatılacaktır. 
 >
+>Aslında bir sınıf erişim belirleyiciler açısından 4 bölümden oluşur. Bir eleman hangi erişim belirleyici ile bildirilmişse o bölüme eklenmiş olur. `public` ve `private` bölümlerin anlamı aynı paketteki diğer UDT'ler (friendly) veya farklı paketlerdeki diğer UDT'ler için değişiklik göstermez. Yani `public` ve `private` bölüme erişim kuralları, aynı paketteki diğer UDT'ler ve farklı paketteki diğer UDT'ler için aynıdır. Bununla birlikte, `no-modifier` ve `protected` bölümlere aynı paketteki diğer UDT'lerin erişimi ile farklı paketlerdeki diğer UDT'lerin erişim kuralları aynı değildir. **Erişim belirleyiciler, sınıf dışından erişimlerde geçerlidir. Sınıf içerisinde her bölüme erişilebilir.** Sentaks açısından bölümlere ait elemanlar sınıf içerisinde istenilen sırada bildirilebilir. Şüphesiz programcı okunabilirlik/algılanabilirlik açısından belirli bir düzende bildirimleri yapmalıdır. 
+>
+>Sınıfın public bölümüne aynı paketteki tüm UDT'lerden erişilebilir
+
+```java
+package x;  
+  
+public class A {  
+    public int a;  
+  
+    public A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    public void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+
+```java
+package x;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/);
+  
+        a.a = 10;  
+  
+        a.foo();  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın public bölümünde farklı paketlerdeki tüm UDT'lerden erişilebilir
+
+```java
+package x;  
+  
+public class A {  
+    public int a;  
+  
+    public A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    public void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package y;  
+  
+import x.A;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/);  
+  
+        a.a = 10;  
+  
+        a.foo();  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın private bölümüne aynı paketteki diğer UDT'lerden erişilemez
+
+
+```java
+package x;  
+  
+public class A {  
+    private int a;  
+  
+    private A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    private void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package x;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/); //error  
+  
+        a.a = 10; //error  
+  
+        a.foo(); //error  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın private bölümünde farklı paketlerdeki diğer UDT'lerden erişilemez
+
+```java
+package x;  
+  
+public class A {  
+    private int a;  
+  
+    private A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    private void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package y;  
+  
+import x.A;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/); //error
+  
+        a.a = 10; //error
+  
+        a.foo(); //error
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın no-modifier bölümü aynı paketteki diğer UDT'ler için public anlamındadır
+
+```java
+package x;  
+  
+public class A {  
+    int a;  
+  
+    A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package x;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/);  
+  
+        a.a = 10;  
+  
+        a.foo();  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın no-modifier bölümü farklı paketlerdeki diğer UDT'ler için private anlamındadır
+
+```java
+package x;  
+  
+public class A {  
+    int a;  
+  
+    A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package y;  
+  
+import x.A;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/); //error  
+  
+        a.a = 10; //error  
+  
+        a.foo(); //error  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın no-modifier bölümü için **package private** terimi de kullanılabilmektedir. 
+
+
+>Sınıfın protected bölümü aynı paketteki diğer UDT'ler için public anlamındadır
+
+```java
+package x;  
+  
+public class A {  
+    protected int a;  
+  
+    protected A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    protected void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package x;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/);  
+  
+        a.a = 10;  
+  
+        a.foo();  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıfın protected bölümü farklı paketlerdeki diğer sınıflar için `türetme (inheritance)` söz konusu değilse private anlamındadır. `Türemiş sınıf (sub/derived/child class)` kendisine ait protected bölüme erişebilir. protected bölümün anlamı ve türemiş sınıf kavramı `inheritance` konusunda ayrıca ele alınacaktır
+
+```java
+package x;  
+  
+public class A {  
+    protected int a;  
+  
+    protected A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    protected void foo()  
+    {  
+        //...  
+    }  
+  
+    //...  
+}
+```
+
+```java
+package y;  
+  
+import x.A;  
+  
+public class B {  
+    public void bar()  
+    {  
+        A a = new A(/*...*/); //error  
+  
+        a.a = 10; //error  
+  
+        a.foo(); //error  
+    }  
+  
+    //...  
+}
+```
+
+>Sınıf içerisinde her bölüme erişilebilir
+
+```java
+package x;  
+  
+public class A {  
+    private int a;  
+  
+    public A(/*...*/)  
+    {  
+        //...  
+    }  
+  
+    protected void foo(int x)  
+    {  
+        //...  
+        a = x;  
+    }  
+  
+    //...  
+}
+```
+
+>Erişim belirleyicilere ilişkin aşağıdaki tabloyu inceleyiniz:
+
+| Erişim Belirleyici | Aynı Sınıf | Aynı Paket | Farklı Paket | Türemiş Sınıf |
+| ------------------ | ---------- | ---------- | ------------ | ------------- |
+| **public**         | T          | T          | T            | T             |
+| **protected**      | T          | T          | F            | T             |
+| **no-modifier**    | T          | T          | F            | F             |
+| **private**        | T          | F          | F            | F             |
+##### Encapsulation
+
+>NYPT'de özellikle veri elemanlarının gizlenmesine **encapsulation** denir. Bu anlamda bu kavrama **data/information hiding** de denilmektedir. Bu kavram aslında gerçek hayattan programlamaya alınmıştır. Örneğin, araba kullanan bir kişi vites değişimi yaparken içsel olarak vites değişiminin ne anlama geldiğini bilmek durumunda değildir. Yani, bunu bilmesi ya da bilmemesi vites değiştirmesini etkilemez. Bu durumda, vites değişiminin içsel detayları araba kullanandan gizlenmiştir. Bununla birlikte, arabanın şanzıman sistemini üretenlerin bu detayları bilmesi gerekir. 
+>
+>Bir sınıf için iki bakış açısı söz konusudur: **yazan bakış açısı, kullanan bakış açısı.** Sınıfı yazan, sınıfa ilişkin tüm detayları kullanan bakış açısı ile birlikte bilmelidir. Sınıfı kullanan ise detayları bilmek zorunda değildir. Bu anlamda sınıf bildirimine hizmet veren anlamında **server codes**, kullanan kodlara ise hizmet alan anlamında **client codes** da denilmektedir. Aslında tüm bu kavramlar programlamada geneldir. Sınıf elemanlarının gizlenmesi ile NYPT'de kullanılmaktadır. 
+>
+>Bir veri elemanı gizlendiğinde, dışarıdan değerinin değiştirilmesi ve/veya değerinin elde edilmesi gerekebilir. Bunun için ilgili veri elemanına erişen public metotların yazılması gerekir. Gizlenmiş bir veri elemanın değerini değiştirmek için yazılan metoda **set metodu (setter/mutator)** denir ve bir convention olarak ismi genelde **set** öneki ile başlatılır. Gizlenmiş bir veri elemanının değerini elde etmek için yazılan metoda **get metodu (getter/accessor)** denir ve bir convention olarak ismi genelde **get** öneki ile başlatılır. Veri elemanı boolean türdense tipik olarak get metodu **is** ile başlatılır. Gizlenen bir veri elemanı için accessor ve/veya mutator metotların yazılıp yazılmayacağı sınıfa yani domain'e bağlıdır. Bazı veri elemanları için hiç biri yazılmayabilirken, bazı veri elemanları için bir tanesi, bazı veri elemanları içinse iksi birden yazılabilir.
+>
+>Bir sınıfın public ve protected bölümleri client code'lar için dökumante edilir. private ve no-modifier bölümleri client code'lar için dökumante edilmez.
 
