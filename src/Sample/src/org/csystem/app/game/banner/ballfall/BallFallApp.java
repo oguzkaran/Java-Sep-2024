@@ -19,7 +19,7 @@ class BallFallApp {
 			
 			ballFall.play(width, height);
 
-			System.out.println(ballFall.shape);
+			System.out.println(ballFall.getShape());
 		}
 	}
 

@@ -2,17 +2,17 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 14th Jun 2025
+ * Last Update: 22nd June 2025
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
-    public static String [] onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
-    public static String [] tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
+    private static String [] ms_onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
+    private static String [] ms_tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
 
-    public static String [] onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    public static String [] tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    private static String [] ms_onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    private static String [] ms_tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
-    public static int [] digits(long a, int n)
+    private static int [] digits(long a, int n)
     {
         a = Math.abs(a);
         int divider = (int)Math.pow(10, n);
@@ -24,7 +24,7 @@ public class NumberUtil {
         return result;
     }
 
-    public static String numToStr3DigitTR(int val)
+    private static String numToStr3DigitTR(int val)
     {
         if (val == 0)
             return "sıfır";
@@ -38,17 +38,18 @@ public class NumberUtil {
 
         if (a != 0) {
             if (a != 1)
-                sb.append(onesTR[a]);
+                sb.append(ms_onesTR[a]);
 
             sb.append("yüz");
         }
 
-        sb.append(tensTR[b]);
-        sb.append(onesTR[c]);
+        sb.append(ms_tensTR[b]);
+        sb.append(ms_onesTR[c]);
 
         return sb.toString();
     }
-    public static long calculateDigitsPowSum(long a)
+
+    private static long calculateDigitsPowSum(long a)
     {
         long result = 0;
         int n = countDigits(a);

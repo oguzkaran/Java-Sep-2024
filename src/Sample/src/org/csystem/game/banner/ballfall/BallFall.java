@@ -1,21 +1,21 @@
 package org.csystem.game.banner.ballfall;
 
 public class BallFall {
-	public String shape;
+	private String m_shape;
 
-	public static void writeSpaces(StringBuilder sb, int begin, int end)
+	private static void writeSpaces(StringBuilder sb, int begin, int end)
 	{
         sb.append(" ".repeat(Math.max(0, end - begin)));
 	}
 	
-	public static void writeBall(StringBuilder sb, int ballIndex, int end)
+	private static void writeBall(StringBuilder sb, int ballIndex, int end)
 	{
 		writeSpaces(sb, 0, ballIndex);
 		sb.append('*');
 		writeSpaces(sb, ballIndex + 1, end);
 	}
 	
-	public static boolean updateRightFlag(boolean isRight, int ballIndex, int width)
+	private static boolean updateRightFlag(boolean isRight, int ballIndex, int width)
 	{
 		if (ballIndex == 0)
 			return true;
@@ -26,14 +26,19 @@ public class BallFall {
 		return isRight;
 	}
 	
-	public static int updateBallIndex(boolean isRight, int ballIndex)
+	private static int updateBallIndex(boolean isRight, int ballIndex)
 	{
 		if (isRight)
 			return ballIndex + 1;
 		
 		return ballIndex - 1;
 	}
-	
+
+	public String getShape()
+	{
+		return m_shape;
+	}
+
 	public void play(int width, int height)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -50,6 +55,6 @@ public class BallFall {
 			sb.append('|').append("\r\n");
 		}
 
-		shape = sb.toString();
+		m_shape = sb.toString();
 	}
 }

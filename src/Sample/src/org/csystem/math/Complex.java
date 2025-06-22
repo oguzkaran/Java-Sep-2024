@@ -2,7 +2,7 @@ package org.csystem.math;
 
 /**
  * Complex class that represents a complex number
- * Last Update: 12th April 2025
+ * Last Update: 22nd June 2025
  * @author Java-Sep-2024 Group
  */
 
@@ -10,17 +10,17 @@ public class Complex {
 	public double real;
 	public double imag;
 	
-	public static Complex add(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	private static Complex add(double re1, double im1, double re2, double im2)
 	{	
 		return new Complex(re1 + re2, im1 + im2);
 	}
 	
-	public static Complex subtract(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	private static Complex subtract(double re1, double im1, double re2, double im2)
 	{
 		return add(re1, im1, -re2, -im2);
 	}
 	
-	public static Complex multiply(double re1, double im1, double re2, double im2) //İleride bu metodu gizleyeceğiz
+	private static Complex multiply(double re1, double im1, double re2, double im2)
 	{
 		return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);
 	}

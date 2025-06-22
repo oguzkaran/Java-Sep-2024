@@ -8,17 +8,17 @@ import java.util.Scanner;
 public class GradCalculatorApp {
     public static void printGradeInfo(GradeInfo gi)
     {
-        String [] birthDateInfo = StringUtil.split(gi.birthDate, "-");
+        String [] birthDateInfo = StringUtil.split(gi.getBirthDate(), "-");
         String birthDateStr = DateUtil.getLongDateEN(Integer.parseInt(birthDateInfo[2]),
                 Integer.parseInt(birthDateInfo[1]), Integer.parseInt(birthDateInfo[0]));
 
         System.out.println("Student Information:");
-        System.out.printf("Number: %s%n", gi.studentNumber);
-        System.out.printf("Name: %s%n", gi.studentName);
+        System.out.printf("Number: %s%n", gi.getStudentNumber());
+        System.out.printf("Name: %s%n", gi.getStudentName());
         System.out.printf("Birth Date: %s%n", birthDateStr);
-        System.out.printf("Lecture Name: %s%n", gi.lectureName);
-        System.out.printf("Midterm Grade: %d%n", gi.midTermGrade);
-        System.out.printf("Final Grade: %d%n", gi.finalGrade);
+        System.out.printf("Lecture Name: %s%n", gi.getLectureName());
+        System.out.printf("Midterm Grade: %d%n", gi.getMidTermGrade());
+        System.out.printf("Final Grade: %d%n", gi.getFinalGrade());
         System.out.printf("Grade: %.1f%n", gi.getGrade());
         System.out.printf("Status: %s%n", gi.isSuccess() ? "Success" : "Fail");
     }
@@ -40,16 +40,3 @@ public class GradCalculatorApp {
         run();
     }
 }
-
-
-/*
-Student Information:
-Number: 12345
-Name: Oğuz Karan
-Birth Date: 10th September 1976 Friday
-Lecture Name: Matematik
-Midterm Grade:67
-Final Grade:90
-Grade: 80.8
-Status: Success
- */

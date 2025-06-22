@@ -21161,7 +21161,6 @@ public class MatrixUtilSumDiagonalTest {
 ```
 
 
-
 SSSSSSSSSSSS
 
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir matrisin `devriğine (transpose)` geri dönen transpose isimli metodu MatrixUtil sınıfı içerisinde yazınız ve test ediniz
@@ -22776,6 +22775,7 @@ public class A {
 | **protected**      | T          | T          | F            | T             |
 | **no-modifier**    | T          | T          | F            | F             |
 | **private**        | T          | F          | F            | F             |
+
 ##### Encapsulation
 
 >NYPT'de özellikle veri elemanlarının gizlenmesine **encapsulation** denir. Bu anlamda bu kavrama **data/information hiding** de denilmektedir. Bu kavram aslında gerçek hayattan programlamaya alınmıştır. Örneğin, araba kullanan bir kişi vites değişimi yaparken içsel olarak vites değişiminin ne anlama geldiğini bilmek durumunda değildir. Yani, bunu bilmesi ya da bilmemesi vites değiştirmesini etkilemez. Bu durumda, vites değişiminin içsel detayları araba kullanandan gizlenmiştir. Bununla birlikte, arabanın şanzıman sistemini üretenlerin bu detayları bilmesi gerekir. 
@@ -22786,3 +22786,1319 @@ public class A {
 >
 >Bir sınıfın public ve protected bölümleri client code'lar için dökumante edilir. private ve no-modifier bölümleri client code'lar için dökumante edilmez.
 
+###### 22 Haziran 2025
+
+>Değişken atom isimlendirmede bazı notasyonlar kullanılmaktadır. 
+>1. **Unix style (snake case):** Bu isimlendirmede karakterlerin tamamı küçük harfle yazılır, kelimeler alttire karakteri ile ayrılır. Örneğin: `number_of_devices` `find_file`. Bu isimlendirme Java'da doğrudan tercih edilmez.
+>2. **Lower Camel Case:** Bu isimlendirmede kelimeler bitişik yazılır. İlk kelimenin baş harfi küçük, diğer kelimelerin baş harfi büyük olur. Diğer tüm karakterler de küçük harfle yazılır. Örneğin: `numberOfDevices`, `nextInt`, `findFile`. Bu isimlendirme genel olarak Java'da metot isimlerinde, yerel değişken isimlerinde, parametre değişkeni, sınıf elemanı isimlerinde tercih edilir.
+>3. **Upper Camel Case:** Bu isimlendirmede kelimeler bitişik yazılır. Tüm kelimelerin baş harfleri büyük, geri kalan tüm karakterler küçük harfle yazılır. Örneğin: `ArrayUtil`, `ReflectionUtils`. Bu isimlerde Java'da genel olarak UDT isimlerinde tercih edilir. Bazı kaynaklarda, bu notasyona `Pascal notation/case` de denilmektedir.
+>
+> İsimlendirmede bunlardan biri yada birden fazlası kullanılabilir. Hatta bunlardan biri kullanılmak zorunda bile değildir. Örneğin Java'da paket isimlerinin tamamı küçük harf ve kelimeler bitişik olacak şekilde yazılır. Örneğin: `java.util`, `org.csystem.util.array`, `org.sprinframework.boot`.
+> 
+> Burada anlatılan teknikler tamamen geneldir ve bunlara isimler verilmiştir. Hatta bazen isimlendirmede bir ya da birden fazla teknik biraz değiştirilerek kullanılabilmektedir. Bu notasyonlar dışında da isimlendirme yapılabilir:
+
+ **Anahtar Notlar:** Programcılar genel olarak programlama dilinin ve standart kütüphanesinin doğasına uygun olacak şekilde isimlendirme yaparlar. Örneğin Java'da metot isimleri lower camel case kullanılarak isimlendirildiğinden, Java programcısı da kendi yazdığı metotlarda aynı notasyonu kullanır.
+ 
+ **Anahtar Notlar:** Bazı programcılar özellikle private veri elemanların isimlendirmesinde bazı ön ekler (prefix) kullanabilmektedir. Örneğin `m_`, `d_`, `m` ön ekleri tercih edilebilmektedir. Bazı programcılar hiç bir ön ek koymamayı tercih edebilirler. **Bu tür yaklaşımların iyisi kötüsü yoktur.** Geliştirici ekip tarafından belirlenen teknik kullanılır. Biz convention olarak, sınıfların non-static ve private veri elemanları için `m_` önekini, sınıfın static ve private veri elemanları için `ms_` önekini kullanacağız.
+
+>Aşağıdaki demo `Date` sınıfını inceleyiniz.
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Date birthDate = new Date(10, 9, 1976);  
+  
+       System.out.printf("%02d/%02d/%04d%n", birthDate.getDay(), birthDate.getMonthValue(), birthDate.getYear());
+       birthDate.setDay(11);  
+       birthDate.setMonth(7);  
+       birthDate.setYear(1983);  
+       System.out.printf("%02d/%02d/%04d%n", birthDate.getDay(), birthDate.getMonthValue(), birthDate.getYear());  
+    }  
+}  
+  
+class Date {  
+    private int m_day, m_month, m_year;  
+  
+    public Date(int day, int month, int year)  
+    {  
+       //...  
+       m_day = day;  
+       m_month = month;  
+       m_year = year;  
+    }  
+  
+    public int getDay() //accessor/getter  
+    {  
+       return m_day;  
+    }  
+  
+    public void setDay(int val) // mutator/setter  
+    {  
+       //...  
+       m_day = val;  
+    }  
+  
+    public int getMonthValue() //accessor/getter  
+    {  
+       return m_month;  
+    }  
+  
+    public void setMonth(int month) // mutator/setter  
+    {  
+       //...  
+       m_month = month;  
+    }  
+  
+    public int getYear() //accessor/getter  
+    {  
+       return m_year;  
+    }  
+  
+    public void setYear(int year) // mutator/setter  
+    {  
+       //...  
+       m_year = year;  
+    }  
+  
+    //...  
+}
+```
+
+>Aşağıdaki durumlardan en az bir tanesi varsa ilgili veri elemanı gizlenmelidir:
+>- Sınıfların versiyonları ilerledikçe, yani sınıfın kodlarında değişiklik ya da eklentiler yapıldıkça veri elemanlarının isimlerinin hatta türlerinin değiştirilmesi ile çok fazla karşılaşılır. Bu durumda eski kodların yeni değişikliklerden etkilenmemesi için veri elemanları gizlenir. Örneğin, tarihi temsil eden `Date` sınıfında ilgili veri elemanlarının isimleri hatta türleri değiştirilebilir.
+>- Bir veri elemanının sınır değerleri olabilir. Bu durumda sınırlar dışında değer verilmemsi için veri elemanı gizlenir. Örneğin, bir üçgeni temsil eden `Triangle` isimli sınıfın kenarları üçgen olma koşullarına uygun olmalıdır. Bu durumda kontrol edilebilmesi kenarlara ilişkin veri elemanları gizlenir.
+>- Bir veri elemanın değeri, başka bir veri elemanının değerine bağlı olarak hesaplanıyor olabilir. Bu durumda ilgili veri elemanı gizlenir. Örneğin, bir üçgeni temsil eden `Triangle` isimli sınıfın alanı, kenar değerlere göre hesaplanır. Bu durumda alana ilişkin veri elemanı gizlenir ve kenalarının değiştirilmesi durumunda yeniden hesaplanır.
+>- Bir veri elemanının değişen değerine göre bir işlem yapılması gerekebilir. Örneğin, bir veritabanı bağlantısına yönelik bir bilginin değişmesi durumunda eski bağlantının kopartılıp yeni bağlantının sağlanması gerekebilir. Bu durumda ilgili veri elemanı gizlenir.
+>
+>Bir veri elemanı için yukarıdaki durumlardan hiç birisi yoksa pratikte %3 - %5 arasında olur) ilgili veri elemanı public yapılabilir.
+
+>Aşağıdaki demo `Date` sınıfının kodları değişmiş olmasına rağmen, değişiklik yapılmadan önce yazılan client code'ların etkilenmediğine dikkat ediniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Date birthDate = new Date(10, 9, 1976);  
+  
+       System.out.printf("%02d/%02d/%04d%n", birthDate.getDay(), birthDate.getMonthValue(), birthDate.getYear());  
+       birthDate.setDay(11);  
+       birthDate.setMonth(7);  
+       birthDate.setYear(1983);  
+       System.out.printf("%02d/%02d/%04d%n", birthDate.getDay(), birthDate.getMonthValue(), birthDate.getYear());  
+    }  
+}  
+  
+class Date {  
+    private String m_date;  
+  
+    public Date(int day, int month, int year)  
+    {  
+       //...  
+       m_date = "%02d/%02d/%04d".formatted(day, month, year);  
+    }  
+  
+    public int getDay() //accessor/getter  
+    {  
+       return Integer.parseInt(m_date.substring(0, 2));  
+    }  
+  
+    public void setDay(int val) // mutator/setter  
+    {  
+       //...  
+       m_date = "%02d/%02d/%04d".formatted(val, getMonthValue(), getYear());  
+    }  
+  
+    public int getMonthValue() //accessor/getter  
+    {  
+       return Integer.parseInt(m_date.substring(3, 5));  
+    }  
+  
+    public void setMonth(int val) // mutator/setter  
+    {  
+       //...  
+       m_date = "%02d/%02d/%04d".formatted(getDay(), val, getYear());  
+    }  
+  
+    public int getYear() //accessor/getter  
+    {  
+       return Integer.parseInt(m_date.substring(6));  
+    }  
+  
+    public void setYear(int val) // mutator/setter  
+    {  
+       //...  
+       m_date = "%02d/%02d/%04d".formatted(getDay(), getMonthValue(), val);  
+    }  
+  
+    //...  
+}
+```
+
+>Bazı durumlarda sınıfın public bölümünde de değişiklik yapılması gerekebilir. Bu durumda değişik değişikliği doğrudan yapmak yerine, eskisi korunup **deprecated** yapılabilir. Şüphesiz bu durum sınıfın domain'ine bağlıdır. Daha radikal değişiklikler için özellikle kütüphane (library) tasarımlarında versiyonlama (versioning) kullanılır. Bu kavramlar `Java ile Uygulama Geliştirme 1` kursunda detaylı olarak ele alınacaktır.
+
+>Bir metodun sınıf dışından çağrılması istenmiyorsa yani genel olarak dışarıdan çağrılması anlamsızsa bu durumda ilgili metot gizlenir.
+
+```java
+package org.csystem.math;
+
+public class Complex {  
+    public double real;  
+    public double imag;  
+      
+    private static Complex add(double re1, double im1, double re2, double im2)  
+    {    
+       return new Complex(re1 + re2, im1 + im2);  
+    }  
+      
+    private static Complex subtract(double re1, double im1, double re2, double im2)  
+    {  
+       return add(re1, im1, -re2, -im2);  
+    }  
+      
+    private static Complex multiply(double re1, double im1, double re2, double im2)  
+    {  
+       return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);  
+    }  
+      
+    public Complex()  
+    {       
+    }  
+      
+    public Complex(double a)  
+    {  
+       real = a;  
+    }  
+      
+    public Complex(double a, double b)  
+    {  
+       real = a;  
+       imag = b;  
+    }  
+      
+    public static Complex add(double value, Complex z)  
+    {  
+       return add(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex add(double value)  
+    {  
+       return add(real, imag, value, 0);  
+    }  
+      
+    public Complex add(Complex other)  
+    {  
+       return add(real, imag, other.real, other.imag);  
+    }  
+      
+    public static Complex subtract(double value, Complex z)  
+    {  
+       return subtract(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex subtract(double value)  
+    {  
+       return subtract(real, imag, value, 0);  
+    }  
+      
+    public Complex subtract(Complex other)  
+    {  
+       return subtract(real, imag, other.real, other.imag);  
+    }  
+      
+    public static Complex multiply(double value, Complex z)  
+    {  
+       return multiply(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex multiply(double value)  
+    {  
+       return multiply(real, imag, value, 0);  
+    }  
+      
+    public Complex multiply(Complex other)  
+    {  
+       return multiply(real, imag, other.real, other.imag);  
+    }  
+  
+    //...  
+    public Complex getConjugate()  
+    {  
+       return new Complex(real, -imag);  
+    }  
+      
+    public double getNorm()  
+    {  
+       return Math.sqrt(real * real + imag * imag);  
+    }  
+      
+    public double getLength()  
+    {  
+       return getNorm();  
+    }  
+      
+    public String toString()  
+    {  
+       return "|(%f, %f)| = %.3f".formatted(real, imag, getLength());  
+    }  
+}
+```
+
+
+>Aşağıdaki demo `Circle` sınıfını inceleyiniz.
+
+
+```java
+package org.csystem.math.geometry;  
+  
+public class Circle {  
+    private double m_radius;  
+    private double m_area, m_circumference;  
+  
+    private void calculateArea()  
+    {  
+        m_area = Math.PI * m_radius * m_radius;  
+    }  
+  
+    private void calculateCircumference()  
+    {  
+        m_circumference = 2 * Math.PI * m_radius;  
+    }  
+  
+    public Circle()  
+    {  
+    }  
+  
+    public Circle(double radius)  
+    {  
+        setRadius(radius);  
+    }  
+  
+    public double getRadius()  
+    {  
+        return m_radius;  
+    }  
+  
+    public void setRadius(double radius)  
+    {  
+        m_radius = Math.abs(radius);  
+        calculateArea();  
+        calculateCircumference();  
+    }  
+  
+    public double getArea()  
+    {  
+        return m_area;  
+    }  
+  
+    public double getCircumference()  
+    {  
+        return m_circumference;  
+    }  
+  
+    public String toString()  
+    {  
+        return "Radius:%.2f, Area:%.2f, Circumference:%.2f".formatted(m_radius, m_area, m_circumference);  
+    }  
+}
+```
+
+>Bazı durumlarda accessor/getter bir metot bir veri elemanının değerini doğrudan döndürmüyor, diğer veri elemanları kullanılarak hesaplanmış değerlere geri dönüyor olabilir. Sınıfın client code'ları açısından yine bunlar yine accessor metotlardır. 
+
+>Aşağıdaki demo `Circle` sınıfını inceleyiniz.
+
+```java
+package org.csystem.math.geometry;  
+  
+public class Circle {  
+    private double m_radius;  
+  
+    public Circle()  
+    {  
+    }  
+  
+    public Circle(double radius)  
+    {  
+        setRadius(radius);  
+    }  
+  
+    public double getRadius()  
+    {  
+        return m_radius;  
+    }  
+  
+    public void setRadius(double radius)  
+    {  
+        m_radius = Math.abs(radius);  
+    }  
+  
+    public double getArea()  
+    {  
+        return Math.PI * m_radius * m_radius;  
+    }  
+  
+    public double getCircumference()  
+    {  
+        return 2 * Math.PI * m_radius;  
+    }  
+  
+    public String toString()  
+    {  
+        return "Radius:%.2f, Area:%.2f, Circumference:%.2f".formatted(m_radius, getArea(), getCircumference());  
+    }  
+}
+```
+
+>Aşağıdaki `NumberUtil` sınıfını inceleyiniz
+
+```java
+package org.csystem.util.numeric;  
+  
+public class NumberUtil {  
+    private static String [] ms_onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};  
+    private static String [] ms_tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};  
+  
+    private static String [] ms_onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};  
+    private static String [] ms_tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};  
+  
+    private static int [] digits(long a, int n)  
+    {  
+        a = Math.abs(a);  
+        int divider = (int)Math.pow(10, n);  
+        int [] result = new int[(a != 0) ? ((int)Math.log10(Math.abs(a)) / n + 1) : 1];  
+  
+        for (int i = result.length - 1; i >= 0; result[i--] = (int)(a % divider), a /= divider)  
+            ;  
+  
+        return result;  
+    }  
+  
+    private static String numToStr3DigitTR(int val)  
+    {  
+        if (val == 0)  
+            return "sıfır";  
+  
+        StringBuilder sb = new StringBuilder(val < 0 ? "eksi" : "");  
+  
+        val = Math.abs(val);  
+        int a = val / 100;  
+        int b = val / 10 % 10;  
+        int c = val % 10;  
+  
+        if (a != 0) {  
+            if (a != 1)  
+                sb.append(ms_onesTR[a]);  
+  
+            sb.append("yüz");  
+        }  
+  
+        sb.append(ms_tensTR[b]);  
+        sb.append(ms_onesTR[c]);  
+  
+        return sb.toString();  
+    }  
+  
+    private static long calculateDigitsPowSum(long a)  
+    {  
+        long result = 0;  
+        int n = countDigits(a);  
+  
+        while (a != 0) {  
+            result += (long) Math.pow(a % 10, n);  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int countHardyRamanujan(int n)  
+    {  
+        int count = 0;  
+  
+        EXIT_LOOP:  
+        for (int x = 1; x * x * x < n; ++x)  
+            for (int y = x + 1; x * x * x + y * y * y <= n; ++y) {  
+                if (x * x * x + y * y * y == n) {  
+                    if (++count == 2)  
+                        break EXIT_LOOP;  
+  
+                    ++x;  
+                }  
+            }  
+  
+        return count;  
+    }  
+  
+    public static int sumFactorialOfDigits(int n)  
+    {  
+        int total = 0;  
+  
+        while (n != 0) {  
+            total += factorial(n % 10);  
+            n /= 10;  
+        }  
+  
+        return total;  
+    }  
+  
+    public static int countDigits(long a)  
+    {  
+        return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : 1;  
+    }  
+  
+    public static int [] digits(long a)  
+    {  
+        return digits(a, 1);  
+    }  
+  
+    public static int [] digitsInTwos(long a)  
+    {  
+        return digits(a, 2);  
+    }  
+  
+    public static int [] digitsInThrees(long a)  
+    {  
+        return digits(a, 3);  
+    }  
+  
+    public static int factorial(int n)  
+    {  
+        int result = 1;  
+  
+        for (int i = 2; i <= n; ++i)  
+            result *= i;  
+  
+        return result;  
+    }  
+  
+    public static int fibonacciNumber(int n)  
+    {  
+        if (n <= 2)  
+            return n - 1;  
+  
+        int prev1 = 1, prev2 = 0, result = 1;  
+  
+        for (int i = 3; i < n; ++i) {  
+            prev2 = prev1;  
+            prev1 = result;  
+            result = prev1 + prev2;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int indexOfPrime(long a)  
+    {  
+        int i = 1;  
+        long val = 2;  
+  
+        while (true) {  
+            if (val == a)  
+                return i;  
+  
+            if (isPrime(val))  
+                ++i;  
+  
+            ++val;  
+        }  
+    }  
+  
+    public static boolean isArmstrong(long a)  
+    {  
+        return a >= 0 && calculateDigitsPowSum(a) == a;  
+    }  
+  
+    public static boolean isDecimalHarshad(int a)  
+    {  
+        return a > 0 && a % sumDigits(a) == 0;  
+    }  
+  
+    public static boolean isEven(int a)  
+    {  
+        return a % 2 == 0;  
+    }  
+  
+    public static boolean isFactorian(int n)  
+    {  
+        return n > 0 && sumFactorialOfDigits(n) == n;  
+    }  
+  
+    public static boolean isHardyRamanujan(int n)  
+    {  
+        return n > 0 && countHardyRamanujan(n) == 2;  
+    }  
+  
+    public static boolean isOdd(int a)  
+    {  
+        return !isEven(a);  
+    }  
+  
+    public static boolean isPrime(long a)  
+    {  
+        if (a <= 1)  
+            return false;  
+  
+        if (a % 2 == 0)  
+            return a == 2;  
+  
+        if (a % 3 == 0)  
+            return a == 3;  
+  
+        if (a % 5 == 0)  
+            return a == 5;  
+  
+        if (a % 7 == 0)  
+            return a == 7;  
+  
+        for (long i = 11; i * i <= a; i += 2)  
+            if (a % i == 0)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPrimeX(long a)  
+    {  
+        long sum = a;  
+        boolean result;  
+  
+        while ((result = isPrime(sum)) && sum > 9)  
+            sum = sumDigits(sum);  
+  
+        return result;  
+    }  
+  
+    public static boolean isSuperPrime(long a)  
+    {  
+        return isPrime(a) && isPrime(indexOfPrime(a));  
+    }  
+  
+    public static int mid(int a, int b, int c)  
+    {  
+        int result = c;  
+  
+        if (a <= b && b <= c || c <= b && b <= a)  
+            result = b;  
+        else if (b <= a && a <= c || c <= a && a <= b)  
+            result = a;  
+  
+        return result;  
+    }  
+  
+    public static int nextClosestFibonacciNumber(int a)  
+    {  
+        if (a < 0)  
+            return 0;  
+  
+        int prev1 = 1, prev2 = 0, next;  
+  
+        while (true) {  
+            next = prev1 + prev2;  
+            if (next > a)  
+                break;  
+  
+            prev2 = prev1;  
+            prev1 = next;  
+        }  
+  
+        return next;  
+    }  
+  
+    public static long nextClosestPrime(int a)  
+    {  
+        if (a < 2)  
+            return 2;  
+  
+        long i;  
+  
+        for (i = a + 1; !isPrime(i); ++i)  
+            ;  
+  
+        return i;  
+    }  
+  
+    public static String numToStrTR(int val)  
+    {  
+        //...  
+  
+        return numToStr3DigitTR(val);  
+    }  
+  
+    public static long nthPrime(int n)  
+    {  
+        long val = 2;  
+        int count = 0;  
+  
+        for (long i = 2; count < n; ++i)  
+            if (isPrime(i)) {  
+                ++count;  
+                val = i;  
+            }  
+  
+        return val;  
+    }  
+  
+    public static int reverse(int a)  
+    {  
+        int result = 0;  
+  
+        while (a != 0) {  
+            result = result * 10 + a % 10;  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int sumDigits(long a)  
+    {  
+        int total = 0;  
+  
+        while (a != 0) {  
+            total += a % 10;  
+            a /= 10;  
+        }  
+  
+        return Math.abs(total);  
+    }  
+}
+```
+
+
+>Aşağıdaki `ArrayUtil` sınıfını inceleyiniz
+
+```java
+package org.csystem.util.array;  
+  
+import java.util.Random;  
+  
+public class ArrayUtil {  
+  
+    private static void bubbleSortAscending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k + 1] < a[k])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    private static void bubbleSortDescending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k] < a[k + 1])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    private static void selectionSortAscending(int [] a)  
+    {  
+        int min, minIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            min = a[i];  
+            minIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (a[k] < min) {  
+                    min = a[k];  
+                    minIndex = k;  
+                }  
+  
+            a[minIndex] = a[i];  
+            a[i] = min;  
+        }  
+    }  
+  
+    private static void selectionSortDescending(int [] a)  
+    {  
+        int max, maxIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            max = a[i];  
+            maxIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (max < a[k]) {  
+                    max = a[k];  
+                    maxIndex = k;  
+                }  
+  
+            a[maxIndex] = a[i];  
+            a[i] = max;  
+        }  
+    }  
+  
+    public static void add(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] += val;  
+    }  
+  
+    public static void addBy(int [][] a, int value)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] += value;  
+    }  
+  
+    public static double average(int [] a)  
+    {  
+        return (double) sum(a) / a.length;  
+    }  
+  
+    public static void bubbleSort(int [] a)  
+    {  
+        bubbleSort(a, false);  
+    }  
+  
+  
+    public static void bubbleSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            bubbleSortDescending(a);  
+        else  
+            bubbleSortAscending(a);  
+    }  
+  
+    public static boolean equals(int [] a, int [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (a[i] != b[i])  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equals(int [][] a, int [][] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        int len = a.length;  
+  
+        for (int i = 0; i < len; ++i)  
+            if (!equals(a[i], b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equals(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equals(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equalsIgnoreCase(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equalsIgnoreCase(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static void fillRandomArray(int [][] a, Random random, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] = random.nextInt(min, bound);  
+    }  
+  
+    public static void fillRandomArray(int [] a, Random random, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] = random.nextInt(min, bound);  
+    }  
+  
+    public static int [] randomArray(Random random, int count, int min, int bound)  
+    {  
+        int [] a = new int[count];  
+  
+        fillRandomArray(a, random, min, bound);  
+  
+        return a;  
+    }  
+  
+    public static int [] histogramData(int [] a, int n)  
+    {  
+        int [] counts = new int[n + 1];  
+  
+        for (int val : a)  
+            ++counts[val];  
+  
+        return counts;  
+    }  
+  
+    public static int max(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.max(result, a[i]);  
+  
+        return result;  
+    }  
+  
+    public static int min(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.min(result, a[i]);  
+  
+        return result;  
+    }  
+    public static void multiply(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] *= val;  
+    }  
+  
+    public static void multiplyBy(int [][] a, int value)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] *= value;  
+    }  
+  
+    public static int partition(int [] a, int threshold)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] < threshold)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] < threshold)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static int partitionByEven(int [] a)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] % 2 == 0)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] % 2 == 0)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static void print(int [] a, int n, String sep, String end)  
+    {  
+        String fmt = "%%0%dd%%s".formatted(n);  
+        for (int i = 0; i < a.length - 1; ++i)  
+            System.out.printf(fmt, a[i], sep);  
+  
+        System.out.printf(fmt, a[a.length - 1], end);  
+    }  
+  
+    public static void print(int [] a, String sep, String end)  
+    {  
+        print(a, 1, sep, end);  
+    }  
+  
+    public static void print(int [] a)  
+    {  
+        print(a, " ", "\n");  
+    }  
+    public static void print(int [] a, int n)  
+    {  
+        print(a, n, " ", "\n");  
+    }  
+  
+  
+    public static void print(int [][] a, int n)  
+    {  
+        for (int [] array : a)  
+            print(array, n);  
+    }  
+  
+    public static void print(int [][] a)  
+    {  
+        print(a, 1);  
+    }  
+  
+    public static void reverse(int [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static void reverse(char [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static int [] reversed(int [] a)  
+    {  
+        int [] result = new int[a.length];  
+        int len = a.length;  
+  
+        for (int i = len - 1; i >= 0; --i)  
+            result[len - 1 - i] = a[i];  
+  
+        return result;  
+    }  
+  
+    public static void selectionSort(int [] a)  
+    {  
+        selectionSort(a, false);  
+    }  
+  
+  
+    public static void selectionSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            selectionSortDescending(a);  
+        else  
+            selectionSortAscending(a);  
+    }  
+  
+    public static void subtract(int [] a, int val)  
+    {  
+        add(a, -val);  
+    }  
+  
+    public static void subtractBy(int [][] a, int value)  
+    {  
+        addBy(a, -value);  
+    }  
+  
+    public static long sum(int [] a)  
+    {  
+        long total = 0;  
+  
+        for (int val : a)  
+            total += val;  
+  
+        return total;  
+    }  
+  
+    public static void swap(int [] a, int i, int k)  
+    {  
+        int temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+  
+    public static void swap(char [] a, int i, int k)  
+    {  
+        char temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+}
+```
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.game.banner.ballfall;  
+  
+import org.csystem.game.banner.ballfall.BallFall;  
+  
+class BallFallApp {  
+    public static void run()  
+    {  
+       java.util.Scanner kb = new java.util.Scanner(System.in);  
+  
+       BallFall ballFall = new BallFall();  
+  
+       while (true) {  
+          System.out.print("Input width and height:");  
+          int width = kb.nextInt();  
+          int height = kb.nextInt();  
+            
+          if (width == 0 || height == 0)  
+             break;  
+            
+          ballFall.play(width, height);  
+  
+          System.out.println(ballFall.getShape());  
+       }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+       run();  
+    }  
+}
+```
+
+
+```java
+package org.csystem.game.banner.ballfall;  
+  
+public class BallFall {  
+    private String m_shape;  
+  
+    private static void writeSpaces(StringBuilder sb, int begin, int end)  
+    {  
+        sb.append(" ".repeat(Math.max(0, end - begin)));  
+    }  
+      
+    private static void writeBall(StringBuilder sb, int ballIndex, int end)  
+    {  
+       writeSpaces(sb, 0, ballIndex);  
+       sb.append('*');  
+       writeSpaces(sb, ballIndex + 1, end);  
+    }  
+      
+    private static boolean updateRightFlag(boolean isRight, int ballIndex, int width)  
+    {  
+       if (ballIndex == 0)  
+          return true;  
+         
+       if (ballIndex == width - 1)  
+          return false;  
+         
+       return isRight;  
+    }  
+      
+    private static int updateBallIndex(boolean isRight, int ballIndex)  
+    {  
+       if (isRight)  
+          return ballIndex + 1;  
+         
+       return ballIndex - 1;  
+    }  
+  
+    public String getShape()  
+    {  
+       return m_shape;  
+    }  
+  
+    public void play(int width, int height)  
+    {  
+       StringBuilder sb = new StringBuilder();  
+       int ballIndex = 0;  
+       boolean isRight = false;  
+         
+       for (int i = 1; i <= height; ++i) {  
+          sb.append('|');  
+          writeBall(sb, ballIndex, width);  
+          if (width != 1) {  
+             isRight = updateRightFlag(isRight, ballIndex, width);  
+             ballIndex = updateBallIndex(isRight, ballIndex);  
+          }  
+          sb.append('|').append("\r\n");  
+       }  
+  
+       m_shape = sb.toString();  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.school.grade;  
+  
+import org.csystem.app.datetime.DateUtil;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Scanner;  
+  
+public class GradCalculatorApp {  
+    public static void printGradeInfo(GradeInfo gi)  
+    {  
+        String [] birthDateInfo = StringUtil.split(gi.getBirthDate(), "-");  
+        String birthDateStr = DateUtil.getLongDateEN(Integer.parseInt(birthDateInfo[2]),  
+                Integer.parseInt(birthDateInfo[1]), Integer.parseInt(birthDateInfo[0]));  
+  
+        System.out.println("Student Information:");  
+        System.out.printf("Number: %s%n", gi.getStudentNumber());  
+        System.out.printf("Name: %s%n", gi.getStudentName());  
+        System.out.printf("Birth Date: %s%n", birthDateStr);  
+        System.out.printf("Lecture Name: %s%n", gi.getLectureName());  
+        System.out.printf("Midterm Grade: %d%n", gi.getMidTermGrade());  
+        System.out.printf("Final Grade: %d%n", gi.getFinalGrade());  
+        System.out.printf("Grade: %.1f%n", gi.getGrade());  
+        System.out.printf("Status: %s%n", gi.isSuccess() ? "Success" : "Fail");  
+    }  
+  
+    public static void run()  
+    {  
+        Scanner kb = new Scanner(System.in);  
+  
+        System.out.print("Input data:");  
+        GradeCalculator gc = new GradeCalculator(kb.nextLine());  
+  
+        GradeInfo gi = gc.getGradeInfo();  
+  
+        printGradeInfo(gi);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+} 
+```
+
+```java
+package org.csystem.app.school.grade;  
+  
+import org.csystem.util.string.StringUtil;  
+  
+public class GradeCalculator {  
+    private String m_dataStr;  
+  
+    public GradeCalculator(String str)  
+    {  
+        //...  
+        m_dataStr = str;  
+    }  
+  
+    public GradeInfo getGradeInfo()  
+    {  
+        String [] gradeInfo = StringUtil.split(m_dataStr, ":");  
+  
+        GradeInfo gi = new GradeInfo();  
+  
+        gi.setStudentNumber(gradeInfo[0]);  
+        gi.setStudentName(gradeInfo[1]);  
+        gi.setBirthDate(gradeInfo[2]);  
+        gi.setLectureName(gradeInfo[3]);  
+        gi.setMidTermGrade(Integer.parseInt(gradeInfo[4]));  
+        gi.setFinalGrade(Integer.parseInt(gradeInfo[5]));  
+  
+        return gi;  
+    }  
+}
+```
+
+```java
+package org.csystem.app.school.grade;  
+  
+public class GradeInfo {  
+    private String studentNumber;  
+    private String studentName;  
+    private String birthDate;  
+    private String lectureName;  
+    private int midTermGrade;  
+    private int finalGrade;  
+  
+    public String getStudentNumber()  
+    {  
+        return studentNumber;  
+    }  
+  
+    public void setStudentNumber(String studentNumber)  
+    {  
+        this.studentNumber = studentNumber;  
+    }  
+  
+    public String getStudentName()  
+    {  
+        return studentName;  
+    }  
+  
+    public void setStudentName(String studentName)  
+    {  
+        this.studentName = studentName;  
+    }  
+  
+    public String getBirthDate()  
+    {  
+        return birthDate;  
+    }  
+  
+    public void setBirthDate(String birthDate)  
+    {  
+        this.birthDate = birthDate;  
+    }  
+  
+    public String getLectureName()  
+    {  
+        return lectureName;  
+    }  
+  
+    public void setLectureName(String lectureName)  
+    {  
+        this.lectureName = lectureName;  
+    }  
+  
+    public int getMidTermGrade()  
+    {  
+        return midTermGrade;  
+    }  
+  
+    public void setMidTermGrade(int midTermGrade)  
+    {  
+        this.midTermGrade = midTermGrade;  
+    }  
+  
+    public int getFinalGrade()  
+    {  
+        return finalGrade;  
+    }  
+  
+    public void setFinalGrade(int finalGrade)  
+    {  
+        this.finalGrade = finalGrade;  
+    }  
+  
+    public double getGrade()  
+    {  
+        return midTermGrade * 0.4 + finalGrade * 0.6;  
+    }  
+  
+    public boolean isSuccess()  
+    {  
+        return getGrade() >= 50;  
+    }  
+}
+```
+
+
+##### Nesne Yönelimli Tasarım İlkeleri
+
+>NYPT'de bir takım ilkeler söz konusudur. Bu ilkelere literatürde **Object Oriented Design Principles** da denilmektedir. Aslında bu ilkeler yalnızca NYPT'ye özgü değildir. NYPT için de uygulanabilir. Bu ilkeler kısaca **SOLID** olarak adlandırılır. Bu ilkeler şulardır:
+>- **S**ingle Responsibility Principle (SRP)
+>- **O**pen Closed Principle (OCP)
+>- **L**iskov Substitution Principle (LSP)
+>- **I**nterface Segregation Principle (ISP)
+>- **D**ependency Inversion Principle (DIP)
+>
+>Bu ilkeler birbirlerinden ayrı olarak düşünülmemelidir
+>Bu ilkelede ilişkin detaylar bu kurs ve uygulama geliştirme kurslarında çeşitli konularla birlikte ele alınacaktır.
