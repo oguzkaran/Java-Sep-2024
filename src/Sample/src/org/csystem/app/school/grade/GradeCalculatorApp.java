@@ -5,7 +5,7 @@ import org.csystem.util.string.StringUtil;
 
 import java.util.Scanner;
 
-public class GradCalculatorApp {
+public class GradeCalculatorApp {
     public static void printGradeInfo(GradeInfo gi)
     {
         String [] birthDateInfo = StringUtil.split(gi.getBirthDate(), "-");
