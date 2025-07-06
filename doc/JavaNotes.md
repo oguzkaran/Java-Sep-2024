@@ -19586,8 +19586,7 @@ package org.csystem.util.array;
   
 import java.util.Random;  
   
-/**  
- * Utility class for array operations * Last Update: 25th May 2025 * @author Java-Sep-2024 Group */public class ArrayUtil {  
+public class ArrayUtil {  
   
     public static void bubbleSortAscending(int [] a)  
     {  
@@ -21161,14 +21160,34 @@ public class MatrixUtilSumDiagonalTest {
 ```
 
 
-SSSSSSSSSSSS
-
 >**Sınıf Çalışması:** Parametresi ile aldığı int türden bir matrisin `devriğine (transpose)` geri dönen transpose isimli metodu MatrixUtil sınıfı içerisinde yazınız ve test ediniz
 >**Açıklamalar:**
 >- Metot matris olup olmama kontrolü yapmayacaktır.
 >- Bir matrisin devriği satırların sütun sütunların yapılmış halidir.
 
 >**Çözüm (Test Kodları):**
+
+```java
+package org.csystem.util.matrix.test;  
+  
+import org.csystem.util.matrix.MatrixUtil;  
+  
+public class MatrixUtilTransposeTest {  
+    public static void run()  
+    {  
+        int [][] a = {{1, 2, 3}, {4, 5, 6}};  
+        int [][] t = {{1, 4}, {2, 5}, {3, 6}};  
+  
+        System.out.println(MatrixUtil.equals(MatrixUtil.transpose(a), t));  
+        System.out.println(MatrixUtil.equals(MatrixUtil.transpose(t), a));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
 
 > **Sınıf Çalışması:** Parametresi ile aldığı int türden iki matrisin çarpımından oluşan matrisi döndüren `multiply` isimli metodu MatrixUtil içerisinde yazınız ve test ediniz
 > **Açıklamalar:**
@@ -21178,6 +21197,30 @@ SSSSSSSSSSSS
 
 >**Çözüm (Test Kodları):**
 
+```java
+package org.csystem.util.matrix.test;  
+  
+import org.csystem.util.matrix.MatrixUtil;  
+  
+public class MatrixUtilMultiplyTest {  
+    public static void run()  
+    {  
+        int [][] a = {{1, 0, 1}, {2, 1, 1}, {0, 1, 1}, {1, 1, 2}};  
+        int [][] b = {{1, 2, 1}, {2, 3, 1}, {4, 2, 2}};  
+        int [][] r = {{5, 4, 3}, {8, 9, 5}, {6, 5, 3}, {11, 9, 6}};  
+  
+        System.out.println(MatrixUtil.equals(MatrixUtil.multiply(a, b), r));  
+    }  
+  
+    public static void main(String [] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+SSSSSSSSSSSSSSSS
+
 > **Sınıf Çalışması:** Bir okulda ortak olarak Matematik sınavı yapılıyor olsun. Sınav n tane şube için yapılsın. n sayısını klavyeden isteyiniz. Her bir şubedeki öğrenci sayısını da klavyeden isteyiniz. Bu sınavdan alınan notları rassal olarak belirleyiniz. Bu işlemlerden sonra ilgili notlara göre her bir şubenin ayrı ayrı Matematik dersi ortalaması ve okulun Matematik dersi ortalamasını hesaplayan simülasyonu yazınız.
 > **Açıklamalar:**
 > - Bir öğrencinin notu `[0, 10]` aralığında bir tamsayı olabilir.
@@ -21185,6 +21228,10 @@ SSSSSSSSSSSS
 > - Her bir şubenin not dağılımına ilişkin histogram'ları  ve okulun Matematik notlarına ilişkin histogramı (düşey olarak) çiziniz.
 
 > **Çözüm:**
+
+```java
+
+```
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -24011,76 +24058,76 @@ public class GradeCalculator {
 package org.csystem.app.school.grade;  
   
 public class GradeInfo {  
-    private String studentNumber;  
-    private String studentName;  
-    private String birthDate;  
-    private String lectureName;  
-    private int midTermGrade;  
-    private int finalGrade;  
+    private String m_studentNumber;  
+    private String m_studentName;  
+    private String m_birthDate;  
+    private String m_lectureName;  
+    private int m_midTermGrade;  
+    private int m_finalGrade;  
   
     public String getStudentNumber()  
     {  
-        return studentNumber;  
+        return m_studentNumber;  
     }  
   
     public void setStudentNumber(String studentNumber)  
     {  
-        this.studentNumber = studentNumber;  
+        m_studentNumber = studentNumber;  
     }  
   
     public String getStudentName()  
     {  
-        return studentName;  
+        return m_studentName;  
     }  
   
     public void setStudentName(String studentName)  
     {  
-        this.studentName = studentName;  
+        m_studentName = studentName;  
     }  
   
     public String getBirthDate()  
     {  
-        return birthDate;  
+        return m_birthDate;  
     }  
   
     public void setBirthDate(String birthDate)  
     {  
-        this.birthDate = birthDate;  
+        m_birthDate = birthDate;  
     }  
   
     public String getLectureName()  
     {  
-        return lectureName;  
+        return m_lectureName;  
     }  
   
     public void setLectureName(String lectureName)  
     {  
-        this.lectureName = lectureName;  
+        m_lectureName = lectureName;  
     }  
   
     public int getMidTermGrade()  
     {  
-        return midTermGrade;  
+        return m_midTermGrade;  
     }  
   
     public void setMidTermGrade(int midTermGrade)  
     {  
-        this.midTermGrade = midTermGrade;  
+        m_midTermGrade = midTermGrade;  
     }  
   
     public int getFinalGrade()  
     {  
-        return finalGrade;  
+        return m_finalGrade;  
     }  
   
     public void setFinalGrade(int finalGrade)  
     {  
-        this.finalGrade = finalGrade;  
+        m_finalGrade = finalGrade;  
     }  
   
     public double getGrade()  
     {  
-        return midTermGrade * 0.4 + finalGrade * 0.6;  
+        return m_midTermGrade * 0.4 + m_finalGrade * 0.6;  
     }  
   
     public boolean isSuccess()  
@@ -24090,7 +24137,7 @@ public class GradeInfo {
 }
 ```
 
-
+###### 6 Temmuz 2025
 ##### Nesne Yönelimli Tasarım İlkeleri
 
 >NYPT'de bir takım ilkeler söz konusudur. Bu ilkelere literatürde **Object Oriented Design Principles** da denilmektedir. Aslında bu ilkeler yalnızca NYPT'ye özgü değildir. NYPT için de uygulanabilir. Bu ilkeler kısaca **SOLID** olarak adlandırılır. Bu ilkeler şulardır:
@@ -24102,3 +24149,449 @@ public class GradeInfo {
 >
 >Bu ilkeler birbirlerinden ayrı olarak düşünülmemelidir
 >Bu ilkelede ilişkin detaylar bu kurs ve uygulama geliştirme kurslarında çeşitli konularla birlikte ele alınacaktır.
+
+###### Single Responsibility Principle
+
+> Bu ilkeye göre bir sınıfn tek bir sorumluluğu olmalıdır. Bu anlamda bir sınıf birbirinden bağımsız birden fazla iş yapacak şekilde tasarlanmamalıdır. Bu ilkeye ilişkin iki temel motto söylenir:
+>
+>- A class should have only one reason to change.
+>- A module should be responsible to one, and only one, actor
+>
+>Burada ilk motto NYPT açısından daha belirgindir.
+
+##### Tasarım Kalıpları
+
+>Özellikle NYPT ilerledikçe bazı programcılar bir takım problemlere genel çözümler üretme çabasına girmişlerdir. Bu anlamda **Gang of Four (GoF)** olarak anılan 4 bilim insanı (Eric Gamma, Richard Helm,  Ralph Johnson , John Vlissides) bir grup genel problemi kategorize etmişlerdir. Bu tip genel çözümlere **tasarım kalıpları (design patterns)** denir. GoF'un kalıplarına ise **GoF Patterns** da denilmektedir. GoF kalıpları dışında başka tasarım kalıpları da vardır. Bu kurs ve uygulama kursları içerisinde GoF kalıpları ve pek çok kalıp konular içerisinde ele alınacaktır.
+
+##### Singleton Tasarım Kalıbı
+
+>Singleton, GoF'un `nesne yaratan (creational)` kalıplarından biridir. Problemin tanımı şu şekilde yazılabilir: **Öyle bir sınıf olsun ki, o sınıf türünden program boyunca yalnızca bir tane nesne yaratılabilsin ve istenildiği zaman o nesnenin referansı elde edilebilsin.** 
+
+**Anahtar Notlar:** Burada Singleton kalıbının pratikte nerelerde kullanılabileceği yani buna yönelik örnekler ele alınmayacaktır. 
+
+**Anahtar Notlar:** Singleton kalıbının pek çok implementasyonu söz konusudur. Zaman içerisinde bunlar ele alınacaktır. 
+
+>Singleton implementasyonunda tipik olarak sınıfı kullanan programcıların (client) nesne yaratmasını engellemek için ctor private yapılır. Bu durumda yaratılacak olan **tek** nesnenin bir factory metot kullanarak verilmesi uygun olabilir. Yaratılan tek nesne ise static bir veri elemanında tutularak istenildiğinde verilebilmektedir. Aşağıdaki implementasyonda `getInstance` factory metodu program boyunca hiç çağrılmazsa tek olan nesne hiç yaratılmamış olur. Bu sebeple bu implementasyona **lazy implementation** da denilmektedir. 
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Singleton s1 = Singleton.getInstance();  
+       Singleton s2 = Singleton.getInstance();  
+  
+       System.out.println(s1 == s2);  
+    
+       //...  
+    }  
+}  
+  
+class Singleton {  
+    private static Singleton ms_instance;  
+    private int m_x;  
+  
+    private Singleton()  
+    {}  
+  
+    public static Singleton getInstance()  
+    {  
+       if (ms_instance == null)  
+          ms_instance = new Singleton();  
+  
+       return ms_instance;  
+    }  
+  
+    public int getX()  
+    {  
+       return m_x;  
+    }  
+  
+    public void setX(int x)  
+    {  
+       m_x = x;  
+    }  
+  
+    //...  
+}
+```
+
+>Tüm elemanları static olarak bildirilmiş olan sınıflar (tipik olarak utility sınıflar) nesne özelliği göstermediğinden bir convention olarak ctor'ları private yapılır. JavaSE'de de bu convention'a uyulmuştur. Örneğin Math sınıfının default ctor'u private'dır. Bu durumda Java programcısı bu tarz sınıfların ctor'unu private yapar/yapmalıdır.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.array.ArrayUtil;  
+import org.csystem.util.numeric.NumberUtil;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Math m = new Math() //error  
+       ArrayUtil au = new ArrayUtil(); //error  
+       NumberUtil nu = new NumberUtil(); //error  
+    }  
+}
+```
+
+```java
+package org.csystem.util.array;  
+  
+import java.util.Random;  
+  
+public class ArrayUtil {  
+    private ArrayUtil()  
+    {  
+    }  
+  
+    private static void bubbleSortAscending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k + 1] < a[k])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    private static void bubbleSortDescending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k] < a[k + 1])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    private static void selectionSortAscending(int [] a)  
+    {  
+        int min, minIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            min = a[i];  
+            minIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (a[k] < min) {  
+                    min = a[k];  
+                    minIndex = k;  
+                }  
+  
+            a[minIndex] = a[i];  
+            a[i] = min;  
+        }  
+    }  
+  
+    private static void selectionSortDescending(int [] a)  
+    {  
+        int max, maxIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            max = a[i];  
+            maxIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (max < a[k]) {  
+                    max = a[k];  
+                    maxIndex = k;  
+                }  
+  
+            a[maxIndex] = a[i];  
+            a[i] = max;  
+        }  
+    }  
+  
+    public static void add(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] += val;  
+    }  
+  
+    public static void addBy(int [][] a, int value)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] += value;  
+    }  
+  
+    public static double average(int [] a)  
+    {  
+        return (double) sum(a) / a.length;  
+    }  
+  
+    public static void bubbleSort(int [] a)  
+    {  
+        bubbleSort(a, false);  
+    }  
+  
+  
+    public static void bubbleSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            bubbleSortDescending(a);  
+        else  
+            bubbleSortAscending(a);  
+    }  
+  
+    public static boolean equals(int [] a, int [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (a[i] != b[i])  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equals(int [][] a, int [][] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        int len = a.length;  
+  
+        for (int i = 0; i < len; ++i)  
+            if (!equals(a[i], b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equals(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equals(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equalsIgnoreCase(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equalsIgnoreCase(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static void fillRandomArray(int [][] a, Random random, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] = random.nextInt(min, bound);  
+    }  
+  
+    public static void fillRandomArray(int [] a, Random random, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] = random.nextInt(min, bound);  
+    }  
+  
+    public static int [] randomArray(Random random, int count, int min, int bound)  
+    {  
+        int [] a = new int[count];  
+  
+        fillRandomArray(a, random, min, bound);  
+  
+        return a;  
+    }  
+  
+    public static int [] histogramData(int [] a, int n)  
+    {  
+        int [] counts = new int[n + 1];  
+  
+        for (int val : a)  
+            ++counts[val];  
+  
+        return counts;  
+    }  
+  
+    public static int max(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.max(result, a[i]);  
+  
+        return result;  
+    }  
+  
+    public static int min(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.min(result, a[i]);  
+  
+        return result;  
+    }  
+    public static void multiply(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] *= val;  
+    }  
+  
+    public static void multiplyBy(int [][] a, int value)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] *= value;  
+    }  
+  
+    public static int partition(int [] a, int threshold)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] < threshold)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] < threshold)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static int partitionByEven(int [] a)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] % 2 == 0)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] % 2 == 0)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static void print(int [] a, int n, String sep, String end)  
+    {  
+        String fmt = "%%0%dd%%s".formatted(n);  
+        for (int i = 0; i < a.length - 1; ++i)  
+            System.out.printf(fmt, a[i], sep);  
+  
+        System.out.printf(fmt, a[a.length - 1], end);  
+    }  
+  
+    public static void print(int [] a, String sep, String end)  
+    {  
+        print(a, 1, sep, end);  
+    }  
+  
+    public static void print(int [] a)  
+    {  
+        print(a, " ", "\n");  
+    }  
+    public static void print(int [] a, int n)  
+    {  
+        print(a, n, " ", "\n");  
+    }  
+  
+  
+    public static void print(int [][] a, int n)  
+    {  
+        for (int [] array : a)  
+            print(array, n);  
+    }  
+  
+    public static void print(int [][] a)  
+    {  
+        print(a, 1);  
+    }  
+  
+    public static void reverse(int [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static void reverse(char [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static int [] reversed(int [] a)  
+    {  
+        int [] result = new int[a.length];  
+        int len = a.length;  
+  
+        for (int i = len - 1; i >= 0; --i)  
+            result[len - 1 - i] = a[i];  
+  
+        return result;  
+    }  
+  
+    public static void selectionSort(int [] a)  
+    {  
+        selectionSort(a, false);  
+    }  
+  
+  
+    public static void selectionSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            selectionSortDescending(a);  
+        else  
+            selectionSortAscending(a);  
+    }  
+  
+    public static void subtract(int [] a, int val)  
+    {  
+        add(a, -val);  
+    }  
+  
+    public static void subtractBy(int [][] a, int value)  
+    {  
+        addBy(a, -value);  
+    }  
+  
+    public static long sum(int [] a)  
+    {  
+        long total = 0;  
+  
+        for (int val : a)  
+            total += val;  
+  
+        return total;  
+    }  
+  
+    public static void swap(int [] a, int i, int k)  
+    {  
+        int temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+  
+    public static void swap(char [] a, int i, int k)  
+    {  
+        char temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+}
+```
+

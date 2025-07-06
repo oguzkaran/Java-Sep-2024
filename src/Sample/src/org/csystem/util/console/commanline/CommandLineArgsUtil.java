@@ -2,10 +2,14 @@ package org.csystem.util.console.commanline;
 
 /**
  * Utility class for command line arguments operations
- * Last Update: 18th May 2025
+ * Last Update: 6th July 2025
  * @author Java-Sep-2024 Group
  */
 public class CommandLineArgsUtil {
+    private CommandLineArgsUtil()
+    {
+    }
+
     public static void checkLengthEquals(int length, int argsLength, String errorMessage, int exitCode)
     {
         if (argsLength != length) {

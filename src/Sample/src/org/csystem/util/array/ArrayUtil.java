@@ -4,10 +4,13 @@ import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 22nd June 2025
+ * Last Update: 6th July 2025
  * @author Java-Sep-2024 Group
  */
 public class ArrayUtil {
+    private ArrayUtil()
+    {
+    }
 
     private static void bubbleSortAscending(int [] a)
     {

@@ -4,10 +4,14 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 1st June 2025
+ * Last Update: 6th July 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {
+    private StringUtil()
+    {
+    }
+
     public static String capitalize(String s)
     {
         return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();

@@ -2,7 +2,7 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 22nd June 2025
+ * Last Update: 6th July 2025
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
@@ -11,6 +11,10 @@ public class NumberUtil {
 
     private static String [] ms_onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     private static String [] ms_tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+
+    private NumberUtil()
+    {
+    }
 
     private static int [] digits(long a, int n)
     {

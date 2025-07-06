@@ -6,10 +6,14 @@ import java.util.Random;
 
 /**
  * Utility class for matrix operations
- * Last Update: 14th June 2025
+ * Last Update: 6th July 2025
  * @author Java-Sep-2024 Group
  */
 public class MatrixUtil {
+    private MatrixUtil()
+    {
+    }
+
     public static int [][] add(int [][] a, int [][] b)
     {
         int row = a.length;
@@ -53,6 +57,21 @@ public class MatrixUtil {
         return isMatrix(a) && a[0].length == a.length;
     }
 
+    public static int [][] multiply(int [][] a, int [][] b)
+    {
+        int m = a.length;
+        int n = a[0].length;
+        int p = b[0].length;
+        int [][] r = new int[m][p];
+
+        for (int i = 0; i < m; ++i)
+            for (int j = 0; j < n; ++j)
+                for (int k = 0; k < p; ++k)
+                    r[i][k] += a[i][j] * b[j][k];
+
+        return r;
+    }
+
     public static void multiplyBy(int [][] a, int value)
     {
         ArrayUtil.multiplyBy(a, value);
@@ -94,5 +113,18 @@ public class MatrixUtil {
             total += a[i][i];
 
         return total;
+    }
+
+    public static int [][] transpose(int [][] a)
+    {
+        int row = a.length;
+        int col = a[0].length;
+        int [][] t = new int[col][row];
+
+        for (int i = 0; i < row; ++i)
+            for (int j = 0; j < col; ++j)
+                t[j][i] = a[i][j];
+
+        return t;
     }
 }

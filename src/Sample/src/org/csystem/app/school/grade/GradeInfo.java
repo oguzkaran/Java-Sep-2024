@@ -1,76 +1,76 @@
 package org.csystem.app.school.grade;
 
 public class GradeInfo {
-    private String studentNumber;
-    private String studentName;
-    private String birthDate;
-    private String lectureName;
-    private int midTermGrade;
-    private int finalGrade;
+    private String m_studentNumber;
+    private String m_studentName;
+    private String m_birthDate;
+    private String m_lectureName;
+    private int m_midTermGrade;
+    private int m_finalGrade;
 
     public String getStudentNumber()
     {
-        return studentNumber;
+        return m_studentNumber;
     }
 
     public void setStudentNumber(String studentNumber)
     {
-        this.studentNumber = studentNumber;
+        m_studentNumber = studentNumber;
     }
 
     public String getStudentName()
     {
-        return studentName;
+        return m_studentName;
     }
 
     public void setStudentName(String studentName)
     {
-        this.studentName = studentName;
+        m_studentName = studentName;
     }
 
     public String getBirthDate()
     {
-        return birthDate;
+        return m_birthDate;
     }
 
     public void setBirthDate(String birthDate)
     {
-        this.birthDate = birthDate;
+        m_birthDate = birthDate;
     }
 
     public String getLectureName()
     {
-        return lectureName;
+        return m_lectureName;
     }
 
     public void setLectureName(String lectureName)
     {
-        this.lectureName = lectureName;
+        m_lectureName = lectureName;
     }
 
     public int getMidTermGrade()
     {
-        return midTermGrade;
+        return m_midTermGrade;
     }
 
     public void setMidTermGrade(int midTermGrade)
     {
-        this.midTermGrade = midTermGrade;
+        m_midTermGrade = midTermGrade;
     }
 
     public int getFinalGrade()
     {
-        return finalGrade;
+        return m_finalGrade;
     }
 
     public void setFinalGrade(int finalGrade)
     {
-        this.finalGrade = finalGrade;
+        m_finalGrade = finalGrade;
     }
 
     public double getGrade()
     {
-        return midTermGrade * 0.4 + finalGrade * 0.6;
+        return m_midTermGrade * 0.4 + m_finalGrade * 0.6;
     }
 
     public boolean isSuccess()
