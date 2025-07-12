@@ -1029,7 +1029,7 @@ class App {
 ```
 ##### İfade Kavramı
 
->Sabitlerden operatörlerden ve değişkenlerden oluşan herhangi bir kombinasyona **ifade (expression)** denir. Bir ifade yalnızca sabitlerden (constants/literals) ve operatörlerden oluşuyorsa, bu ifadeye **sabit ifadesi (constant expression)** denir. Bir değişken ya da bi sabit tek başına bir ifadedir. Ancak bir operatör tek başına bir ifade değildir. Her ifadenin bir türü vardır. Bunun bir tane istisnası vardır ele alınacaktır.
+>Sabitlerden operatörlerden ve değişkenlerden oluşan herhangi bir kombinasyona **ifade (expression)** denir. Bir ifade yalnızca sabitlerden (constants/literals) ve operatörlerden oluşuyorsa, bu ifadeye **sabit ifadesi (constant expression)** denir. Bir değişken ya da bir sabit tek başına bir ifadedir. Ancak bir operatör tek başına bir ifade değildir. Her ifadenin bir türü vardır. Bunun bir tane istisnası vardır ele alınacaktır.
 
 ##### Metotların Geri Dönüş Değerleri 
 
@@ -24217,7 +24217,7 @@ class Singleton {
 }
 ```
 
->Tüm elemanları static olarak bildirilmiş olan sınıflar (tipik olarak utility sınıflar) nesne özelliği göstermediğinden bir convention olarak ctor'ları private yapılır. JavaSE'de de bu convention'a uyulmuştur. Örneğin Math sınıfının default ctor'u private'dır. Bu durumda Java programcısı bu tarz sınıfların ctor'unu private yapar/yapmalıdır.
+>Tüm elemanları static olarak bildirilmiş olan sınıflar (tipik olarak utility sınıflar) nesne özelliği göstermediğinden bir `convention` olarak ctor'ları private yapılır. JavaSE'de de bu convention'a uyulmuştur. Örneğin `Math` sınıfının default ctor'u private'dır. Bu durumda Java programcısı bu tarz sınıfların ctor'unu private yapar/yapmalıdır.
 
 ```java
 package org.csystem.app;  
@@ -24594,4 +24594,451 @@ public class ArrayUtil {
     }  
 }
 ```
+
+###### 12 Temmuz 2025
+
+>Geliştirmiş olduğumuz `Point` sınıfını **kutupsal koordinatlar (polar coordinates)** da kullanılarak nesne yaratabilecek şekilde güncellemek isteyelim. Bu durumda `Point` sınıfı yine kartezyen koordinat sisteminde bir noktayı temsil etmeye yani kartezyen düzlemdeki bileşenleri tutmaya devam edecektir. Kutupsal koordinat bilgilerini tutmayacaktır ancak kutupsal koordinat bilgilerinden kartezyen koordinat bilgilerini set edecektir. 
+
+>Sınıfımıza double türden yarıçap ve yine double türden açı parametreli bir ctor eklemek istediğimizde aynı imzaya sahip birden fazla ctor bulunmasından dolayı error oluşur. Dolayısıyla bu şekildeki bir ctor ile, x ve y değerlerini parametre olarak alan bir ctor olması gerektiği durumda çözülemez. Bu durumda `Point` sınıfına aşağıdaki gibi 3 parametreli bir ctor eklenebilir.
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.sqrt;  
+  
+public class Point {  
+    public double x, y;  
+      
+    public Point()  
+    {  
+    }
+      
+    public Point(double a)  
+    {  
+       x = a;  
+    }  
+      
+    public Point(double a, double b)  
+    {  
+       x = a;  
+       y = b;  
+    }  
+  
+    public Point(double a, double b, boolean polar)  
+    {  
+       if (polar) {  
+          x = a * Math.cos(b);  
+          y = b * Math.sin(b);  
+       }  
+       else {  
+          x = a;  
+          y = b;  
+       }  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.x, other.y);  
+    }  
+      
+    public double euclideanDistance(double a, double b)  
+    {  
+       return sqrt((x - a) * (x - a) + (y - b) * (y - b));  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       x += dx;  
+       y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return "(%f, %f)".formatted(x, y);  
+    }  
+}
+```
+
+
+>Bu sınıfın basit bir kullanımı şu şekildedir:
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Point p1 = new Point(100, 100);  
+       Point p2 = new Point(100, 100, true);  
+  
+       System.out.println(p1.toString());  
+       System.out.println(p2.toString());  
+    }  
+}
+```
+
+>Yeni eklenmiş olan ctor ile istenen sağlanmaktadır ancak genel olarak sınıfın kullanımı karmaşıklaşmaya başlamış ve okunabilirlik/algılanabilirlik görece azalmıştır. Bu durumda public bölüme yeni bir ctor eklemek yerine diğer ctor'lar korunarak bir factory method yardımıyla nesne yaratılması sağlanabilir:
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.sqrt;
+
+public class Point {  
+    public double m_x, m_y;  
+  
+    public Point()  
+    {  
+    }  
+      
+    public Point(double x)  
+    {  
+       m_x = x;  
+    }  
+      
+    public Point(double x, double y)  
+    {  
+       m_x = x;  
+       m_y = y;  
+    }  
+  
+    public static Point createPolar(double radius, double theta)  
+    {  
+       return new Point(radius * Math.cos(theta), radius * Math.sin(theta));  
+    }  
+  
+    public double getX()  
+    {  
+       return m_x;  
+    }  
+  
+    public void setX(double x)  
+    {  
+       m_x = x;  
+    }  
+  
+    public double getY()  
+    {  
+       return m_y;  
+    }  
+  
+    public void setY(double y)  
+    {  
+       m_y = y;  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.m_x, other.m_y);  
+    }  
+      
+    public double euclideanDistance(double a, double b)  
+    {  
+       return sqrt((m_x - a) * (m_x - a) + (m_y - b) * (m_y - b));  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       m_x += dx;  
+       m_y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return "(%f, %f)".formatted(m_x, m_y);  
+    }  
+}
+```
+
+
+>Bu sınıfın basit bir kullanımı şu şekildedir:
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Point p1 = new Point(100, 100);  
+       Point p2 = Point.createPolar(100, 100);  
+  
+       System.out.println(p1.toString());  
+       System.out.println(p2.toString());  
+    }  
+}
+```
+
+>Yukarıdaki factory method yaklaşımı kartezyen koordinatlar için de uygulanabilir. Bu durumda gereksiz olması dolayısıyla ctor gizlenebilir:
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.sqrt;  
+  
+public class Point {  
+    public double m_x, m_y;  
+  
+    private Point(double x, double y)  
+    {  
+       m_x = x;  
+       m_y = y;  
+    }  
+  
+    public static Point createCartesian()  
+    {  
+       return createCartesian(0);  
+    }  
+  
+    public static Point createCartesian(double x)  
+    {  
+       return createCartesian(x, 0);  
+    }  
+  
+    public static Point createCartesian(double x, double y)  
+    {  
+       return new Point(x, y);  
+    }  
+  
+    public static Point createPolar(double radius, double theta)  
+    {  
+       return new Point(radius * Math.cos(theta), radius * Math.sin(theta));  
+    }  
+  
+    public double getX()  
+    {  
+       return m_x;  
+    }  
+  
+    public void setX(double x)  
+    {  
+       m_x = x;  
+    }  
+  
+    public double getY()  
+    {  
+       return m_y;  
+    }  
+  
+    public void setY(double y)  
+    {  
+       m_y = y;  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.m_x, other.m_y);  
+    }  
+      
+    public double euclideanDistance(double a, double b)  
+    {  
+       return sqrt((m_x - a) * (m_x - a) + (m_y - b) * (m_y - b));  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       m_x += dx;  
+       m_y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return "(%f, %f)".formatted(m_x, m_y);  
+    }  
+}
+```
+
+
+Bu sınıfın basit bir kullanımı şu şekildedir:
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Point p1 = Point.createCartesian(100, 100);  
+       Point p2 = Point.createPolar(100, 100);  
+       Point p3 = Point.createCartesian(100);  
+       Point p4 = Point.createCartesian();  
+  
+       System.out.println(p1.toString());  
+       System.out.println(p2.toString());  
+       System.out.println(p3.toString());  
+       System.out.println(p4.toString());  
+    }  
+}
+```
+
+>Yukarıdaki son iki yaklaşımın ilk yaklaşıma göre daha okunabilir/algılanabilir olduğu söylenebilir. Ancak ikisi arasında okunabilirlik/algılanabilirlik açısında çok bir fark olduğu söylenemez. Dikkat edilirse sınıfın yeni tasarımlarında `Tek sorumluluk ilkesi (SRP)` delinmemiştir. Yani sınıf yine kartezyen koordinat sisteminde bir noktayı temsil etmektedir. Şüphesiz başka yaklaşımlar da söz konusu olabilir.
+
+
+**Anahtar Notlar:** Kutupsal koordinat bilgilerinden kartezyen koordinat bilgilerinin elde edilmesi basit olarak şu formüllerle yapılabilir:
+
+$$
+\theta, r 
+$$
+kutupsal koordinat bilgileri için
+
+$$
+x = r * cos(\theta)
+$$
+$$
+y = r * sin(\theta)
+$$
+
+biçimindedir. Daha detaylı bilgiye[ buradan](https://en.wikipedia.org/wiki/Polar_coordinate_system) ulaşabilirsiniz.
+
+##### `final` Anahtar Sözcüğü
+
+>`final`, aşağıdaki bildirimlerde kullanılan önemli bir anahtar sözcüktür:,
+>- Değişken bildirimi (final variables)
+>- Sınıf bildiriminde (final classes)
+>- Metot bildirimlerinde (final methods)
+
+##### `final` Değişkenler
+
+>Anımsanacağı gibi Java'da 3 çeşit değişken vardır: **local variables, parameter variables, member variables.** Değişkenler final olarak bildirilebilir. Bir değişkenin final olması durumunda, o değişkene faaliyet alanı (scope) içerisinde bir kez değer verilebilir. Yani değişkenin değeri değiştirilemez, değiştirilmeye çalışılması error oluşturur. 
+>
+>Bazı değişkenler final anahtar sözcüğü ile bildirilmese bile belirli koşullar altında final etkisinde olabilmektedir. Bu kavrama **effectively final** denir. Bu kavram ileride ele alınacaktır. Java 8 ile birlikte yerel değişkenlerin ve parametre değişkenlerinin final olarak bildirilmesi gerekliliği ortadan kalkmıştır. Bu konuya ilişkin detaylar `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır. Ancak veri elemanlarının final olarak bildirilmesi Java'da oldukça önemlidir.
+>
+>final bir yerel değişkene faaliyet alanı içerisinde ya ilk değer vererek (initialization) VEYA atama yapılarak değer verilebilir. Bir metodun parametre değişkeni final olarak bildirildiğinde metot içerisinde o parametre değişkeninin değeri değiştirilemez.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Sample.foo(10, 20);  
+       final int a;  
+       final int b = 20;  
+  
+       a = 10;  
+  
+       ++a; //error  
+       b = 45; //error  
+    }  
+}  
+  
+class Sample {  
+    public static void foo(final int x, int y)  
+    {  
+       --x; //error  
+       ++y;  
+    }  
+}
+```
+
+>Bir veri elemanı final olarak bildirildiğinde default değerler otomatik olarak verilmez.
+
+```java
+class Sample {  
+    public static final int a; //error  
+    public final int b; //error  
+}
+```
+
+**Anahtar Notlar:** Sınıf veri elemanı bildiriminde `public, static ve final` anahtar sözcükleri aynı sentaks seviyesinden olduklarından istenilen sırada peş peşe yazılabilirler. Ancak okunabilirlik/algılanabilirlik açısından bildirimde aşağıdaki sıra ile yazılması uygundur:
+
+```java
+[erişim belirleyici] [static] [final] <tür> <isim>;
+```
+
+>Sınıfın `non-static ve final` olarak bildirilmiş bir veri elemanına değeri aşağıdaki 3 yerden birinde verilebilir:
+>- Bildirim noktasında (initialization)
+>- Tüm ctor'lar içerisinde
+>- non-static initializer içerisinde
+>
+>Sınıfın `static ve final` olarak bildirilmiş bir veri elemanına değeri aşağıdaki 2 yerden birinde verilebilir:
+>- Bildirim noktasında
+>- static initializer içerisinde
+>
+>static ve non-static initializer elemanları ileride ele alınacaktır.
+
+```java
+class Sample {  
+    public static final int a = 23; //error  
+    public final int b = 10;  
+}  
+  
+class Mample {  
+    public final int x;  
+  
+    public Mample()  
+    {  
+       x = 0;  
+    }  
+  
+    public Mample(int a)  
+    {  
+       x = a;  
+    }  
+}
+```
+
+>`non-static ve final` olarak bildirilmiş bir veri elemanına ctor dışında değer verilmemişse tüm ctor'lar içerisinde değer verilmelidir. Aksi durumda error oluşur.
+
+```java
+class Sample {  
+    public final int a; //error  
+}  
+  
+class Mample {  
+    public final int x; //error  
+  
+    public Mample()  
+    {  
+       x = 0;  
+    }  
+  
+    public Mample(int a)  
+    {  
+  
+    }  
+}
+```
+
+>final bir değişkene sabit ifadesi (constant expression) ile değer verilmesi zorunlu değildir. Özellikle sınıfın static ve final olarak bildirilmiş bir veri elemanına sabit ifadesi ile ilk değer verildiğinde o veri elemanı sabit ifadesi olarak kullanılabilir. Sınıfın public, static ve final olarak bildirilmiş bir veri elemanı, sabit ifadesi ile değer verildiğinde bir convention olarak tamamı büyük harflerden oluşacak şekilde ve birden fazla kelimeden oluşuyorsa alttire karakteri ile ayrılacak şekilde isimlendirilir. 
+
+
+
+
 

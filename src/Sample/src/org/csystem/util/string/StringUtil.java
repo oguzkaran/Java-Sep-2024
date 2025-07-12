@@ -4,10 +4,17 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 6th July 2025
+ * Last Update: 12th July 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {
+    private static final String LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";
+    private static final String LETTERS_EN = "abcdefghijklmnopqrstuxwvyz";
+    private static final String CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";
+    private static final String CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUWXVYZ";
+    private static final String ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;
+    private static final String ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;
+
     private StringUtil()
     {
     }
@@ -95,12 +102,12 @@ public class StringUtil {
 
     public static boolean isPangramEN(String s)
     {
-        return isPangram(s.toLowerCase(), "abcdefghijklmnopqrstuwxvyz");
+        return isPangram(s.toLowerCase(), LETTERS_EN);
     }
 
     public static boolean isPangramTR(String s)
     {
-        return isPangram(s.toLowerCase(), "abcçdefgğhıijklmnoöprsştuüvyz");
+        return isPangram(s.toLowerCase(), LETTERS_TR);
     }
 
     public static String join(String [] s)
@@ -219,12 +226,12 @@ public class StringUtil {
 
     public static String randomTextTR(Random random, int count)
     {
-        return randomText(random, count, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");
+        return randomText(random, count, ALL_LETTERS_TR);
     }
 
     public static String randomTextEN(Random random, int count)
     {
-        return randomText(random, count, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
+        return randomText(random, count, ALL_LETTERS_EN);
     }
 
     public static String [] randomTexts(Random random, int count, int min, int bound, String sourceText)
@@ -239,12 +246,12 @@ public class StringUtil {
 
     public static String [] randomTextsTR(Random random, int count, int min, int bound)
     {
-        return randomTexts(random, count, min, bound, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");
+        return randomTexts(random, count, min, bound, ALL_LETTERS_TR);
     }
 
     public static String [] randomTextsEN(Random random, int count, int min, int bound)
     {
-        return randomTexts(random, count, min, bound, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
+        return randomTexts(random, count, min, bound, ALL_LETTERS_EN);
     }
 
     public static String [] randomTexts(Random random, int count, int n, String sourceText)
@@ -259,12 +266,12 @@ public class StringUtil {
 
     public static String [] randomTextsTR(Random random, int count, int n)
     {
-        return randomTexts(random, count, n, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ");
+        return randomTexts(random, count, n, ALL_LETTERS_TR);
     }
 
     public static String [] randomTextsEN(Random random, int count, int n)
     {
-        return randomTexts(random, count, n, "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMOPQRSTUWXVYZ");
+        return randomTexts(random, count, n, ALL_LETTERS_EN);
     }
 
     public static String reverse(String s)
