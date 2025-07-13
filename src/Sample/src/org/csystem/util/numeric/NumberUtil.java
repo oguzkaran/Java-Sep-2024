@@ -2,15 +2,15 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 6th July 2025
+ * Last Update: 13th July 2025
  * @author Java-Sep-2024 Group
  */
 public class NumberUtil {
-    private static String [] ms_onesTR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
-    private static String [] ms_tensTR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
+    private static final String [] ONES_TR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
+    private static final String [] TENS_TR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
 
-    private static String [] ms_onesEN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    private static String [] ms_tensEN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    private static final String [] ONES_EN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    private static final String [] TENS_EN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
     private NumberUtil()
     {
@@ -42,13 +42,13 @@ public class NumberUtil {
 
         if (a != 0) {
             if (a != 1)
-                sb.append(ms_onesTR[a]);
+                sb.append(ONES_TR[a]);
 
             sb.append("yüz");
         }
 
-        sb.append(ms_tensTR[b]);
-        sb.append(ms_onesTR[c]);
+        sb.append(TENS_TR[b]);
+        sb.append(ONES_TR[c]);
 
         return sb.toString();
     }

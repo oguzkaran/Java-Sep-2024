@@ -9,9 +9,9 @@ import java.util.Random;
  */
 public class StringUtil {
     private static final String LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";
-    private static final String LETTERS_EN = "abcdefghijklmnopqrstuxwvyz";
+    private static final String LETTERS_EN = "abcdefghijklmnopqrstuvwxyz";
     private static final String CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";
-    private static final String CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUWXVYZ";
+    private static final String CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUVWXYZ";
     private static final String ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;
     private static final String ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;
 
