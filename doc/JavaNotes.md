@@ -25925,19 +25925,159 @@ public class NumberUtil {
 }
 ```
 
-SSSSSSSSSSSSSSSS
+
+###### 19 Temmuz 2025
 
 >**Sınıf Çalışması:** Bir okulda ortak olarak Matematik sınavı yapılıyor olsun. Sınav n tane şube için yapılsın. n sayısını klavyeden isteyiniz. Her bir şubedeki öğrenci sayısını da klavyeden isteyiniz. Bu sınavdan alınan notları rassal olarak belirleyiniz. Bu işlemlerden sonra ilgili notlara göre her bir şubenin ayrı ayrı Matematik dersi ortalaması ve okulun Matematik dersi ortalamasını hesaplayan simülasyonu yazınız.
 > **Açıklamalar:**
 > - Bir öğrencinin notu `[0, 10]` aralığında bir tamsayı olabilir.
 > - Programı mümkün olduğunca nesne yönelimli olarak ve genel olarak tasarlayınız.
-> - Her bir şubenin not dağılımına ilişkin histogram'ları  ve okulun Matematik notlarına ilişkin histogramı (düşey olarak) çiziniz.
-
 > **Çözüm:**
 
 ```java
-
+package org.csystem.app.simulation.exam;  
+  
+public class ExamSimulationApp {  
+    public static void main(String[] args)  
+    {  
+        ExamSimulation.run();  
+    }  
+}
 ```
+
+```java
+package org.csystem.app.simulation.exam;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+public class ExamSimulation {  
+    public static void set(ExamInfo examInfo, Scanner kb)  
+    {  
+        Random random = new Random();  
+  
+        for (int i = 0; i < examInfo.getNumberOfClasses(); ++i) {  
+            System.out.printf("Input number of student of class %d:", i + 1);  
+            examInfo.setNumberOfStudents(i, Integer.parseInt(kb.nextLine()));  
+  
+            for (int k = 0; k < examInfo.getNumberOfStudents(i); ++k)  
+                examInfo.setGrade(i, k, random.nextInt(0, 11));  
+        }  
+    }  
+  
+    public static void printGrades(ExamInfo examInfo)  
+    {  
+        for (int i = 0; i < examInfo.getNumberOfClasses(); ++i) {  
+            int numberOfStudents = examInfo.getNumberOfStudents(i);  
+            System.out.printf("Class %d (%d student) -> ", i + 1, numberOfStudents);  
+            for (int k = 0; k < numberOfStudents; ++k)  
+                System.out.printf("%02d ", examInfo.getGrade(i, k));  
+  
+            System.out.println();  
+        }  
+    }  
+  
+    public static void printReport(ExamInfo examInfo)  
+    {  
+        System.out.printf("Report of '%s':%n", examInfo.getLectureName());  
+        printGrades(examInfo);  
+        examInfo.run();  
+        for (int i = 0; i < examInfo.getNumberOfClasses(); ++i)  
+            System.out.printf("Average of Class is %f%n", examInfo.getAverage(i));  
+  
+        System.out.printf("Total average is %f%n", examInfo.getTotalAverage());  
+    }  
+  
+    public static void run()  
+    {  
+        System.out.print("Input number of classes:");  
+        Scanner kb = new Scanner(System.in);  
+        ExamInfo examInfo = new ExamInfo("Mathematics", Integer.parseInt(kb.nextLine()));  
+  
+        set(examInfo, kb);  
+        printReport(examInfo);  
+    }  
+}
+```
+
+
+```java
+package org.csystem.app.simulation.exam;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+public class ExamInfo {  
+    private final String m_lectureName;  
+    private final int [][] m_grades;  
+    private final double [] m_averages;  
+    private double m_totalAverage;  
+  
+    public ExamInfo(String lectureName, int n)  
+    {  
+        m_lectureName = lectureName;  
+        m_grades = new int[n][];  
+        m_averages = new double[n];  
+    }  
+  
+    public String getLectureName()  
+    {  
+        return m_lectureName;  
+    }  
+  
+    public int getNumberOfClasses()  
+    {  
+        return m_grades.length;  
+    }  
+  
+    public int getNumberOfStudents(int i)  
+    {  
+        return m_grades[i].length;  
+    }  
+  
+    public void setNumberOfStudents(int i, int count)  
+    {  
+        m_grades[i] = new int[count];  
+    }  
+  
+    public int getGrade(int i, int k)  
+    {  
+        return m_grades[i][k];  
+    }  
+  
+    public void setGrade(int i, int k, int grade)  
+    {  
+        m_grades[i][k] = grade;  
+    }  
+  
+    public double getTotalAverage()  
+    {  
+        return m_totalAverage;  
+    }  
+  
+    public double getAverage(int i)  
+    {  
+        return m_averages[i];  
+    }  
+  
+    public void run()  
+    {  
+        int totalNumberOfStudents = 0;  
+        int totalGrades = 0;  
+  
+        for (int i = 0; i < m_grades.length; ++i) {  
+            int total = (int)ArrayUtil.sum(m_grades[i]);  
+  
+            m_averages[i] = (double)total / m_grades[i].length;  
+            totalNumberOfStudents += m_grades[i].length;  
+            totalGrades += total;  
+        }  
+  
+        m_totalAverage = (double)totalGrades / totalNumberOfStudents;  
+    }  
+}
+```
+
+
 
 
 
