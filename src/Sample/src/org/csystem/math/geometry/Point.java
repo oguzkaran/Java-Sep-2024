@@ -1,15 +1,12 @@
 package org.csystem.math.geometry;
 
-import static java.lang.Math.sqrt;
-
 /**
- * Point class that represents a point in cartesian coordinates
- * Last Update: 12th July 2025
+ * Immutable Point class that represents a point in cartesian coordinates
+ * Last Update: 26th July 2025
  * @author Java-Sep-2024 Group
  */
-
 public class Point {
-	public double m_x, m_y;
+	public final double m_x, m_y;
 
 	private Point(double x, double y)
 	{
@@ -34,27 +31,16 @@ public class Point {
 
 	public static Point createPolar(double radius, double theta)
 	{
-		return new Point(radius * Math.cos(theta), radius * Math.sin(theta));
+		return new Point(PointCommon.getXByPolar(radius, theta), PointCommon.getYByPolar(radius, theta));
 	}
 
 	public double getX()
 	{
 		return m_x;
 	}
-
-	public void setX(double x)
-	{
-		m_x = x;
-	}
-
 	public double getY()
 	{
 		return m_y;
-	}
-
-	public void setY(double y)
-	{
-		m_y = y;
 	}
 
 	public double euclideanDistance()
@@ -67,24 +53,13 @@ public class Point {
 		return euclideanDistance(other.m_x, other.m_y);
 	}
 	
-	public double euclideanDistance(double a, double b)
+	public double euclideanDistance(double x, double y)
 	{
-		return sqrt((m_x - a) * (m_x - a) + (m_y - b) * (m_y - b));
-	}
-	
-	public void offset(double dxy)
-	{
-		offset(dxy, dxy);
-	}
-	
-	public void offset(double dx, double dy)
-	{
-		m_x += dx;
-		m_y += dy;
+		return PointCommon.euclideanDistance(m_x, m_y, x, y);
 	}
 	
 	public String toString()
 	{
-		return "(%f, %f)".formatted(m_x, m_y);
+		return PointCommon.toString(m_x, m_y);
 	}
 }

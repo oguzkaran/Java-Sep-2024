@@ -26077,8 +26077,277 @@ public class ExamInfo {
 }
 ```
 
+###### 26 Temmuz 2025
+
+**Sınıf Çalışması:** Aşağıda açıklanan `IntValue` isimli sınıfı yazınız.
+>**Açıklamalar:** 
+>- Sınıf int türden bir değeri sarmalayacaktır (wrapping).
+>- Sınıf immutable olarak yazılacaktır. Yani sınıf içerisinde tutulan veri elemanı değiştirilemeyecektir.
+>- Sınıf `[-128, 127]` aralığındaki değerler için bir ön bellek (cache) kullanacaktır. Bu aralıktaki bir değer için ilk sarmalamada nesne yaratılacak ve aynı değer tekrar sarmalanmak istendiğinde daha önce yaratılmış olan nesnenin referansı verilecektir.
+>- Sınıf `[-128, 127]` aralığı dışında kalan değerleri ön bellekte tutmayacaktır.
+>
+>**Anahtar Notlar:** Ön bellek (cache) genel bir kavramdır ve etkinlik açısından tercih edilir. Bu örnekte sınıf immutable olduğundan belirli aralıktaki değerler için ayrı ayrı nesnelerin yaratılması engellenmiştir. Bu durumda bellek te etkin kullanılmış olur aynı zamanda sarmalama da hızlı yapılmış olur. Daha fazla değere ilişkin nesnelerin saklanmaması yine etkinlik açısından düşünülmüştür. Eğer çok fazla değer saklanırsa belleğin etkin kullanımı azalmış olur.
+>
+>**Anahtar Notlar:** Aslında JavaSE'de örnekteki gibi int türden bir değeri immutable olarak sarmalayan ve `[-128, 127]` aralığındaki değerler için bir ön bellek kullanan sınıf vardır. Bu sınıf ileride ele alınacaktır. Örneğin amacı, programalama açısından böyle bir sınıfın nasıl yazılabileceğini göstermektedir. 
+>
+>**Anahtar Notlar:**  Bir değerin sarmalanması (wrapping) o değerin bir nesne içerisinde tutulması anlamındadır. Temel türden bir değerin sarmalanması da aslında o değerin heap'de tutulması anlamına gelir. Temel türden bir değerin sarmalanmasına genel olarak **boxing** denilmektedir. Sarmalanan temel türden bir değerin elde edilmesine ise **unboxing** denilmektedir. Bu kavramlar ileride daha detaylı olarak ele alınacaktır.
+>
+>**Anahtar Notlar:** Bu örnekte yazılan sınıfta `[-128, 127]` aralığında kalan bir değer için nesne ilk kez sarmalandığında yaratılıp aynı değerin tekrar sarmalanması durumunda aynı nesne kullanıldığından Gof'un **flyweight** tasarım kalıbı kullanılmıştır. Kalıbın detayları şu an için önemsizdir.
+>
+>**Anahtar Notlar:** Bazı sınıflarda Java 8 öncesinde `valueOf` biçiminde isimlendirilen factory metotlar bulundurulmuştur. Java 8 ile birlike yeni eklenen sınıflarda `valueOf` yerine `of` ismi tercih edilmektedir. Bu isimlendirme Java'da genel bir convention niteliğindedir.
+
+>**Çözüm:**
+
+>Test kod:
+
+```java
+package org.csystem.wrapper.test;  
+  
+import org.csystem.wrapper.IntValue;  
+  
+public class IntValueCacheTest {  
+    public static void run()  
+    {  
+        IntValue i1 = IntValue.of(67);  
+        IntValue i2 = IntValue.of(67);  
+        IntValue i3 = IntValue.of(128);  
+        IntValue i4 = IntValue.of(128);  
+  
+        System.out.println(i1 == i2);  
+        System.out.println(i3 != i4);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.wrapper;  
+  
+public class IntValue {  
+    private static final int CACHE_MIN = -128;  
+    private static final int CACHE_MAX = 127;  
+    private static final int INDEX_DIFF = -CACHE_MIN;  
+    private static final IntValue [] CACHE = new IntValue[CACHE_MAX - CACHE_MIN + 1];  
+    private final int m_value;  
+  
+    private IntValue(int value)  
+    {  
+        m_value = value;  
+    }  
+  
+    public static IntValue of(int value)  
+    {  
+        if (value < CACHE_MIN || value > CACHE_MAX)  
+            return new IntValue(value);  
+  
+        if (CACHE[value + INDEX_DIFF] == null)  
+            CACHE[value + INDEX_DIFF] = new IntValue(value);  
+  
+        return CACHE[value + INDEX_DIFF];  
+    }  
+  
+    public int getValue()  
+    {  
+        return m_value;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_value);  
+    }  
+}
+```
+
+>Bazı sınıfların domain'e göre hem mutable hem de immutable versiyonları bulundurulabilir. Şüphesiz bu durum tüm sınıflar için geçerli değildir. Yani ilgili domain'e göre bir sınıf mutable yazılabilir VEYA immutable yazılabilir VEYA hem immutable hem de mutable olacak şekilde iki ayrı sınıf yazılabilir. Her iki biçiminin de yazılması durumunda bir convention olarak immutable olan doğrudan, mutable olan ise `Mutable` öneki ile isimlendirilir. Örneğin, `Point` sınıfının hem immutable hem de mutable versiyonu yazılacaksa, immutable olana `Point`, mutable olana ise `MutablePoint` ismi verilir. 
+
+>Aşağıdaki `Point, MutablePoint ve PointCommon` sınıflarını inceleyiniz
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.sqrt;  
+  
+class PointCommon {  
+    private PointCommon()  
+    {  
+    }  
+  
+    static double euclideanDistance(double x1, double y1, double x2, double y2)  
+    {  
+        return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));  
+    }  
+  
+    static String toString(double x, double y)  
+    {  
+        return "(%f, %f)".formatted(x, y);  
+    }  
+  
+    static double getXByPolar(double radius, double theta)  
+    {  
+        return radius * Math.cos(theta);  
+    }  
+  
+    static double getYByPolar(double radius, double theta)  
+    {  
+        return radius * Math.sin(theta);  
+    }  
+}
+```
+
+```java
+package org.csystem.math.geometry;  
+  
+public class Point {  
+    public final double m_x, m_y;  
+  
+    private Point(double x, double y)  
+    {  
+       m_x = x;  
+       m_y = y;  
+    }  
+  
+    public static Point createCartesian()  
+    {  
+       return createCartesian(0);  
+    }  
+  
+    public static Point createCartesian(double x)  
+    {  
+       return createCartesian(x, 0);  
+    }  
+  
+    public static Point createCartesian(double x, double y)  
+    {  
+       return new Point(x, y);  
+    }  
+  
+    public static Point createPolar(double radius, double theta)  
+    {  
+       return new Point(PointCommon.getXByPolar(radius, theta), PointCommon.getYByPolar(radius, theta));  
+    }  
+  
+    public double getX()  
+    {  
+       return m_x;  
+    }  
+    public double getY()  
+    {  
+       return m_y;  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.m_x, other.m_y);  
+    }  
+      
+    public double euclideanDistance(double x, double y)  
+    {  
+       return PointCommon.euclideanDistance(m_x, m_y, x, y);  
+    }  
+      
+    public String toString()  
+    {  
+       return PointCommon.toString(m_x, m_y);  
+    }  
+}
+```
+
+```java
+package org.csystem.math.geometry;
+
+public class MutablePoint {  
+    public double m_x, m_y;  
+  
+    private MutablePoint(double x, double y)  
+    {  
+       m_x = x;  
+       m_y = y;  
+    }  
+  
+    public static MutablePoint createCartesian()  
+    {  
+       return createCartesian(0);  
+    }  
+  
+    public static MutablePoint createCartesian(double x)  
+    {  
+       return createCartesian(x, 0);  
+    }  
+  
+    public static MutablePoint createCartesian(double x, double y)  
+    {  
+       return new MutablePoint(x, y);  
+    }  
+  
+    public static MutablePoint createPolar(double radius, double theta)  
+    {  
+       return new MutablePoint(PointCommon.getXByPolar(radius, theta), PointCommon.getYByPolar(radius, theta));  
+    }  
+  
+    public double getX()  
+    {  
+       return m_x;  
+    }  
+  
+    public void setX(double x)  
+    {  
+       m_x = x;  
+    }  
+  
+    public double getY()  
+    {  
+       return m_y;  
+    }  
+  
+    public void setY(double y)  
+    {  
+       m_y = y;  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(MutablePoint other)  
+    {  
+       return euclideanDistance(other.m_x, other.m_y);  
+    }  
+      
+    public double euclideanDistance(double x, double y)  
+    {  
+       return PointCommon.euclideanDistance(m_x, m_y, x, y);  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       m_x += dx;  
+       m_y += dy;  
+    }  
+      
+    public String toString()  
+    {  
+       return PointCommon.toString(m_x, m_y);  
+    }  
+}
+```
 
 
+>
 
 
 
