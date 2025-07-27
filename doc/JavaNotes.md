@@ -26346,12 +26346,499 @@ public class MutablePoint {
 }
 ```
 
+###### 27 Temmuz 2025
+##### enum Sınıfları
 
+>Enum sınıfları (enum/enumeration classes) bir UDT'dir. Aslında genel olarak bakıldığında kendine ait özellikleri olan bir sınıftır. Kendine ait özellikleri dışında normal bir sınıf ile tamamen aynı özelliklere sahiptir. Enum sınıfları `Java 5` ile dile eklenmiştir. 
 >
+>Bu bölümde öncelikle, enum sınıflarının okunabilirlik/algılanabilirlik açısından gerekliliği üzerinde durulacak, sonrasında özellikleri ele alınacaktır. 
+>
+>Aşağıdaki demo örnekte `PlaneGameObject` sınıfının ctor'u ve `move` metodu sırasıyla almış oldukları renk ve yön bilgisine değerler ile ilgili fikir vermemektedir. Parametre isimleri fikir verse de değerler yine anlaşılamamaktadır. Şüphesiz, bu değerler ilgili dökumanlardan öğrenilebilir. Ayrıca bu ctor'un ve `move` metodunun kullanıldığı yerlerde geçilen argümanlar da yine fikir vermemektedir. Sonuçta, renk ve yön açısından kod okunabilir/algılanabilir değildir. Kodlar doğru çalışsa da okunabilirlik/algılanabilirlik açısından iyi tasarlanmadığı söylenebilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       PlaneCombatGameApp.run();  
+    }  
+}  
+  
+class PlaneCombatGameApp {  
+    public static void run()  
+    {  
+       //...  
+       Random random = new Random();  
+       PlaneGameObject planeGameObject = new PlaneGameObject(random.nextInt(1, 6));  
+  
+       while (true) {  
+          //...  
+          System.out.println("---------------------------");  
+          int direction = random.nextInt(1, 6);  
+  
+          planeGameObject.move(direction);  
+  
+          //...  
+          
+          System.out.println("---------------------------");  
+          ThreadUtil.sleep(1000);  
+       }  
+  
+       //...  
+    }  
+}  
+  
+class PlaneGameObject {  
+    private final int m_color;  
+    //...  
+  
+    private void displayColor()  
+    {  
+       switch (m_color) {  
+          case 1 -> System.out.println("Red");  
+          case 2 -> System.out.println("Green");  
+          case 3 -> System.out.println("Blue");  
+          case 4 -> System.out.println("Black");  
+          case 5 -> System.out.println("White");  
+          default -> System.out.println("Invalid color");  
+       }  
+    }  
+  
+    public PlaneGameObject(int color)  
+    {  
+       m_color = color;  
+    }  
+  
+    public void move(int direction)  
+    {  
+       displayColor();  
+       //...  
+       switch (direction) {  
+          case 1 -> System.out.println("Right");  
+          case 2 -> System.out.println("Top");  
+          case 3 -> System.out.println("Left");  
+          case 4 -> System.out.println("Bottom");  
+          default -> System.out.println("Invalid direction");  
+       }  
+    }  
+    //...  
+}
+```
+
+>Yukarıdaki demo örnek aşağıdaki gibi String kullanılarak yazıldığında geçilen değerler anlamında okunabilirlik artmıştır. Ancak parametre değişkenleri hala değerlerle ilgili bir fikir vermemektedir. Üstelik, yazıların karşılaştırılması sayıların karşılaştırılmasından daha maliyetlidir, bu da uygulamayı etkileyebilir. Bununla birlikte programcı ilgili yazıları kullanırken hata yapabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       PlaneCombatGameApp.run();  
+    }  
+}  
+  
+class PlaneCombatGameApp {  
+    public static void run()  
+    {  
+       String [] colors = {"", "RED", "GREEN", "BLUE", "BLACK", "WHITE"};  
+       String [] directions = {"", "RIGHT", "TOP", "LEFT", "BOTTOM", ""};  
+       //...  
+       Random random = new Random();  
+       PlaneGameObject planeGameObject = new PlaneGameObject(colors[random.nextInt(1, 6)]);  
+  
+       while (true) {  
+          //...  
+          System.out.println("---------------------------");  
+          int direction = random.nextInt(1, 6);  
+  
+          System.out.printf("Direction value:%d%n", direction);  
+  
+          planeGameObject.move(directions[direction]);  
+  
+          //...  
+          System.out.println("---------------------------");  
+          ThreadUtil.sleep(1000);  
+       }  
+  
+       //...  
+    }  
+}  
+  
+class PlaneGameObject {  
+    private final String m_color;  
+    //...  
+  
+    private void displayColor()  
+    {  
+       switch (m_color) {  
+          case "RED" -> System.out.println("Red");  
+          case "GREEN" -> System.out.println("Green");  
+          case "BLUE" -> System.out.println("Blue");  
+          case "BLACK" -> System.out.println("Black");  
+          case "WHITE" -> System.out.println("White");  
+          default -> System.out.println("Invalid color");  
+       }  
+    }  
+  
+    public PlaneGameObject(String color)  
+    {  
+       m_color = color;  
+    }  
+  
+    public void move(String direction)  
+    {  
+       displayColor();  
+       //...  
+       switch (direction) {  
+          case "RIGHT" -> System.out.println("Right");  
+          case "TOP" -> System.out.println("Top");  
+          case "LEFT" -> System.out.println("Left");  
+          case "BOTTOM" -> System.out.println("Bottom");  
+          default -> System.out.println("Invalid direction");  
+       }  
+    }  
+    //...  
+}
+```
+
+>Yukarıdaki demo örnekte aşağıdaki final olarak bildirilmiş int türden değerler kullanıldığında okunabilirlik/algılanabilirlik görece artmıştır. Ancak hala parametre değişkenleri tür anlamında bir fikir vermemektedir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       PlaneCombatGameApp.run();  
+    }  
+}  
+  
+class PlaneCombatGameApp {  
+    public static void run()  
+    {  
+       //...  
+       Random random = new Random();  
+       PlaneGameObject planeGameObject = new PlaneGameObject(random.nextInt(1, 6));  
+  
+       while (true) {  
+          //...  
+          System.out.println("---------------------------");  
+          int direction = random.nextInt(1, 6);  
+  
+          System.out.printf("Direction value:%d%n", direction);  
+  
+          planeGameObject.move(direction);  
+  
+          //...  
+          System.out.println("---------------------------");  
+          ThreadUtil.sleep(1000);  
+       }  
+  
+       //...  
+    }  
+}  
+  
+  
+class Color {  
+    public static final int RED = 1;  
+    public static final int GREEN = 2;  
+    public static final int BLUE = 3;  
+    public static final int BLACK = 4;  
+    public static final int WHITE = 5;  
+}  
+  
+class Direction {  
+    public static final int RIGHT = 1;  
+    public static final int TOP = 2;  
+    public static final int LEFT = 3;  
+    public static final int BOTTOM = 4;  
+}  
+  
+class PlaneGameObject {  
+    private final int m_color;  
+    //...  
+  
+    private void displayColor()  
+    {  
+       switch (m_color) {  
+          case Color.RED -> System.out.println("Red");  
+          case Color.GREEN -> System.out.println("Green");  
+          case Color.BLUE -> System.out.println("Blue");  
+          case Color.BLACK -> System.out.println("Black");  
+          case Color.WHITE -> System.out.println("White");  
+          default -> System.out.println("Invalid color");  
+       }  
+    }  
+  
+    public PlaneGameObject(int color)  
+    {  
+       m_color = color;  
+    }  
+  
+    public void move(int direction)  
+    {  
+       displayColor();  
+       //...  
+       switch (direction) {  
+          case Direction.RIGHT -> System.out.println("Right");  
+          case Direction.TOP -> System.out.println("Top");  
+          case Direction.LEFT -> System.out.println("Left");  
+          case Direction.BOTTOM -> System.out.println("Bottom");  
+          default -> System.out.println("Invalid direction");  
+       }  
+    }  
+    //...  
+}
+```
 
 
+>`Direction` ve `Color` sınıfları aşağıdaki gibi yazılırsa okunabilirlik/algılanabilirlik artırılmış olur
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Arrays;  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       PlaneCombatGameApp.run();  
+    }  
+}  
+  
+class PlaneCombatGameApp {  
+    public static void run()  
+    {  
+       Color [] colors = Color.values();  
+       Direction [] directions = Direction.values();  
+       //...  
+       Random random = new Random();  
+       PlaneGameObject planeGameObject = new PlaneGameObject(colors[random.nextInt(0, 5)]);  
+  
+       while (true) {  
+          //...  
+          System.out.println("---------------------------");  
+          int direction = random.nextInt(0, 4);  
+  
+          System.out.printf("Direction value:%d%n", direction);  
+  
+          planeGameObject.move(directions[direction]);  
+  
+          //...  
+          System.out.println("---------------------------");  
+          ThreadUtil.sleep(1000);  
+       }  
+  
+       //...  
+    }  
+}  
+  
+class Color {  
+    private final int m_ordinal;  
+    private static final Color [] ms_values = {new Color(0), new Color(1), new Color(2), new Color(3), new Color(4)};  
+  
+    private Color(int ordinal)  
+    {  
+       m_ordinal = ordinal;  
+    }  
+  
+    public static final Color RED = ms_values[0];  
+    public static final Color GREEN = ms_values[1];  
+    public static final Color BLUE = ms_values[2];  
+    public static final Color BLACK = ms_values[3];  
+    public static final Color WHITE = ms_values[4];  
+  
+    public int ordinal()  
+    {  
+       return m_ordinal;  
+    }  
+  
+    public static Color [] values()  
+    {  
+       return Arrays.copyOf(ms_values, ms_values.length);  
+    }  
+}  
+  
+class Direction {  
+    private final int m_ordinal;  
+    private static final Direction [] ms_values = {new Direction(0), new Direction(1), new Direction(2), new Direction(3)};  
+  
+    private Direction(int ordinal)  
+    {  
+       m_ordinal = ordinal;  
+    }  
+  
+    public static final Direction RIGHT = ms_values[0];  
+    public static final Direction TOP = ms_values[1];  
+    public static final Direction LEFT = ms_values[2];  
+    public static final Direction BOTTOM = ms_values[3];  
+  
+    public int ordinal()  
+    {  
+       return m_ordinal;  
+    }  
+  
+    public static Direction [] values()  
+    {  
+       return Arrays.copyOf(ms_values, ms_values.length);  
+    }  
+}  
+  
+class PlaneGameObject {  
+    private final Color m_color;  
+    //...  
+  
+    private void displayColor()  
+    {  
+       if (m_color == Color.RED)  
+          System.out.println("Red");  
+       else if (m_color == Color.GREEN)  
+          System.out.println("GREEN");  
+       else if (m_color == Color.BLUE)  
+          System.out.println("BLUE");  
+       else if (m_color == Color.BLACK)  
+          System.out.println("BLACK");  
+       else if (m_color == Color.WHITE)  
+          System.out.println("WHITE");  
+    }  
+  
+    public PlaneGameObject(Color color)  
+    {  
+       System.out.printf("Ordinal value of color:%d%n", color.ordinal());  
+       m_color = color;  
+    }  
+  
+    public void move(Direction direction)  
+    {  
+       displayColor();  
+       //...  
+  
+       System.out.printf("Ordinal value of direction:%d%n", direction.ordinal());  
+  
+       if (direction == Direction.RIGHT)  
+          System.out.println("Right");  
+       else if (direction == Direction.TOP)  
+          System.out.println("Top");  
+       else if (direction == Direction.LEFT)  
+          System.out.println("Left");  
+       else if (direction == Direction.BOTTOM)  
+          System.out.println("Bottom");  
+    }  
+    //...  
+}
+```
+
+>Yukarıdaki örnekte `Direction` ve `Color` türleri `enum class` olarak bildirildiklerinde, hem daha kolay hem de daha yetenekli sınıflar olarak bildirilmiş olur. Bu iki sınıf `enum class` olarak bildirildiğinde yukarıdaki özelliklere (hatta daha da fazlasına) sahip olur. Detaylar konu içerisinde ele alınacaktır
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       PlaneCombatGameApp.run();  
+    }  
+}  
+  
+class PlaneCombatGameApp {  
+    public static void run()  
+    {  
+       Color [] colors = Color.values();  
+       Direction [] directions = Direction.values();  
+       //...  
+       Random random = new Random();  
+       PlaneGameObject planeGameObject = new PlaneGameObject(colors[random.nextInt(0, 5)]);  
+  
+       while (true) {  
+          //...  
+          System.out.println("---------------------------");  
+          int direction = random.nextInt(0, 4);  
+  
+          System.out.printf("Direction value:%d%n", direction);  
+  
+          planeGameObject.move(directions[direction]);  
+  
+          //...  
+          System.out.println("---------------------------");  
+          ThreadUtil.sleep(1000);  
+       }  
+  
+       //...  
+    }  
+}  
+  
+enum Color {  
+    RED, GREEN, BLUE, BLACK, WHITE  
+}  
+  
+enum Direction {  
+    RIGHT, TOP, LEFT, BOTTOM  
+}  
+  
+class PlaneGameObject {  
+    private final Color m_color;  
+    //...  
+  
+    private void displayColor()  
+    {  
+       if (m_color == Color.RED)  
+          System.out.println("Red");  
+       else if (m_color == Color.GREEN)  
+          System.out.println("GREEN");  
+       else if (m_color == Color.BLUE)  
+          System.out.println("BLUE");  
+       else if (m_color == Color.BLACK)  
+          System.out.println("BLACK");  
+       else if (m_color == Color.WHITE)  
+          System.out.println("WHITE");  
+    }  
+  
+    public PlaneGameObject(Color color)  
+    {  
+       System.out.printf("Ordinal value of color:%d%n", color.ordinal());  
+       m_color = color;  
+    }  
+  
+    public void move(Direction direction)  
+    {  
+       displayColor();  
+       //...  
+  
+       System.out.printf("Ordinal value of direction:%d%n", direction.ordinal());  
+  
+       if (direction == Direction.RIGHT)  
+          System.out.println("Right");  
+       else if (direction == Direction.TOP)  
+          System.out.println("Top");  
+       else if (direction == Direction.LEFT)  
+          System.out.println("Left");  
+       else if (direction == Direction.BOTTOM)  
+          System.out.println("Bottom");  
+    }  
+    //...  
+}
+```
 
 
-
-
+>Bir enum sınıfı **enum** anahtar sözcüğü ile bildirilir.
 
