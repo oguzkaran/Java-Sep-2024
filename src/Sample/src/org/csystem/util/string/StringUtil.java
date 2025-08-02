@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 12th July 2025
+ * Last Update: 2nd August 2025
  * @author Java-Sep-2024 Group
  */
 public class StringUtil {

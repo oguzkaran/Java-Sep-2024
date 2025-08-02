@@ -4,11 +4,11 @@
 
 ###### 21 Eylül 2024 - 22 Eylül 2024
 
-> Java 1995 yılında Sun firması'nda çalışan `James Gosling` tarafından tasarlanmıştır. Sun firması daha sonra Oracle tarafından satın alınmıştır ve şu an Java aslında Oracle firmasına aittir. Java 1.0 versiyonu ile çıkmıştır şu an 17 Eylül 2024 itibariyle Java 23 son sürüm olarak ilan edilmiştir. Java ismi hem programlama diline hem de ortama verilen genel bir isimdir. Java'da yıllar içerisinde pek çok değişiklikler olmuştur. Bu anlamda bazı sürümler majör bazı eklentilerle ve değişikliklerle yayınlanmıştır. Majör değişiklikler genel olarak programlama yaklaşımının bile değişebilmesine yol açabilabilen değişiklikleri kapsar. Bu anlamda programlama dilinde ve ortamında da değişiklikler olabilmektedir. Java sürümleri içerisinde majör değişikliklerin en belirgin olduğu iki sürüm Java 5 ve Java 8 sürümleridir. Bu sürümlerde Java'ya hem ortam hem de programlama dili anlamında radikal eklentiler yapılmıştır. Bazı sürümlerde yine önemli eklentiler olabilir ancak bunların sayısı az olabilmektedir. Örneğin Java 11, Java 17 ve Java 21 sürümleri bu şekildedir. Yine bazı sürümlerde çok önemli olmayan da değişiklikler olabilmektedir. Bazı sürümlerde eklenen değişiklikler **preview/experimental** denilen biçimdedir. Bu değişiklikler doğrudan kullanılamaz. Derleme işleminde bir takım switch'lerin verilmesi gerekir. 
+> Java 1995 yılında Sun firması'nda çalışan `James Gosling` tarafından tasarlanmıştır. Sun firması daha sonra Oracle tarafından satın alınmıştır ve şu an Java aslında Oracle firmasına aittir. Java 1.0 versiyonu ile çıkmıştır şu an 17 Eylül 2024 itibariyle Java 23 son sürüm olarak ilan edilmiştir. Java ismi hem programlama diline hem de ortama verilen genel bir isimdir. Java'da yıllar içerisinde pek çok değişiklikler olmuştur. Bu anlamda bazı sürümler majör bazı eklentilerle ve değişikliklerle yayınlanmıştır. Majör değişiklikler genel olarak programlama yaklaşımının bile değişebilmesine yol açabilen değişiklikleri kapsar. Bu anlamda programlama dilinde ve ortamında da değişiklikler olabilmektedir. Java sürümleri içerisinde majör değişikliklerin en belirgin olduğu iki sürüm Java 5 ve Java 8 sürümleridir. Bu sürümlerde Java'ya hem ortam hem de programlama dili anlamında radikal eklentiler yapılmıştır. Bazı sürümlerde yine önemli eklentiler olabilir ancak bunların sayısı az olabilmektedir. Örneğin Java 11, Java 17 ve Java 21 sürümleri bu şekildedir. Yine bazı sürümlerde çok önemli olmayan da değişiklikler olabilmektedir. Bazı sürümlerde eklenen değişiklikler **preview/experimental** denilen biçimdedir. Bu değişiklikler doğrudan kullanılamaz. Derleme işleminde bir takım switch'lerin verilmesi gerekir. 
 
 ##### Java Ortamının Temel Özellikleri
 
-> **1. Arakodlu Çalışma Sistemi:** C, C++ ve Go gibi dillerde yazılan kodlardan elde edilen (hangi aşamalardan geçilerek elde edildiği şu an için önemsizdir) çalışabilir dosya (executable file) sisteme (genel olarak işletim sistemi, donanım vb.) özgüdür ve bazı durumlarda yazılan kodlar her sisteme göre ayrı olabilmektedir. Eğer kod sistemden bağımsız olarak yani standart olarak yazılmışsa bile her sistem için ayrı executable file'lar elde edilmelidir. Oysa Java programlama dili ile yazılmış bir program derlendiğinde (compilation) elde edilen dosyanın içerisinde hiç bir sistemin dili olmayan yapay bir kod bulunur. Bu arakoda Java dünyasında **byte code (BC)** denilmektedir. BC doğrudan çalışıtırılamaz. Çalıştırılabilmesi için ayrı bir uygulama gerekir. Bu uygulama BC'yi yorumlayarak makine koduna yani sisteme özgü kod dönüştürerek programı çalıştırır. Bu dönüştürme işlemine JIT (Just In Time) compilation denilmektedir. Geliştirme ve çalıştırma ortamında 3 tane temel kavram söz konusudur:
+> **1. Arakodlu Çalışma Sistemi:** C, C++ ve Go gibi dillerde yazılan kodlardan elde edilen (hangi aşamalardan geçilerek elde edildiği şu an için önemsizdir) çalışabilir dosya (executable file) sisteme (genel olarak işletim sistemi, donanım vb.) özgüdür ve bazı durumlarda yazılan kodlar her sisteme göre ayrı olabilmektedir. Eğer kod sistemden bağımsız olarak yani standart olarak yazılmışsa bile her sistem için ayrı executable file'lar elde edilmelidir. Oysa Java programlama dili ile yazılmış bir program derlendiğinde (compilation) elde edilen dosyanın içerisinde hiç bir sistemin dili olmayan yapay bir kod bulunur. Bu arakoda Java dünyasında **byte code (BC)** denilmektedir. BC doğrudan çalıştırılamaz. Çalıştırılabilmesi için ayrı bir uygulama gerekir. Bu uygulama BC'yi yorumlayarak makine koduna yani sisteme özgü kod dönüştürerek programı çalıştırır. Bu dönüştürme işlemine JIT (Just In Time) compilation denilmektedir. Geliştirme ve çalıştırma ortamında 3 tane temel kavram söz konusudur:
 > - **JVM (Java Virtual Machine):** BC'yi makine koduna dönüştürür. JVM aslında BC'nin nasıl makine koduna dönüştürüleceğini tanımlayan soyut bir kavramdır.
 >
 > - **JRE (Java Runtime Environment):** Genel olarak Java ile yazılmış bir uygulamayı çalıştırmak (run) için gereken araçları ve uygulamaları içeren bir pakettir. Yani BC elde edildiğinde çalıştırılabilmesi için JRE'ye ihtiyaç vardır. 
@@ -19,7 +19,7 @@
 > 
 > Java 11 ile Long Term Support (LTS) kavramı getirilmiştir. LTS sürümleri uzun süre desteklenen ve güncellemesi (hızlandırılması, hataların düzeltilmesi (bugfix) vb) uzun süre yapılan sürümlerdir. Java'da Java 8, 11, 17 ve 21 sürümleri LTS'dir. Ticari uygulamalarda genel olarak (hatta her zaman) LTS sürümleri kullanılır. 
 > 
-> Arakodlu çalışma sisteminin en önemli avantajı geliştirilen uygulamaların genel olarak sistemden bağımsız olarak çalıştırılabilmesidir. Bu kavrama "Write Once Run Anywhere (WORA)" denilmektedir. Şüphesiz bunun da ayrntıları ve istisnaları vardır. 
+> Arakodlu çalışma sisteminin en önemli avantajı geliştirilen uygulamaların genel olarak sistemden bağımsız olarak çalıştırılabilmesidir. Bu kavrama "Write Once Run Anywhere (WORA)" denilmektedir. Şüphesiz bunun da ayrıntıları ve istisnaları vardır. 
 > 
 > Ayrıca unutulmamalıdır ki arakodlu çalışma sistemi az da olsa bir performans kaybına yol açar. Ancak Java'nın hedeflediği uygulamalar düşünüldüğünde bu kaybın pek de önemi yoktur.
 > 
@@ -45,9 +45,9 @@
 ##### Programlama Dillerinin Sınıflandırılması
 
 >Programlama dilleri çeşitli biçimlerde sınıflandırılabilse de genel olarak 3 şekilde sınıflandırma eğilimi söz konusudur:
->**- Seviyelerine göre sınıflandırma:** Programlama dilinin seviyesi (level) onun insan algısına yakınlığının bir ölçüsüdür. Yüksek seseviyeli diller (high level languages) hem dil özellikleri, hem de uygulama geliştirme anlamında insan algısına yakınlıkları dolayısıyla genel olarak daha kolay öğrenilirler. Düşük seviyeli diller (low level languages) makineye daha yakın dillerdir. Olabilecek en düşük seviyeli dil makine dilidir (machine language).
+>**- Seviyelerine göre sınıflandırma:** Programlama dilinin seviyesi (level) onun insan algısına yakınlığının bir ölçüsüdür. Yüksek seviyeli diller (high level languages) hem dil özellikleri, hem de uygulama geliştirme anlamında insan algısına yakınlıkları dolayısıyla genel olarak daha kolay öğrenilirler. Düşük seviyeli diller (low level languages) makineye daha yakın dillerdir. Olabilecek en düşük seviyeli dil makine dilidir (machine language).
 >
->**- Programlama modeline göre sınıflandıma:** Bir programı yazarken kullanılan genel model önemlidir. Bazı dillerde sınıf yoktur. Program çeşitli alt programların (function) bir araya getirilmesiyle yazılır. Bu modele "procedurel model" denir. Bazı dillerde sınıflar vardır ve programlar sınıflar kullanılarak yazılır. Bu modele "nesne yönelimli model (object oriented model)" denir. Bazı dillerde programlar matematiksel formül yazıyormuş gibi yazılır. Bu tarz programlama modeline "fonksiyonel model (functional model)" denir. Bazı diller birden fazla modeli desteklerler. Bu tarz dillere "multi-paradigm languages" denilmektedir. Birden fazla modeli destekleyen diller, modellerin tüm özelliklerini desteklemeyebilirler. 
+>**- Programlama modeline göre sınıflandıma:** Bir programı yazarken kullanılan genel model önemlidir. Bazı dillerde sınıf yoktur. Program çeşitli alt programların (function) bir araya getirilmesiyle yazılır. Bu modele "procedural model" denir. Bazı dillerde sınıflar vardır ve programlar sınıflar kullanılarak yazılır. Bu modele "nesne yönelimli model (object oriented model)" denir. Bazı dillerde programlar matematiksel formül yazıyormuş gibi yazılır. Bu tarz programlama modeline "fonksiyonel model (functional model)" denir. Bazı diller birden fazla modeli desteklerler. Bu tarz dillere "multi-paradigm languages" denilmektedir. Birden fazla modeli destekleyen diller, modellerin tüm özelliklerini desteklemeyebilirler. 
 >
 >**- Kullanım alanına göre sınıflandırma:**  Dilin hangi alanlarda kullanılabileceğine göre sınıflandırmadır. Bazı diller birden fazla alanda kullanılabilirler. Bazı diller ise sadece bir alanda kullanılabilirler. Bu anlamda genel amaçlı diller, bilimsel ve mühendislik dilleri, veritabanı dilleri, oyun ve animasyon dilleri, yapay zeka dilleri vb. alanlar için diller söz konusu olabilmektedir.
 >
@@ -26839,6 +26839,325 @@ class PlaneGameObject {
 }
 ```
 
+###### 2 Ağustos 2025
 
->Bir enum sınıfı **enum** anahtar sözcüğü ile bildirilir.
+>Bir enum sınıfı **enum** anahtar sözcüğü ile bildirilir. Bir enum sınıfı içerisinde, aralarına virgül konularak bildirilen isimlere **enum sabitleri (enum literals/constants)** denir. enum sabitlerinin her biri, `public, static ve final` olarak bildirilmiş ait olduğu enum sınıfı türünden referans değişkenlerdir ve bu değişkenler yaratıldıklarında her biri, ait olduğu enum sınıfı türünden nesneyi gösterir duruma gelir. enum sabitleri için, `public, static, final` veya tür bilgisi yazılması geçersizdir. Son enum sabitinden sonra noktalı virgül konabilir. Eğer enum sınıfı içerisinde yalnızca enum sabitleri bildirilecekse noktalı virgül zorunlu değildir. Enum sınıfına, enum sabiti dışında elemanlar eklenmesi durumunda noktalı virgül zorunludur. Bir enum sınıfına enum sabitleri dışında eleman eklenmesine ilişkin detaylar ileride ele alınacaktır.
+
+>Aşağıdaki örnek enum sınıflarını inceleyiniz
+
+```java
+enum Color {  
+    RED, GREEN, BLUE, BLACK, WHITE  
+}  
+  
+enum Direction {  
+    RIGHT, TOP, LEFT, BOTTOM  
+}  
+  
+enum DayOfWeek {  
+    SUN, MON, TUE, WED, THU, FRI, SAT  
+}  
+  
+enum Month {  
+    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER  
+}  
+  
+enum MaritalStatus {  
+    SINGLE, MARRIED, DIVORCED  
+}  
+  
+  
+enum CardType {  
+    SPADE, CLUB, HEART, DIAMOND  
+}  
+  
+enum CardValue {  
+    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, KNAVE, QUEEN, KING, ACE  
+}  
+  
+enum Visibility {  
+    VISIBLE, INVISIBLE, GONE  
+}  
+  
+  
+enum DeviceStatus {  
+    OPEN, CLOSED, INDETERMINATE  
+}  
+  
+enum LogSeverity {  
+    DEBUG, ERROR, INFO, WARNING  
+}
+```
+
+>Bir enum sabitinin, enum içerisindeki sırasına ilişkin int türden değere **ordinal** değeri denir. Bu değer, enum sınıfının `ordinal` isimli non-static metodu ile elde edilebilir. Bir enum sınıfının static olarak bildirilmiş `values` metodu sabitlere ilişkin referansların ordinal numarası sırasıyla tutulduğu ilgili enum türünden dizi referansına geri döner. `values` metodu her çağrıldığında yeni bir dizi referansı elde edilir. enum sınıfının `toString`metodu, ilgili referansın karşılık geldiği sabit ismine geri döner.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.game.card.Card;  
+import org.csystem.game.card.CardType;  
+import org.csystem.game.card.CardValue;  
+import org.csystem.game.card.RandomCardGenerator;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Random random = new Random();  
+       RandomCardGenerator randomCardGenerator = new RandomCardGenerator(random);  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Input number of cards to crete randomly:");  
+       int n = kb.nextInt();  
+         
+       while (n-- > 0) {  
+          System.out.println("-------------------------------------");  
+          Card card = randomCardGenerator.createCard();  
+  
+          CardType cardType = card.getCardType();  
+          CardValue cardValue = card.getCardValue();  
+  
+          System.out.printf("Card -> %s%n", card.toString());  
+          System.out.printf("Ordinal of %s is %d%nOrdinal of %s is %d%n", cardType.toString(), cardType.ordinal(), cardValue.toString(), cardValue.ordinal());  
+          System.out.println("-------------------------------------");  
+       }  
+    }  
+}
+```
+
+```java
+package org.csystem.game.card;  
+  
+public class Card {  
+    private CardType m_cardType;  
+    private CardValue m_cardValue;  
+  
+    public Card(CardType cardType, CardValue cardValue)  
+    {  
+        m_cardType = cardType;  
+        m_cardValue = cardValue;  
+    }  
+  
+    public CardType getCardType()  
+    {  
+        return m_cardType;  
+    }  
+  
+    public void setCardType(CardType cardType)  
+    {  
+        m_cardType = cardType;  
+    }  
+  
+    public CardValue getCardValue()  
+    {  
+        return m_cardValue;  
+    }  
+  
+    public void setCardValue(CardValue cardValue)  
+    {  
+        m_cardValue = cardValue;  
+    }  
+  
+    public String toString()  
+    {  
+        return "%s-%s".formatted(m_cardType.toString(), m_cardValue.toString());  
+    }  
+}
+```
+
+
+```java
+package org.csystem.game.card;  
+  
+public enum CardType {  
+    SPADE, CLUB, HEART, DIAMOND  
+}
+```
+
+```java
+package org.csystem.game.card;  
+  
+public enum CardValue {  
+    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, KNAVE, QUEEN, KING, ACE  
+}
+```
+
+>Bir enum sınıfına sabitler dışında da elemanlar eklenebilir. Bir enum sınıfına sabit dışında bir eleman ekleyebilmek için son sabitten sonra noktalı virgül konmalıdır. Bir enum sınıfına klasik sınıflarda olduğu gibi veri elemanı, ctor ve metot eklenebilir. Bir enum sınıfına programcı tarafından hiç ctor yazılmamışsa default ctor derleyici tarafından içi boş olarak yazılır ancak public olarak yazılmaz. Zaten bir enum sınıfına programcı tarafından da public ya da protected bir ctor yazılması geçersizdir. Yani kısacası, bir enum sınıfının ctor'u public ya da protected olamaz. public ya da protected olarak bildirilmeye çalışması durumunda error oluşur. Programcı, bir enum sınıfına istediği kadar `private` ya da `no-modifier` ctor yazabilir. Bir enum sınıfında bir ctor'un no-modifier ya da private olarak bildirilmesi aynı anlamdadır. Bir convention olarak programcılar bir enum sınıfına ctor eklediklerinde no-modifier bildirmeyi tercih ederler. Erişim belirleyici ile ilgili anlatılan bu durum yalnızca bir enum'un ctor'una özgüdür. Diğer elemanlar için erişim belirleyiciler klasik sınıflarda olduğu gibidir. Aslında bir enum sınıfı için ctor erişim anlamında private'ın da ötesindedir çünkü enum türünden bir nesne enum sınıfı içerisinde de new operatörü ile yaratılamaz. Bir enum'a ait ctor ile ilgili anlatılanların bir sonucu olarak şu söylenebilir: Bir enum türünden nesne sayısı, o enum türünün sabit sayısı kadardır. 
+>
+>Bir enum sınıfında sabiti doğrudan bildirmek ile sabit isminden sonra `()` şeklinde içi boş parantezler koymak aynıdır ve sabite ilişkin referansın gösterdiği nesnenin default ctor çağrılarak yaratılacağı anlamına gelir.
+
+>Aşağıdaki demo örneği inceleyiniz ayrıca sabitlere ilişkin static veri elemanlarının yaratılması duruma dikkat ediniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Random random = new Random();  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Input count:");  
+       int count = kb.nextInt();  
+  
+       while (count-- > 0) {  
+          System.out.println("-----------------------------------------");  
+          Color color = Color.randomColor(random);  
+          Month month = Month.randomMonth(random);  
+  
+          System.out.printf("Color:%s%n", color.toString());  
+          System.out.printf("Month:%s%n", month.toString());  
+  
+          System.out.println("-----------------------------------------");  
+       }  
+    }  
+}  
+  
+enum Color {  
+    RED(), GREEN(), BLUE(), BLACK(), WHITE();  
+    private static final Color [] COLORS = values();  
+  
+    Color()  
+    {  
+       System.out.println("I am a default ctor of Color");  
+    }  
+  
+    public static Color randomColor(Random random)  
+    {  
+       return COLORS[random.nextInt(COLORS.length)];  
+    }  
+}  
+  
+enum Month {  
+    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;  
+    private static final Month [] MONTHS = values();  
+  
+    Month()  
+    {  
+       System.out.println("I am a default ctor of Month");  
+    }  
+  
+    public static Month randomMonth(Random random)  
+    {  
+       return MONTHS[random.nextInt(MONTHS.length)];  
+    }  
+}
+```
+
+>Bir enum sınıfına ctor eklenmesi mantıksal olarak ilgili enum'a ilişkin nesneye bir ya da birden fazla değerin `iliştirilmesi (attachment)` anlamına gelir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Random random = new Random();  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Input count:");  
+       int count = kb.nextInt();  
+  
+       while (count-- > 0) {  
+          System.out.println("-----------------------------------------");  
+          Color color = Color.randomColor(random);  
+          Month month = Month.randomMonth(random);  
+          int year = random.nextInt(1970, 2101);  
+  
+          System.out.printf("%s -> (r = %d, g = %d, b = %d)%n", color.toString(), color.r, color.g, color.b);  
+          System.out.printf("Month:%s -> %d days in %d%n", month.toString(), month.getDays(year), year);  
+  
+          System.out.println("-----------------------------------------");  
+       }  
+    }  
+}  
+  
+enum Color {  
+    RED(255, 0, 0), GREEN(0, 255, 0), BLUE(0, 0, 255), BLACK(0, 0, 0), WHITE(255, 255, 255);  
+    private static final Color [] COLORS = values();  
+    public final int r, g, b;  
+  
+    Color(int x, int y, int z)  
+    {  
+       r = x;  
+       g = y;  
+       b = z;  
+    }  
+  
+    public static Color randomColor(Random random)  
+    {  
+       return COLORS[random.nextInt(COLORS.length)];  
+    }  
+}  
+  
+enum Month {  
+    JANUARY(31), FEBRUARY(28), MARCH(31), APRIL(30), MAY(31), JUNE(30),  
+    JULY(31), AUGUST(31), SEPTEMBER(30), OCTOBER(31), NOVEMBER(30), DECEMBER(31);  
+    private static final Month [] MONTHS = values();  
+    private final int m_days;  
+  
+    Month(int days)  
+    {  
+       m_days = days;  
+    }  
+  
+    private static boolean isLeapYear(int year)  
+    {  
+       return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;  
+    }  
+  
+    public static Month randomMonth(Random random)  
+    {  
+       return MONTHS[random.nextInt(MONTHS.length)];  
+    }  
+  
+    public int getDays(int year)  
+    {  
+       return isLeapYear(year) && ordinal() == 1 ? 29 : m_days;  
+    }  
+}
+```
+
+>Enum sınıfının `valueOf` static parametresi ile aldığı yazı ile aynı isimde bir enum sabiti varsa o sabite ilişkin referansa geri döner. Aksi durumda exception oluşur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Scanner kb = new Scanner(System.in);  
+  
+       System.out.print("Input marital status as single, married or divorced:");  
+       String str = kb.nextLine();  
+  
+       MaritalStatus maritalStatus = MaritalStatus.valueOf(str.toUpperCase());  
+  
+       System.out.printf("Marital status:%s%n", maritalStatus.toString());  
+    }  
+}  
+  
+enum MaritalStatus {  
+    SINGLE, MARRIED, DIVORCED  
+}
+```
+
+###### enum Referanslarının Karşılaştırılması
+
+
+
 
