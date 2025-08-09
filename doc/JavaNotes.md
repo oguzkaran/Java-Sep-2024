@@ -4,7 +4,7 @@
 
 ###### 21 Eylül 2024 - 22 Eylül 2024
 
-> Java 1995 yılında Sun firması'nda çalışan `James Gosling` tarafından tasarlanmıştır. Sun firması daha sonra Oracle tarafından satın alınmıştır ve şu an Java aslında Oracle firmasına aittir. Java 1.0 versiyonu ile çıkmıştır şu an 17 Eylül 2024 itibariyle Java 23 son sürüm olarak ilan edilmiştir. Java ismi hem programlama diline hem de ortama verilen genel bir isimdir. Java'da yıllar içerisinde pek çok değişiklikler olmuştur. Bu anlamda bazı sürümler majör bazı eklentilerle ve değişikliklerle yayınlanmıştır. Majör değişiklikler genel olarak programlama yaklaşımının bile değişebilmesine yol açabilen değişiklikleri kapsar. Bu anlamda programlama dilinde ve ortamında da değişiklikler olabilmektedir. Java sürümleri içerisinde majör değişikliklerin en belirgin olduğu iki sürüm Java 5 ve Java 8 sürümleridir. Bu sürümlerde Java'ya hem ortam hem de programlama dili anlamında radikal eklentiler yapılmıştır. Bazı sürümlerde yine önemli eklentiler olabilir ancak bunların sayısı az olabilmektedir. Örneğin Java 11, Java 17 ve Java 21 sürümleri bu şekildedir. Yine bazı sürümlerde çok önemli olmayan da değişiklikler olabilmektedir. Bazı sürümlerde eklenen değişiklikler **preview/experimental** denilen biçimdedir. Bu değişiklikler doğrudan kullanılamaz. Derleme işleminde bir takım switch'lerin verilmesi gerekir. 
+> Java 1995 yılında Sun firmasında çalışan `James Gosling` tarafından tasarlanmıştır. Sun firması daha sonra Oracle tarafından satın alınmıştır ve şu an Java aslında Oracle firmasına aittir. Java 1.0 versiyonu ile çıkmıştır şu an 17 Eylül 2024 itibariyle Java 23 son sürüm olarak ilan edilmiştir. Java ismi hem programlama diline hem de ortama verilen genel bir isimdir. Java'da yıllar içerisinde pek çok değişiklikler olmuştur. Bu anlamda bazı sürümler majör bazı eklentilerle ve değişikliklerle yayınlanmıştır. Majör değişiklikler genel olarak programlama yaklaşımının bile değişebilmesine yol açabilen değişiklikleri kapsar. Bu anlamda programlama dilinde ve ortamında da değişiklikler olabilmektedir. Java sürümleri içerisinde majör değişikliklerin en belirgin olduğu iki sürüm Java 5 ve Java 8 sürümleridir. Bu sürümlerde Java'ya hem ortam hem de programlama dili anlamında radikal eklentiler yapılmıştır. Bazı sürümlerde yine önemli eklentiler olabilir ancak bunların sayısı az olabilmektedir. Örneğin Java 11, Java 17 ve Java 21 sürümleri bu şekildedir. Yine bazı sürümlerde çok önemli olmayan da değişiklikler olabilmektedir. Bazı sürümlerde eklenen değişiklikler **preview/experimental** denilen biçimdedir. Bu değişiklikler doğrudan kullanılamaz. Derleme işleminde bir takım switch'lerin verilmesi gerekir. 
 
 ##### Java Ortamının Temel Özellikleri
 
@@ -73,7 +73,7 @@
 >
 >**IDE (Integrated Development Environment):** Derleyicler ve yorumlayıcılar komut satırından çalışan ve basit arayüzlere sahip programlardır. Aslında teorik olarak bir uygulamadaki tüm Java dosyaları ve diğer dosyalar basit bir editör programla yazılıp komut satırından derlenebilir. Ancak bu, uygulama büyüdükçe zahmetli olmaya başlar. Bu da programcıya zaman kaybettirir. Bu amaçla pratikte yazılım geliştirmeyi kolaylaştırmak için IDE denilen yazılımlar kullanılır. IDE'lerde örneğin bir takım yardımlar veren editörler, tasarım araçları, test araçları, debug araçları vb. programcının geliştirme sırasında kullandığı araçlar bulunur. Java ile uygulama geliştirmede iki tane IDE yoğun olarak kullanılmaktadır: **Eclipse, IntelliJIDEA**. Biz kursumuzda belirli bir zaman (yaklaşık kursun yarısına kadar) Eclipse, sonrasında IntelliJIDEA kullanacağız.
 
->**Sembollerin ingilizce karşılıkları**
+###### Sembollerin İngilizce karşılıkları
 
 | Sembol | İngilizce Karşılığı                         			|
 |--------|------------------------------------------------------|
@@ -108,33 +108,39 @@
 
 ##### JDK Kurulumu ve Bilgisayarın Geliştirme için Hazır Hale Getirilmesi
 
-JDK'nın kurulumu için işletim sistemine aşağıdaki bağlantıdan ilgili "installer" program elde edilebilir:
+>JDK'nın kurulumu için işletim sistemine aşağıdaki bağlantıdan ilgili "installer" program elde edilebilir:
 
 [[https://www.oracle.com/tr/java/technologies/downloads/#jdk21-windows]]
 
-Burada LTS olması açısından minimum Java 17 kurulması önerilir. Ancak kursumuzda Java 21 özellikleri de belirli ölçüde ele alınacağından kurulumu uygun olabilir.  Kurulum aşamasından sonra java ve javac programları -version seçeneği ile çalıştırılarak versiyon kontrolü yapılabilir:`java -version`, `java -version`.
+>Burada LTS olması açısından minimum Java 17 kurulması önerilir. Ancak kursumuzda Java 21 özellikleri de belirli ölçüde ele alınacağından kurulumu uygun olabilir.  Kurulum aşamasından sonra java ve javac programları -version seçeneği ile çalıştırılarak versiyon kontrolü yapılabilir:`java -version`, `java -version`.
 
 ##### 5 Ekim 2024
 
 >Aşağıdaki programı çalıştırmak için JDK'nın kurulu olan bir bilgisayarda aşağıdaki işlemlerin yapılması gerekir:
 >
->1. Herhangi bir dizinde (directory) csd isimli bir dizin açılır. Buradaki csd isminin tamamı küçük harf olacak şekilde yazılacaktır.
+>1. Herhangi bir dizinde (directory) `csd` isimli bir dizin açılır. Buradaki `csd` isminin tamamı küçük harf olacak şekilde yazılacaktır.
 >
->2. csd dizini içerisinde App.java isimli bir dosya açılır. Windows sisteminde uzantılar gizlenmişse görünür hale getirip uzantının .java olarak değiştirilmesi gerekir. Buradaki dosya isminin App.java biçiminde yazılması gerekir.
+>2. `csd` dizini içerisinde `App.java` isimli bir dosya açılır. Windows sisteminde uzantılar gizlenmişse görünür hale getirip uzantının `.java` olarak değiştirilmesi gerekir. Buradaki dosya isminin `App.java` biçiminde yazılması gerekir.
 >
->3. Komut yorumlayıcı program (command promt/terminal/shell) ile csd directory'sinin bulunduğu dizine geçilir. Dizin geçişi için `cd` komutu kullanılır. Örneğin `cd D:\Repositories\Java-Sep-2024\src\src-console`
+>3. Komut yorumlayıcı program (command prompt/terminal/shell) ile csd directory'sinin bulunduğu dizine geçilir. Dizin geçişi için `cd` komutu kullanılır. Örneğin `cd D:\Repositories\Java-Sep-2024\src\src-console`
 >
 >4. Herhangi bir editör program ile App.java dosyasının içerisine aşağıdaki programı yazınız.
 > 
 >5. Komut yorumlayıcı programda, csd'nin bulunduğu dizinde aşağıdaki komutları çalıştırarak derleme işlemi yapılır:
-> `javac csd/App.java` -> Windows dışı sistemler için 
-> `javac csd\App.java` -> Windows sistemi için
+
+```java
+javac csd/App.java` -> Windows dışı sistemler için 
+javac csd\App.java` -> Windows sistemi için
+```
+
 > Derleme işleminde herhangi bir hata (error) mesajı alınmazsa derleme işlemi başarılıdır ve App.class isminde byte code üretilir.
 >
 >6. Komut yorumlayıcı programda aşağıdaki biçimde byte code çalıştırılır:
->
->`java csd.App`
->
+
+```java
+java csd.App
+```
+
 >**Anahtar Notlar:** Buradaki bazı zorunluluklara ilişkin detaylar konular içerisinde ele alınacaktır.
 
 ```java
@@ -148,7 +154,7 @@ class App {
 }
 ```
 
-**Anahtar Notlar:** Bir program için programcı açısından iki durum söz konusudur: **Derleme Zamanı (compile time), Çalışma zamanı (runtime)**. Derleme zamanı, derleme işlemine ilişkin süreçtir. Çalışma zamanı, programın çalıştırılmasına ilişkin süreçtir. Bu iki zaman birbirleriyle ilişkili bile olsa ayrı zamanlar ve kavramlar oldukları unutulmamalıdır.
+**Anahtar Notlar:** Bir program için programcı açısındanKal iki durum söz konusudur: **Derleme Zamanı (compile time), Çalışma zamanı (runtime)**. Derleme zamanı, derleme işlemine ilişkin süreçtir. Çalışma zamanı, programın çalıştırılmasına ilişkin süreçtir. Bu iki zaman birbirleriyle ilişkili bile olsa ayrı zamanlar ve kavramlar oldukları unutulmamalıdır.
 ##### Derleyicinin Verdiği Mesajlar
 
 >Derleyiciler koda ilişkin bazı teşhis mesajları (diagnostics) verebilirler. 
@@ -27156,8 +27162,535 @@ enum MaritalStatus {
 }
 ```
 
+###### 9 Ağustos 2025
 ###### enum Referanslarının Karşılaştırılması
 
+>enum referanslarının eşitlik karşılaştırması `==` operatörüyle yapılabilir. Bu işlem `equals` metodu ile de yapılabilir. Zaten, enum türünden sayısı ilgili sabitleri kadar olduğundan referans karşılaştırması ile nesne karşılaştırması (yani mantıksal eşitilik karşılaştırması) aynı anlamdadır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.datetime.Month;  
+import org.csystem.util.datetime.DateTimeUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Random random = new Random();  
+        Scanner kb = new Scanner(System.in);  
+  
+        System.out.print("Input count:");  
+        int count = kb.nextInt();  
+  
+        while (count-- > 0) {  
+            System.out.println("-----------------------------------------");  
+            Month m1 = DateTimeUtil.randomMonth(random);  
+            Month m2 = DateTimeUtil.randomMonth(random);  
+  
+            System.out.printf("%s, %s%n", m1.toString(), m2.toString());  
+            System.out.println(m1 == m2 ? "Same months" : "Different months"); //System.out.println(m1.equals(m2) ? "Same months" : "Different months");  
+        }  
+    }  
+}
+```
+
+```java
+package org.csystem.datetime;  
+  
+public enum Month {  
+    JANUARY(31), FEBRUARY(28), MARCH(31), APRIL(30), MAY(31), JUNE(30),  
+    JULY(31), AUGUST(31), SEPTEMBER(30), OCTOBER(31), NOVEMBER(30), DECEMBER(31);  
+    private final int m_days;  
+  
+    Month(int days)  
+    {  
+        m_days = days;  
+    }  
+  
+    static boolean isLeapYear(int year)  
+    {  
+        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;  
+    }  
+  
+    public int getDays(int year)  
+    {  
+        return isLeapYear(year) && ordinal() == 1 ? 29 : m_days;  
+    }  
+}
+```
+
+>Bir enum sınıfının `compareTo` metodu
+
+```java
+a.compareTo(b)
+```
+
+>çağrısı için `a.ordinal() - b.ordinal()` değerine geri döner. Bu durumda a referansının gösterdiği nesneye ilişkin sabit b referansının gösterdiği nesneye ilişkin sabitten önce bildirilmişse sonuç negatif, sonra bildirilmişse sonuç pozitif, aynı ise sıfır değerine geri döner. Bu gerek koşul, aynı zaman da yeter de koşuldur. Ayrıca dikkat edilirse bu metodun döndürdüğü ilgili sabitleri (yani a referansının ve b referansının gösterdiği nesnelere ilişkin sabitlerin) aralarındaki enum sabit sayısının 1 eksiğidir. Bir başka deyişle mantıksal olarak aralarındaki uzaklıktır.  
 
 
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.datetime.Month;  
+import org.csystem.util.datetime.DateTimeUtil;  
+  
+import java.util.Random;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Random random = new Random();  
+        Scanner kb = new Scanner(System.in);  
+  
+        System.out.print("Input count:");  
+        int count = kb.nextInt();  
+  
+        while (count-- > 0) {  
+            System.out.println("-----------------------------------------");  
+            Month m1 = DateTimeUtil.randomMonth(random);  
+            Month m2 = DateTimeUtil.randomMonth(random);  
+  
+            System.out.printf("%s, %s%n", m1.toString(), m2.toString());  
+            int diff = m1.compareTo(m2);  
+  
+            if (diff < 0)  
+                System.out.printf("%d month%s between %s and %s%n", -diff, -diff == 1 ? "" : "s", m1.toString(), m2.toString());  
+            else if (diff > 0)  
+                System.out.printf("%d month%s between %s and %s%n", diff, diff == 1 ? "" : "s", m2.toString(), m1.toString());  
+            else  
+                System.out.printf("Months are same:%s%n", m1.toString());  
+        }  
+    }  
+}
+```
+
+>Yukarıdaki iki örnekte kullanılan `Month` enum sınıfı
+
+```java
+package org.csystem.datetime;  
+  
+public enum Month {  
+    JANUARY(31), FEBRUARY(28), MARCH(31), APRIL(30), MAY(31), JUNE(30),  
+    JULY(31), AUGUST(31), SEPTEMBER(30), OCTOBER(31), NOVEMBER(30), DECEMBER(31);  
+    private final int m_days;  
+  
+    Month(int days)  
+    {  
+        m_days = days;  
+    }  
+  
+    static boolean isLeapYear(int year)  
+    {  
+        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;  
+    }  
+  
+    public int getDays(int year)  
+    {  
+        return isLeapYear(year) && ordinal() == 1 ? 29 : m_days;  
+    }  
+}
+```
+
+>enum sabitleri `sabit ifadesi (constant expression)` olarak ele alınır. Dolayısıyla enum sınıfları ve sabitleri `switch statement ve switch expression` ile de kullanılabilir:
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        PlaneCombatGameApp.run();  
+    }  
+}  
+  
+class PlaneCombatGameApp {  
+    public static void run()  
+    {  
+        Color [] colors = Color.values();  
+        Direction [] directions = Direction.values();  
+        //...  
+        Random random = new Random();  
+        PlaneGameObject planeGameObject = new PlaneGameObject(colors[random.nextInt(0, 5)]);  
+  
+        while (true) {  
+            //...  
+            System.out.println("---------------------------");  
+            int direction = random.nextInt(0, 4);  
+  
+            System.out.printf("Direction value:%d%n", direction);  
+  
+            planeGameObject.move(directions[direction]);  
+  
+            //...  
+            System.out.println("---------------------------");  
+            ThreadUtil.sleep(1000);  
+        }  
+  
+        //...  
+    }  
+}  
+  
+enum Color {  
+    RED, GREEN, BLUE, BLACK, WHITE  
+}  
+  
+enum Direction {  
+    RIGHT, TOP, LEFT, BOTTOM  
+}  
+  
+class PlaneGameObject {  
+    private final Color m_color;  
+    //...  
+  
+    private void displayColor()  
+    {  
+        switch (m_color) {  
+            case RED -> System.out.println("Red");  
+            case GREEN -> System.out.println("GREEN");  
+            case BLUE -> System.out.println("BLUE");  
+            case BLACK -> System.out.println("BLACK");  
+            case WHITE -> System.out.println("WHITE");  
+        }  
+    }  
+  
+    public PlaneGameObject(Color color)  
+    {  
+        System.out.printf("Ordinal value of color:%d%n", color.ordinal());  
+        m_color = color;  
+    }  
+  
+    public void move(Direction direction)  
+    {  
+        displayColor();  
+        //...  
+  
+        System.out.printf("Ordinal value of direction:%d%n", direction.ordinal());  
+  
+        switch (direction) {  
+            case RIGHT -> System.out.println("Right");  
+            case TOP -> System.out.println("Top");  
+            case LEFT -> System.out.println("Left");  
+            case BOTTOM -> System.out.println("Bottom");  
+        }  
+    }  
+    //...  
+}
+```
+
+>switch statement ve expression'da case bölümlerindeki enum sabitlerinin enum ismi ile nitelikli kullanılması geçersizdir. Ayrıca switch expression'da bir sınıf türünden referansın kullanılamayacağına da dikkat ediniz.
+
+>Singleton bir sınıfın `eager` implementasyonu enum sınıfı kullanılarak daha basit ve etkin bir biçimde yazılabilir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Singleton s1 = Singleton.INSTANCE;  
+        Singleton s2 = Singleton.INSTANCE;  
+  
+        System.out.println(s1 == s2);  
+  
+        //...  
+    }  
+}  
+  
+enum Singleton {  
+    INSTANCE;  
+    private int m_x;  
+  
+    public int getX()  
+    {  
+        return m_x;  
+    }  
+  
+    public void setX(int x)  
+    {  
+        m_x = x;  
+    }  
+  
+    //...  
+}
+```
+
+>enum sınıfı kullanmadan eager implementasyon aşağıdaki gibi yapılabilir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Singleton s1 = Singleton.INSTANCE;  
+        Singleton s2 = Singleton.INSTANCE;  
+  
+        System.out.println(s1 == s2);  
+  
+        //...  
+    }  
+}  
+  
+class Singleton {  
+    public static final Singleton INSTANCE = new Singleton();  
+    private int m_x;  
+  
+    private Singleton()  
+    {  
+    }  
+  
+    public int getX()  
+    {  
+        return m_x;  
+    }  
+  
+    public void setX(int x)  
+    {  
+        m_x = x;  
+    }  
+  
+    //...  
+}
+```
+
+>Bu durumda lazy implementation gerekmedikçe, Singleton bir sınıfın Java'da enum class ile yapılması en etkin, en basit ve en iyi çözümdür.
+
+**Anahtar Notlar:** Dikkat edilirse enum sabitleri ve gösterdikleri nesneler yaratıldıktan sonra program sonlanana kadar yaşarlar. Bu durum nadir de olsa önemli bazı uygulamalarda bellek açısından dezavantajlı olabilmektedir. Örneğin çok güçlü olmayan (limited) bir Android cihazın bellek kapasitesi de kullanımına göre sınırlı olabilir ve yaratılan nesnelerin sürekli yaşamaması gerekebilir. Böylesi nadir ama önemli durumlarda enum sınıfı kullanmak yerine int türden değerler kullanmak daha uygun olabilmektedir. Bu durumda performans açısından okunabilirlikten/algılanabilirlikten vazgeçilmiş olur.
+
+>**Soru:** Aşağıda implementasyonu verilen sınıfı açıklamalara göre güncelleyiniz:
+
+```java
+class Fighter {  
+    private String m_name;  
+    private int m_health;  
+    private int m_agility;  
+    private int m_strength;  
+  
+    //...  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public int getHealth()  
+    {  
+        return m_health;  
+    }  
+  
+    public void setHealth(int health)  
+    {  
+        m_health = health;  
+    }  
+  
+    public int getAgility()  
+    {  
+        return m_agility;  
+    }  
+  
+    public void setAgility(int agility)  
+    {  
+        m_agility = agility;  
+    }  
+  
+    public int getStrength()  
+    {  
+        return m_strength;  
+    }  
+  
+    public void setStrength(int strength)  
+    {  
+        m_strength = strength;  
+    }  
+  
+    public int totalOfAbilities()  
+    {  
+        return m_health + m_agility + m_strength;  
+    }  
+  
+    public double averageOfAbilities()  
+    {  
+        return totalOfAbilities() / 3.;  
+    }  
+}
+```
+
+>**Açıklamalar:** 
+>- Sınıfa int türden yeni yetenekler (abilities) ekelenebilecektir.
+>- Bir yetenek eklendiğinde `averageOfAbilities`ve `totalOfAbilities`metotlarının değiştirilmesi gerekmeyecektir.
+
+>**Çözüm-1:**
+
+```java
+class Fighter {  
+    private static final int HEALTH = 0;  
+    private static final int AGILITY = 1;  
+    private static final int STRENGTH = 2;  
+    private static final int RANGE = 3;  
+    private static final int COUNT = 4;  
+    private String m_name;  
+    private final int [] m_abilities = new int[COUNT];  
+  
+    //...  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public int getHealth()  
+    {  
+        return m_abilities[HEALTH];  
+    }  
+  
+    public void setHealth(int health)  
+    {  
+        m_abilities[HEALTH] = health;  
+    }  
+  
+    public int getAgility()  
+    {  
+        return m_abilities[AGILITY];  
+    }  
+  
+    public void setAgility(int agility)  
+    {  
+        m_abilities[AGILITY] = agility;  
+    }  
+  
+    public int getStrength()  
+    {  
+        return m_abilities[STRENGTH];  
+    }  
+  
+    public void setStrength(int strength)  
+    {  
+        m_abilities[STRENGTH] = strength;  
+    }  
+  
+    public int getRange()  
+    {  
+        return m_abilities[RANGE];  
+    }  
+  
+    public void setRange(int strength)  
+    {  
+        m_abilities[RANGE] = strength;  
+    }  
+  
+    public int totalOfAbilities()  
+    {  
+        return (int)ArrayUtil.sum(m_abilities);  
+    }  
+  
+    public double averageOfAbilities()  
+    {  
+        return totalOfAbilities() / (double)m_abilities.length;  
+    }  
+}
+```
+
+>**Çözüm-2:**
+
+```java
+class Fighter {  
+    private enum Ability {HEALTH, AGILITY, STRENGTH, RANGE, COUNT}  
+    private String m_name;  
+    private final int [] m_abilities = new int[Ability.COUNT.ordinal()];  
+  
+    //...  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public int getHealth()  
+    {  
+        return m_abilities[Ability.HEALTH.ordinal()];  
+    }  
+  
+    public void setHealth(int health)  
+    {  
+        m_abilities[Ability.HEALTH.ordinal()] = health;  
+    }  
+  
+    public int getAgility()  
+    {  
+        return m_abilities[Ability.AGILITY.ordinal()];  
+    }  
+  
+    public void setAgility(int agility)  
+    {  
+        m_abilities[Ability.AGILITY.ordinal()] = agility;  
+    }  
+  
+    public int getStrength()  
+    {  
+        return m_abilities[Ability.STRENGTH.ordinal()];  
+    }  
+  
+    public void setStrength(int strength)  
+    {  
+        m_abilities[Ability.STRENGTH.ordinal()] = strength;  
+    }  
+  
+    public int getRange()  
+    {  
+        return m_abilities[Ability.RANGE.ordinal()];  
+    }  
+  
+    public void setRange(int strength)  
+    {  
+        m_abilities[Ability.RANGE.ordinal()] = strength;  
+    }  
+  
+  
+    public int totalOfAbilities()  
+    {  
+        return (int)ArrayUtil.sum(m_abilities);  
+    }  
+  
+    public double averageOfAbilities()  
+    {  
+        return totalOfAbilities() / (double)m_abilities.length;  
+    }  
+}
+```
+
+>Şüphesiz başka çözümler de söz konusudur.
+
+**Anahtar Notlar:** Yukarıdaki sınıfta `Ability` enum sınıfı `inner` olarak bildirilmiştir. `inner types` konusuna ilişkin detaylar `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır.
+
+
+##### Sınıflar Arası İlişkiler
+
+>
 
