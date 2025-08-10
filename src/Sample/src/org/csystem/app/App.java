@@ -1,90 +1,59 @@
 package org.csystem.app;
 
-import org.csystem.util.array.ArrayUtil;
-
-import java.util.BitSet;
-
 class App {
     public static void main(String[] args)
     {
-        Fighter f = new Fighter();
+        B b1 = new B(/*...*/);
+        B b2 = new B(/*...*/);
+        A a = new A(b1/*, ...*/);
 
-        f.setName("test");
-        f.setAgility(34);
-        f.setHealth(45);
-        f.setStrength(90);
-        f.setRange(35);
-
-        System.out.printf("Abilities average:%f%n", f.averageOfAbilities());
+        a.doSomething1();
+        a.doSomething2();
+        a.setB(b2);
+        a.doSomething1();
+        a.doSomething2();
     }
 }
 
-class Fighter {
-    private enum Ability {HEALTH, AGILITY, STRENGTH, RANGE, COUNT}
-    private String m_name;
-    private final int [] m_abilities = new int[Ability.COUNT.ordinal()];
-
+class A {
+    private B m_b;
     //...
 
-    public String getName()
+    public A(B b/*,...*/)
     {
-        return m_name;
+        //...
+        m_b = b;
     }
 
-    public void setName(String name)
+    public B getB()
     {
-        m_name = name;
+        return m_b;
     }
 
-    public int getHealth()
+    public void setB(B b)
     {
-        return m_abilities[Ability.HEALTH.ordinal()];
+        m_b = b;
     }
 
-    public void setHealth(int health)
+    public void doSomething1()
     {
-        m_abilities[Ability.HEALTH.ordinal()] = health;
+        //...
+        m_b.doWork();
+        //...
     }
 
-    public int getAgility()
+    public void doSomething2()
     {
-        return m_abilities[Ability.AGILITY.ordinal()];
-    }
-
-    public void setAgility(int agility)
-    {
-        m_abilities[Ability.AGILITY.ordinal()] = agility;
-    }
-
-    public int getStrength()
-    {
-        return m_abilities[Ability.STRENGTH.ordinal()];
-    }
-
-    public void setStrength(int strength)
-    {
-        m_abilities[Ability.STRENGTH.ordinal()] = strength;
-    }
-
-    public int getRange()
-    {
-        return m_abilities[Ability.RANGE.ordinal()];
-    }
-
-    public void setRange(int strength)
-    {
-        m_abilities[Ability.RANGE.ordinal()] = strength;
-    }
-
-
-    public int totalOfAbilities()
-    {
-        return (int)ArrayUtil.sum(m_abilities);
-    }
-
-    public double averageOfAbilities()
-    {
-        return totalOfAbilities() / (double)m_abilities.length;
+        //...
+        m_b.doWork();
+        //...
     }
 }
 
+class B {
+    //...
+    public void doWork()
+    {
+        //...
+    }
+}

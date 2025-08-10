@@ -27689,8 +27689,161 @@ class Fighter {
 
 **Anahtar Notlar:** Yukarıdaki sınıfta `Ability` enum sınıfı `inner` olarak bildirilmiştir. `inner types` konusuna ilişkin detaylar `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır.
 
-
+###### 10 Ağustos 2025
 ##### Sınıflar Arası İlişkiler
 
+>Bir projenin kodlama aşamasında `NYPT` kullanılacaksa, ilk olarak o domain'e ilişkin varlıklara karşılık gelen sınıflar sonra aralarındaki ilişkiler belirlenir. Buna **transformation** da denilmektedir. Sonrasında kodlaması yapılır. Örneğin bir ödeme sistemine ilişkin bir uygulamada müşteri, kart, ödeme ürün gibi kavramlar sınıflar olarak belirlenir. Aslında ilişkiler nesneler arasında düşünülür ve sınıflar olarak implemente edilir.
 >
+>Bir uygulamanın isterlerinin belirlenmesinden (requirement analysis) teslimine (deployment) kadar geçen süreci (process) şemalarla ifade etmeye yarayan **UML (Unified Modeling Language)** denilen bir dil proje geliştirmede kullanılabilmektedir. UML'in programıyı doğrudan ilgilendiren önemli şemalarından biri **sınıf şeması (class diagram)** olarak adlandırılan şemadır. Bu şema ile sınıflar (aslında UDT'ler) ve aralarındaki ilişkiler bir standart olarak gösterilebilmektedir.
+
+**Anahtar Notlar:** UML oldukça geniştir. teorik olarak bakıldığında UML ile bir projenin tüm aşamaları belirlenebilir. Ancak pratikte her projede tüm detaylarıyla kullanılmaz. Hatta bazı durumlarda kodlama aşamasından sonra da şemalarda değişiklikler yapılabilmektedir. Bu durum UML'in hedefine aykırı değildir. UML projenin süreçlerini anlatır, dolayısıyla değişiklikler yapıldığında şemaların da değişmesi oldukça normal durumdur. 
+
+>Bir kodun yazılabilmesi için (Java anlamında derlenebilmesi için biçiminde de söylenebilir) gereken kodların olması durumuna **bağımlılık (dependency)** denir. Örneğin, bir metodu yazabilmek için başka bir metodun gerekmesi durumudur. NYPT açısından dependency sınıflar (aslında UDT'ler) için de söz konusudur. Örneğin, bir sınıfın başka bir sınıf türünden veri elemanı durumu aslında bir dependency'dir. 
+
+**Anahtar Notlar:** Modelleme yapılırken kavramın ya da kavramların özel durumları değil genel durumları düşünülür. Özel durumlar da düşünülürse hiç bir şey modellenemez. Örneğin araba nesnesi ile ona ait olan motor nesnesi arasındaki ilişki (adının şu an için önemi yok) genel olarak aşağıdaki iki koşulu birden sağlar:
+- Bir araba nesnesine ait motor nesnesi başka bir nesne tarafından kullanılamaz.
+- Bir araba nesnesine ait motor nesnesi ömrüne hemen hemen araba ile başlar ve ömrü hemen hemen araba ile son bulur.
+Buradaki örnekte özel bir durum olan arabanın motorunun değişmesi bu modeli etkilemez. Çünkü genel olarak karşılaşılan bir durum değildir. 
+
+>İki sınıf arasında aşağıdaki ilişkilerden ya birisi vardır ya da hiç birisi yoktur:
+>
+>- Composition (içerme)
+>- Aggregation (toplaşma/birleşme)
+>- Association (çağrışım)
+>- Inheritance (türetme/kalıtım)
+
+**Anahtar Notlar:** Yukarıdaki `inheritance` ilişkisi dışında kalan diğer ilişkiler, Java sentaks ve semantik kuralları ile ilişkinin kuralları doğrultusunda implemente edilebilir. Inheritance ilişkisi için Java'da ayrı sentaks semantik kurallar bulunmaktadır.
+
+**Anahtar Notlar:** Yukarıdaki ilişkiler dışında da sınıfların aralarında bağımlılık söz konusu olabilir. Bu durum genellikle sınıfların implementasyonlarından kaynaklanır. Buna ilişkin örnekler ileride ele alınacaktır.
+
+###### Composition
+
+>Bu ilişkiye **has a** ilişkisi de denilmektedir. Buna göre, `A has a B` ilişkisinde aşağıdaki iki koşulun gerçeklenmesi gerek ve yeterdir:
+>
+>- A nesnesine ait B nesnesi başka bir nesne tarafından kullanılmayacak.
+>- A nesnesine ait B nesnesinin ömrü hemen hemen A nesnesi ile başlayacak ve ömrü hemen hemen A nesnesi son bulduğunda son bulacak.
+>Burada, B nesnesi ait olduğu A nesnesi tarafından gerektiğinde (istenildiği zaman) kullanılabilecektir. Bu tarz kullanıma `bütünsel kullanım (whole usage)` denir. `A has a B` ilişkisinin sınıf şeması şu şekildedir:
+>
+
+![Composition](./media/composition.png)
+
+>A ile B arasındaki composition ilişkisinin genel bir implementasyonu aşağıdaki gibi yapılabilir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A(/*...*/);  
+  
+        a.doSomething1();  
+        a.doSomething2();  
+    }  
+}  
+  
+class A {  
+    private B m_b;  
+    //...  
+  
+    public A(/*...*/)  
+    {  
+        m_b = new B(/**/);  
+        //...  
+    }  
+  
+    public void doSomething1()  
+    {  
+        //...  
+        m_b.doWork();  
+        //...  
+    }  
+  
+    public void doSomething2()  
+    {  
+        //...  
+        m_b.doWork();  
+        //...  
+    }  
+}  
+  
+class B {  
+    //...  
+    public void doWork()  
+    {  
+        //...  
+    }  
+}
+```
+
+###### Aggregation
+
+>Bu ilişkiye **holds a** ilişkisi de denilmektedir. Bu ilişki, `composition` ilişkisinin en az bir özelliğinin genel olarak gerçeklenmediği bütünsel kullanım ilişkisidir. `A holds a B` ilişkisinin sınıf şeması şu şekildedir:
+
+
+![Composition](./media/aggregation.png)
+>A ile B arasındaki aggregation ilişkisinin genel bir implementasyonu aşağıdaki gibi yapılabilir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B b1 = new B(/*...*/);  
+        B b2 = new B(/*...*/);  
+        A a = new A(b1/*, ...*/);  
+  
+        a.doSomething1();  
+        a.doSomething2();  
+        a.setB(b2);  
+        a.doSomething1();  
+        a.doSomething2();  
+    }  
+}  
+  
+class A {  
+    private B m_b;  
+    //...  
+  
+    public A(B b/*,...*/)  
+    {  
+        //...  
+        m_b = b;  
+    }  
+  
+    public B getB()  
+    {  
+        return m_b;  
+    }  
+  
+    public void setB(B b)  
+    {  
+        m_b = b;  
+    }  
+  
+    public void doSomething1()  
+    {  
+        //...  
+        m_b.doWork();  
+        //...  
+    }  
+  
+    public void doSomething2()  
+    {  
+        //...  
+        m_b.doWork();  
+        //...  
+    }  
+}  
+  
+class B {  
+    //...  
+    public void doWork()  
+    {  
+        //...  
+    }  
+}
+```
+
 
