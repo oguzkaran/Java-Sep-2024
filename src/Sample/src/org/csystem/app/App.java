@@ -1,36 +1,15 @@
 package org.csystem.app;
 
+import org.csystem.util.console.Console;
+import org.csystem.util.string.StringUtil;
+
 class App {
     public static void main(String[] args)
     {
-        B b = new B(/*...*/);
-        A a = new A(/*...*/);
+        String s1 = Console.readString("Input first text:");
+        String s2 = Console.readString("Input second text:");
 
-        a.doSomething1(b);
-        a.doSomething2(b);
+        Console.writeLine("Count:%d", StringUtil.countString(s1, s2));
     }
 }
 
-class A {
-    public void doSomething1(B b)
-    {
-        //...
-        b.doWork();
-        //...
-    }
-
-    public void doSomething2(B b)
-    {
-        //...
-        b.doWork();
-        //...
-    }
-}
-
-class B {
-    //...
-    public void doWork()
-    {
-        //...
-    }
-}

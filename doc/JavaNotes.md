@@ -27898,13 +27898,369 @@ class B {
 }
 ```
 
+###### 24 Ağustos 2025
 
-
->Aşağıdaki demo örneği sınıf şeması doğrultusunda inceleyiniz
+>Aşağıdaki demo örneği sınıf şeması doğrultusunda inceleyiniz. Sınıf şemasında ctor'lar eklenmemiştir. Bu anlamda esnek bırakılmış olarak düşünebilirsiniz
 
 ![DemoRaceApp](./media/DemoRaceAppClasses.PNG)
 
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoRaceApp.run();  
+    }  
+}  
+  
+class DemoRaceApp {  
+    public static void run()  
+    {  
+        Driver driver = new Driver("Güray Sönmez", 100);  
+        Car car = new Car(driver/*...*/);  
+  
+        car.run();  
+  
+        System.out.println("--------------------------");  
+  
+        Pilot [] pilots = {new Pilot(1, "Kaan Aslan", 10000), new Pilot(2, "Oğuz Karan", 7000), new Pilot(3,"Serdar Başokutan", 5000)};  
+        Plane plane = new Plane(4, pilots/*...*/);  
+  
+        plane.fly();  
+    }  
+}  
+  
+class Plane {  
+    private final Engine [] m_engines;  
+    private final Pilot [] m_pilots;  
+  
+    private void startEngines()  
+    {  
+        for (Engine e : m_engines)  
+            e.startEngine();  
+    }  
+  
+    private void stopEngines()  
+    {  
+        for (Engine e : m_engines)  
+            e.stopEngine();  
+    }  
+  
+    private void accelerateEngines()  
+    {  
+        for (Engine e : m_engines)  
+            e.accelerateEngine();  
+    }  
+  
+    private void slowEngines()  
+    {  
+        for (Engine e : m_engines)  
+            e.slowEngine();  
+    }  
+  
+    public Plane(int engineCount, Pilot [] pilots/*...*/)  
+    {  
+        m_pilots = pilots;  
+        m_engines = new Engine[engineCount];  
+        for (int i = 0; i < engineCount; ++i)  
+            m_engines[i] = new Engine(/*...*/);  
+    }  
+  
+    public void fly()  
+    {  
+        System.out.println("Pilots:");  
+        for (Pilot p : m_pilots)  
+            System.out.printf("%d, %s, %d%n", p.getTitle(), p.getName(), p.getFlightDuration());  
+  
+        startEngines();  
+        accelerateEngines();  
+        System.out.println("flying");  
+        slowEngines();  
+        stopEngines();  
+    }  
+}  
+  
+class Car {  
+    private final Engine m_engine;  
+    private Driver m_driver;  
+  
+    public Car(Driver driver/*, ...*/)  
+    {  
+        m_engine = new Engine(/*...*/);  
+        setDriver(driver);  
+    }  
+  
+    public Engine getEngine()  
+    {  
+        return m_engine;  
+    }  
+  
+    public Driver getDriver()  
+    {  
+        return m_driver;  
+    }  
+  
+    public void setDriver(Driver driver)  
+    {  
+        //...  
+        m_driver = driver;  
+    }  
+  
+    public void brake()  
+    {  
+        System.out.println("braking");  
+        m_engine.slowEngine();  
+    }  
+  
+    public void run()  
+    {  
+        System.out.printf("Driver:%s, %d%n", m_driver.getName(), m_driver.getRating());  
+        m_engine.startEngine();  
+        m_engine.accelerateEngine();  
+  
+        System.out.println("running");  
+        brake();  
+        m_engine.stopEngine();  
+    }  
+}  
+  
+class Pilot {  
+    private int m_title;  
+    private String m_name;  
+    private int m_flightDuration;  
+  
+    public Pilot(int title, String name, int flightDuration)  
+    {  
+        m_title = title;  
+        m_name = name;  
+        m_flightDuration = flightDuration;  
+    }  
+  
+    public int getTitle()  
+    {  
+        return m_title;  
+    }  
+  
+    public void setTitle(int title)  
+    {  
+        m_title = title;  
+    }  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public int getFlightDuration()  
+    {  
+        return m_flightDuration;  
+    }  
+  
+    public void setFlightDuration(int flightDuration)  
+    {  
+        m_flightDuration = flightDuration;  
+    }  
+  
+    //...  
+}  
+  
+class Driver {  
+    private String m_name;  
+    private int m_rating;  
+  
+    public Driver(String name, int rating)  
+    {  
+        m_name = name;  
+        m_rating = rating;  
+    }  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public int getRating()  
+    {  
+        return m_rating;  
+    }  
+  
+    public void setRating(int rating)  
+    {  
+        m_rating = rating;  
+    }  
+  
+    //...  
+}  
+  
+class Engine {  
+    //...  
+    public void startEngine()  
+    {  
+        System.out.println("Start Engine");  
+    }  
+  
+    public void stopEngine()  
+    {  
+        System.out.println("Stop Engine");  
+    }  
+  
+    public void accelerateEngine()  
+    {  
+        System.out.println("Accelerate Engine");  
+    }  
+  
+    public void slowEngine()  
+    {  
+        System.out.println("Slow Engine");  
+    }  
+  
+    //...  
+}
+```
 
->Aşağıdaki demo örneği sınıf şeması doğrultusunda inceleyiniz
+
+>Aşağıdaki demo örneği sınıf şeması doğrultusunda inceleyiniz. Sınıf şemasında ctor'lar eklenmemiştir. Bu anlamda esnek bırakılmış olarak düşünebilirsiniz
 
 ![DemoTaxiAutomation](./media/DemoTaxiAutomationApp.PNG)
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoTaxiAutomationApp.run();  
+    }  
+}  
+  
+class DemoTaxiAutomationApp {  
+    public static void run()  
+    {  
+        Driver driver = new Driver("Güray Sönmez", 67);  
+        Taxi taxi = new Taxi(driver/*...*/);  
+  
+        Client client1 = new Client("ahmet", "Ahmet Arslan");  
+  
+        taxi.take(client1);  
+  
+        Client client2 = new Client("huseyin", "Hüseyin Yılmaz");  
+  
+        taxi.take(client2);  
+  
+        Client client3 = new Client("ilker", "İlker Deveci");  
+  
+        taxi.take(client2);  
+    }  
+}  
+  
+  
+class Taxi {  
+    private Driver m_driver;  
+  
+    //...  
+  
+    public Taxi(Driver driver/*...*/)  
+    {  
+        m_driver = driver;  
+    }  
+  
+    public Driver getDriver()  
+    {  
+        return m_driver;  
+    }  
+  
+    public void setDriver(Driver driver)  
+    {  
+        m_driver = driver;  
+    }  
+  
+    public void take(Client client)  
+    {  
+        System.out.printf("Driver:%s, %d%n", m_driver.getName(), m_driver.getRating());  
+        System.out.printf("takes client '%s, %s' to location%n", client.getUsername(), client.getName());  
+    }  
+  
+    //...  
+}  
+  
+class Client {  
+    private String m_username;  
+    private String m_name;  
+  
+    public Client(String username, String name)  
+    {  
+        m_username = username;  
+        m_name = name;  
+    }  
+  
+    public String getUsername()  
+    {  
+        return m_username;  
+    }  
+  
+    public void setUsername(String username)  
+    {  
+        m_username = username;  
+    }  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    //...  
+}  
+  
+class Driver {  
+    private String m_name;  
+    private int m_rating;  
+  
+    public Driver(String name, int rating)  
+    {  
+        m_name = name;  
+        m_rating = rating;  
+    }  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public int getRating()  
+    {  
+        return m_rating;  
+    }  
+  
+    public void setRating(int rating)  
+    {  
+        m_rating = rating;  
+    }  
+  
+    //...  
+}
+```
+
+###### Inheritance
+
+>Bu kavram programlamaya Biyoloji'den aktarılmıştır. Biyoloji'de inheritance `ebeveynin (parent) özelliklerinin çocuğuna (child) aktarımı` olarak tanımlanabilir. Bu ilişkiye programlamada (özellikle NYPT'de) `is a` ilişkisi de denir. 
