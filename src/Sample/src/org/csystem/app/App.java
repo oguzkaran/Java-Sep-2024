@@ -1,15 +1,52 @@
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
-import org.csystem.util.string.StringUtil;
 
 class App {
     public static void main(String[] args)
     {
-        String s1 = Console.readString("Input first text:");
-        String s2 = Console.readString("Input second text:");
+        A x = new A();
+        B y = new B();
+        C z = new C();
 
-        Console.writeLine("Count:%d", StringUtil.countString(s1, s2));
+        x.a = 10;
+        x.foo();
+        y.a = 20;
+        y.b = 30;
+        y.foo();
+        y.bar();
+        z.a = 10;
+        z.b = 34;
+        z.c = 20;
+        z.foo();
+        z.bar();
+        z.tar();
     }
 }
 
+class C extends B {
+    public int c;
+
+    public void tar()
+    {
+        Console.writeLine("C.tar");
+    }
+}
+
+class B extends A {
+    public int b;
+
+    public void bar()
+    {
+        Console.writeLine("B.bar");
+    }
+}
+
+class A {
+    public int a;
+
+    public void foo()
+    {
+        Console.writeLine("A.foo");
+    }
+}

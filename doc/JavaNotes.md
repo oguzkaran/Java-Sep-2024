@@ -891,7 +891,7 @@ Değişken isimlendirme kuralları tüm değişken atomlar için geçerlidir:
 >- Değişken isimleri büyük-küçük harf duyarlıdır (case-sensitive). Aslında Java case-sensitive bir dildir. Örneğin anahtar söcüklerin tamamı küçük harf olarak yazılmalıdır.
 >- Değişken isimlerinde `UNICODE` alfabetik karakterler kullanılabilir. Örneğin değişken isimlerinde Türkçe karakterler kullanılabilir.
 >**Anahtar Notlar:** Her ne kadar değişken isimlerinde `UNICODE` alfabetik karakterler kullanılabilse de programcı İngilizce alfabedeki karakterleri tercih etmelidir. Hatta programcı bir değişken ismini İngilizce dışındaki herhangi bir dile özgü de vermemelidir. Değişken isimlerinde İngilizce tercih edilmelidir.
->- Değişken isimlerinde `$` karakteri kullanılabilir. Değişken isimleri `$` karakteri ile başatılabilir. `$` karakteri tek başına değişken ismi olabilir. Ancak `$` karakteri programcı tarafından değişken isimlerinde kullanılmamalıdır. Derleyiciler bazı durumlarda arakoda ilişkin dosyaya ve/veya arakoda içerisinde isimler üretirler. Derleyiciler ürettikleri bu isimlerde `$` karakterini de kullanırlar. Bu durumda programcının belirlediği isimler ile derleyicinin belirlediği isimlerin çakışma olasılığı yoktur. Zaten değişken isimlerinde `$` karakterinin kullanılabilmesinin nedeni budur. `JLS` dokümanında da `$` karakterinin değişken isimlendirmede kullanılabilmesi gerekçesi (rationale) bu şekilde açıklanmış ve programcıya kullanmaması önerilmiştir. 
+>- Değişken isimlerinde `$` karakteri kullanılabilir. Değişken isimleri `$` karakteri ile başlatılabilir. `$` karakteri tek başına değişken ismi olabilir. Ancak `$` karakteri programcı tarafından değişken isimlerinde kullanılmamalıdır. Derleyiciler bazı durumlarda ara koda ilişkin dosyaya ve/veya ara kod içerisinde isimler üretirler. Derleyiciler ürettikleri bu isimlerde `$` karakterini de kullanırlar. Bu durumda programcının belirlediği isimler ile derleyicinin belirlediği isimlerin çakışma olasılığı yoktur. Zaten değişken isimlerinde `$` karakterinin kullanılabilmesinin nedeni budur. `JLS` dokümanında da `$` karakterinin değişken isimlendirmede kullanılabilmesi gerekçesi (rationale) bu şekilde açıklanmış ve programcıya kullanmaması önerilmiştir. 
 >- JLS'de değişken isimlerinin maksimum karakter sayısı ile ilgili herhangi bir şey söylenmemiştir. Şüphesiz bir sınırı vardır. Ancak bu sınır oldukça fazla olma eğilimindedir. Dolayısıyla isimlendirme açısından bir sorun oluşturmaz.
 >
 >**Anahtar Notlar:**  Değişken isimlerinin okunabilirlik/algılanabilirlik açısından **kolay telaffuz edilebilir, anlamlı ve yeterince uzunlukta** olması önerilir. Bu öneri genel bir programlama `convention` olarak düşünülmelidir. Değişken isimlendirmede bazı teknikler de kullanılabilmektedir. Genel olarak programlama diline göre bir ya da birden fazla teknik kullanılabilmektedir.
@@ -922,7 +922,7 @@ class App {
 }
 ```
 
->Aşağıdaki kalıpta int türden değerler okunmaktadır. Bu kalıpta değerler aralarında ENTER karakteri ayrılacak şekilde girilmelidir. Diğer whitespace karakterlerin kullanımı exception oluşuturur
+>Aşağıdaki kalıpta int türden değerler okunmaktadır. Bu kalıpta değerler aralarında ENTER karakteri ayrılacak şekilde girilmelidir. Diğer whitespace karakterlerin kullanımı exception oluşturur
 
 ```java
 package csd;
@@ -1036,12 +1036,12 @@ class App {
 ```
 ##### İfade Kavramı
 
->Sabitlerden operatörlerden ve değişkenlerden oluşan herhangi bir kombinasyona **ifade (expression)** denir. Bir ifade yalnızca sabitlerden (constants/literals) ve operatörlerden oluşuyorsa, bu ifadeye **sabit ifadesi (constant expression)** denir. Bir değişken ya da bir sabit tek başına bir ifadedir. Ancak bir operatör tek başına bir ifade değildir. Her ifadenin bir türü vardır. Bunun bir tane istisnası vardır ele alınacaktır.
+>Sabitlerden operatörlerden ve değişkenlerden oluşan herhangi bir kombinasyona **ifade (expression)** denir. Bir ifade yalnızca sabitlerden (constants/literals) ve operatörlerden oluşuyorsa, bu ifadeye **sabit ifadesi (constant expression)** denir. Bir değişken ya da bir sabit tek başına bir ifadedir. Ancak bir operatör tek başına bir ifade değildir. Her ifadenin bir türü vardır. Bunun bir tane istisnası vardır, ileride ele alınacaktır.
 
 ##### Metotların Geri Dönüş Değerleri 
 
 >Bir metodun geri dönüş değeri bilgisi yerine bir tür yazılırsa bu metodun **geri dönüş değeri (return value)** vardır denir. Tersine bir metodun geri dönüş değeri varsa geri dönüş değeri bilgisi yerine bir tür yazılır. Bir metodun değeri varsa, o metodun çağrısı bittiğinde çağrılan noktaya bir değer ile geri döner. Metodun geri dönüş değeri yoksa, metot sonlandığında çağrılan noktaya yalnızca geri döner. Yani bir değer ile geri dönmez. 
-> Bir geri dönüş değeri varsa, geri dönüş değeri metot bildiriminde (yani metot içerisinde) **return deyimi (return statement)*** ile oluşuturulur. return deyiminin genel biçimi şu şekildedir:
+> Bir geri dönüş değeri varsa, geri dönüş değeri metot bildiriminde (yani metot içerisinde) **return deyimi (return statement)*** ile oluşturulur. return deyiminin genel biçimi şu şekildedir:
 `return [ifade]`
 Görüldüğü gibi return deyimi tek başına ya da bir ifade ile kullanılabilmektedir. return deyimi nasıl kullanılırsa kullanılsın, akış return deyimine geldiğinde metot sonlanır. Yani return deyiminin birinci görevi metodu sonlandırmaktır. return deyimi ifade ile kullanılmışsa ifadenin değeri çağrılan noktaya aktarılır. Bu geri dönüş değeri denmesinin nedeni budur.
 
@@ -1562,14 +1562,21 @@ class NumberUtil {
 
 >`System.out.printf` metodu ile formatlı yazdırma yapılabilir. Bu metodun birinci parametresine geçilen argüman bir yazı (string literal vb.) olmalıdır. Metot birinci parametresi ile birlikte istenildiği kadar argüman alabilecek şekilde tasarlanmıştır. Değişken sayıda argüman alabilen metot (vararg methods) bildirimleri bu bölümde ele alınmayacaktır. printf metodunun birinci parametresine ilişkin yazının içerisinde `%` karakteri ile birlikte bazı özel karakterler kullanılabilmektedir. Bu özel karakterlere **format karakterleri (format specifiers)** denilmektedir. Bir format karaterinin yazı içerisinde `%` karakteri ile birlikte kullanılmasına ise **yer tutucu (place holder)** denir. Bir format karakteri özel bazı karakterler dışında bir türe karşılık gelir ve o yer tutucu yerine printf'e geçilen argümanın değeri yerleştirilerek formatlama yapılır. Format karakterlerinin bazıları şunlardır:
 
->**d:** Tamsayı türleri kullanılır. Sayının decimal olarak formatlanmasını sağlar
-**x veya X:** Tamsayı türleri kullanılır. Sayının değerinin hexadecimal olarak formatlanmasını sağlar. Format karakterinin küçük veya büyük olmasına semboller küçük veya büyük yazılırlar.
-**o:** Tamsayı türleri kullanılır. Sayının değerinin octal olarak formatlanmasını sağlar.
-**f:** Gerçek sayı türleri için kullanılır.
-**c:** char türü için kullanılır.
-**b:** boolean türü için kullanılır.
-**n:** İmleci bir sonraki satırın başına çekmek için kullanılır.
-**%:** % karakterinin yazı içerisinde formatlanması için kullanılır.
+>- **d:** Tamsayı türleri kullanılır. Sayının decimal olarak formatlanmasını sağlar
+>
+>- **x veya X:** Tamsayı türleri kullanılır. Sayının değerinin hexadecimal olarak formatlanmasını sağlar. Format karakterinin küçük veya büyük olmasına semboller küçük veya büyük yazılırlar.
+>
+>- **o:** Tamsayı türleri kullanılır. Sayının değerinin octal olarak formatlanmasını sağlar.
+>
+>- **f:** Gerçek sayı türleri için kullanılır.
+>
+>- **c:** char türü için kullanılır.
+>
+>- **b:** boolean türü için kullanılır.
+>
+>- **n:** İmleci bir sonraki satırın başına çekmek için kullanılır.
+>
+>-  **%:** % karakterinin yazı içerisinde formatlanması için kullanılır.
 
 >Tamsayılara ilişkin format karakterleri ve n format karakteri 
 
@@ -1940,7 +1947,7 @@ class App {
 >- Testleri yapılmıştır ve yeterince etkin olarak yazılmıştır. Hatta duruma göre zamanla metodun etkinliği de artırılmış olabilir.
 >- Taşınabilirdir. Yani, standart metotların çağrıldığı kodlar herhangi bir üçüncü parti koda ya da kütüphaneye ihtiyaç duymadan derlenebilir. 
 >
->Bu durumda bir metodun **ne iş yaptığını** anlamak için tipik olarak bir dökumantasyon oluşturulur. JavaSE içerisinde bulunan standart metotların (ait olduğu sınıfların da) dökumantasyonu [https://docs.oracle.com/](https://docs.oracle.com/) sitesindeki çeşitli sayfalarda bulunmaktadır. Ancak yine de ilgili dökumantasyon tüm detayıyla açıklama yapmayabilir. Genel olarak Java dökumantasyonu konu hakkında fikir vermek için yazılır. Duruma göre programcı başka kaynaklardan öğrenmek zorunda kalabilir.
+>Bu durumda bir metodun **ne iş yaptığını** anlamak için tipik olarak bir dökumantasyon oluşturulur. JavaSE içerisinde bulunan standart metotların (ait olduğu sınıfların da) dökumantasyonu [https://docs.oracle.com/](https://docs.oracle.com/) bağlantısındaki çeşitli sayfalarda bulunmaktadır. Ancak yine de ilgili dökumantasyon tüm detayıyla açıklama yapmayabilir. Genel olarak Java dökumantasyonu konu hakkında fikir vermek için yazılır. Duruma göre programcı başka kaynaklardan öğrenmek zorunda kalabilir.
 
 **Anahtar Notlar:** `java.lang` paketi içerisinde sınıf (aslında user defined type'lar) isimleri herhangi bir işleme gerek olmaksızın her yerden görülebilirdir. Yani isimlere doğrudan erişilebilir. Örneğin, `System` sınıfı bu paket içerisindedir ve ismi doğrudan kullanılabilir. Ayrıntılar paketler konusunda ayrıca ele alınacaktır.
 
@@ -28261,6 +28268,93 @@ class Driver {
 }
 ```
 
+###### 30 Ağustos 2025
+
 ###### Inheritance
 
 >Bu kavram programlamaya Biyoloji'den aktarılmıştır. Biyoloji'de inheritance `ebeveynin (parent) özelliklerinin çocuğuna (child) aktarımı` olarak tanımlanabilir. Bu ilişkiye programlamada (özellikle NYPT'de) `is a` ilişkisi de denir. Bu ilişki ile varolan bir sınıfın kodlarına dokunmadan (kodları elimizde olabilir ya da olmayabilir) **genişletme (extension)** yapılabilir. Bu ilişkiye aynı zamanda **generalization** da denilmektedir. Bu ilişkiye Türkçe olarak **türetme/kalıtım** ilişkisi diyeceğiz. Örneğin `analitik düzlemde` bir çemberi (ve daireyi) temsil eden (yarıçap, alan, çevre, merkez koordinatları vb bilgilerle) bir sınıf yazacak olalım. Anımsanacağı gibi daha önce yazdığımız Circle sınıfı `sentetik geometride` bir çemberi (ve daireyi) temsil etmektedir. Yani, elimizde daha önceden yazılmış ve test edilmiş bir sınıf bulunmaktadır. Analitik düzlemde bir çember de analitik özellikleri dışında bir çember olduğundan `(Analytical circle is a circle)`, `AnalyticalCircle` isimli bir sınıf `Circle` sınıfından türetilebilir. Bu anlamda bu ilişki `SOLID` ilkelerinden `Open Closed Principle`'ın mottosu olan **open for extension closed for modification** cümlesi ile de uyumludur.
+>
+>A sınıfından B sınıfı türetilmiş olsun (B is an A). Bu durumda A sınıfına, B sınıfının. **taban sınıfı (base class)**, B'ye A sınıfının bir **türemiş sınıfı (derived class)** denir. Java'da `base class` yerine **super class**, `derived class` yerine ise **sub class** terimleri kullanılır. Bu terimlerle birlikte NYPT'de `base class` yerine **parent class**, `derived class` yerine **child class** terimleri de kullanılabilmektedir. `B is an A` ilişkisinin sınıf şeması şu şekildedir. 
+
+
+![Inheritance1](./media/inheritance1.png)
+>Bir dizi türetme söz konusu olabilir:
+
+![Inheritance2](./media/inheritance2.png)
+
+>Burada C'nin taban sınıfı (super class) dendiğinde **doğrudan taban sınıfı (direct super class)** anlaşılır. Yani bu örnekte C'nin taban sınıfı. B'dir. Burada A, C'nin **dolaylı taban sınıflarından (indirect super class)** biridir. Burada `C'nin taban sınıflarında biri A'dır (One of the super class of C is A` ya da `A, C'nin taban sınıfıdır (A is the super class C` cümleleri teknik olarak YANLIŞTIR. Bu cümlelerin doğrusu `C'nin dolaylı taban sınıflarından bir A'dır (One of the indirect super class of C is A` biçimindedir.
+
+>Örneğin, `Vehicle` kavramı taşıma özelliğine sahip olsun. Bu domain'de bir `MarineVehicle`, deniz'e ilişkin özelliklerinin yanında taşıma özelliğine de sahip olduğunda `Marine vehicle is a vehicle` cümlesi geçerlidir. Benzer durum `GroundVehicle` ve `AeroVehicle` için de söz konusudur. Bu hiyerarşide `Ship` bir `marine vehicle` olarak nitelendirilebilir. Bu hiyerarşiye ilişkin örnek bir sınıf şeması şu şekilde olabilir:
+
+![Inheritance3](./media/vehicles.png)
+>Bu hiyerarşide dikkat edilirse `Vehicle`'dan aşağıya doğru inildikçe bir **özelleşme (specialization)**, `Vehicle`'a doğru çıkıldıkça bir **genelleşme (generalization)** söz konusu olmaktadır. Bir sınıfın birden fazla taban sınıfı olması durumuna **çoklu türetme (multiple inheritance)** denir. Java'da multiple inheritance yoktur. Yani bir sınıfın yalnızca bir tane taban sınıfı olabilir. Aslında çoklu türetmenin programlamada da doğrudan bir domain karşılığı yoktur. Bu anlamda Java'da ileride göreceğimiz `arayüzler (interface)` ile çoklu türetme belirli bir ölçüde (pratikteki gerekliliği karşılacayacak kadar) desteklemektedir. Yani, Java'da çoklu türetmenin olmaması bir eksiklik oluşturmaz. Örneğin, bu hiyerarşide `deniz uçağı (float plane)` hem `marine vehicle` hem de `aero vehicle` değildir. Deniz uçağı aslında bir hava aracıdır. Bu anlamda deniz uçağı için çoklu türetme söz konusu olmaz. 
+>
+>Bir sınıf kendisinden doğrudan ya da dolaylı olarak türetilemez yani türetme ilişkisinde döngüsellik söz konusu değildir.
+>
+>Java'da türetme **extends** anahtar sözcüğü ile yapılır. Türetme işleminde taban sınıfın elamanları türemiş sınıfa aktarılmış olur. Örneğin taban sınıfın bir metodu türemiş sınıfa da aktarılır. Benzer şekilde veri lemanları da türemiş sınıfa aktarılır. Yani bu elemanlara türemiş sınıf türünden referans ile de erişilebilir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A x = new A();  
+        B y = new B();  
+        C z = new C();  
+  
+        x.a = 10;  
+        x.foo();  
+        y.a = 20;  
+        y.b = 30;  
+        y.foo();  
+        y.bar();  
+        z.a = 10;  
+        z.b = 34;  
+        z.c = 20;  
+        z.foo();  
+        z.bar();  
+        z.tar();  
+    }  
+}  
+  
+class C extends B {  
+    public int c;  
+  
+    public void tar()  
+    {  
+        Console.writeLine("C.tar");  
+    }  
+}  
+  
+class B extends A {  
+    public int b;  
+  
+    public void bar()  
+    {  
+        Console.writeLine("B.bar");  
+    }  
+}  
+  
+class A {  
+    public int a;  
+  
+    public void foo()  
+    {  
+        Console.writeLine("A.foo");  
+    }  
+}
+```
+
+>Türetme ilişkisinde nesnesel kapsama söz konusudur. Bu ilişkide türemiş sınıf nesnesi içerisinde taban sınıf nesnesi kadarlık bir bölüm de bulunur. Yani türemiş sınıf nesnesi yaratıldığında nesnesel olarak kapsadığı taban sınıf nesnesi de yaratılmış olur. Bu anlamda bakıldığında türemiş sınıf, eklenmiş veri elemanları ile aslında taban sınıfının genişletilmişi (extension) olur. Bu durumda türemiş sınıf nesnesinin uzunluğu **en az, taban sınıf nesnesinin uzunluğu + türemiş sınıfa eklenen non-static veri elemanlarının toplam uzunluğu kadardır.** Aslında türemiş sınıfa eklenen non-static veri elemanları ile nesne genişletilmiş (extension) olur. Yukarıdaki demo örnekte sınıflara ilişkin nesnelerin bellekteki yerleşimleri aşağıdaki biçimde gösterilebilir:
+
+
+![Inheritance Memory](./media/inheritancememory.png)
+>Burada türemiş sınıfa eklenen veri elemanlarının düşük numaralı adreste veya yüksek numaralı adrese yerleştirilmesinin bir standardı yoktur, Java programcısı açısından önemi de yoktur.
+>
+>
+
