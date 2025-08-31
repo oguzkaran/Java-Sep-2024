@@ -28355,6 +28355,427 @@ class A {
 
 ![Inheritance Memory](./media/inheritancememory.png)
 >Burada türemiş sınıfa eklenen veri elemanlarının düşük numaralı adreste veya yüksek numaralı adrese yerleştirilmesinin bir standardı yoktur, Java programcısı açısından önemi de yoktur.
->
->
+
+###### 31 Ağustos 2025
+
+>Anımsanacağı gibi bir nesnenin yaratılmasının tamamlanması için en son aşamada ilgili ctor'unun çağrılmış olması gerekir. Bu durumda türemiş sınıf nesnesi yaratıldığında içerisinde taban sınıf nesnesi için de ctor'un çağrılması gerekir. **Türemiş sınıf ctor'undan önce, türemiş sınıf ctor'unda her hangi bir belirtme yapılmamışsa, taban sınıfının default ctor'u çağrılır.**  Yani aslında derleyici türemiş sınıf ctor'unun hemen başında taban sınıf ctor çağrısı kodunu gizlice yerleştirir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B b1 = new B();  
+        Console.writeLine("---------------------------------");  
+        B b2 = new B(10);  
+        Console.writeLine("---------------------------------");  
+        C c1 = new C();  
+        Console.writeLine("---------------------------------");  
+        C c2 = new C(10, 3.4);  
+    }  
+}  
+  
+class C extends B {  
+    public C()  
+    {  
+        Console.writeLine("I am a default ctor of C");  
+    }  
+  
+    public C(int a, double b)  
+    {  
+        Console.writeLine("I am a ctor of C with parameter types int, double");  
+    }  
+}  
+  
+class B extends A {  
+    public B()  
+    {  
+        Console.writeLine("I am a default ctor of B");  
+    }  
+  
+    public B(int a)  
+    {  
+        Console.writeLine("I am a ctor of B with a parameter type int");  
+    }  
+}  
+  
+class A {  
+    public A()  
+    {  
+        Console.writeLine("I am a default ctor of A");  
+    }  
+  
+    public A(int a)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+}
+```
+
+###### super Constructor Syntax
+
+>Taban sınıfın  default ctor'u yoksa ya da var ama erişilemiyorsa ya da türemiş sınıfı yazan programcı domain gereği türemiş sınıfın ctor'undan önce taban sınıfın default ctor'u yerine başka bir ctor'unun çağrılmasını isterse bu durumda hangi ctor'un çağrılacağının açıkça belirtilmesi gerekir. Bu belirtme işlemi **super ctor syntax (SCS)** kullanılarak yapılır. SCS için **super** anahtar sözcüğü kullanılır. SCS'nin genel biçimi şu şekildedir:
+
+```java
+super([argümanlar]);
+```
+
+SCS, türemiş sınıf ctor'unun başına programcı tarafından yerleştirilir. SCS'den önce her hangi bir deyimin yazılmaması gerekir. SCS yalnızca ctor'da kullanılabilir. SCS'de hangi ctor'un çağrılacağı `method overload resolution` kurallarına göre belirlenir. SCS'nin `super()` biçiminde yazılması yazılmaması ile aynı anlamdadır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B b1 = new B();  
+        Console.writeLine("---------------------------------");  
+        B b2 = new B(10);  
+        Console.writeLine("---------------------------------");  
+        C c1 = new C();  
+        Console.writeLine("---------------------------------");  
+        C c2 = new C(10, 3.4);  
+    }  
+}  
+  
+class C extends B {  
+    public C()  
+    {  
+        super(); //yazılması ya da yazılmaması aynı anlamdadır  
+        Console.writeLine("I am a default ctor of C");  
+    }  
+  
+    public C(int a, double b)  
+    {  
+        super(a);  
+        Console.writeLine("I am a ctor of C with parameter types int, double");  
+    }  
+}  
+  
+class B extends A {  
+    public B()  
+    {  
+        super(0);  
+        Console.writeLine("I am a default ctor of B");  
+    }  
+  
+    public B(int a)  
+    {  
+        super(a);  
+        Console.writeLine("I am a ctor of B with a parameter type int");  
+    }  
+}  
+  
+class A {  
+    public A(int a)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte SCS'den önce bir deyim yazıldığından yani SCS ctor'un ilk deyimi olmadığından error oluşur.
+
+```java
+class B extends A {  
+    public B()  
+    {  
+        Console.writeLine("I am a default ctor of B");  
+        super(0); //error          
+	}  
+  
+    public B(int a)  
+    {  
+        super(a);  
+        Console.writeLine("I am a ctor of B with a parameter type int");  
+    }  
+}  
+  
+class A {  
+    public A(int a)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+}
+```
+
+**Anahtar Notlar:** SCS'nin ctor'un ilk deyimi olma zorunluluğuna ilişkin Java 21 ile birlikte bazı değişiklikler söz konusudur. Bu detaylae `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır. 
+
+>Aşağıdaki demo örnekte SCS bir metot içerisinde kullanıldığından error oluşur.
+
+```java
+class B extends A {  
+    public B(int a)  
+    {  
+        super(a);  
+        Console.writeLine("I am a ctor of B with a parameter type int");  
+    }  
+  
+    //...  
+  
+    public void foo(int a)  
+    {  
+        super(a);  
+    }  
+}  
+  
+class A {  
+    public A(int a)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+}
+```
+
+###### this Constructor Syntax
+
+>Bir sınıfın bir ctor'undan önce, o sınıfın başka bir ctor'unun çağrılmasını sağlamak mümkündür. Bu, **this ctor syntax (TCS)** ile yapılır. TCS, **this** anahtar sözcüğü ile yapılır. TCS, ctor'un ilk deyimi olmalıdır. TCS yalnızca ctor içerisinde kullanılabilir. TCS'nin genel biçimi şu şekildedir:
+
+```java
+this([argümanlar]);
+```
+
+>TCS'de hangi ctor'un çağrılacağı `method overload resolution` kurallarına göre belirlenir. Bir ctor'un başından `this()` yazılması, yazılmaması ile aynı anlamda değildir. `this()` yazılması default ctor çağrısının yapılması anlamına gelir. TCS hiç yazılmazsa ilgili ctor'dan önce herhangi bir ctor çağrılmaz. TCS'de döngüsel durum yani ctor'un kendisini çağırması durumu error oluşturur. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a1 = new A();  
+        Console.writeLine("--------------------------------------");  
+        A a2 = new A(10);  
+        Console.writeLine("--------------------------------------");  
+        A a3 = new A("ankara");  
+    }  
+}  
+  
+class A {  
+    public A()  
+    {  
+        this("");  
+        Console.writeLine("I am a default ctor of A");  
+    }  
+  
+    public A(int a)  
+    {  
+        this();  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+  
+    public A(String s)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type String");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte TCS ctor'un ilk deyimi olmadığından error oluşur
+
+```java
+class A {  
+    public A()  
+    {  
+        Console.writeLine("I am a default ctor of A");  
+        this("");//error          
+	}  
+  
+    public A(int a)  
+    {  
+        this();  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+  
+    public A(String s)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type String");  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte TCS bir metot içerisinde kullanıldığından error oluşur
+
+```java
+class A {  
+    public A()  
+    {  
+        this("");  
+        Console.writeLine("I am a default ctor of A");  
+    }  
+  
+    public A(int a)  
+    {  
+        this();  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+  
+    public A(String s)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type String");  
+    }  
+  
+    public void foo(int a)  
+    {  
+        this(a); //error  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte TCS ile döngüsel durum yani cto'un kendisini çağırma durumu oluştuğundan error oluşur
+
+```java
+class A {  
+    public A()  
+    {  
+        this(); //error  
+        Console.writeLine("I am a default ctor of A");  
+    }  
+  
+    public A(int a)  
+    {  
+        this();  
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+  
+    public A(String s)  
+    {  
+        Console.writeLine("I am a ctor of A with a parameter type String");  
+    }  
+  
+}
+```
+
+>Aşağıdaki demo örnekte TCS ile döngüsel durum yani cto'un kendisini çağırma durumu oluştuğundan error oluşur.
+
+```java
+class A {  
+    public A()  
+    {  
+        this("");  //error
+        Console.writeLine("I am a default ctor of A");  
+    }  
+  
+    public A(int a)  
+    {  
+        this();  //error
+        Console.writeLine("I am a ctor of A with a parameter type int");  
+    }  
+  
+    public A(String s)  
+    {  
+        this(0); //error
+        Console.writeLine("I am a ctor of A with a parameter type String");  
+    }  
+}
+```
+
+>SCS ile TCS aynı ctor'da kullanılamaz. Çünkü her ikisinin de ctor'un ilk deyimi olması zorunludur. Aslında programcının böylesi bir duruma ihtiyaç duymamsı gerekir. İyi bir tasarım ve dolayısıyla ona yönelik bir implementasyon durumunda programcı hiç bir zaman böylesi bir kullanıma ihtiyaç duymaz. Programcı böyle bir durumla karşılaştığında tasarımını ve implementasyonunu sorgulamalıdır.
+###### Object Sınıfı
+
+>Bir sınıf extends anahtar sözcüğü ile hiç bir sınıftan türetilmemişse de **java.lang.Object** isimli sınıftan türetilmiş olur. Bu durumda, `Object` sınıfı her sınıfın doğrudan ya da dolaylı olarak taban sınıfıdır. Böyle bir tasarımın yani `Object` sınıfının varlığı ve anlamı ileride ele alınacaktır. Object sınıfından türetme açıkça yazılabilse de Java programcısı tarafından tercih edilmez.
+
+```java
+class A {  
+    //...  
+}  
+  
+class B extends Object {  
+    //...  
+}
+```
+
+>Bu durumda taban sınıf Java'da taban sınıfı olmayan tek sınıf `Object` sınıfıdır.
+
+###### protected Bölümün Anlamı
+
+>Anımsanacağı gibi sınıfın protected bölümü friendly sınıflar için `public`, farklı paketteki diğer sınıflar için türetme söz konusu değilse `private` anlamındadır. Türetme söz konusuysa bile türemiş sınıf taban sınıfın protected bölümüne aşağıdaki gibi erişemez.
+
+```java
+package y;  
+  
+import x.A;  
+  
+public class B extends A {  
+    public void bar()  
+    {  
+        A x = new A(); //error  
+  
+        x.foo(); //error  
+        x.a = 10; //error  
+    }  
+}
+```
+
+```java
+package x;    
+    
+public class A {    
+    protected int a;    
+    
+    protected A(/*...*/)    
+    {    
+        //...    
+	}    
+    
+    protected void foo()    
+    {    
+        //...    
+	}    
+    
+}
+```
+
+>Bir sınıf farklı paketteki bir sınıftan türetilmişse, taban sınıfının `mantıksal olarak taban sınıfının, kendisine ait olan protected bölümüne` erişebilir. Yani aslında protected bölümdeki elemanlara doğrudan erişebilir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package x;    
+    
+public class A {    
+    protected int a;    
+    
+    protected A(/*...*/)    
+    {    
+        //...    
+	}    
+    
+    protected void foo()    
+    {    
+        //...    
+	}    
+}
+```
+
+```java
+package y;  
+  
+import x.A;  
+  
+public class B extends A {  
+    public B(/*...*/)  
+    {  
+        super(/*...*/);  
+    }  
+    public void bar()  
+    {  
+        foo();  
+        a = 10;  
+    }  
+}
+```
 
