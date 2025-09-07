@@ -3,10 +3,10 @@ package org.csystem.util.thread;
 
 /**
  * Utility class for thread operations
- * Last Update: 27th July 2025
+ * Last Update: 7th September 2025
  * @author Java-Sep-2024 Group
  */
-public class ThreadUtil {
+public final class ThreadUtil {
     private ThreadUtil()
     {
     }

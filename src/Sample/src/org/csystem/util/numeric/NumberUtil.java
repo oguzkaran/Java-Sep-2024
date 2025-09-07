@@ -2,10 +2,10 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 13th July 2025
+ * Last Update: 7th September 2025
  * @author Java-Sep-2024 Group
  */
-public class NumberUtil {
+public final class NumberUtil {
     private static final String [] ONES_TR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
     private static final String [] TENS_TR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
 

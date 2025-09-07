@@ -6,10 +6,10 @@ import java.util.Random;
 
 /**
  * Utility class for matrix operations
- * Last Update: 6th July 2025
+ * Last Update: 7th September 2025
  * @author Java-Sep-2024 Group
  */
-public class MatrixUtil {
+public final class MatrixUtil {
     private MatrixUtil()
     {
     }

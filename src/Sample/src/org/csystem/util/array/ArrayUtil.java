@@ -4,10 +4,10 @@ import java.util.Random;
 
 /**
  * Utility class for array operations
- * Last Update: 6th July 2025
+ * Last Update: 7th September 2025
  * @author Java-Sep-2024 Group
  */
-public class ArrayUtil {
+public final class ArrayUtil {
     private ArrayUtil()
     {
     }

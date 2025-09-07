@@ -2,10 +2,10 @@ package org.csystem.util.console.commanline;
 
 /**
  * Utility class for command line arguments operations
- * Last Update: 6th July 2025
+ * Last Update: 7th September 2025
  * @author Java-Sep-2024 Group
  */
-public class CommandLineArgsUtil {
+public final class CommandLineArgsUtil {
     private CommandLineArgsUtil()
     {
     }

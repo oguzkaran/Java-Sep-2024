@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 /**
  * Utility class for console operations
- * Last Update: 24th August 2025
+ * Last Update: 27th September 2025
  * @author Java-Sep-2024 Group
  */
-public class Console {
+public final class Console {
     private static final Scanner KB = new Scanner(System.in);
     private Console()
     {}
