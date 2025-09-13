@@ -5,7 +5,7 @@ package org.csystem.wrapper;
  * Last Update: 26th July 2025
  * @author Java-Sep-2024 Group
  */
-public class IntValue {
+public final class IntValue {
     private static final int CACHE_MIN = -128;
     private static final int CACHE_MAX = 127;
     private static final int INDEX_DIFF = -CACHE_MIN;

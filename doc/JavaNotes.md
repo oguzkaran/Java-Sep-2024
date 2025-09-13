@@ -2320,20 +2320,20 @@ class App {
 >
 >- `boolean` türden iki tane sabit vardır: true, false.
 >
->- Tek tırnak içerisinde yazılan karakterlere ilişkin sembollere tırnakları ile beraber **karakter sabitleri (character literals)** denir. Karakter sabitleri `char` türdendir. Tek tırnak içerisinde, özel bazı durumlar dışında tek bir karakter yazılabilir. Aksi durumda error oluşur. Bir karakter sabiti ilgili karakterin karakter tablosundaki sıra numarasına karşılık gelir. Aslında biz char türden bir sabit yazarak o sabite ilişkin karakterin sıra numarasını elde etmiş olur. Bu sıra numarasını char türden bir değişken içeriisnde saklayarak mantıksal olarak o karakteri tutmuş oluruz. Bazı karakterler klavyedeki tuş kombinasyonlarıyla doğrudan yazılamazlar. Bazı karakterler ise doğrudan ekrana basılmazlar (non printable). Bu tarz karakterlere ilişkin sabitler tek tırnak içerisinde doğrudan yazılamazlar. Bu tarz karakterlere ilişkin sabitler, `\` karakteri ile birlikte özel bir karakter kullanılarak tek tırnak içerisinde yazılırlar. Sabitleri ters bölü yazılan karakterlere **escape sequence** karakterler denir. Java'da desteklenen escape sequence karakterler şunlardır:
+>- Tek tırnak içerisinde yazılan karakterlere ilişkin sembollere tırnakları ile beraber **karakter sabitleri (character literals)** denir. Karakter sabitleri `char` türdendir. Tek tırnak içerisinde, özel bazı durumlar dışında tek bir karakter yazılabilir. Aksi durumda error oluşur. Bir karakter sabiti ilgili karakterin karakter tablosundaki sıra numarasına karşılık gelir. Aslında biz char türden bir sabit yazarak o sabite ilişkin karakterin sıra numarasını elde etmiş olur. Bu sıra numarasını char türden bir değişken içerisinde saklayarak mantıksal olarak o karakteri tutmuş oluruz. Bazı karakterler klavyedeki tuş kombinasyonlarıyla doğrudan yazılamazlar. Bazı karakterler ise doğrudan ekrana basılmazlar (non printable). Bu tarz karakterlere ilişkin sabitler tek tırnak içerisinde doğrudan yazılamazlar. Bu tarz karakterlere ilişkin sabitler, `\` karakteri ile birlikte özel bir karakter kullanılarak tek tırnak içerisinde yazılırlar. Sabitleri ters bölü yazılan karakterlere **escape sequence** karakterler denir. Java'da desteklenen escape sequence karakterler şunlardır:
 
-| Karakter Sabiti  | Karakter Sabiti Adı      |
-| --------------   | ------------------------ |
-| `'\n'`           | Line Feed (LF)           |
-| `'\r'`           | Carriage Return (CR)     |
-| `'\t'`           | Tabular (horizontal tab) |
-| `'\f'`           | Form feed                |
-| `'\b'`           | Backspace                |
-| `'\''`           | Single quote             |
-| `'\"'`           | Double quote (optional)  |
-| `'\\'`           | Back slash               |
-| `'\0'`           | `null` character         |
-| `'\s'`           | special whitespace character (Since Java 12)         |
+| Karakter Sabiti | Karakter Sabiti Adı                          |
+| --------------- | -------------------------------------------- |
+| `'\n'`          | Line Feed (LF)                               |
+| `'\r'`          | Carriage Return (CR)                         |
+| `'\t'`          | Tabular (horizontal tab)                     |
+| `'\f'`          | Form feed                                    |
+| `'\b'`          | Backspace                                    |
+| `'\''`          | Single quote                                 |
+| `'\"'`          | Double quote (optional)                      |
+| `'\\'`          | Back slash                                   |
+| `'\0'`          | `null` character                             |
+| `'\s'`          | special whitespace character (Since Java 12) |
 
 >`LF` karakter sabiti
 
@@ -2629,7 +2629,7 @@ class App {
 }
 
 ```
->Tamsayı sabitleri `decimal`, `hexadecimal`, `octal` ve Java 7'den itibaren `binary` olarak yazılabilmektedir. Sabitin başına 0x (sıfır ve küçük veya büyük X) yazılırsa hexadecimal, sıfır yazılırsa octal ve 0b (sıfır ve küçük veya büyük B) yazılırsa binat olarak ele alınır. Yazılan sabitte ilgili sistemde geçerli olmayan bir basamak yazılması error oluşturur. 
+>Tamsayı sabitleri `decimal`, `hexadecimal`, `octal` ve Java 7'den itibaren `binary` olarak yazılabilmektedir. Sabitin başına 0x (sıfır ve küçük veya büyük X) yazılırsa hexadecimal, sıfır yazılırsa octal ve 0b (sıfır ve küçük veya büyük B) yazılırsa binary olarak ele alınır. Yazılan sabitte ilgili sistemde geçerli olmayan bir basamak yazılması error oluşturur. 
 
 
 >Aşağıdaki demo örneği inceleyiniz
@@ -2728,23 +2728,35 @@ class App {
 >**Operatörün kısıtı (constraint):** Operatörün kullanımına ilişkin zorunluluklardır.
 >**Operatörün yan etkisi (side effect):** Operatörün, operand ya da operandlarının değerini değiştirip değiştirmediği durumudur. Değiştiriyorsa operatörün yan etkisi vardır, değiştirmiyorsa yoktur.
 >**Operatörün önceliği (precedence):** Operatör önceliği bir ifadede önceliği olan operatörün genel olarak daha önce işleme girmesidir. Bu durumun bazı istisnaları vardır. Aslında terminolojik olarak operatörün önceliği (operator precedence) ve işleme giriş sırası (order of evaluation) her operatör için aynı şeyler anlamına gelmez. Bazı operatörler öncelikli olmasına işlem sıraları farklı olabilmektedir. Önceliğe ilişkin basit bir örnek şu şekilde verilebilir: 
-`a = b + c * d` işleminin yapılış sırası şöyledir:
-`i1: c * d`
-`i2: b + i1`
-`i3: a = i2`
+
+```
+a = b + c * d ifadesinin yapılış sırası şöyledir:
+
+i1: c * d
+i2: b + i1
+i3: a = i2
+```
+
 > Bir işlemi önceliklendirmek için Matematikteki gibi ifade parantez içerisine alınır. Önceliklendirme parantezi de aslında bir operatördür:
->`a = (b + c) * d` işleminin yapılış sırası şöyledir:
->
->`i1: b + c`
-`i2: i1 * d`
-`i3: a = i2`
->
+
+
+```
+a = (b + c) * d ifadesinin yapılış sırası şöyledir:
+
+i1: b + c
+i2: i1 * d
+i3: a = i2
+```
+
 >Bazı operatörler aynı öncelik seviyesinde olabilirler. Bu durumda, aynı öncelik seviyesindeki operatörlerin nasıl ele alınacağı **associativity** denilen bir kavram ile belirlidir. Bu anlamda **left associative** ve **right associative** terimleri kullanılır. Örneğin
->`a = b + c - d` işleminin yapılış sırası şöyledir:
->
->`i1: b + c`
-`i2: i1 - d`
-`i3: a = i2`
+
+```
+a = b + c - d ifadesinin yapılış sırası şöyledir:
+
+i1: b + c
+i2: i1 - d
+i3: a = i2
+```
 
 ###### Aritmetik Operatörler
 >Aritmetik operatörler şunlardır: `+, -, *, /, %, -, +, --, ++`. Bu operatörlerin operandları `boolean` türden olamaz. 
@@ -3699,22 +3711,22 @@ class App {
 
 ##### Operatör öncelik tablosu
 
-| Operatör                                  | İlişkisi     |
-|-------------------------------------------|--------------|
-| () . [] new                               | Soldan sağa  |
-| + - ++ -- ! ~ ()                          | Sağdan sola  |
-| * / %                                     | Soldan sağa  |
-| + -                                       | Soldan sağa  |
-| << >> >>>                                 | Soldan sağa  |
-| > < >= <= instanceof                      | Soldan sağa  |
-| == !=                                     | Soldan sağa  |
-| &                                         | Soldan sağa  |
-| ^                                         | Soldan sağa  |
-| \|                                        | Soldan sağa  |
-| &&                                        | Soldan sağa  |
-| \|\|                                      | Soldan sağa  |
-| ?:                                        | Sağdan sola  |
-| = *= /= %= += -= <<= >>= &= ^= \|= >>>=   | Sağdan sola  |
+| Operatör                                | İlişkisi    |
+| --------------------------------------- | ----------- |
+| () . [] new                             | Soldan sağa |
+| + - ++ -- ! ~ ()                        | Sağdan sola |
+| * / %                                   | Soldan sağa |
+| + -                                     | Soldan sağa |
+| << >> >>>                               | Soldan sağa |
+| > < >= <= instanceof                    | Soldan sağa |
+| == !=                                   | Soldan sağa |
+| &                                       | Soldan sağa |
+| ^                                       | Soldan sağa |
+| \|                                      | Soldan sağa |
+| &&                                      | Soldan sağa |
+| \|\|                                    | Soldan sağa |
+| ?:                                      | Sağdan sola |
+| = *= /= %= += -= <<= >>= &= ^= \|= >>>= | Sağdan sola |
 
 >`;` (noktalı virgül) Java 'da **sonlandırıcı karakter (terminator)** olarak kullanılır. Java'da başka sonlandırıcı karakter yoktur. Noktalı virgül genel olarak ifadeleri ve bazı deyimleri sonlandırmak için kullanılır. 
 
@@ -8811,7 +8823,7 @@ işlemi için:
 
 >Java'da işlem öncesi otomatik tür dönüşümü kuralları belirlidir ve implicit conversion kurallarına göre yapılır. 
 
->İşlem öncesi otomatik tür dömüşümü kurallarına ilişkin ayrıntılar şunlardır: (Maddeleri else-if biçiminde değerlendiriniz)
+>İşlem öncesi otomatik tür dönüşümü kurallarına ilişkin ayrıntılar şunlardır: (Maddeleri else-if biçiminde değerlendiriniz)
 
 >short, byte ve char türleri kendi aralarında işleme sokulduklarında (türlerin her ikisi de aynı olabilir) önce operandlara ilişkin değerler int türüne dönüştürülür. Bu işleme **integral/integer promotion** denir. Bu işlemin sonucu int türden elde edilir.
 
@@ -28350,7 +28362,11 @@ class A {
 }
 ```
 
->Türetme ilişkisinde nesnesel kapsama söz konusudur. Bu ilişkide türemiş sınıf nesnesi içerisinde taban sınıf nesnesi kadarlık bir bölüm de bulunur. Yani türemiş sınıf nesnesi yaratıldığında nesnesel olarak kapsadığı taban sınıf nesnesi de yaratılmış olur. Bu anlamda bakıldığında türemiş sınıf, eklenmiş veri elemanları ile aslında taban sınıfının genişletilmişi (extension) olur. Bu durumda türemiş sınıf nesnesinin uzunluğu **en az, taban sınıf nesnesinin uzunluğu + türemiş sınıfa eklenen non-static veri elemanlarının toplam uzunluğu kadardır.** Aslında türemiş sınıfa eklenen non-static veri elemanları ile nesne genişletilmiş (extension) olur. Yukarıdaki demo örnekte sınıflara ilişkin nesnelerin bellekteki yerleşimleri aşağıdaki biçimde gösterilebilir:
+>Türetme ilişkisinde nesnesel kapsama söz konusudur. Bu ilişkide türemiş sınıf nesnesi içerisinde taban sınıf nesnesi kadarlık bir bölüm de bulunur. Yani türemiş sınıf nesnesi yaratıldığında nesnesel olarak kapsadığı taban sınıf nesnesi de yaratılmış olur. Bu anlamda bakıldığında türemiş sınıf, eklenmiş veri elemanları ile aslında taban sınıfının genişletilmişi (extension) olur. Bu durumda türemiş sınıf nesnesinin uzunluğu **en az, taban sınıf nesnesinin uzunluğu + türemiş sınıfa eklenen non-static veri elemanlarının toplam uzunluğu kadardır.** Aslında türemiş sınıfa eklenen non-static veri elemanları ile nesne genişletilmiş (extension) olur. Yukarıdaki demo örneğin sınıf şeması detaylar gözardı edildiğinde şu şekildedir:
+
+![inheritance3](./media/inheritance3.png)
+
+>Yukarıdaki demo örnekte sınıflara ilişkin nesnelerin bellekteki yerleşimleri aşağıdaki biçimde gösterilebilir:
 
 
 ![Inheritance Memory](./media/inheritancememory.png)
@@ -29128,10 +29144,22 @@ public class MutablePoint {
 ###### Bir Sınıfın Türetmeye Kapatılması
 
 >Bir sınıfın türetmeye kapatılması demek, o sınıftan türetme yapılmasının geçersiz olması demektir. Java'da bir sınıf default olarak türetmeye açıktır. **final** anahtar sözcüğü ile bildirilen bir sınıftan türetme yapılamaz. Bu anlamda final olarak bildirilmiş sınıflara **final classes** denilmektedir. 
+
+```java
+class B extends A { //error  
+    //...}  
+  
+final class A {  
+    //...  
+}
+```
+
 >
 >Bir sınıfın final olup olmayacağı şüphesiz domain'e bağlıdır. Bir convention olarak tüm elemanları static olarak bildirilmiş sınıflar (tipik olarak `utility classess`) final olarak bildirilmelidir. Örneğin, `Math` sınıfı final olarak bildirilmiştir. 
 
 >Aşağıdaki utility sınıfları inceleyiniz
+
+>ArrayUtil sınıfı
 
 ```java
 package org.csystem.util.array;  
@@ -29493,6 +29521,8 @@ public final class ArrayUtil {
 }
 ```
 
+>MatrixUtil sınıfı
+
 ```java
 package org.csystem.util.matrix;  
   
@@ -29620,6 +29650,8 @@ public final class MatrixUtil {
     }  
 }
 ```
+
+>NumberUtil sınıfı
 
 ```java
 package org.csystem.util.numeric;  
@@ -29937,6 +29969,9 @@ public final class NumberUtil {
     }  
 }
 ```
+
+
+>StringUtil sınıfı
 
 ```java
 package org.csystem.util.string;  
@@ -30288,5 +30323,500 @@ class X {
 }
 ```
 
+###### 13 Eylül 2025
 
 
+>**Soru:** `final` anahtar sözcüğü olmasaydı bir sınıfı türetmeye nasıl kapatırdınız?
+>
+>**Cevap:** Şüphesiz, bir sınıfı türetmeye kapatmak için pratikte final anahtar sözcüğü kullanılır. Bir sınıf final anahtar sözcüğü kullanmadan doğrudan türetmeye kapatılamaz. Bu durumda türetmeyi engellemek için sınıfın ctor'unun private yapılması gerekir. Ancak bu durumda ilgili sınıfın müşteri kodları da nesne yaratamaz duruma gelir. Bu sınıf türünden nesnenin dışarıdan yaratılabilmesi ilgili sınıfa bir factory method eklenebilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class B extends A { //error  
+    //...}  
+  
+class A {  
+    //...  
+    private A()  
+    {  
+        //...  
+    }  
+  
+    public static A create()  
+    {  
+        return new A();  
+    }  
+}
+```
+
+
+###### Taban Sınıf ve Türemiş Sınıf Arasındaki Dönüşümler
+
+>Farklı türden referanslar tür dönüştürme operatörü ile (explicit) bile birbirine dönüştürülemezler. 
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+         B b = new B();  
+         A a;  
+  
+         a = (A)b; //error  
+  
+    }  
+}  
+  
+  
+class B {  
+    //...  
+}  
+  
+class A {  
+    //...  
+}
+```
+
+
+>İki sınıf arasında türetme ilişkisi varsa bu durumda aşağıdaki maddeler geçerlidir:
+>
+>- Türemiş sınıf türünden bir referans taban sınıf türünden bir referansa doğrudan (implicit) dönüştürülebilir. Bu dönüşüme **upcasting** denir. 
+>
+>- Taban sınıf türünden bir referans türemiş sınıf türünden bir referansa doğrudan (implicit) dönüştürülemez. Bu dönüşüm explicit olarak yapılabilir. Bu dönüşme **downcasting** denir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+         B b = new B();  
+         A a;  
+  
+         a = b;  
+    }  
+}  
+  
+  
+class B extends A {  
+    //...  
+}  
+  
+class A {  
+    //...  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+         A a = new A();  
+         B b;  
+           
+         b = a; //error   
+}  
+}  
+  
+class B extends A {  
+    //...  
+}  
+  
+class A {  
+    //...  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+         A a = new A();  
+         B b;  
+  
+         b = (B)a;  
+    }  
+}  
+  
+class B extends A {  
+    //...  
+}  
+  
+class A {  
+    //...  
+}
+```
+
+###### Yukarıya Doğru Dönüşüm (Upcasting)
+
+>Bu dönüşüm yapıldığında **türemiş sınıf nesnesinin taban sınıf kısmının adresi, taban sınıf referansına atamış olur.**
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+  
+        B x = new B();  
+        A y;  
+  
+        x.a = 10;  
+        x.b = 20;  
+        y = x; //upcasting  
+  
+        Console.writeLine("x.a = %d, x.b = %d", x.a, x.b);  
+        Console.writeLine("y.a = %d", y.a);  
+        Console.writeLine("-----------------------------------");  
+  
+        ++y.a;  
+  
+        Console.writeLine("x.a = %d, x.b = %d", x.a, x.b);  
+        Console.writeLine("y.a = %d", y.a);  
+        Console.writeLine("-----------------------------------");  
+  
+        ++x.a;  
+  
+        Console.writeLine("x.a = %d, x.b = %d", x.a, x.b);  
+        Console.writeLine("y.a = %d", y.a);  
+        Console.writeLine("-----------------------------------");  
+    }  
+}  
+  
+class C extends B {  
+    public int c;  
+  
+   //...  
+}  
+  
+class B extends A {  
+    public int b;  
+  
+    //..  
+}  
+  
+class A {  
+    public int a;  
+  
+    //...  
+}
+```
+
+>Yukarıdaki demo örneğin sınıf şeması detaylar gözardı edilerek şu şekildedir:
+
+![inheritance3](./media/inheritance3.png)
+>Yukarıdaki demo örneğe ilişkin sınıflar türünden nesnelerin bellekteki durumları şu şekilde gösterilebilir:
+
+
+![Inheritance Memory](./media/inheritancememory.png)
+
+>Upcasting argümandan parametre aktarım ve metodun geri dönüş değerinin geçici değişkene atanması durumunlarında da geçerlidir.
+
+
+>Upcasting ile özellikle türden bağımsız (type independent) kodlar yazılabilmektedir. Aşağıdaki demo örnekte A hiyerarşisine yeni bir sınıf eklendiğinde yani A'dan doğrudan ya da dolaylı olarak yeni bir sınıf türetildiğinde Sample sınıfının doWork metodunda ve DemoApp sınıfında değişiklik yapılması gerekmez. Demo örnekte `Sample sınıfının doWork metodu ve DemoApp sınıfı A'dan türeyen sınıflardan bağımsız yazılmıştır`. Başka bir deyişle `Sample sınıfının doWork metodu ve DemoApp sınıfı A hiyerarşisinde yalnızda A sınıfına bağlıdır (dependency). 
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        while (true) {  
+            Console.writeLine("--------------------------------");  
+            A x = factory.create();  
+  
+            Sample.doWork(x);  
+            Console.writeLine("--------------------------------");  
+            ThreadUtil.sleep(1000);  
+        }  
+    }  
+}  
+  
+class Sample {  
+    public static void doWork(A x)  
+    {  
+        Console.writeLine("a = %d", x.a);  
+    }  
+    //...  
+}  
+  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(7)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class G extends D {  
+    public int g;  
+  
+    public G()  
+    {  
+        Console.writeLine("G");  
+    }  
+    //...  
+}  
+  
+class F extends A {  
+    public int f;  
+  
+    public F()  
+    {  
+        Console.writeLine("F");  
+    }  
+  
+    //...  
+}  
+  
+class E extends C {  
+    public int e;  
+  
+    public E()  
+    {  
+        Console.writeLine("E");  
+    }  
+  
+    //...  
+}  
+  
+class D extends B {  
+    public int d;  
+  
+    public D()  
+    {  
+        Console.writeLine("D");  
+    }  
+  
+    //...  
+}  
+  
+  
+class C extends B {  
+    public int c;  
+  
+    public C()  
+    {  
+        Console.writeLine("C");  
+    }  
+  
+   //...  
+}  
+  
+  
+  
+class B extends A {  
+    public int b;  
+    public B()  
+    {  
+        Console.writeLine("B");  
+    }  
+  
+    //..  
+}  
+  
+class A {  
+    public int a;  
+  
+    public A()  
+    {  
+        Console.writeLine("A");  
+    }  
+    //...  
+}
+```
+
+>Object sınıfı, her sınıfın doğrudan ya da dolaylı olarak taban sınıfı olduğuna göre, her türden referans Object türden referansa doğrudan atanabilir/dönüşebilir. Object sınıfına herhangi bir türden referansın atanabilmesinin anlamı ileride ele alınacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.AnalyticalCircle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.wrapper.IntValue;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object oi = IntValue.of(199);  
+        Object or = new Random();  
+        Object os = "ankara";  
+        Object op = Point.createCartesian(100, 2334);  
+        Object oac = new AnalyticalCircle(2.3, 100, 567);  
+        Object oz = new Complex(3, 4);  
+  
+        //...  
+    }  
+}
+```
+
+###### Statik ve Dinamik Türler
+
+>Bir referansın iki tane türü vardır: **statik tür (static type), dinamik tür (dynamic type).** Referansın bildirildiği türe **statik tür (static type)** denir. Derleme zamanına ilişkindir ve değişkenin faaliyet boyunca değişmez. Referansın türü dendiğinde statik tür anlaşılır. Referansın gösterdiği nesnenin gerçek türüne **dinamik tür (dynamic type)** denir. Çalışma zamanına ilişkindir, değişebilir.
+
+**Anahtar Notlar:** Bir referansın dinamik türünün nitelikli ismine (fully qualified name) ilişkin String referansı aşağıdaki genel biçimde elde edilebilir:
+
+```java
+
+<referans>.getClass().getName()
+```
+
+Bu kalıbın detayları şu aşamada önemsidir.
+
+>Aşağıdaki demo örneği inceliyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        A x;  
+  
+  
+        while (true) {  
+            Console.writeLine("--------------------------------");  
+            x = factory.create();  
+  
+            Console.writeLine("Dynamic typeof x is '%s'", x.getClass().getName());  
+  
+            Sample.doWork(x);  
+            Console.writeLine("--------------------------------");  
+            ThreadUtil.sleep(1000);  
+        }  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+    public static void doWork(A x)  
+    {  
+        Console.writeLine("a = %d", x.a);  
+    }  
+    //...  
+}  
+  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(7)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class G extends D {  
+    public int g;  
+  
+    //...  
+}  
+  
+class F extends A {  
+    public int f;  
+    //...  
+}  
+  
+class E extends C {  
+    public int e;  
+    //...  
+}  
+  
+class D extends B {  
+    public int d;  
+    //...  
+}  
+  
+  
+class C extends B {  
+    public int c;  
+  
+    //...  
+}  
+  
+  
+  
+class B extends A {  
+    public int b;  
+  
+    //..  
+}  
+  
+class A {  
+    public int a;  
+  
+    //...  
+}
+```
+
+##### Aşağıya Doğru Dönüşüm (Downcasting)
+
+>
