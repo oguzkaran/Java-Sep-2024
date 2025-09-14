@@ -19,12 +19,19 @@ class DemoApp {
 
         A x;
 
-
         while (true) {
             Console.writeLine("--------------------------------");
             x = factory.create();
 
             Console.writeLine("Dynamic typeof x is '%s'", x.getClass().getName());
+
+            if (x instanceof D y) {
+                Console.writeLine("valid casting");
+                y.d = 20;
+            }
+            else {
+                Console.writeLine("invalid casting");
+            }
 
             Sample.doWork(x);
             Console.writeLine("--------------------------------");
@@ -43,22 +50,26 @@ class Sample {
     //...
 }
 
-
 class AFactory {
     private final Random m_random = new Random();
 
     public A create()
     {
-        return switch (m_random.nextInt(7)) {
+        return switch (m_random.nextInt(8)) {
             case 1 -> new B();
             case 2 -> new C();
             case 3 -> new D();
             case 4 -> new E();
             case 5 -> new F();
             case 6 -> new G();
+            case 7 -> new H();
             default -> new A();
         };
     }
+}
+
+class H extends G {
+    //...
 }
 
 class G extends D {
@@ -89,11 +100,8 @@ class C extends B {
     //...
 }
 
-
-
 class B extends A {
     public int b;
-
     //..
 }
 

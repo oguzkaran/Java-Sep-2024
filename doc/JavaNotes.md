@@ -29,7 +29,7 @@
 > 
 > **3. Geniş bir sınıf kütüphanesi:** Java'da oldukça geniş sınıf kütüphanesi bulunur. Dosya işlemleri, veritabanı işlemleri vb. işlemler için hazır sınıflar bulunur. Java'nın standart olarak kullanılan kütüphanelerine "Java Standard Edition (Java SE)" denilmektedir. Ayrıca Java programlamada pratikte başka kişiler, organizasyonlar ve firmalar tarafından geliştirilmiş adeta standart gibi kullanılan pek çok kütüphane de bulunmaktadır.
 > 
-> **4. Güvenli çalışma ortamı:** Java'da yazılmış olan bir programın sisteme zarar verme olasılığı çok daha azdır. Yazılan bir program yüzünden yanlıkla sistemde bir problem olma olasığı oldukça düşüktür.
+> **4. Güvenli çalışma ortamı:** Java'da yazılmış olan bir programın sisteme zarar verme olasılığı çok daha azdır. Yazılan bir program yüzünden yanlışlıkla sistemde bir problem olma olasılığı oldukça düşüktür.
 
 ###### 28 Eylül 2024 - 29 Eylül 2024
 
@@ -30817,6 +30817,501 @@ class A {
 }
 ```
 
+###### 14 Eylül 2025
+
 ##### Aşağıya Doğru Dönüşüm (Downcasting)
 
->
+>Bu dönüşüm doğrudan yapılamaz, tür dönüştürme operatörü ile yapılabilir. Aslında tür dönüştürme operatörü derlemenin başarılı olması içindir. Çalışma zamanında kaynak referansın yani türemiş sınıf türünden referansın dinamik türüne bakılır, dinamik tür hedef türü (tür dönüştürme operatörüne yazılan türü) kapsıyorsa **haklı dönüşüm (valid casting)** olarak ele alınır ve akış devam eder. Kapsamıyorsa **haksız dönüşüm (invalid casting)** olarak ele alınır ve exception oluşur. Buradaki kapsamanın nesnesel kapsama olduğunu anımsayınız. 
+
+>Aşağıdaki demo örneği çalıştırıp dinamik türe göre akışı gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        A x;  
+  
+        while (true) {  
+            Console.writeLine("--------------------------------");  
+            x = factory.create();  
+  
+            Console.writeLine("Dynamic typeof x is '%s'", x.getClass().getName());  
+  
+            D y = (D)x;  
+            
+	        y.d = 20;
+  
+            Sample.doWork(x);  
+            Console.writeLine("--------------------------------");  
+            ThreadUtil.sleep(1000);  
+        }  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+    public static void doWork(A x)  
+    {  
+        Console.writeLine("a = %d", x.a);  
+    }  
+    //...  
+}  
+  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(7)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class G extends D {  
+    public int g;  
+  
+    //...  
+}  
+  
+class F extends A {  
+    public int f;  
+    //...  
+}  
+  
+class E extends C {  
+    public int e;  
+    //...  
+}  
+  
+class D extends B {  
+    public int d;  
+    //...  
+}  
+  
+  
+class C extends B {  
+    public int c;  
+  
+    //...  
+}  
+  
+class B extends A {  
+    public int b;  
+    //..  
+}  
+  
+class A {  
+    public int a;  
+  
+    //...  
+}
+```
+
+###### instanceof Operatörü
+
+>Bir referansın dinamik türünü test etmek için **instanceof** operatörü kullanılır. Bu operatör özel amaçlı (special purpose), iki operandlı (binary), ara ek (infix) durumundadır. Bu operatörün birinci operandı bir referans olmalıdır. İkinci operandı ise bir referans türü olmalıdır. Bu operatör `<, >, <=, >=` operatörleri ile aynı öncelik grubundadır. Operatör birinci operandına ilişkin referansın türü ikinci operandına ilişkin türü kapsıyorsa true, kapsamıyorsa false değerini üretir. Bu operatör tipik olarak downcasting işleminin, haksız dönüşümden dolayı exception oluşmayacak şekilde yapılabilmesi için kullanılır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        A x;  
+  
+        while (true) {  
+            Console.writeLine("--------------------------------");  
+            x = factory.create();  
+  
+            Console.writeLine("Dynamic typeof x is '%s'", x.getClass().getName());  
+  
+            if (x instanceof D) {  
+                Console.writeLine("valid casting");  
+                D y = (D)x;  
+  
+                y.d = 20;  
+            }  
+            else {  
+                Console.writeLine("invalid casting");  
+            }  
+  
+            Sample.doWork(x);  
+            Console.writeLine("--------------------------------");  
+            ThreadUtil.sleep(1000);  
+        }  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+    public static void doWork(A x)  
+    {  
+        Console.writeLine("a = %d", x.a);  
+    }  
+    //...  
+}  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(8)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            case 7 -> new H();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class H extends G {  
+    //...  
+}  
+  
+class G extends D {  
+    public int g;  
+  
+    //...  
+}  
+  
+class F extends A {  
+    public int f;  
+    //...  
+}  
+  
+class E extends C {  
+    public int e;  
+    //...  
+}  
+  
+class D extends B {  
+    public int d;  
+    //...  
+}  
+  
+  
+class C extends B {  
+    public int c;  
+  
+    //...  
+}  
+  
+class B extends A {  
+    public int b;  
+    //..  
+}  
+  
+class A {  
+    public int a;  
+  
+    //...  
+}
+```
+
+>Java 14 ile birlikte **pattern matching with instanceof** dile eklenerek instanceof operatörü ile birlikte downcasting işlemi otomatik olarak yapılır duruma gelmiş, dolayısıyla kullanımı basitleştirilmiştir. Bu durumda ilgili downcasting işlemine ilişkin kodu derleyici üretir.
+
+>Yukarıdaki demo örnek aşağıdaki gibi yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        A x;  
+  
+        while (true) {  
+            Console.writeLine("--------------------------------");  
+            x = factory.create();  
+  
+            Console.writeLine("Dynamic typeof x is '%s'", x.getClass().getName());  
+  
+            if (x instanceof D y) {  
+                Console.writeLine("valid casting");  
+                y.d = 20;  
+            }  
+            else {  
+                Console.writeLine("invalid casting");  
+            }  
+  
+            Sample.doWork(x);  
+            Console.writeLine("--------------------------------");  
+            ThreadUtil.sleep(1000);  
+        }  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+    public static void doWork(A x)  
+    {  
+        Console.writeLine("a = %d", x.a);  
+    }  
+    //...  
+}  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(8)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            case 7 -> new H();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class H extends G {  
+    //...  
+}  
+  
+class G extends D {  
+    public int g;  
+  
+    //...  
+}  
+  
+class F extends A {  
+    public int f;  
+    //...  
+}  
+  
+class E extends C {  
+    public int e;  
+    //...  
+}  
+  
+class D extends B {  
+    public int d;  
+    //...  
+}  
+  
+  
+class C extends B {  
+    public int c;  
+  
+    //...  
+}  
+  
+class B extends A {  
+    public int b;  
+    //..  
+}  
+  
+class A {  
+    public int a;  
+  
+    //...  
+}
+```
+
+>Burada pattern olarak bildirilen değişken yalnızca ilgili if deyiminin doğru kısmında görülebilirdir. 
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.random.generator.ObjectArrayGenerator;  
+import org.csystem.util.console.Console;  
+  
+import java.util.Random;  
+  
+public class DemoObjectArrayGeneratorApp {  
+    public  static void run()  
+    {  
+        int count = Console.readInt("Inout count:");  
+  
+        ObjectArrayGenerator generator = new ObjectArrayGenerator();  
+  
+        for (Object o : generator.createObjectArray(count)) {  
+            Console.writeLine("----------------------------------------------------");  
+            Console.writeLine("Dynamic type: %s", o.getClass().getName());  
+  
+            if (o instanceof Point p)  
+                Console.writeLine("Distance to origin of %s is %f", p.toString(), p.euclideanDistance());  
+            else if (o instanceof Complex c)  
+                Console.writeLine("Norm of %s is %f", c.toString(), c.getNorm());  
+            else if (o instanceof Circle c)  
+                Console.writeLine("Radius:%f, Area:%f", c.getRadius(), c.getArea());  
+            else if (o instanceof String s)  
+                Console.writeLine("Text:%s, Upper:%s", s, s.toUpperCase());  
+            else {  
+                Random random = (Random) o;  
+  
+                Console.writeLine("Random number:%d", random.nextInt());  
+            }  
+  
+            Console.writeLine("----------------------------------------------------");  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>Java 17 ile birlikte **pattern matching with switch expression** dile `preview` eklenmiştir. Daha sonraki sürümlerde doğrudan kullanılabilir duruma gelmiştir. Java programcısı açısında pratikte Java 21 ile kullanılabilirdir. Bu expression ile bir referansın dinamik türünün bir türü kapsayıp kapsamadığı case bölümlerinde kontrol edilip işlem yapılabilir. Switch expression'ın bu kullanımı instanceof operatörüne alternatif yeni bir sentakstır.
+
+>Yukarıdaki örnek aşağıdaki gibi yapılabilir
+
+```java
+package org.csystem.app.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.random.generator.ObjectArrayGenerator;  
+import org.csystem.util.console.Console;  
+  
+import java.util.Random;  
+  
+public class DemoObjectArrayGeneratorApp {  
+    public  static void run()  
+    {  
+        int count = Console.readInt("Inout count:");  
+  
+        ObjectArrayGenerator generator = new ObjectArrayGenerator();  
+  
+        for (Object o : generator.createObjectArray(count)) {  
+            Console.writeLine("----------------------------------------------------");  
+            Console.writeLine("Dynamic type: %s", o.getClass().getName());  
+  
+            switch (o) {  
+                case Point p -> Console.writeLine("Distance to origin of %s is %f", p.toString(), p.euclideanDistance());  
+                case Complex c -> Console.writeLine("Norm of %s is %f", c.toString(), c.getNorm());  
+                case Circle c -> Console.writeLine("Radius:%f, Area:%f", c.getRadius(), c.getArea());  
+                case String s -> Console.writeLine("Text:%s, Upper:%s", s, s.toUpperCase());  
+                default -> {Random random = (Random) o; Console.writeLine("Random number:%d", random.nextInt()); }  
+            }  
+  
+            Console.writeLine("----------------------------------------------------");  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+
+>`ObjectArrayGenerator` sınıfı
+
+```java
+package org.csystem.random.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.AnalyticalCircle;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+  
+public class ObjectArrayGenerator {  
+    private final Random m_random = new Random();  
+  
+  
+    private Object createObject()  
+    {  
+        return switch (m_random.nextInt(0, 6)) {  
+            case 0 -> Point.createCartesian(m_random.nextDouble(-100, 100), m_random.nextDouble(-100, 100));  
+            case 1 -> new Complex(m_random.nextDouble(-10, 10), m_random.nextDouble(-10, 10));  
+            case 2 -> new Circle(m_random.nextInt(-10, 10));  
+            case 3 -> new AnalyticalCircle(m_random.nextInt(-10, 10), m_random.nextInt(-100, 100), m_random.nextInt(-100, 100));  
+            case 4 -> StringUtil.randomTextEN(m_random, m_random.nextInt(5, 16));  
+            default -> new Random();  
+        };  
+    }  
+  
+    public Object [] createObjectArray(int count)  
+    {  
+        Object [] objects = new Object[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            objects[i] = createObject();  
+  
+        return objects;  
+    }  
+}
+```
+
+**Anahtar Notlar:** Programlamada, dilin de desteği olması koşuluyla çalışma zamanında tür bilgisinin elde edilmesine genel olarak **Runtime Type Information (RTTI)** denilmektedir.
+
