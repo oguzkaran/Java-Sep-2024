@@ -5,11 +5,15 @@ import java.util.Scanner;
 
 /**
  * Utility class for console operations
- * Last Update: 27th September 2025
+ * Last Update: 20th September 2025
  * @author Java-Sep-2024 Group
  */
 public final class Console {
+    private static final int RADIX_DECIMAL = 10;
+    private static final int RADIX_HEXADECIMAL = 16;
+    private static final int RADIX_BINARY = 2;
     private static final Scanner KB = new Scanner(System.in);
+
     private Console()
     {}
 
@@ -20,10 +24,41 @@ public final class Console {
 
     public static int readInt(String prompt)
     {
+        return readInt(prompt, RADIX_DECIMAL);
+    }
+
+    public static int readInt(int radix)
+    {
+        return readInt("", radix);
+    }
+
+    public static int readInt(String prompt, int radix)
+    {
         System.out.print(prompt);
 
-        return Integer.parseInt(KB.nextLine());
+        return Integer.parseInt(KB.nextLine(), radix);
     }
+
+    public static int readIntHexadecimal()
+    {
+        return readIntHexadecimal("");
+    }
+
+    public static int readIntHexadecimal(String prompt)
+    {
+        return readInt(prompt, RADIX_HEXADECIMAL);
+    }
+
+    public static int readIntBinary()
+    {
+        return readIntBinary("");
+    }
+
+    public static int readIntBinary(String prompt)
+    {
+        return readInt(prompt, RADIX_BINARY);
+    }
+
 
     public static double readDouble()
     {
@@ -44,9 +79,39 @@ public final class Console {
 
     public static long readLong(String prompt)
     {
+        return readLong(prompt, RADIX_DECIMAL);
+    }
+
+    public static long readLong(int radix)
+    {
+        return readLong("", radix);
+    }
+
+    public static long readLong(String prompt, int radix)
+    {
         System.out.print(prompt);
 
         return Long.parseLong(KB.nextLine());
+    }
+
+    public static long readLongHexadecimal()
+    {
+        return readLongHexadecimal("");
+    }
+
+    public static long readLongHexadecimal(String prompt)
+    {
+        return readLong(prompt, RADIX_HEXADECIMAL);
+    }
+
+    public static long readLongBinary()
+    {
+        return readLongBinary("");
+    }
+
+    public static long readLongBinary(String prompt)
+    {
+        return readLong(prompt, RADIX_BINARY);
     }
 
     public static String readString()

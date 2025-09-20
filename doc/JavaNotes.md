@@ -876,7 +876,7 @@ class App {
 	}
 }
 ```
-**Anahtar Notlar:** Programlamada artık kullanılması önerilmez bir araç için **deprecated** terimi kullanılır. Deprecated olmanın çeşitli gerekçeleri olabilir. Programcı deprecated olan bir şeyi özel bir durum yoksa kullanmamlıdır. Deprecated olmanın gerekçeleri ve yerine kullanılacaklar çoğu zaman dökumante edilir.
+**Anahtar Notlar:** Programlamada artık kullanılması önerilmeyen bir araç için **deprecated** terimi kullanılır. Deprecated olmanın çeşitli gerekçeleri olabilir. Programcı deprecated olan bir şeyi özel bir durum yoksa kullanmamlıdır. Deprecated olmanın gerekçeleri ve yerine kullanılacaklar çoğu zaman dökumante edilir.
 
 ##### 19 Ekim 2024
 
@@ -2784,7 +2784,7 @@ class App {
 }
 
 ```
->Mod işlemi için `%` atomu kullanılır. Mod alma işlemi de bölme işlemi kullanılarak yapıldığından bu operatör `/` ve `*` operatörleri ile aynı seviyededir. Bu operatör daha çok tamsayılarla kullanılsa da gerçek sayılar için de kullanılabilmektedir. Bu operatörün ikinci operandının negatif olmasının bir önemi yoktur. n pozitif bir sayı olmak üzere, bir sayının n sayısına göre modunu almakla -n sayısına göre modunu almak aynı sonucu verir. Bu opetörün birinci operandının pozitif olması durumu Matematikteki ile aynıdır ancak negatif olması durumunda operandın pozitif olması durumunda elde edilen değerin negatifi elde edilir. Yani bu operatörün birinci operandının negatif olması durumda elde edilen Matematikteki mod işleminden farklıdır.
+>Mod işlemi için `%` atomu kullanılır. Mod alma işlemi de bölme işlemi kullanılarak yapıldığından bu operatör `/` ve `*` operatörleri ile aynı seviyededir. Bu operatör daha çok tamsayılarla kullanılsa da gerçek sayılar için de kullanılabilmektedir. Bu operatörün ikinci operandının negatif olmasının bir önemi yoktur. n pozitif bir sayı olmak üzere, bir sayının n sayısına göre modunu almakla -n sayısına göre modunu almak aynı sonucu verir. Bu operatörün birinci operandının pozitif olması durumu Matematikteki ile aynıdır ancak negatif olması durumunda operandın pozitif olması durumunda elde edilen değerin negatifi elde edilir. Yani bu operatörün birinci operandının negatif olması durumda elde edilen Matematikteki mod işleminden farklıdır.
 
 >Aşağıdaki demo örneği çeşitli değerler ile sonuçları gözlemleyiniz
 ```java
@@ -2925,7 +2925,7 @@ class App {
 }
 
 ```
->Aslında teknik olarak doğrudan negatif sabit yoktur. Nagatif bir sabit aslında bir sabite işaret `-` uygulamyarak yazılmış olur
+>Aslında teknik olarak doğrudan negatif sabit yoktur. Negatif bir sabit aslında bir sabite işaret `-` uygulayarak yazılmış olur
 
 **Anahtar Notlar:** Okunabilirlik/algılanabilirlik açısından binary bir operatör ile operandları arasında bir ve yalnız bir tane space karakteri yazılır. Yine özel bazı operatörler dışında unary bir operatör ile operandı bitişik olarak yazılır. 
 
@@ -15094,7 +15094,7 @@ class App {
 }
 ```
 
->`Integer` sınıfının `parseInt`, `Long` sınıfının `parseLong`, `Double` sınıfının `parseDouble`, `Short` sınıfının `parseShort`, `Byte` sınıfının `parseByte`, `Float` sınıfının `parseFloat` ve `Boolean` sınıfının `parseBoolean` metotları yazıyı ilgili türe çevirmek için kullanılır. `parseBoolean` dışında kalan diğer `parseXXX` metotları çeviremedikleri durumda exception oluşur. `parseBoolean` metodu çeviremediği durumda false değerine geri döner. Aslında `parseBoolean` metodu case-insensitive olarak `true` yazısı için true, diğer tüm yazılar için false değerine geri döner. 
+>`Integer` sınıfının `parseInt`, `Long` sınıfının `parseLong`, `Double` sınıfının `parseDouble`, `Short` sınıfının `parseShort`, `Byte` sınıfının `parseByte`, `Float` sınıfının `parseFloat` ve `Boolean` sınıfının `parseBoolean` metotları yazıyı ilgili türe çevirmek için kullanılır. `parseBoolean` dışında kalan diğer `parseXXX` metotları yazıyı çeviremedikleri durumda exception oluşur. `parseBoolean` metodu çeviremediği durumda false değerine geri döner. Aslında `parseBoolean` metodu case-insensitive olarak `true` yazısı için true, diğer tüm yazılar için false değerine geri döner. 
 
 
 >Aşağıdaki demo örneği inceleyiniz
@@ -31315,3 +31315,132 @@ public class ObjectArrayGenerator {
 
 **Anahtar Notlar:** Programlamada, dilin de desteği olması koşuluyla çalışma zamanında tür bilgisinin elde edilmesine genel olarak **Runtime Type Information (RTTI)** denilmektedir.
 
+###### 20 Eylül 2025
+##### Sarmalayan Sınıflar (Wrapper Classes)
+
+>JavaSE'de her temel türe karşılık gelen bir sınıf vardır. Bu sınıflara **sarmalayan sınıflar (wrapper classes)** denir. Sarmalayan sınıflar ve ilişkin oldukları temel türler şu şekildedir:
+
+| Temel Tür | Sarmalayan Sınıf |
+| --------- | ---------------- |
+| short     | Short            |
+| int       | Integer          |
+| long      | Long             |
+| byte      | Byte             |
+| float     | Float            |
+| double    | Double           |
+| char      | Character        |
+| boolean   | Boolean          |
+
+>Bu sınıfların sarmalama dışında ilgili temel türe ilişkin pek çok yararlı elemanı bulunur. Anımsanacağı gibi `Character`sınıfı dışında kalan diğer sınıfların `parseXXX` metotları aldıkları yazıyı ilgili temel türe çevirmek için kullanılırlar. 
+
+###### Sarmalayan Sınıfların Temel Özellikleri
+
+>Sarmalayan sınıfların temel özellikleri şunlardır:
+>
+>- Bu sınıflar `java.lang` paketi içerisindedir. 
+>
+>- Tamsayı ve gerçek sayı türlerine ilişkin sarmalayan sınıflar (Short, Integer, Long, Byte, Float, Double) `java.lang` paketi içerisinde bulunan `Number` isimli sınıftan türetilmişlerdir. Character ve Boolean sınıfları, Object sınıfından türetilmişlerdir. 
+>
+>- Tamsayı ve gerçek sayı türlerine ilişkin sarmalayan sınıflara (Short, Integer, Long, Byte, Float, Double) **numeric classes** da denilmektedir. 
+>
+>- Sarmalayan sınıfların ctor'ları `Java 9` ile birlikte `deprecated` olmuştur ve aynı zamanda ilerleyen sürümlerde silineceği (yani artık olmayacağı) belirtilmiştir. Zaten, ileride göreceğimiz nedenlerden dolayı `Java 5` ile birlikte bu sınıfların ctor'ları ile nesne yaratılması önerilmemektedir. Dolayısıyla, `Java 5` ile birlikte programcılar tarafından da kullanılmamaktadır.
+>
+>- Sarmalayan sınıflar, temel türden bir değerin heap'de tutulması için kullanılırlar. Anımsanacağı gibi, temel türden değerin heap'de tutulmasına **kutulama (boxing)**, heap'de tutulan temel türden bir değerin elde edilmesine ise **kutu açma (unboxing)** denilmektedir.
+>
+>- Sarmalayan sınıflar immutable'dır. Yani kutuladıkları değer değiştirilemez.
+>
+>- Bu sınıflar, kutuladıkları değerlere ilişkin **ön bellek (cache)** kullanarak daha etkin bir bellek kullanımı ve zaman kullanımı  sağlarlar.
+>
+>- Sarmalayan sınıflara **platform classes** denilmektedir.
+
+
+###### Sarmalayan Sınıfların Bazı Yararlı Elemanları
+
+>Boolean sınıfı dışında kalan sarmalayan sınıfların **BYTES** ve **SIZE** public static ve final veri elemanları sırasıyla ilgili temel türe ilişkin `byte` ve `bit` cinsinden uzunluk bilgisidir.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Console.writeLine("short -> %d/%d bytes/bits", Short.BYTES, Short.SIZE);  
+        Console.writeLine("int -> %d/%d bytes/bits", Integer.BYTES, Integer.SIZE);  
+        Console.writeLine("long -> %d/%d bytes/bits", Long.BYTES, Long.SIZE);  
+        Console.writeLine("byte -> %d/%d byte/bits", Byte.BYTES, Byte.SIZE);  
+        Console.writeLine("double -> %d/%d bytes/bits", Double.BYTES, Double.SIZE);  
+        Console.writeLine("float -> %d/%d bytes/bits", Float.BYTES, Float.SIZE);  
+        Console.writeLine("char -> %d/%d bytes/bits", Character.BYTES, Character.SIZE);  
+    }  
+}
+```
+
+>Boolean sınıfı dışında kalan sarmalayan sınıfların **MIN_VALUE** ve **MAX_VALUE** public static ve final veri elemanları sırasıyla ilgili temel türe ilişkin `en küçük` ve `en büyük` değer bilgisidir. Float ve Double sınıflarının MIN_VALUE ve MAX_VALUE değerleri pozitiftir. Gerçek sayıların tutuluş formatında (IEEE 754) bu değerlerin negatif olanları da sınır değerleridir.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Console.writeLine("short -> [%d, %d]", Short.MIN_VALUE, Short.MAX_VALUE);  
+        Console.writeLine("int -> [%d, %d]", Integer.MIN_VALUE, Integer.MAX_VALUE);  
+        Console.writeLine("long -> [%d, %d]", Long.MIN_VALUE, Long.MAX_VALUE);  
+        Console.writeLine("byte -> [%d, %d]", Byte.MIN_VALUE, Byte.MAX_VALUE);  
+        Console.writeLine("double -> [-+" + Double.MIN_VALUE + ", -+" + Double.MAX_VALUE + "]");  
+        Console.writeLine("float -> [-+" + Float.MIN_VALUE + ", -+" + Float.MAX_VALUE + "]");  
+        Console.writeLine("char -> [%d, %d]", (int) Character.MIN_VALUE, (int)Character.MAX_VALUE);  
+    }  
+}
+```
+
+>Tamsayı türlerine ilişkin sarmalayan sınıfların (Short, Integer, Long, Byte) `sayı sistemi (radix)` parametreli `parseXXX` metotları ilgili yazıyı aldığı sayı sistemine göre ilgili yazıya çevirmeye çalışır. Çeviremezlerse exception oluşur. 
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package org.csystem.app;  
+
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Scanner kb = new Scanner(System.in);  
+  
+        System.out.print("Input a hex number:");  
+        int a = Integer.parseInt(kb.nextLine(), 16);  
+          
+        System.out.printf("a = %d%n", a);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Scanner kb = new Scanner(System.in);  
+  
+        System.out.print("Input a binary number:");  
+        int a = Integer.parseInt(kb.nextLine(), 2);  
+  
+        System.out.printf("a = %d%n", a);  
+    }  
+}
+```
+
+>Sarmalayan sınıfların bunlar dışında da pek çok yararlı elemanı bulunur. Bu elemanlar ihtiyaca incelenebilir.
+
+###### Sarmalama İşlemi
+
+>
