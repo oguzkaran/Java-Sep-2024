@@ -1,11 +1,22 @@
 package org.csystem.app;
 
-import org.csystem.app.Circle;
-import com.huseyinyilmaz.math.Circle;
+import org.csystem.util.console.Console;
 
 class App {
-	public static void main(String [] args)
-	{
-		//Circle c;
-	}
+    public static void main(String[] args)
+    {
+        Object o = 12; //Integer.valueOf(12)
+        long val;
+
+        val = (long)o; //((Long)o).longValue();
+
+        Console.writeLine("val = %d", val);
+    }
 }
+
+Bu kod için aşağıdakilerden hangisi doğrudur
+
+1. Sentaks hatası vardır. Nedeni ...
+2. Ekrana val = 12 yazılır
+3. Exception oluşur. Nedeni  ...
+4. Hiçbiri. Ne olur?...
