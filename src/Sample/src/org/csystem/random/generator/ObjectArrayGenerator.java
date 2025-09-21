@@ -14,12 +14,16 @@ public class ObjectArrayGenerator {
 
     private Object createObject()
     {
-        return switch (m_random.nextInt(0, 6)) {
+        return switch (m_random.nextInt(0, 10)) {
             case 0 -> Point.createCartesian(m_random.nextDouble(-100, 100), m_random.nextDouble(-100, 100));
             case 1 -> new Complex(m_random.nextDouble(-10, 10), m_random.nextDouble(-10, 10));
             case 2 -> new Circle(m_random.nextInt(-10, 10));
             case 3 -> new AnalyticalCircle(m_random.nextInt(-10, 10), m_random.nextInt(-100, 100), m_random.nextInt(-100, 100));
             case 4 -> StringUtil.randomTextEN(m_random, m_random.nextInt(5, 16));
+            case 5 -> m_random.nextInt(-128, 128);
+            case 6 -> (char)((m_random.nextBoolean() ? 'A' : 'a') + m_random.nextInt(26));
+            case 7 -> m_random.nextDouble();
+            case 8 -> m_random.nextBoolean();
             default -> new Random();
         };
     }

@@ -11,7 +11,7 @@ import java.util.Random;
 public class DemoObjectArrayGeneratorApp {
     public  static void run()
     {
-        int count = Console.readInt("Inout count:");
+        int count = Console.readInt("Input count:");
 
         ObjectArrayGenerator generator = new ObjectArrayGenerator();
 
@@ -24,6 +24,10 @@ public class DemoObjectArrayGeneratorApp {
                 case Complex c -> Console.writeLine("Norm of %s is %f", c.toString(), c.getNorm());
                 case Circle c -> Console.writeLine("Radius:%f, Area:%f", c.getRadius(), c.getArea());
                 case String s -> Console.writeLine("Text:%s, Upper:%s", s, s.toUpperCase());
+                case Integer i -> {int a = i; Console.writeLine("%d * %d = %d", a, a, a * a);}
+                case Character c -> {char ch = c; Console.writeLine("ch = %c, lower: %c", ch, Character.toLowerCase(ch));}
+                case Double d -> {double a = d; Console.writeLine("%f + %f = %f", a, a, a + a);}
+                case Boolean b -> {boolean flag = b; Console.writeLine("flag = %b, !flag = %b", flag, !flag);}
                 default -> {Random random = (Random) o; Console.writeLine("Random number:%d", random.nextInt()); }
             }
 

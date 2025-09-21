@@ -59,7 +59,6 @@ public final class Console {
         return readInt(prompt, RADIX_BINARY);
     }
 
-
     public static double readDouble()
     {
         return readDouble("");

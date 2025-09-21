@@ -31193,7 +31193,7 @@ import java.util.Random;
 public class DemoObjectArrayGeneratorApp {  
     public  static void run()  
     {  
-        int count = Console.readInt("Inout count:");  
+        int count = Console.readInt("Input count:");  
   
         ObjectArrayGenerator generator = new ObjectArrayGenerator();  
   
@@ -31244,7 +31244,7 @@ import java.util.Random;
 public class DemoObjectArrayGeneratorApp {  
     public  static void run()  
     {  
-        int count = Console.readInt("Inout count:");  
+        int count = Console.readInt("Input count:");  
   
         ObjectArrayGenerator generator = new ObjectArrayGenerator();  
   
@@ -31441,6 +31441,532 @@ class App {
 
 >Sarmalayan sınıfların bunlar dışında da pek çok yararlı elemanı bulunur. Bu elemanlar ihtiyaca incelenebilir.
 
+###### 21 Eylül 2025
 ###### Sarmalama İşlemi
 
->
+>Boolean sınıfına `Java 4` ile, diğer sarmalayan sınıflara `Java 5` ile birlikte ilgili temel türden parametreli **valueOf** factory metotları eklenmiştir. **valueOf** metotları ön bellek kullanırlar. Tamsayı türlerine ilişkin sarmalayan sınıfların valueOf metotları `[-128, 127]` aralığındaki değerler için ön bellek tutarlar. Bu aralıktaki bir değer için ilgili nesne, değer ilk kez sarmalandığında yaratılır, diğer sarmalamalarda aynı nesnenin referansına geri dönülür. Bu sınırlar dışında kalan değerler için ön bellek tutulup tutulmayacağı derleyiciyi yazanlara bırakılmıştır (implementation defined). Character sınıfının `valueOf` metodu `['\u0000', '\u007F']` aralığındakİ değerler için bir ön bellek tutar.  Bu sınırlar dışında kalan değerler için ön bellek tutulup tutulmayacağı derleyici yazanlar bırakılmıştır. Gerçek sayı türlerine ilişkin sarmalayan sınıflarının (Float, Double) `valueOf` metotları tutuluş formatına uygun olacak şekilde ön bellek tutarlar. Bu sınıfların ön bellek kullanmasındaki temel amaç şu şekilde özetlenmiştir: **to yield significantly better space and time performance** içindir. Bu durumda sarmalayan sınıflar ile kutulama (boxing) yapmak için `valueOf` metotları kullanılmalıdır. Zaten bu sebeple bu sınıfların ctor'ları Java 5'den itibaren kullanılmamaktadır ve Java 9 ile birlikte ileride silinecek şekilde (for removal) deprecated yapılmıştır.
+
+**Anahtar Notlar:** Daha önce yazmış olduğumuz `IntValue` sınıfını inceleyiniz
+
+>Aşağıdaki demo örneği inceleyiniz.
+>**Not:** Örnekte static kod analizi araçlarının valueOf için verebileceği uyarıları şu aşamada dikkate almayınız
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Integer iVal1 = Integer.valueOf(127);  
+        Integer iVal2 = Integer.valueOf(127);  
+        Integer iVal3 = Integer.valueOf(128);  
+        Integer iVal4 = Integer.valueOf(128);  
+  
+        Console.writeLine(iVal1 == iVal2 ? "Aynı nesne" : "Farklı nesneleer");  
+        Console.writeLine(iVal3 == iVal4 ? "Aynı nesne" : "Farklı nesneleer");  
+    }  
+}
+```
+
+
+>Aşağıdaki demo örneği inceleyiniz.
+>**Not:** Örnekte static kod analizi araçlarının valueOf için verebileceği uyarıları şu aşamada dikkate almayınız
+
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Character c1 = Character.valueOf('D');  
+        Character c2 = Character.valueOf('D');  
+        Character c3 = Character.valueOf('Ğ');  
+        Character c4 = Character.valueOf('Ğ');  
+  
+        Console.writeLine(c1 == c2 ? "Aynı nesne" : "Farklı nesneleer");  
+        Console.writeLine(c3 == c4 ? "Aynı nesne" : "Farklı nesneleer");  
+    }  
+}
+```
+
+>Kutulanan değerleri elde etmek için (unboxing) sarmalayan sınıfların `xxxValue` metotları kullanılır. Nümerik sınıfların `xxxValue` metotları `Number` sınıfından gelir.
+
+
+>Aşağıdaki demo örneği inceleyiniz.
+>**Not:** Örnekte static kod analizi araçlarının valueOf ve intValue için verebileceği uyarıları şu aşamada dikkate almayınız
+
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Integer iVal = Integer.valueOf(127); //boxing  
+        int val = iVal.intValue();  //unboxing
+  
+        Console.writeLine("val = %d", val);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz.
+>**Not:** Örnekte static kod analizi araçlarının valueOf ve charValue için verebileceği uyarıları şu aşamada dikkate almayınız
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Character c = Character.valueOf('D');  //boxing
+        char ch = c.charValue();  //unboxing
+  
+        Console.writeLine("ch = %c", ch);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz.
+>**Not:** Örnekte static kod analizi araçlarının valueOf ve booleanValue için verebileceği uyarıları şu aşamada dikkate almayınız
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Boolean b = Boolean.valueOf(true);  //boxing
+        boolean flag = b.booleanValue();  //unboxing
+  
+        Console.writeLine("flag = %b", flag);  
+    }  
+}
+```
+
+>Kutulama ve kutu açma ile temel türden değerler de mantıksal olarak Object referansı ile tutulabilirler. Aslında kutulamanın temel amacı budur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.random.generator.ObjectArrayGenerator;  
+import org.csystem.util.console.Console;  
+  
+import java.util.Random;  
+  
+public class DemoObjectArrayGeneratorApp {  
+    public  static void run()  
+    {  
+        int count = Console.readInt("Input count:");  
+  
+        ObjectArrayGenerator generator = new ObjectArrayGenerator();  
+  
+        for (Object o : generator.createObjectArray(count)) {  
+            Console.writeLine("----------------------------------------------------");  
+            Console.writeLine("Dynamic type: %s", o.getClass().getName());  
+  
+            switch (o) {  
+                case Point p -> Console.writeLine("Distance to origin of %s is %f", p.toString(), p.euclideanDistance());  
+                case Complex c -> Console.writeLine("Norm of %s is %f", c.toString(), c.getNorm());  
+                case Circle c -> Console.writeLine("Radius:%f, Area:%f", c.getRadius(), c.getArea());  
+                case String s -> Console.writeLine("Text:%s, Upper:%s", s, s.toUpperCase());  
+                case Integer i -> {int a = i.intValue(); Console.writeLine("%d * %d = %d", a, a, a * a);}  
+                case Character c -> {char ch = c.charValue(); Console.writeLine("ch = %c, lower: %c", ch, Character.toLowerCase(ch));}  
+                case Double d -> {double a = d.doubleValue(); Console.writeLine("%f + %f = %f", a, a, a + a);}  
+                case Boolean b -> {boolean flag = b.booleanValue(); Console.writeLine("flag = %b, !flag = %b", flag, !flag);}  
+                default -> {Random random = (Random) o; Console.writeLine("Random number:%d", random.nextInt()); }  
+            }  
+  
+            Console.writeLine("----------------------------------------------------");  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+
+```java
+package org.csystem.random.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.AnalyticalCircle;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+  
+public class ObjectArrayGenerator {  
+    private final Random m_random = new Random();  
+  
+  
+    private Object createObject()  
+    {  
+        return switch (m_random.nextInt(0, 10)) {  
+            case 0 -> Point.createCartesian(m_random.nextDouble(-100, 100), m_random.nextDouble(-100, 100));  
+            case 1 -> new Complex(m_random.nextDouble(-10, 10), m_random.nextDouble(-10, 10));  
+            case 2 -> new Circle(m_random.nextInt(-10, 10));  
+            case 3 -> new AnalyticalCircle(m_random.nextInt(-10, 10), m_random.nextInt(-100, 100), m_random.nextInt(-100, 100));  
+            case 4 -> StringUtil.randomTextEN(m_random, m_random.nextInt(5, 16));  
+            case 5 -> Integer.valueOf(m_random.nextInt(-128, 128));  
+            case 6 -> Character.valueOf((char)((m_random.nextBoolean() ? 'A' : 'a') + m_random.nextInt(26)));  
+            case 7 -> Double.valueOf(m_random.nextDouble());  
+            case 8 -> Boolean.valueOf(m_random.nextBoolean());  
+            default -> new Random();  
+        };  
+    }  
+  
+    public Object [] createObjectArray(int count)  
+    {  
+        Object [] objects = new Object[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            objects[i] = createObject();  
+  
+        return objects;  
+    }  
+}
+```
+
+###### Auto-boxing ve Auto-unboxing Kavramları
+
+>Java 5 ile birlikte **otomatik kutulama (auto-boxing)** ve **otomatik kutu açma (auto-unboxing)** kavramları dile eklenmiştir. Bunda göre temel türden bir ifade ilişkin olduğu  sarmalayan sınıf türünden bir referansa veya Object referansına doğrudan atanabilir. Bu durumda derleyici `valueOf` metodunu çağıran kodu yaklaşık olarak üretir. Buna **auto-boxing** denir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Integer iVal1 = 127; //auto-boxing: Integer.valueOf(127)  
+        Integer iVal2 = 127; //auto-boxing: Integer.valueOf(127)  
+        Integer iVal3 = 128; //auto-boxing: Integer.valueOf(128)  
+        Integer iVal4 = 128; //auto-boxing: Integer.valueOf(128)  
+  
+        Console.writeLine(iVal1 == iVal2 ? "Aynı nesne" : "Farklı nesneleer");  
+        Console.writeLine(iVal3 == iVal4 ? "Aynı nesne" : "Farklı nesneleer");  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object o1 = 127; //auto-boxing: Integer.valueOf(127)  
+        Object o2 = 127; //auto-boxing: Integer.valueOf(127)  
+        Object o3 = 128; //auto-boxing: Integer.valueOf(128)  
+        Object o4 = 128; //auto-boxing: Integer.valueOf(128)  
+  
+        Console.writeLine(o1 == o2 ? "Aynı nesne" : "Farklı nesneleer");  
+        Console.writeLine(o3 == o4 ? "Aynı nesne" : "Farklı nesneleer");  
+    }  
+}
+```
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Character c1 = 'D';  
+        Character c2 = 'D';  
+        Character c3 = 'Ğ';  
+        Character c4 = 'Ğ';  
+  
+        Console.writeLine(c1 == c2 ? "Aynı nesne" : "Farklı nesneleer");  
+        Console.writeLine(c3 == c4 ? "Aynı nesne" : "Farklı nesneleer");  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object o1 = 'D';  
+        Object o2 = 'D';  
+        Object o3 = 'Ğ';  
+        Object o4 = 'Ğ';  
+  
+        Console.writeLine(o1 == o2 ? "Aynı nesne" : "Farklı nesneleer");  
+        Console.writeLine(o3 == o4 ? "Aynı nesne" : "Farklı nesneleer");  
+    }  
+}
+```
+
+>Sarmalayan sınıf türünden bir referans, ilişkin olduğu temel türden değişkene doğrudan atanabilir. Bu durumda derleyici ilgili `xxxValue` metodunu çağıran yaklaşık kodu üretir. Buna da **auto-boxing** denir. Auto-boxing, Object türünden bir referansdan ilgili temel türe explicit olarak yapılabilir. Bu durumda derleyici önce dinamik türe ilişkin sarmalayan sınıf türüne `downcasting` yapan ve sonrasında ilgili `xxxValue` metodunu çağıran yaklaşık kodu üretir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Integer iVal = 127; //auto-boxing: Integer.valueOf(127)  
+        int val = iVal; //auto-unboxing: iVal.intValue()  
+  
+        Console.writeLine("val = %d", val);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object o = 127; //auto-boxing: Integer.valueOf(127)  
+        int val = (int)o; //auto-unboxing: ((Integer)o).intValue()  
+  
+        Console.writeLine("val = %d", val);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Character c = 'D';  //auto-boxing: Character.valueOf('D')  
+        char ch = c;  //auto-unboxing: c.charValue()  
+  
+        Console.writeLine("ch = %c", ch);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object o = 'D';  //auto-boxing: Character.valueOf('D')  
+        char ch = (char)o;  //auto-unboxing: ((Character)o).charValue()  
+  
+        Console.writeLine("ch = %c", ch);  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte auto-unboxing yapılırken referansın dinamik Integer olduğundan ve tür dönüştürme operatörüne yazılan türün long olması dolayısıyla, downcasting `Long` sınıfına yapılmaya çalışıldığından haksız dönüşümdür, exception oluşur
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object o = 12; //Integer.valueOf(12)  
+        long val;  
+  
+        val = (long)o; //((Long)o).longValue();  
+  
+        Console.writeLine("val = %d", val);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte tür dönüştürme operatörünün `right associative` olmasından yararlanıldığına dikkat ediniz.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Object o = 12; //Integer.valueOf(12)  
+        short val;  
+  
+        val = (short)(int)o; //(short)((Integer)o).longValue();  
+  
+        Console.writeLine("val = %d", val);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.random.generator.ObjectArrayGenerator;  
+import org.csystem.util.console.Console;  
+  
+import java.util.Random;  
+  
+public class DemoObjectArrayGeneratorApp {  
+    public  static void run()  
+    {  
+        int count = Console.readInt("Input count:");  
+  
+        ObjectArrayGenerator generator = new ObjectArrayGenerator();  
+  
+        for (Object o : generator.createObjectArray(count)) {  
+            Console.writeLine("----------------------------------------------------");  
+            Console.writeLine("Dynamic type: %s", o.getClass().getName());  
+  
+            switch (o) {  
+                case Point p -> Console.writeLine("Distance to origin of %s is %f", p.toString(), p.euclideanDistance());  
+                case Complex c -> Console.writeLine("Norm of %s is %f", c.toString(), c.getNorm());  
+                case Circle c -> Console.writeLine("Radius:%f, Area:%f", c.getRadius(), c.getArea());  
+                case String s -> Console.writeLine("Text:%s, Upper:%s", s, s.toUpperCase());  
+                case Integer i -> {int a = i; Console.writeLine("%d * %d = %d", a, a, a * a);}  
+                case Character c -> {char ch = c; Console.writeLine("ch = %c, lower: %c", ch, Character.toLowerCase(ch));}  
+                case Double d -> {double a = d; Console.writeLine("%f + %f = %f", a, a, a + a);}  
+                case Boolean b -> {boolean flag = b; Console.writeLine("flag = %b, !flag = %b", flag, !flag);}  
+                default -> {Random random = (Random) o; Console.writeLine("Random number:%d", random.nextInt()); }  
+            }  
+  
+            Console.writeLine("----------------------------------------------------");  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.random.generator;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.AnalyticalCircle;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+  
+public class ObjectArrayGenerator {  
+    private final Random m_random = new Random();  
+  
+  
+    private Object createObject()  
+    {  
+        return switch (m_random.nextInt(0, 10)) {  
+            case 0 -> Point.createCartesian(m_random.nextDouble(-100, 100), m_random.nextDouble(-100, 100));  
+            case 1 -> new Complex(m_random.nextDouble(-10, 10), m_random.nextDouble(-10, 10));  
+            case 2 -> new Circle(m_random.nextInt(-10, 10));  
+            case 3 -> new AnalyticalCircle(m_random.nextInt(-10, 10), m_random.nextInt(-100, 100), m_random.nextInt(-100, 100));  
+            case 4 -> StringUtil.randomTextEN(m_random, m_random.nextInt(5, 16));  
+            case 5 -> m_random.nextInt(-128, 128);  
+            case 6 -> (char)((m_random.nextBoolean() ? 'A' : 'a') + m_random.nextInt(26));  
+            case 7 -> m_random.nextDouble();  
+            case 8 -> m_random.nextBoolean();  
+            default -> new Random();  
+        };  
+    }  
+  
+    public Object [] createObjectArray(int count)  
+    {  
+        Object [] objects = new Object[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            objects[i] = createObject();  
+  
+        return objects;  
+    }  
+}
+```
+
+>`Number` sınıfının `xxxValue` metotları sarmalayan sınıflar için temel türler arasındaki tür dönüştürme kurallarına göre işlem yaparlar. Yani örneğin, `Long` türden bir referans ile `intValue` metodu çağrıldığında long türünden int türüne explicit dönüşüm kuralları uygulanır. Yani değerin yüksek anlamlı 4 byte'ı atılır, elde edilen değere geri dönülür.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+       Long lVal = 3_000_000_000L;  
+       long val = 3_000_000_000L;  
+       int a, b;  
+  
+       a = lVal.intValue();  
+       b = (int)val;  
+  
+       Console.writeLine("%016X", 3_000_000_000L);  
+       Console.writeLine("a = %d, b = %d", a, b);  
+       Console.writeLine("a = %08X, b = %08X", a, b);  
+    }  
+}
+```
+
+
+

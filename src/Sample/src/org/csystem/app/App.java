@@ -5,8 +5,15 @@ import org.csystem.util.console.Console;
 class App {
     public static void main(String[] args)
     {
-        int a = Console.readIntBinary("Input a hex number:");
+       Long lVal = 3_000_000_000L;
+       long val = 3_000_000_000L;
+       int a, b;
 
-        Console.writeLine("a = %d", a);
+       a = lVal.intValue();
+       b = (int)val;
+
+       Console.writeLine("%016X", 3_000_000_000L);
+       Console.writeLine("a = %d, b = %d", a, b);
+       Console.writeLine("a = %08X, b = %08X", a, b);
     }
 }
