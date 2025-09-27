@@ -3272,12 +3272,12 @@ class App {
 
 >`&&` ve `||` operatörleri iki operandlı ve araek durumundadır. Bu operatörler `Mantık`'taki iligili operatörlere karşılık gelirler. `&&` ve `||` operatörlerine ilişkin doğruluk tablosu (truth table) aşağıdaki gibidir:
 
-| a     | b     | a `&&` b    | a `\|\|`b   |
-|:-----:|:-----:|:-----------:|:-----------:|
-| T     | T     | T           | T           |
-| T     | F     | F           | T           |
-| F     | T     | F           | T           |
-| F     | F     | F           | F           |
+|  a  |  b  | a `&&` b | a `\|\|`b |
+| :-: | :-: | :------: | :-------: |
+|  T  |  T  |    T     |     T     |
+|  T  |  F  |    F     |     T     |
+|  F  |  T  |    F     |     T     |
+|  F  |  F  |    F     |     F     |
 
 >Bu doğruluk tablosundan kısaca şu sonuçlar çıkartılabilir:
 >- `&&` işlemi için en az biri yanlışsa sonuç yanlıştır.
@@ -3874,7 +3874,7 @@ class App {
 
 ```
 
-**Anahtar Notlar:** if deyiminde (ve döngü deyimlerinde) basit deyimin kullanılabildiği durumlarda bazı programcılar yine bileşik deyim kullanmayı tercih ederler. Diğer bir deyişle bu tip durumlarda hiç bir zaman basit deyim kullanmazlar. Bazı programcılar ise basit deyimin kullanılabildiği yerlerde bileşik deyim kullanmamayı tercih ederler. Bu yaklaşımların her ikisi de normal ve doğru yaklaşımlardır. Bir programcı ya da bir bir geliştirm takımı bu yaklaşımlar her hangi birisini tercih edebilir. Ancak bu tip durumlarda kotü yaklaşım karışık olarak kullanmaktır.
+**Anahtar Notlar:** if deyiminde (ve döngü deyimlerinde) basit deyimin kullanılabildiği durumlarda bazı programcılar yine bileşik deyim kullanmayı tercih ederler. Diğer bir deyişle bu tip durumlarda hiç bir zaman basit deyim kullanmazlar. Bazı programcılar ise basit deyimin kullanılabildiği yerlerde bileşik deyim kullanmamayı tercih ederler. Bu yaklaşımların her ikisi de normal ve doğru yaklaşımlardır. Bir programcı ya da bir bir geliştirme takımı bu yaklaşımların her hangi birisini tercih edebilir. Ancak bu tip durumlarda kötü yaklaşım karışık olarak kullanmaktır.
 
 >Aşağıdaki demo örnekte if deyiminin else kısmı yoktur
 
@@ -31968,5 +31968,54 @@ class App {
 }
 ```
 
+###### 27 Eylül 2025
 
+##### Çöp Toplayıcı (Garbage Collector)
+
+>Programlamada, heap'de tahsis edilen nesnelere genel olarak `dinamik ömürlü nesneler` denir. Bu anlamda hep'de yapılan tahsisatlara **dynamic memory allocation** denir. Stack'de tahsis edilen değişkenlere **otomatik ömürlü (auto storage duration)** değişkenler denir. Static veri elemanlara ise yaratıldıktan sonra program sonuna kadar yaşadıklarından **static ömürlü (static storage duration)** değişkenlerdir. 
+
+>Dinamik olarak tahsis edilen alanlar (Java'da nesneler) artık kullanılmaz duruma geldiklerinden başka nesneler için de tahsisat yapılabilsin diye yok edilmeleri gerekir. Çünkü bu alanlar otomatik olarak yok edilmezler. Bu yok etme işlemine **free** ya da **delete** denir. Heap'de yaratılan nesneler, stack'deki otomatik olarak yok edilmezler. Bazı programlama dillerinde dinamik tahsis edilmiş bir alanın delete edilmesi programcının sorumluluğundadır. Java'da dinamik olarak tahsis edilen alanların delete edilme işlemi (dolayısıyla nesnelerin yok edilmesi) **çöp toplayıcı (garbage collector) (GC)** isimli ayrı bir akış tarafından yapılır. Java programcısı açısından, bu işlem de otomatik olarak yapılır ancak unutulmamalıdır ki stack'deki gibi doğal değildir. Bu durumda GC için şu sorular ve cevapları çok önemlidir:
+>
+>**Soru 1:** GC, yok edilmesi gereken bir alanı nasıl anlar? Bir nesneyi gösteren hiç bir referans kalmadığında nesne **seçilebilir (eligible/garbage collected)** duruma gelir. Bir nesneyi gösteren referansların çalışma zamanında takip edilmesine yönelik pek çok algoritma kullanılır. Örneğin, **referans sayma (reference counting)** algoritması ile her bir nesne için bir sayaç tutulur ve nesnenin adresi bir referansa atandığında sayaç 1(bir) artırılır, nesne bir referanstan kopartıldığında sayaç 1(bir) azaltılır. Bu durumda sayaç sıfır olduğunda artık o nesneyi gösteren hiç bir referans kalmamış olur ve nesne eligible duruma gelir. 
+
+>Aşağıdaki demo örnekte referansların takibi `reference counting` yöntemi kullanılıyor varsayımı ile gösterilmiştir
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s;  
+  
+        s = new Sample(); //rc1: 1  
+  
+        Mample.foo(s); //rc1:2 -> 3  
+        //rc1:1        Mample.foo(s); //rc1:2 -> 3  
+        //rc1:1  
+        s = new Sample(); //rc1:0 (eligible), rc2:1  
+  
+        //...    }  
+}  
+  
+class Mample {  
+    public static void foo(Sample s)  
+    {  
+        Sample k;  
+  
+        k = s;  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+	//...
+}
+```
+
+
+>**Soru 2:** Programcı, dinamik olarak tahsis edilen bir alanı (yani bir nesneyi) kendisi yok edebilir mi? Hayır. 
+>
+>**Soru 3:** Bir nesne yok edilebilir duruma geldiğinde, GC hemen devreye girip bu alanı yok eder mi? 
 
