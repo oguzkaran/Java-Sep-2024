@@ -75,36 +75,36 @@
 
 ###### Sembollerin İngilizce karşılıkları
 
-| Sembol | İngilizce Karşılığı                         			|
-|--------|------------------------------------------------------|
-| +      | plus                                        			|
-| -      | minus, hyphen, dash                         			|
-| *      | asterisk                                    			|
-| /      | slash                                       			|
-| \      | backslash                                   			|
-| .      | period, dot                                 			|
-| ,      | comma                                       			|
-| :      | colon                                       			|
-| ;      | semicolon                                   			|
-| “      | double quote                                			|
-| '      | single quote                                			|
-| (...)  | parenthesis left, right, opening, closing   			|
-| [...]  | (square) parenthesis left, right, opening, closing	|
-| {...}  | brace left, right, opening, closing 					|
-| =      | equal sign                                  			|
-| &      | ampersand                                   			|
-| ~      | tilda                                       			|
-| @      | at                                          			|
-| <...>  | less than, greater than, angular bracket    			|
-| ^      | caret                                       			|
-| \|     | pipe                                        			|
-| _      | underscore                                  			|
-| ?      | question mark                               			|
-| #      | sharp, number sign                          			|
-| %      | percent sign                                			|
-| !      | exclamation mark                            			|
-| $      | dollar sign                                 			|
-| ...    | ellipsis                                    			|
+| Sembol | İngilizce Karşılığı                                |
+| ------ | -------------------------------------------------- |
+| +      | plus                                               |
+| -      | minus, hyphen, dash                                |
+| *      | asterisk                                           |
+| /      | slash                                              |
+| \      | backslash                                          |
+| .      | period, dot                                        |
+| ,      | comma                                              |
+| :      | colon                                              |
+| ;      | semicolon                                          |
+| “      | double quote                                       |
+| '      | single quote                                       |
+| (...)  | parenthesis left, right, opening, closing          |
+| [...]  | (square) parenthesis left, right, opening, closing |
+| {...}  | brace left, right, opening, closing                |
+| =      | equal sign                                         |
+| &      | ampersand                                          |
+| ~      | tilda                                              |
+| @      | at                                                 |
+| <...>  | less than, greater than, angular bracket           |
+| ^      | caret                                              |
+| \|     | pipe                                               |
+| _      | underscore                                         |
+| ?      | question mark                                      |
+| #      | sharp, number sign                                 |
+| %      | percent sign                                       |
+| !      | exclamation mark                                   |
+| $      | dollar sign                                        |
+| ...    | ellipsis                                           |
 
 ##### JDK Kurulumu ve Bilgisayarın Geliştirme için Hazır Hale Getirilmesi
 
@@ -3809,7 +3809,7 @@ class App {
 
 Bu bölümde şu temel kontrol deyimleri ele alınacaktır: `if deyimi`, `döngü deyimleri (while, do-while, for)`, `break deyimi`, `continue deyimi`, `switch deyimi (ve switch expression)`.
 
-###### if deyimi
+###### if deyimi 
 
 >Neredeyse tüm programlama dillerinde bulunan bir deyimdir. Bu deyim koşula bağlı olarak akışın yönlenmesini sağlar. if deyiminin genel biçimi şu şekildedir:
 
@@ -4487,7 +4487,7 @@ class App {
 }
 
 ```
->Her zaman koşulu sağlayan yani koşul ifadesinin değeri her zaman true olan bir döngüye **sonsuz döngü (infinite loop)** denir. Sonsuz döng program boyunca sürekli yinelenen bir döngü olmak zorunda değildir. Örneğin sonsuz döngü içerisinde return deyimi kullanılıdığında döngünün içerisinde bulunduğu metot sonlanacağından döngü de dolaylı olarak sonlanmış olur. while döngüsü ile sonsuz döngü tipik olarak aşağıdaki gibi oluşturulabilir:
+>Her zaman koşulu sağlayan yani koşul ifadesinin değeri her zaman true olan bir döngüye **sonsuz döngü (infinite loop)** denir. Sonsuz döngü program boyunca sürekli yinelenen bir döngü olmak zorunda değildir. Örneğin sonsuz döngü içerisinde return deyimi kullanılıdığında döngünün içerisinde bulunduğu metot sonlanacağından döngü de dolaylı olarak sonlanmış olur. while döngüsü ile sonsuz döngü tipik olarak aşağıdaki gibi oluşturulabilir:
 ```java
 while (true) 
 	<deyim>
@@ -4614,7 +4614,7 @@ class App {
 >10 tane pozitif ve 12 tane negatifi sayı girilmiş olsun ve toplamları sırasıyla 123 ve -45 olsun bu durumda çıktı şu şekilde olacaktır:
 
 >_Toplam 10 tane pozitif sayı girdiniz. Girilen sayıların toplamı:123_
-_Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
+  _Toplam 12 tane negatif sayı girdiniz. Girilen sayıların toplamı:-45_
 
 >Hiç pozitif ya da negatif sayı girilmezse ilgili mesaj aşağıdaki gibi verilecektir:
 
@@ -4786,11 +4786,11 @@ class NumberUtil {
 }
 ```
 
->**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının tersini döndüren `reverse` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz
-**İpucu:** Bir sayının tersini aşağıdaki örneğe göre basit olarak bulabilirsiniz:
+>**Sınıf Çalışması:** Parametresi ile aldığı int türden bir sayının tersini döndüren `reverse` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
+>**İpucu:** Bir sayının tersini aşağıdaki örneğe göre basit olarak bulabilirsiniz:
 
 > Sayı 123 olsun: 3 -> 3 * 10 + 2 = 32 -> 32 * 10 + 1 = 321
-**Çözüm:**
+>**Çözüm:**
 ```java
 package csd;
 
@@ -18590,7 +18590,7 @@ class Util {
 
 >Her bir elemanı bir referans olan dizilere **referans dizileri (reference arrays)** denir. Bu durumda dizinin her bir elemanı ilgili türden bir adres tutar. Bu durumda bir referans dizisinin yaratılması, elemanı olan her bir referansın gösterdiği nesnenin yaratılması anlamına gelmez. Yani bir referans dizisi yaratıldıktan sonra, dizinin elemanları olan referanslar kullanılmadan önce uygun adreslerin verilmesi gerekir. Bir referans dizisi ilk değer verilmeden yaratıldığında her bir referansa `null` değeri verilmiş olur. 
 
-**Anahtar Notlar:** Programlamada kullanılmayan adrese `null adres (null address/null pointer)` denir. Java'da null adres (Java düzeyinde null reference da denebilir) `null` isimli bir sabit ile temsil edilir. `null`, bir referansın default değeri olarak atanır. null adrese ilişkin diğerler detaylar ileride ayrı bir bölüm olarak ele alınacaktır. 
+**Anahtar Notlar:** Programlamada kullanılmayan adrese `null adres (null address/null pointer)` denir. Java'da null adres (Java düzeyinde null reference da denebilir) `null` isimli bir sabit ile temsil edilir. `null`, bir referansın default değeri olarak atanır. null adrese ilişkin diğer detaylar ileride ayrı bir bölüm olarak ele alınacaktır. 
 
 >Aşağıdaki demo örnekte referans dizisi yaratılmış ancak dizinin elemanları olan referanslar null adresi tuttuğundan nesne varmışcasına erişmeye çalışmak exception oluşumuna yol açar
 
@@ -31968,7 +31968,7 @@ class App {
 }
 ```
 
-###### 27 Eylül 2025
+###### 27 Eylül 2025 - 4 Ekim 2025
 
 ##### Çöp Toplayıcı (Garbage Collector)
 
@@ -31995,7 +31995,8 @@ class App {
         //rc1:1  
         s = new Sample(); //rc1:0 (eligible), rc2:1  
   
-        //...    }  
+        //...    
+    }  
 }  
   
 class Mample {  
@@ -32014,8 +32015,323 @@ class Sample {
 }
 ```
 
+>Aşağıdaki demo örnekte referansların takibi `reference counting` yöntemi kullanılıyor varsayımı ile gösterilmiştir
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s;  
+  
+        s = new Sample(); //rc1: 1  
+  
+        Mample.foo(s); //rc1:2 -> 3  
+        //rc1:1        Mample.foo(s); //rc1:2 -> 3  
+        //rc1:1  
+        Sample k = s;  //rc1:2
+        s = null; //rc1:1
+  
+        //...
+    }  
+}  
+  
+class Mample {  
+    public static void foo(Sample s)  
+    {  
+        Sample k;  
+  
+        k = s;  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+  
+}
+```
 
->**Soru 2:** Programcı, dinamik olarak tahsis edilen bir alanı (yani bir nesneyi) kendisi yok edebilir mi? Hayır. 
+>**Soru 2:** Programcı, dinamik olarak tahsis edilen bir alanı (yani bir nesneyi) kendisi yok edebilir mi? Hayır. Programcı herhangi bir anda dinamik olarak tahsis edilmiş bir alanı yok edemez. Programcı akış içerisinde nesneyi eligible duruma getirebilir.
 >
->**Soru 3:** Bir nesne yok edilebilir duruma geldiğinde, GC hemen devreye girip bu alanı yok eder mi? 
+>**Soru 3:** Bir nesne yok edilebilir duruma geldiğinde, GC hemen devreye girip bu alanı yok eder mi? GC'nin ne zaman devreye gireceği yazanlara bırakılmıştır (implementation defined). Bu durumda bir nesne eligible olur olmaz GC'nin devreye gireceği garanti olmadığından nesnenin eligible olur olmaz yok edileceği de garanti değildir. Bu anlamda GC'nin etkinliğine güvenilir. 
+
+**Anahtar Notlar:** Program terimi teknik olarak `çalışabilen dosya (executable file)` için verilen bir isimdir. Java bakış açısıyla program, ürüne ilişkin byte code'lar topluluğudur. Çalışan program içn **process** terimi kullanılır.
+
+>Process sonlandığında, ayrılan bellek alanı da yok edildiğinden tüm nesneler de yok edilmiş olur. 
+
+>Programcı isterse GC'nin devreye girmesini sağlayabilir. Bunu yapmanın birden fazla yöntemi olsa da `System` sınıfının `gc` isimli static metodu çağrılabilir. Bununla birlikte, GC'nin programcı tarafından devreye sokulması neredeyse hiç gerekmez. Bu anlamda GC'nin etkinliğine güvenilir. GC'nin sürekli ya da gereksiz yer devreye sokulması da performansı olumsuz etkileyebilir. GC'nin de runtime içerisinde ayrı bir akış olduğu unutulmamalıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s;  
+  
+        s = new Sample(); //rc1: 1  
+  
+        Mample.foo(s); //rc1:2 -> 3  
+        //rc1:1        Mample.foo(s); //rc1:2 -> 3  
+        //rc1:1        s = null; //rc1:0 (eligible)  
+  
+        System.gc();  
+        //...  
+    }  
+}  
+  
+class Mample {  
+    public static void foo(Sample s)  
+    {  
+        Sample k;  
+  
+        k = s;  
+  
+        //...  
+    }  
+}  
+  
+class Sample {  
+  
+}
+```
+
+##### null Address
+
+>Anımsanacağı gibi programlamada **null address** belleğin kullanılamayan adresi için kullanılan bir terimdir. Java'da null address, **null** sabiti ile temsil edilir. null, türü olmayan bir adrestir, dolayısıyla her hangi bir referans değişkene atanabilir. Temel türden bir değişkene atanamaz. İçerisinde null address bulunun bir referans ile sanki nesne gösteriyormuş gibi erişim yapılması durumunda exception oluşur. null adresi kullanımına ilişkin tipik durumlar şunlardır:
+>
+>- Kontrol amaçlı kullanılır. Örneğin bir referansın null olması durumuna göre işlem yapılabilir. Singleton sınıfının lazy implementasyonunu tekrar inceleyiniz.
+
+```java
+class Singleton {  
+    private static Singleton ms_instance;  
+    private int m_x;  
+  
+    private Singleton()  
+    {}  
+  
+    public static Singleton getInstance()  
+    {  
+       if (ms_instance == null)  
+          ms_instance = new Singleton();  
+  
+       return ms_instance;  
+    }  
+  
+    public int getX()  
+    {  
+       return m_x;  
+    }  
+  
+    public void setX(int x)  
+    {  
+       m_x = x;  
+    }  
+  
+    //...  
+}
+```
+
+>
+>- Bir metodun geri dönüş değeri bir referans ise ve metot akışı içerisinde bir hata oluşursa yani geri dönüş değerine ilişkin bir nesne yaratılamıyorsa null adrese geri dönülebilir. Aşağıdaki örnek metodun parametrelerine verilen argümanların geçersiz olması durumunda null adrese dönülmektedir.
+
+```java
+public static Point createRandomPoint(Random random, double origin, double bound)  
+{  
+    return (random != null && origin < bound) ? (Point.createCartesian(random.nextDouble(origin, bound), random.nextDouble(origin, bound))) : (null);  
+}
+```
+
+>- Bir referansa derleyici açısından değer verilmesi gerekiyorsa ancak o türden bir nesnenin adresi henüz verilemiyorsa, null adres verilebilir. Aşağıdaki demo örnekte `***` ile belirtilen noktada p referansına bir değer verilmezse  `****` ile belirtilen noktada error oluşur. Çünkü anımsanacağı gibi Java'da içerisinde değer verilmemiş bir değişkenin kullanımı error oluşturur. Yerel değişkenlere kullanmadan önce değer verilmesi programcının sorumluluğudur. Örnekte derleyici de switch expression'da akışın case bölümlerinden hiç bir tanesine gelememesi durumuna karşılık p'nin değer alamayacağını düşünerek error verir. Halbuki örnekte algoritmik açıdan böyle bir şey mümkün değildir ancak derleyicilerin algoritmayı bilmek gibi bir sorumluluğu olmadığını unutmamak gerekir. Bu p'ye null değeri verilerek derleyicinin error oluşturması engellenmiş olur. Şüphesiz, örnek farklı biçimlerde de yazılabilir. Burada özellikle null referansın kullanımına odaklanınız.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        int val = Console.readInt("Input a number:");  
+  
+        if (val < 3 || val > 5) {  
+            Console.writeLine("Invalid value!...");  
+            System.exit(1);  
+        }  
+  
+        Point p = null;  //***
+  
+        switch (val) {  
+            case 3 -> p = Point.createCartesian(100, 100);  
+            case 4 -> p = Point.createPolar(200, Math.PI / 4);  
+            case 5 -> p = Point.createCartesian();  
+        }  
+  
+        Console.writeLine("Point -> %s", p.toString());  //****
+    }  
+}
+```
+
+##### this Referansı
+
+>Aşağı seviyede non-static metot kavramı yoktur. Tüm metotlar adeta static metotmuş gibi (aslında global fonksiyonlar olarak) ele alınır. Bu durumda non-static bir metodun aşağı seviyede ele alınabilmesi için o metodu çağıran referansın da o metoda geçilmesi gerekir. İşte bu işlem ilgili metoda ait olduğu UDT türünden +1 tane daha parametre eklenerek yapılır. Non-static bir metot çağrısı da aşağı seviyede metodun çağrılmasında kullanılan referansın, metodun aşağı seviyedeki karşılığına argüman olarak (gizlice) geçilmesi biçiminde ele alınır. Anımsanacağı gibi  ctor da non-static bir metottur. Aşağı seviyede ctor'lar da global fonksiyonlar olarak ele alınırlar. Byte code içerisinde ctor' için belirlenen metodun ismi genel olarak `init` biçimindedir.
+
+>Aşağıdaki demo örnekte non-static metotların bildirimlerinin ve çağrılarının aşağı seviyedeki yaklaşık karşılıkları gösterilmiştir
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s = new Sample(10);  
+  
+        Console.writeLine("Value:%d", s.getA());  
+  
+        //Yukarıdaki getA çağrısının aşağı seviyedeki yaklaşık karşılığı  
+        Console.writeLine("Value:%d", Sample.getA(s));  
+  
+        s.setA(20);  
+  
+        Console.writeLine("Value:%d", s.getA());  
+  
+        //Yukarıdaki setA çağrısının aşağı seviyedeki yaklaşık karşılığı  
+        Sample.setA(s, 30);  
+  
+        Console.writeLine("Value:%d", Sample.getA(s));  
+    }  
+}  
+  
+class Sample {  
+    private int m_a;  
+  
+    public Sample(int a)  
+    {  
+        m_a = a;  
+    }  
+  
+    public int getA()  
+    {  
+        return m_a;  
+    }  
+  
+    //getA metodunun aşağı seviyedeki yaklaşık karşılığı  
+    public static int getA(final Sample s)  
+    {  
+        return s.m_a;  
+    }  
+  
+    public void setA(int a)  
+    {  
+        m_a = a;  
+    }  
+  
+    //setA metodunun aşağı seviyedeki yaklaşık karşılığı  
+    public static void setA(final Sample s, int a)  
+    {  
+        s.m_a = a;  
+    }  
+}
+```
+
+
+>Non-static bir metodun çağrılmasında kullanılan referansa yani aşağı seviyede gizlice geçirilen referansa, ilgili metot içerisinde **this** referansı ile erişilebilir. Buna göre, non-static bir metot içerisinde kullanılan this referansı, o metodun çağrılmasında kullanılan nesnenin adresidir. Bu durumda this referansının türü nedir? Hangi non-static metot içerisinde kullanılmışsa, o metodun ait olduğu UDT türündendir. Bu anlamda non-static bir metodu **this geçirilir (passing this)** denilmektedir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class Sample {  
+    private int m_a;  
+  
+    public Sample(int a)  
+    {  
+        this.m_a = a;  
+    }  
+  
+    public int getA()  
+    {  
+        return this.m_a;  
+    }  
+    public void setA(int a)  
+    {  
+        this.m_a = a;  
+    }
+}
+```
+
+>static metotlara this geçirilmez. static bir metot içerisinde this referansı kullanımı error oluşturur.
+
+```java
+class Sample {  
+    private int m_a;  
+  
+    public static void setA(int a)  
+    {  
+        this.m_a = a; //error  
+    }  
+}
+```
+
+>this bir sabittir. Değişken olmadığı için atama operatörünün solunda kullanılamaz
+
+```java
+class Sample {  
+    private int m_a;  
+  
+    public void setA(int a)  
+    {  
+        this.m_a = a;  
+  
+        this = new Sample();  //error
+    }  
+}
+```
+
+
+>Java'ya, örnek aldığı bazı dillerden aktarılan ancak pratikte kullanılmayan bir sentaks vardır. Buna göre, non-static bir metodun birinci parametresi ilgili UDT türünden ve ismi this olan bir referans olarak da bildirilebilir. Bu referansın olması ile olmamsı aradında bir fark yoktur.
+
+>Aşağıdaki demo örneği inceleyiniz. **Anlamını biliniz ancak pratikte kullanmayınız.**
+
+
+```java
+class Sample {  
+    private int m_a;  
+  
+    public Sample(int a)  
+    {  
+        this.m_a = a;  
+    }  
+  
+    public int getA(Sample this)  
+    {  
+        return m_a;  
+    }  
+  
+    public void setA(Sample this, int a)  
+    {  
+        m_a = a;  
+    }  
+}
+```
+
+
+
+
+
+
+
+
 
