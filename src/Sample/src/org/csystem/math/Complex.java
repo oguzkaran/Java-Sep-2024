@@ -2,7 +2,7 @@ package org.csystem.math;
 
 /**
  * Complex class that represents a complex number
- * Last Update: 22nd June 2025
+ * Last Update: 5th October 2025
  * @author Java-Sep-2024 Group
  */
 
@@ -29,15 +29,15 @@ public class Complex {
 	{		
 	}
 	
-	public Complex(double a)
+	public Complex(double real)
 	{
-		real = a;
+		this.real = real;
 	}
 	
-	public Complex(double a, double b)
+	public Complex(double real, double imag)
 	{
-		real = a;
-		imag = b;
+		this.real = real;
+		this.imag = imag;
 	}
 	
 	public static Complex add(double value, Complex z)
