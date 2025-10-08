@@ -5640,7 +5640,7 @@ class NumberUtil {
 ```
 
 >**Çözüm:** Daha hızlı versiyon
->**Kural:** Bir sayının asal sayı olması için gerek yeter koşul sayının karakökünden küçük veya eşit olan asal sayıların hepsine tam olarak bölünebilmesi gerekir (Sieve of Eratosthenes).
+>**Kural:** Bir sayının asal sayı olması için gerek yeter koşul sayının karekökünden küçük veya eşit olan asal sayıların hiç birisine  tam olarak bölünememesi gerekir (Sieve of Eratosthenes).
 
 ```java
 package csd;
@@ -32550,6 +32550,7 @@ for (int i = 1; i < n ++i)
 >Bir algoritma `çoğu zaman` herhangi bir karmaşlıktayken, bazı zamanlar (bu az olmalıdır) üst bir karmaşıklıkta çalışıyorsa, bu tarz karmaşıklıklara **amortized (time) complexity** ya da **amortized (time) cost** denir. Örneğin bir algoritma çoğu zaman O(1), bazı zamanlarda O(n) karmaşıklıkta çalışıyor ise **constant amortized (time) complexity/cost** denir.
 
 ##### Dinamik Büyüyen Dizi Veri Yapısı
+
 
 
 
