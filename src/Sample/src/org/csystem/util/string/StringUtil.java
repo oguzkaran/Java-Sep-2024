@@ -1,10 +1,11 @@
 package org.csystem.util.string;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 7th September 2025
+ * Last Update: 12th October 2025
  * @author Java-Sep-2024 Group
  */
 public final class StringUtil {
@@ -161,6 +162,27 @@ public final class StringUtil {
         StringBuilder sb = new StringBuilder();
 
         for (String s : str) {
+            if (ignoreStatus == 1) {
+                if (!s.isEmpty())
+                    sb.append(s).append(delimiter);
+            }
+            else if (ignoreStatus == 2) {
+                if (!s.isBlank())
+                    sb.append(s).append(delimiter);
+            }
+            else
+                sb.append(s).append(delimiter);
+        }
+
+        return sb.substring(0, sb.length() - delimiter.length());
+    }
+
+    public static String join(ArrayList strList, String delimiter, int ignoreStatus)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (Object o : strList) {
+            String s = (String)o;
             if (ignoreStatus == 1) {
                 if (!s.isEmpty())
                     sb.append(s).append(delimiter);

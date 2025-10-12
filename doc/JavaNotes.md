@@ -32549,7 +32549,584 @@ for (int i = 1; i < n ++i)
   
 >Bir algoritma `çoğu zaman` herhangi bir karmaşlıktayken, bazı zamanlar (bu az olmalıdır) üst bir karmaşıklıkta çalışıyorsa, bu tarz karmaşıklıklara **amortized (time) complexity** ya da **amortized (time) cost** denir. Örneğin bir algoritma çoğu zaman O(1), bazı zamanlarda O(n) karmaşıklıkta çalışıyor ise **constant amortized (time) complexity/cost** denir.
 
+###### 11 Ekim 2025
+
 ##### Dinamik Büyüyen Dizi Veri Yapısı
+
+>Anımsanacağı gibi bir dizinin uzunluğu değiştirilemez. Yani bir dizi nesnesi hangi uzunlukta yaratılmışsa yaşamı boyunca aynı uzunlukta olur. Bir diziyi büyütmek için, yeni eleman sayısı kadar uzunlukta yeni bir dizi yaratılmalı, eski dizideki elemanlar yeni diziye kopyalanmalı ve eski diziyi gösteren referans yeni diziyi gösterir duruma getirilmelidir. Burada aslında büyütme işlemi mantıksaldır. Öyleyse, dizinin mantıksal büyütülmesi `O(n)` karmaşıklıktadır. Bu durumda bir dizinin eklenen eleman kadar (mantıksal) büyütülmesi durumunda artık dizinin bir elemanına erişimin `O(1)` karmaşıklıkta olmasından yararlanılamaz olur. Böylesi bir durumda `O(1)` karmaşıklıktan daha fazla faydalanmak için dizinin uzunluğu eklenen eleman sayısından daha fazla (mantıksal) büyütülür. Bu tarz bir büyütme işlemiyle birlikte diziye eleman eklenmesi, çoğu zaman `O(1),` büyütüleceği zaman `O(n)` karmaşıklıkta olur.  Anımsanacağı gibi, bu karmaşıklığa `constant amortized (time) complexity/cost` denir. Diziyi gerektiğinde (mantıksal) büyüten böylesi veri yapılarına **dynamic array** ya da **resizable array** denilmektedir. Dinamik büyüyen dizi veri yapıları, (mantıksal) büyütme işlemini genel olarak eklenen eleman sayısından daha fazla yaptıklarından iki önemli kavram söz konusudur: **capacity, size/count.** Capacity değeri  dizinin gerçek uzunluğudur, size değeri ise dizide tutulan eleman sayısıdır. Capacity değeri, en az size kadar uzunlukta olur, size değerinden küçük olamaz. 
+
+>Aşağıdaki demo örnekte klavyeden `exit` girilene kadar alınan yazılar bir dizide tutulmaktadır. Dizinin büyütme politikası (growth policy), capacity değerinin 2 katı olacak biçimdedir.
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Arrays;  
+  
+public class StoreStringArrayApp {  
+    public static void run()  
+    {  
+        String [] str = new String[4];  
+        int idx = 0;  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            if (idx == str.length)  
+                str = Arrays.copyOf(str, str.length * 2);  
+  
+            str[idx++] = s;  
+        }  
+  
+        Console.writeLine("Size:%d", idx);  
+        Console.writeLine("Capacity:%d", str.length);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>Anımsanacağı gibi `StringBuilder` sınıfına ilişkin yazıda değişiklik yapılabilmektedir. StringBuilder sınıfı da aslında karakter sayısına ilişkin capacity ve size değerlerine göre işlem yapar. Bu sınıfın `capacity` metodu ile capacity değeri, `length` metodu ile de içsel olarak tuttuğu karakter sayısı elde edilebilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+public class ConcatWithHyphenApp {  
+    public static void run()  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        Console.writeLine("Length:%d", sb.length());  
+        Console.writeLine("Capacity:%d", sb.capacity());  
+        Console.writeLine("----------------------------------");  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            sb.append(s).append('-');  
+  
+            Console.writeLine("Length:%d", sb.length());  
+            Console.writeLine("Capacity:%d", sb.capacity());  
+            Console.writeLine("----------------------------------");  
+        }  
+        sb.deleteCharAt(sb.length() - 1);  
+        Console.writeLine("Length:%d", sb.length());  
+        Console.writeLine("Capacity:%d", sb.capacity());  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+##### Collections
+
+>Java'da genel olarak veri yapılarına **collections** denilmektedir. JavaSE'de bir çok veri yapısını temsil eden UDT'ler bulunur. Bu bölümde dinamik büyüyen dizi veri yapısını temsil eden **ArrayList** ve belirli ölçüde **Vector** sınıfları ele alınacaktır. JavaSE'de bulunan diğer veri yapıları `Java ile Uygulama Geliştirme 1 ve Java ile Uygulama Geliştirme 2` kurslarında ele alınacaktır.
+
+###### 12 Ekim 2025
+
+>**Ara Soru:** Bilindiği gibi `a % b` işleminde a'nın işareti elde edilen sonucu belirler. Yani, bu operatör negatif a değerleri matematikteki gibi çalışmaz. Parametresi ile aldığı int türden a ve b değerleri için Matematik'teki mod işlemini yapan `mod` isimli metodu `Util` isimli sınıf içerisinde aşağıdaki açıklamalara göre yazınız.
+>
+>**Açıklamalar:** 
+>
+>- b'nin negatif olması durumu önemsenmeyecektir. Yani b her zaman verilmiş kabul edilecektir.
+>
+>- Aslında Math sınıfında tamsayılar için `floorMod` ve gerçek sayılar için `IEEEremainder` metotları bu işi yapmaktadır. Çözümde bu metotlar kullanılmayacaktır.
+
+>**Çözüm:**
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        UtilModTest.run();  
+    }  
+}  
+  
+class UtilModTest {  
+    public static void run()  
+    {  
+        Console.writeLine(Util.mod(10, 3) == 1);  
+        Console.writeLine(Util.mod(-10, 3) == 2);  
+        Console.writeLine(Util.mod(11, 7) == 4);  
+        Console.writeLine(Util.mod(-11, 7) == 3);  
+    }  
+}  
+  
+class Util {  
+    public static int mod(int a, int b)  
+    {  
+        int result = a % b;  
+  
+        return result >= 0 ? result: result + b;  
+    }  
+}
+```
+###### ArrayList Sınıfı
+
+>ArrayList sınıfı JavaSE'de çok kullanılan collection sınıflardan biridir. Bu sınıfta capacity değerinin büyütme politikasının (growth policy) nasıl implemente edildiği belirtilmemiştir. Yani, büyütme politikası sınıfı yazanlara bırakılmıştır (implementation defined/dependent). Ancak, capacity değeri kullandığı yani etkin bir biçimde (amortized constant time cost) büyüteceği garanti edilmiştir. Bu sınıfta, capacity'nin o anki  değerini veren bir metot yoktur. Capacity değerinin kullanımını gerektiren durumlarda, yine dinamik büyüyen dizi veri yapısını temsil eden `Vector` isimli bir sınıf bulunur. Biz de örneklerimizde capacity değeri gerektiği durumlarda `Vector` sınıfını kullanacağız. Şüphesiz, `ArrayList` ve `Vector` sınıfları arasında capacity'nin o anki değeri veren metot dışında başka farklar da vardır. Burada bu farklar ele alınmayacaktır. Yani, burada vereceğimiz örneklerde capacity metodu dışından kullandığımız tüm elemanlar her iki sınıfta da aynı şekilde var olan elemanlar olacaktır.  Bununla birlikte, pratikte gerekmedikçe `ArrayList` sınıfı yerine `Vector` sınıfı kullanılmaz, kullanılması tavsiye edilir. Buna ilişkin detaylar `Java ile Uygulama Geliştirme 1 ve Java ile Uygulama Geliştirme 2` kurslarında ele alınacaktır.
+
+**Anahtar Notlar:** ArrayList/Vector sınıfı aslında `generic` sınıflardır. Java'da generic sınıflar generic değilmiş gibi kullanılabilmektir. Bu kullanım aslında tavsiye edilen bir kullanım değildir ancak henüz generic sınıfları ele almadığımızda generic değilmiş gibi yani generic olmayan bir sınıf gibi kullanacağız. Generic sınıflar generic olmayan sınıflar gibi kullanıldığında pek çok static kod analizi aracı uyarı vermektedir. Buradaki örneklerimizde yani generic sınıflar konusuna gelene kadar bu uyarıları dikkate almayacağız. Generic sınıflar ve kullanımlarına ilişkin detaylar ileride ele alınacaktır.
+
+>ArrayList/Vector sınıfı içsel olarak Object türünden dizi tutarlar. ArrayList/Vector sınıfının default ctor'u ile capacity değeri 10 olan boş bir liste elde edilebilir. ArrayList/Vector sınıfının size metodu ile tutulan eleman sayısı elde edilebilir. Vector sınıfının capacity metodu ile o anki capacity değeri elde edilebilir. Vector sınıfının büyüttme politikası nesne yaratırken belirlenmedinde pek çok implementasyonda, onki capacity değerinin iki katı olacak şekildedir. ArrayList/Vector sınıfının tek parametreli add metodu ile sona ekleme (append) yapılabilir. ArrayList/Vector sınıfının get metodu parametresi ile aldığı indeks değerine ilişkin elemana geri döner. İndeks değeri `[0, size)` aralığı içerisinde olmalıdır, aksi durumda exception oluşur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Vector;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        Vector texts = new Vector();  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+  
+        for (int i = 0; i < texts.size(); ++i)  
+            Console.writeLine((String)texts.get(i));
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList/Vector sınıfının initialCapacity parametreli ctor'u ilem başlangıç capacity değeri verilebilir. Bu değer sıfır ya da pozitif olabilir. Negatif verilmesi durumunda exception oluşur.
+
+
+>Aşağıdaki demo örneği inceleyiniz
+>
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Vector;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        Vector texts = new Vector(4);  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+  
+        for (int i = 0; i < texts.size(); ++i)  
+            Console.writeLine((String)texts.get(i));
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList/Vector sınıfı `for-each` döngü deyimi ile dolaşılabilirdir (iterable). 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Vector;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        Vector texts = new Vector(4);  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList sınıfının iki parametreli add metodu birinci parametresi ile aldığı indekse ekleme yapar. Bu metot kaydırma (shift) yaptığından `O(n)` karmaşıklıktadır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        ArrayList texts = new ArrayList();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(0, s);  
+        }  
+  
+        Console.writeLine("Size:%d", texts.size());  
+  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList sınıfının set metodu ilgili indeksteki elemanı değiştirmek için kullanılır. Bu metot `O(1)` karmaşıklıktadır. İndeks değeri `[0, s,ze)` aralığı dışında verildiğinde exception oluşur. Metot değiştirme yapılmadan öncelki elemana ilişkin referansa geri döner.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        ArrayList texts = new ArrayList();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+  
+        Console.writeLine("Size:%d", texts.size());  
+  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+  
+        String oldText = (String)texts.set(2, "Zonguldak");  
+  
+        Console.writeLine("Old text:%s", oldText);  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList sınıfının int parametreli remove metodu parametresi ile aldığı indeks numarasındaki elemanı siler ve silinmiş elemana ilişkin referansa geri döner. Bu metot da kaydırma yaptığından `O(n)` karmaşıklıktadır. Yine index numarası `[0, size)` aralığı dışında bir değer verilirse exception oluşur
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        ArrayList texts = new ArrayList();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+  
+        Console.writeLine("Size:%d", texts.size());  
+  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+  
+        String oldText = (String)texts.remove(2);  
+  
+        Console.writeLine("Old text:%s", oldText);  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList sınıfının clear metodu diziyi boşaltır. Bu metot `O(n)` karmaşıklıktadır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        ArrayList texts = new ArrayList();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+  
+        Console.writeLine("Size:%d", texts.size());  
+  
+        for (Object o : texts)  
+            Console.writeLine((String)o);  
+  
+        texts.clear();  
+  
+        Console.writeLine("Size:%d", texts.size());  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList/Vector sınıfının size değerini küçülten metotları (genel olarak silme yapan metotlar denebilir) capacity değerini değiştirmez.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Vector;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        Vector texts = new Vector();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+          
+        texts.clear();  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList/Vector sınıfının trimToSize metodu capacity değerini size değerine çeker. Bu metot `O(n)` karmaşıklıktadır. Bu metot çağrıldıktan sonra ekleme yapılması da `O(n)` karmaşıklıktadır. Bu durumda bu metodun performans gereksiz yere çağrılmaması iyi bir tekniktir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Vector;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        Vector texts = new Vector();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            texts.add(s);  
+        }  
+  
+  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+  
+        texts.trimToSize();  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+  
+        texts.clear();  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+  
+        texts.trimToSize();  
+        Console.writeLine("Size:%d", texts.size());  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+>ArrayList/Vector sınıfının ensureCapacity değeri aşağıdaki koşullara göre büyütme işlemini yapar: (else-if biçiminde değerlendiriniz)
+>
+>1. minCapacity değeri, var olan capacity değerinden küçükse büyütme işlemi yapılmaz.
+>2. minCapacity değeri, var olan capacity değerinin artması gereken değerden (büyütme politikasına göre) küçük veya eşitse, capacity değeri artması gereken değere çekilir.
+>3. minCapacity değeri, var olan capacity değerinin artması gereken değerinden büyükse, minCapacity değerine çekilir
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app.string.store;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Vector;  
+  
+public class StoreStringsApp {  
+    public static void run()  
+    {  
+        Vector texts = new Vector();  
+  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+        texts.ensureCapacity(7);  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+        texts.ensureCapacity(15);  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+        texts.ensureCapacity(45);  
+        Console.writeLine("Capacity:%d", texts.capacity());  
+        Console.writeLine("-----------------------------------");  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+
+
+
+
+
+
 
 
 
