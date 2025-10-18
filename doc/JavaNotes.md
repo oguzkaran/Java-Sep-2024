@@ -417,7 +417,7 @@ class Mample {
 >		
 >Burada 1 byte'lık bir bilgi vardır. Byte temel bellek birimidir.
 >
->Byte da küçük bir birimdir. Kilo diğer bilimlerde "1000 katı" anlamına gelmektedir. Ancak bilgisayarlar 2'lik sistemi kullandığj için 1000 katı iyi bir kat değildir. Bu nedenle genel olarak Kilo byte için 2'nin 10'uncu kuvveti olan 1024 katı kullanılır. Yani 1KB (kısaca 1K) 1024 byte'tır. Mega diğer bilimlerde kilonun 1000 katıdır. Dolayısıyla milyon kat anlamına gelmektedir. Ancak bilgisayar bilimlerinde genel olarak mega kilonun 1024 katı olarak alınır. Bu durumda 1 MB = 1024 x 1024 (2^20) byte'dır. Giga ise meganın 1024 katıdır. Bu durumda 1 GB = 1024 x1024 x 1024 byte'tır ( 2^30). Giga'dan sonra tera, tera'dan sonra peta, ondan sonra da exa gelmektedir.
+>Byte da küçük bir birimdir. Kilo diğer bilimlerde "1000 katı" anlamına gelmektedir. Ancak bilgisayarlar 2'lik sistemi kullandığı için 1000 katı iyi bir kat değildir. Bu nedenle genel olarak Kilo byte için 2'nin 10'uncu kuvveti olan 1024 katı kullanılır. Yani 1KB (kısaca 1K) 1024 byte'tır. Mega diğer bilimlerde kilonun 1000 katıdır. Dolayısıyla milyon kat anlamına gelmektedir. Ancak bilgisayar bilimlerinde genel olarak mega kilonun 1024 katı olarak alınır. Bu durumda 1 MB = 1024 x 1024 (2^20) byte'dır. Giga ise meganın 1024 katıdır. Bu durumda 1 GB = 1024 x1024 x 1024 byte'tır ( 2^30). Giga'dan sonra tera, tera'dan sonra peta, ondan sonra da exa gelmektedir.
 >
 >1 byte içerisinde yazılabilecek en küçük ve en büyük sayılar şöyledir:
 >
@@ -428,7 +428,7 @@ class Mample {
 >		1111 1111 1111 1111 ---> 65535
 >Biz burada ikilik sistemde tamsayıları ifade ettik. Ama bütün sayıları pozitif kabul ettik. Pekiyi negatif tamsayılar nasıl ifade edilmektedir?
 >
->Bugün negatif tam sayıların ifade edilmesi için **ikiye tümleyen (two's complement)** sistemi denilen bir sistem kullanılmaktadır. Bu sistemde pozitif ve negatif sayılar birbirlerinin ikiye tümleyenidirler. İkiye tümleyen **bire tümleyene (one's complement)** bir eklenerek bulunmaktadır. Bir sayının bire tümleyeni sayıdaki 0'ların 1, 1'lerin 0 yapılmasıyla bulunur. Bu durumda ikiye tümleyen şöyle hesaplanır. örneğin aşağıdaki sayının ikiye tümleyenini bulmaya çalışalım:
+>Bugün negatif tam sayıların ifade edilmesi için **ikiye tümleyen (two's complement)** sistemi denilen bir sistem kullanılmaktadır. Bu sistemde pozitif ve negatif sayılar birbirlerinin ikiye tümleyenidirler. İkiye tümleyen **bire tümleyene (one's complement)** 1 eklenerek bulunmaktadır. Bir sayının bire tümleyeni sayıdaki 0'ların 1, 1'lerin 0 yapılmasıyla bulunur. Bu durumda ikiye tümleyen şöyle hesaplanır. örneğin aşağıdaki sayının ikiye tümleyenini bulmaya çalışalım:
 >
 >		0101 0110
 >Sayının bire tümleyenine bir ekleyeceğiz:
@@ -477,10 +477,10 @@ class Mample {
 >		1000 0000 0000 000	--->	-32768
 >Bu sisteme ilişkin tipik sorular ve yanıtları şöyledir:
 >
->**SORU**: Bu sistemde +n sayısını nasıl yazarsınız?\
+>**SORU**: Bu sistemde pozitif bir n sayısını nasıl yazarsınız?
 >**CEVAP:** En soldaki bit 0 yapılıp n sayısı 2'lik sistemde yazılır.
 >
->**SORU:** Bu sistemde -n nasıl yazarsınız?\
+>**SORU:** Bu sistemde negatif bir n sayısını nasıl yazarsınız?
 >**CEVAP:** Yazabiliyorsanız doğrudan yazın. Ancak doğrudan yazamıyorsanız önce +n değerini yazın ve ikiye tümleyenini alın. Örneğin bu sistemde -1 yazalım. Önce +1 yazalım:
 >
 >		0000 0001	--->	+1
@@ -488,8 +488,8 @@ class Mample {
 >
 >		1111 1111	---->	-1
 >		
->**SORU:** Bu sistemde bir sayının kaç olduğu bize sorulsa bunu nasıl yanıtlarız?\
->**CEVAP:** Eğer en soldaki bit 0 ise sayının değeri doğrudan hesplanır. Eğer en soldaki bit 1 ise bu sayının negatif olduğunu gösterir. Bu durumda sayının ikiye tümleyeni alınır. Pozitifinden hareketle negatifi bulunur.
+>**SORU:** Bu sistemde bir sayının kaç olduğu bize sorulsa bunu nasıl yanıtlarız?
+>**CEVAP:** Eğer en soldaki bit 0 ise sayının değeri doğrudan hesaplanır. Eğer en soldaki bit 1 ise bu sayının negatif olduğunu gösterir. Bu durumda sayının ikiye tümleyeni alınır. Pozitifinden hareketle negatifi bulunur. Şüphesiz bu soru sayının kaç bit olduğunun bilinmesi gerekir.
 >Örneğin 1110 1110 sayısı kaçtır? Burada işaret biti 1 olduğuna göre sayı negatiftir. Negatif ve pozitif sayılar birbirlerinin ikiye tümleyenidirler. O zaman bu sayının ikiye tümleyenini alıp pozitifinden faydalanarak sayıyı bulalım:
 >
 >		0001 0010	--->	+18
@@ -5783,7 +5783,7 @@ class NumberUtil {
 
 **Anahtar Notlar:** Bir sayının asal olup olmadığını test etmek için yukarıdaki algoritmadan hızlıları da vardır. Yukarıdaki algoritma ve implementasyonunun programcı tarafından bilinmesi önerilir. 
 
->**Sınıf Çalışması:** Parametremesi int türden pozitif `n`sayısı için n-inci asal sayıyı döndüren `nthPrime` isimli metodu NumburUtil sınıfı içerisinde yazınız ve test ediniz
+>**Sınıf Çalışması:** Parametremesi int türden pozitif `n`sayısı için n-inci asal sayıyı döndüren `nthPrime` isimli metodu `NumberUtil` sınıfı içerisinde yazınız ve test ediniz.
 
 >**Açıklamalar:** 
 >- isPrime metodunun hızlı versiyonu kullanılacaktır.
@@ -5851,11 +5851,11 @@ class NumberUtil {
 
 ```
 
->**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz
+>**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük olan ilk asal sayıya geri dönen `nextClosestPrime` metodunu yazınız ve aşağıdaki kod test ediniz.
 
 >**Açıklamalar:** 
 >- isPrime metodunun hızlı versiyonu kullanılacaktır.
->- Metot taşma durumlarını kontrol etmeyecektir
+>- Metot taşma durumlarını kontrol etmeyecektir.
 
 **Çözüm:**
 ```java
@@ -5998,9 +5998,9 @@ class NumberUtil {
 }
 
 ```
-###### İçiçe Döngüler
+###### İç içe Döngüler
 
->Bir döngünün deyimi başka bir döngü deyimi ise bu durumda **içiçe döngü (nested loop)** yazılmış olur. İçiçe döngüler genelde karşımıza  içiçe 2 döngü veya içiçe 3 döngü biçiminde çıkar. İçiçe 3'den fazla döngüler çok özel durumlarda (algoritmalarda) kullanılır.
+>Bir döngünün deyimi başka bir döngü deyimi ise bu durumda **iç içe döngü (nested loop)** yazılmış olur. İç içe döngüler genelde karşımıza  iç içe 2 döngü veya iç içe 3 döngü biçiminde çıkar. İç içe 3'den fazla döngüler çok özel durumlarda (algoritmalarda) kullanılır.
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -6053,7 +6053,7 @@ class Util {
 }
 ```
 
->Aşağıdaki demo örnekte 3 basamaklı Armstrong sayıları içiçe döngü kullanılarak bulunmuştur
+>Aşağıdaki demo örnekte 3 basamaklı Armstrong sayıları iç içe döngü kullanılarak bulunmuştur
 
 ```java
 package csd;
@@ -6290,7 +6290,7 @@ class NumberUtil {
 ```java
 break [etiket (label) ismi];
 ```
-break deyiminin tek başına (etiketsiz) kullanımında akış ilgili döngünün sonrasından devam eder. Yani, break deyiminin kullanıldığı akış break deyimine geldiğinde sonlanmış olur. break deyimin döngü veya switch deyimi dışında kullanımı error oluşturur. break deyimi hangi döngü deyimi içerisinde kullanılmışsa o döngü deyimi sonlanır. break deyimi algoritmaya bağlı olarak herhangi bir döngü deyiminde kullanılabileceği gibi tipik olarak sonsuz döngüden çıkış içinde kullanılabilir.
+break deyiminin tek başına (etiketsiz) kullanımında akış ilgili döngünün sonrasından devam eder. Yani, break deyiminin kullanıldığı akış break deyimine geldiğinde sonlanmış olur. break deyiminin döngü veya switch deyimi dışında kullanımı error oluşturur. break deyimi hangi döngü deyimi içerisinde kullanılmışsa o döngü deyimi sonlanır. break deyimi algoritmaya bağlı olarak herhangi bir döngü deyiminde kullanılabileceği gibi tipik olarak sonsuz döngüden çıkış için de kullanılabilir.
 
 >**Sınıf Çalışması:** Parametresi ile aldığı long türden bir sayıdan büyük ilk Fibonacci sayısına geri dönen `nextClosestFibonacciNumber` isimli metodu yazınız ve test ediniz
 
@@ -6474,7 +6474,7 @@ class App {
 
 ```
 >Aşağıdaki demo menü uygulamasını inceleyiniz
->**Not:** İleride daha iyis yazılacaktır
+>**Not:** İleride daha iyisi yazılacaktır
 
 ```java
 package csd;
@@ -6672,7 +6672,7 @@ class DemoMenuApp {
 
 ##### switch Deyimi
 
-> `switch deyimi (switch statement)` sonlu sayıda ve sabitlerden oluşan seçeneklerin eşitlik karşılaştırması için kullanılan bir kontrol deyimidir. switch deyimi belirli koşullar altında if deyimi yerine kullanılabilir. Aslında bu deyim if deyimine göre okunabilirliği/algılanabilirliği artırdığı durumlarda tercih edilir. Şüphesiz if deyimi ile yapılabilen herşey switch deyimiyle yapılamaz. switch deyimine `Java 12` ile birlikte eklentiler yapılmıştır. Bu eklentiler ilerleyen sürümlerde de genişletilmiştir. Hatta bu anlamda `switch expression` da `Java 12` dile birlikte dile dahil edilmiştir. swicth deyimine Java 12'den itibaren yapılan eklentiler `switch expression` başlığı altında ileride ele alınacaktır. 
+> `switch deyimi (switch statement)` sonlu sayıda ve sabitlerden oluşan seçeneklerin eşitlik karşılaştırması için kullanılan bir kontrol deyimidir. switch deyimi belirli koşullar altında if deyimi yerine kullanılabilir. Aslında bu deyim if deyimine göre okunabilirliği/algılanabilirliği artırdığı durumlarda tercih edilir. Şüphesiz if deyimi ile yapılabilen herşey switch deyimiyle yapılamaz. switch deyimine `Java 12` ile birlikte eklentiler yapılmıştır. Bu eklentiler ilerleyen sürümlerde de genişletilmiştir. Hatta bu anlamda `switch expression` da `Java 12` dile birlikte dile dahil edilmiştir. switch deyimine Java 12'den itibaren yapılan eklentiler `switch expression` başlığı altında ileride ele alınacaktır. 
 >
 >switch deyiminin genel biçimi şu şekildedir:
 
@@ -33121,9 +33121,165 @@ public class StoreStringsApp {
 }
 ```
 
+###### 18 Ekim 2025
+
+##### Polymorphism
+
+>Biyoloji'den programlamaya aktarılmış bir kavramdır. Biyoloji'de polymorphism şu şekilde tanımlanabilir: `Farklı doku ya da organların evrim süreci içerisinde temel işlevi (yani hedefi) aynı kalacak şekilde o işlevi yerine getirme biçiminin değişebilmesidir.` Örneğin, bir canlının `görme` davranışının yapılış biçimi, o canlıdan türeyen bir canlıda değişiklik gösterebilir ancak temel hedef görmektir.
+>
+>Polymorphism, NYPT'de genel olarak iki biçime ayrılır: **runtime polymorphism (RTP)**, **compile time polymorphism (CTP)**. Bu bölümde RTP ele alınacaktır. CTP, generics konusu ile ele alınacaktır. Polymorphism dendiğinde genel olarak RTP anlaşılır. 
+>
+>RTP ile ilgili pek çok tanım ve betimleme yapılabilir olsa da aşağıdaki 3 tanıma ve betimlemeye indirgenebilir:
+>
+>**- Biyolojik Tanım:** Taban sınıfın (super/base/parent class) bir fonksiyonunun (Java'da metot olarak düşünülebilir) türemiş sınıfta (sub/derived/child class) yeniden implemente edilmesidir. 
+>
+>**- Yazılım Mühendisliği Tanımı:** Türden bağımsız kod yazmaktır.
+>
+>**- Aşağı Seviyeli Tanım:** Önceden yazılmış kodların sonradan yazılmış kodları çağırabilmesidir.
+
+**Anahtar Notlar:** Özellikle RTP destekleyen bir programlama diline `object oriented programming language` denilmektedir. Nesne, türetme gib kavramları destekleyen ancak RTP desteklemeyen bir programlama diline genel olarak `object based programming language` denilmektedir. 
+
+**Anahtar Notlar:** Polymorphism, SOLID ilkelerinin, `L` yani `Liskov Substitution Principle`'ın bir uygulaması olarak düşünülebilir.
+
+###### Java ile RTP
+
+>Java'da RTP **sanal metotlar (virtual methods)** kullanılarak gerçekleştirilir. **Non-static bir metot, final olarak bildirilmemişse VEYA abstract olarak bildirilmişse sanaldır (virtual).** Bazı programlama dillerinde bu tanıma uyan metotlar doğrudan sanal olmazlar. İlgili metodun sanal olması için ayrı bir şekilde (genel olarak bir anahtar sözcük ile) bildirilmesi gerekir. Bu kavrama **virtual dispatching** denilmektedir. Bu anlamda, Java'da virtual dispatching yoktur. final metotlar ve abstract metotlar ileride ele alınacaktır.
+>
+>Sanal bir metodun, imzası ve geri dönüş değeri aynı olacak şekilde (erişim belirleyicisi kısmını ilerde ele alacağız) türemiş sınıfta yazılmasına **override** denir. Sanal bir metodun türemiş sınıfta override edilmesi zorunlu değildir. 
+>
+>Derleyici sanal bir metot çağrısı gördüğünde şu şekilde bir kod üretir: **Çalışma zamanında, metodun çağrılmasında kullanılan referansın dinamik türüne bak, dinamik türe ilişkin sınıfta ilgili metot override edilmişse onu çağır, edilmemişse taban sınıfına bak orada override edilmişse onu çağır, edilmemişse dolaylı taban sınıfına bak orada override edilmişse onu çağır, ...** 
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte RTP'ye ilişkin 3 temel tanım ve betimleme şu şekilde gerçeklenmektedir:
+>
+>**Biyolojik Tanım:** foo metodu bazı türemiş sınıflarda override edilmiştir.
+>
+>**Yazılım Mühendisliği Tanımı:** Util sınıfının `doWork` metodu ve DemoApp sınıfının `run` metodu A hiyerarşisi açısından türden bağımsızdır.
+>
+>**Aşağı Seviyeli Tanım:** A hiyerarşisine yeni bir tür eklendiğinde `doWork` ve `run` metodu çalışma zamanında bu türü, dolayısıyla ilgili foo metodunu çağırabilir durumdadır.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        while (true) {  
+            A a = factory.create();  
+  
+            Util.doWork(a);  
+            ThreadUtil.sleep(2000);  
+        }  
+    }  
+}  
+  
+class Util {  
+    public static void doWork(A a)  
+    {  
+        Console.writeLine("------------------------------------");  
+        Console.writeLine("Dynamic type:%s", a.getClass().getName());  
+        a.foo(0);  
+        Console.writeLine("------------------------------------");  
+    }  
+}  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(1, 9)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            case 7 -> new H();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class H extends B {  
+    public void foo(int a) //override  
+    {  
+        Console.writeLine("H.foo");  
+    }  
+}  
+  
+class G extends C {  
+    public void foo(int a) //override  
+    {  
+        Console.writeLine("G.foo");  
+    }  
+    //...  
+}  
+  
+class F extends C {  
+    //...  
+}  
+  
+  
+class E extends B {  
+    //...  
+}  
+  
+class D extends B {  
+    public void foo(int a) //override  
+    {  
+        Console.writeLine("D.foo");  
+    }  
+    //...  
+}  
+  
+class C extends A {  
+    //...  
+}  
+  
+class B extends A {  
+    //...  
+    public void foo(int a) //override  
+    {  
+        Console.writeLine("B.foo");  
+    }  
+}  
+  
+class A {  
+    //...  
+    public void foo(int a) //virtual method  
+    {  
+        Console.writeLine("A.foo");  
+    }  
+  
+    public final void bar(int a) //non-virtual method  
+    {  
+        Console.writeLine("A.bar");  
+    }  
+  
+    public static void tar(int a) //non-virtual method  
+    {  
+        Console.writeLine("A.tar");  
+    }  
+}
+```
 
 
 
+ 
 
 
 
