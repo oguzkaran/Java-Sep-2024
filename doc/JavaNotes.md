@@ -13693,7 +13693,7 @@ class App {
 }
 ```
 
->`+` operatörünün bir operandı String türündense, diğer operandın yazı karşılığı elde edilerek birleştirme işlemi yapılır. String türden olmayan operanda ilişkin ifadenin değerinin yazı karşılığının nasıl elde edildiği iler detaylı olarak ele alınacaktır. 
+>`+` operatörünün bir operandı String türündense, diğer operandın yazı karşılığı elde edilerek birleştirme işlemi yapılır. String türden olmayan operanda ilişkin ifadenin değerinin yazı karşılığının nasıl elde edildiği ileride detaylı olarak ele alınacaktır. 
 
 ```java
 package csd;
@@ -33143,7 +33143,7 @@ public class StoreStringsApp {
 
 ###### Java ile RTP
 
->Java'da RTP **sanal metotlar (virtual methods)** kullanılarak gerçekleştirilir. **Non-static bir metot, final olarak bildirilmemişse VEYA abstract olarak bildirilmişse sanaldır (virtual).** Bazı programlama dillerinde bu tanıma uyan metotlar doğrudan sanal olmazlar. İlgili metodun sanal olması için ayrı bir şekilde (genel olarak bir anahtar sözcük ile) bildirilmesi gerekir. Bu kavrama **virtual dispatching** denilmektedir. Bu anlamda, Java'da virtual dispatching yoktur. final metotlar ve abstract metotlar ileride ele alınacaktır.
+>Java'da RTP **sanal metotlar (virtual methods)** kullanılarak gerçekleştirilir. **private olmayan non-static bir metot, final olarak bildirilmemişse VEYA abstract olarak bildirilmişse sanaldır (virtual).** Bazı programlama dillerinde bu tanıma uyan metotlar doğrudan sanal olmazlar. İlgili metodun sanal olması için ayrı bir şekilde (genel olarak bir anahtar sözcük ile) bildirilmesi gerekir. Bu kavrama **virtual dispatching** denilmektedir. Bu anlamda, Java'da virtual dispatching yoktur. final metotlar ve abstract metotlar ileride ele alınacaktır.
 >
 >Sanal bir metodun, imzası ve geri dönüş değeri aynı olacak şekilde (erişim belirleyicisi kısmını ilerde ele alacağız) türemiş sınıfta yazılmasına **override** denir. Sanal bir metodun türemiş sınıfta override edilmesi zorunlu değildir. 
 >
@@ -33276,6 +33276,379 @@ class A {
     }  
 }
 ```
+
+###### 19 Ekim 2025
+
+>Bazı durumlarda türemiş sınıfta override edilen bir metot içerisinde yapılacak işlerin yanında taban sınıfının ilgili metodunda işinin yapılması gerekebilir. Buna **augmentation** da denilmektedir. Bunun için **super** referansı kullanılır. super referansı kullanıldığı metodun ait olduğu sınıfa ilişkin nesnenin taban sınıf kısmının adresidir. Bu durumda kullanıldığı metodun ait olduğu sınıfın taban sınıfı türündendir. super referansı da bir sabit ifadesidir. super referansı yalnızca non-static metotlarda kullanılabilir
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        AFactory factory = new AFactory();  
+  
+        while (true) {  
+            A a = factory.create();  
+  
+            Util.doWork(a);  
+            ThreadUtil.sleep(2000);  
+        }  
+    }  
+}  
+  
+class Util {  
+    public static void doWork(A a)  
+    {  
+        Console.writeLine("------------------------------------");  
+        Console.writeLine("Dynamic type:%s", a.getClass().getName());  
+        a.foo(0);  
+        Console.writeLine("------------------------------------");  
+    }  
+}  
+  
+class AFactory {  
+    private final Random m_random = new Random();  
+  
+    public A create()  
+    {  
+        return switch (m_random.nextInt(1, 9)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            case 3 -> new D();  
+            case 4 -> new E();  
+            case 5 -> new F();  
+            case 6 -> new G();  
+            case 7 -> new H();  
+            default -> new A();  
+        };  
+    }  
+}  
+  
+class H extends B {  
+    public void foo(int a) //override  
+    {  
+        super.foo(10);  
+        Console.writeLine("H.foo");  
+    }  
+}  
+  
+class G extends C {  
+    public void foo(int a) //override  
+    {  
+        super.foo(10);  
+        Console.writeLine("G.foo");  
+    }  
+    //...  
+}  
+  
+class F extends C {  
+    //...  
+}  
+  
+  
+class E extends B {  
+    //...  
+}  
+  
+class D extends B {  
+    public void foo(int a) //override  
+    {  
+        super.foo(10);  
+        Console.writeLine("D.foo");  
+    }  
+    //...  
+}  
+  
+class C extends A {  
+    //...  
+}  
+  
+class B extends A {  
+    //...  
+    public void foo(int a) //override  
+    {  
+        super.foo(10);  
+        Console.writeLine("B.foo");  
+    }  
+}  
+  
+class A {  
+    //...  
+    public void foo(int a) //virtual method  
+    {  
+        Console.writeLine("A.foo");  
+    }  
+}
+```
+
+>Sanal bir metodu türemiş sınıfta override ederken taban sınıftaki erişim belirleyici ya aynı olabilir ya da erişim anlamında yükseltilebilir. Bu durumda örneğin sanal metot taban sınıfta protected olarak bildirilmişse ya protected ya da public olarak override edilebilir. public olarak bildirilmişse yalnızca public olarak override edilebilir, no-modifier ise olarak bildirilmişse yine no-modifier veya public olarak override edilebilir. private metotlar sanal değildir dolayısıyla override edilemezler ama türemiş sınıfta herhangi bir erişim belirleyici ile yazılabilirler ancak bu override anlamına gelmez. Mantıksal olarak düşünüldünde türemiş sınıfı yazan programcı taban sınıfın private bölümünü zaten bilmiyor durumdadır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class F extends A {  
+    //...  
+    public void tar() //override anlamına gelmez  
+    {  
+        Console.writeLine("E.tar");  
+    }  
+}  
+  
+  
+class E extends A {  
+    //...  
+    private void tar() //override anlamına gelmez  
+    {  
+        Console.writeLine("E.tar");  
+    }  
+}  
+  
+  
+class D extends A {  
+    //...  
+    protected void foo(int a) //error  
+    {  
+        Console.writeLine("B.foo");  
+    }  
+}  
+  
+class C extends A {  
+    //...  
+    public void foo(int a)  
+    {  
+        Console.writeLine("C.foo");  
+    }  
+  
+    public void bar(int a)  
+    {  
+        Console.writeLine("C.bar");  
+    }  
+}  
+  
+class B extends A {  
+    //...  
+    public void foo(int a)  
+    {  
+        Console.writeLine("B.foo");  
+    }  
+  
+    protected void bar(int a)  
+    {  
+        Console.writeLine("B.bar");  
+    }  
+}  
+  
+class A {  
+    //...  
+    public void foo(int a)  
+    {  
+        Console.writeLine("A.foo");  
+    }  
+  
+    protected void bar(int a)  
+    {  
+        Console.writeLine("A.bar");  
+    }  
+  
+    private void tar()  
+    {  
+        Console.writeLine("A.tar");  
+    }  
+}
+```
+
+###### Polymorphism'e İlişkin Bazı Örnekler
+
+>Bu bölümde bazı örnek uygulamalarda polymorphism kullanımı teorik olarak ele alınacaktır. 
+>
+>- Sürekli devam eden (endless) bir oyunda bir karakter kendisine rasgele olarak gelen toplara vuruyor olsun. Bu karaktere gelen topların çeşitlerine göre vurduktan sonraki davranışları farklılık göstersin. Böyle bir uygulamada vurma esnasında gelen topa göre işlem yapmak yerine, bu davranışı topa ait kabul edip(ki gerçekten de öyledir) bir taban sınıf ve bir sanal metot (örneğin Ball sınıfı ve kick metodu gibi) ile gelen topa yalnızca vurma kodu yazılıp vurma işleminden sonra dinamik türe göre metodun çağrılması sağlanabilir. Bu durumda oyuna yeni bir top eklendiğinde topun karaktere gelip vurması kodlarında değişiklik yapılması gerekmez. Bu anlamda türden bağımsız kod yazılmış olur.
+>
+>- Popüler tuğla kırma oyununda (bricks world) top tuğlaya çarptığında tuğlanın çeşitine göre olay gerçekleşmektedir.  Bu durumda çeşitli tuğlalar için çeşitli davranışlar söz konusu olmaktadır. Topun tuğlaya çarptığı sırada  tuğlanın ne olduğuna göre işlem yapmak yerine bir taban sınıf ve bir sanal metot (örneğin Brick sınıf ve hit metodu gibi)  ile tüm tuğlalar bir matris olarak düşünülüp ilgili elemana top çarptığında sanal metot çağrılarak dinamik türe özgü işlem yapılması  sağlanabilir. Bu durumda yeni bir tuğla eklense de topun tuğlaya çarpması kodlarında değişiklik gerekmez.
+>
+>- Popüler angry birds oyununda çeşitli kuşlar bir sapandan atılmaktadır. Oyunda, atıldığında değişik davranışlar  gösteren kuşlar bulunmaktadır. Bu durumda kuşun davranışının atıldıktan sonra kuşun türüne bakarak gerçekleştirilmesi  yerine kuş için bir taban sınıf ve bir sanal metot (örneğin Bird sınıfı ve throwBird metodu gibi) belirlenerek fırlatma işlemi  için taban sınıf referansı kullanılabilir. Bu durumda dinamik türe göre işlem yapılmış olur. Yeni bir kuş  türü eklendiğinde fırlatma kodlarında değişiklik gerekmez.
+>
+>Şüphesiz buradaki örnekler çoğaltılabilir. 
+>
+>Programlamada temel amaç yeni eklentilerin mümkün olduğunca eski kodlara dokunmadan yani senaryo değişmedikten sonra eski kodlarda değişiklik yapılmadan yazılabilmesidir. Bu işlem adeta bi puzzle'ın ya da bir lego'nun parçasını eklemek biçiminde düşünülebilir. Böyle bir tasarım ile ürünün yeni versiyonu daha çabuk ve daha sistematik bir biçimde elde edilebilir. RTP de bunu sağlayan araçlardan biridir. Bir ürünün kod kalitesi için şu önerme söylenebilir: **Bir ürünün yeni versiyonu çıkartılırken eski kodlara ilişkin senaryolarda ve algoritmalarda değişiklik olmadıktan sonra eski kodlara ne kadar az müdahale edilirse ürünün kodları o kadar kalitelidir.** 
+
+###### Object Sınıfının Önemli Bazı Metotları
+
+>Bu bölümde Object sınıfının bazı önemli önemli sanal metotları ele alınacaktır:
+
+>**- toString Metodu:** Object sınıfının toString isimli sanal bir metodu vardır. Bu metot bir nesneye ilişkin yazı karşılığı olması durumunda override edilmesi bir convention olan metottur. Aslında biz pek çok sınıfımız içerisinde toString metodunu override ettik. toString metodu JavaSE ve çeşitli üçüncü parti kütüphaneler ve ortamlar (framework) tarafından da duruma göre Object türden referans ile çağrılmaktadır.Örneğin klasik `print` ve `println`metotlarının object parametreli overload'ları stdout'a yani ekrana basacakları yazıyı toString metodunu çağırarak elde ederler. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Circle c = new Circle(3.4);  
+        Point p = Point.createCartesian(100, 100);  
+        Complex z = new Complex(3, -4);  
+  
+        System.out.println(c);  
+        System.out.println(p);  
+        System.out.println(z);  
+    }  
+}
+```
+
+>printf, String sınıfının format ve formatted metotları `s` format karakteri ile verilen bir argüman için yazı karşılığını `toString` metodunu çağırarak elde eder. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Circle c = new Circle(3.4);  
+        Point p = Point.createCartesian(100, 100);  
+        Complex z = new Complex(3, -4);  
+  
+        System.out.printf("Circle => %s%n", c);  
+        System.out.printf("Point => %s%n", p);  
+        System.out.printf("Complex => %s%n", z);  
+    }  
+}
+```
+
+>Temel bir tür için de printf, String sınıfının format ve formatted metotları s format karakteri için dolaylı olarak toString metodunu çağırarak değerin yazı karşılığını elde eder. Çünkü temel türden bir ifadenin değeri printf metoduna geçilirken parametre türü Object olduğundan otomatik kutulama (auto boxing) yapılır, sonrasında ilgili sarmalayan sınıfın toString metodu çağrılmış olur. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        int x = 10;  
+        double y = 56.78;  
+        boolean z = true;  
+  
+        System.out.printf("x = %s, y = %s, z = %s", x, y, z);  
+    }  
+}
+```
+
+>Anımsanacağı gibi `+` operatörünün operandı String türündense, diğer operandın yazı karşılığı elde edilerek birleştirme yapılır. Diğer tür bir referans türü ise yazı kaşılığı toString metodu çağrılarak elde edilir. Diğer tür temel türlerden biri ise önce otomatik kutulama yapılır, sonrasında ilgili sarmalayan sınıfın toString metodu çağrılarak yazı elde edilir
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Circle;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Circle c = new Circle();  
+        Point p = Point.createCartesian(100, 100);  
+        Complex z = new Complex(3, -5);  
+        int x = 10;  
+        double y = 3.4;  
+        boolean b = true;  
+  
+        System.out.println("Circle => " + c);  
+        System.out.println("Point => " + p);  
+        System.out.println("Complex => " + z);  
+        System.out.println("x = " + x);  
+        System.out.println("y = " + y);  
+        System.out.println("b = " + b);  
+    }  
+}
+```
+
+>Object sınıfının toString metodu nesneye özgü, tekil (unique) bir bilgiye ilişkin yazıya geri döner. Bu yazının nasıl elde edildiğine ilişkin detaylar şu aşamada önemsizdir. Java ile Uygulama Geliştirme 1 Kursu'nda ele alınacaktır. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s1 = new Sample();  
+        Sample s2 = new Sample();  
+  
+        Console.writeLine(s1);  
+        Console.writeLine(s2);  
+    }  
+}  
+  
+class Sample {  
+    //...  
+}
+```
+
+>ArrayList sınıfının toString metodu yazı karşılığını, her bir eleman için toString çağırarak elde eder. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.random.generator.ObjectArrayGenerator;  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        ObjectArrayGenerator generator = new ObjectArrayGenerator();  
+        ArrayList list = new ArrayList();  
+        int n = Console.readInt("Input a number:");  
+  
+        for (Object o : generator.createObjectArray(n)) {  
+            Console.writeLine(o);  
+            list.add(o);  
+        }  
+  
+        Console.writeLine("--------------------------------");  
+        Console.writeLine(list);  
+    }  
+}
+```
+
+**- equals Metodu:** 
+
+
 
 
 

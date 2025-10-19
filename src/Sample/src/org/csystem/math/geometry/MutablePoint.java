@@ -2,7 +2,7 @@ package org.csystem.math.geometry;
 
 /**
  * MutablePoint class that represents a point in cartesian coordinates
- * Last Update: 26th July 2025
+ * Last Update: 19th October 2025
  * @author Java-Sep-2024 Group
  */
 
@@ -80,7 +80,12 @@ public class MutablePoint {
 		m_x += dx;
 		m_y += dy;
 	}
-	
+
+    public boolean equals(Object other)
+    {
+        return other instanceof MutablePoint p && PointCommon.equals(m_x, m_y, p.m_x, p.m_y);
+    }
+
 	public String toString()
 	{
 		return PointCommon.toString(m_x, m_y);

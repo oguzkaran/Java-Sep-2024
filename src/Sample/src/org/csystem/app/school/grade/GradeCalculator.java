@@ -3,7 +3,7 @@ package org.csystem.app.school.grade;
 import org.csystem.util.string.StringUtil;
 
 public class GradeCalculator {
-    private String m_dataStr;
+    private final String m_dataStr;
 
     public GradeCalculator(String str)
     {

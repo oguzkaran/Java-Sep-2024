@@ -2,7 +2,7 @@ package org.csystem.math.geometry;
 
 /**
  * Immutable Point class that represents a point in cartesian coordinates
- * Last Update: 26th July 2025
+ * Last Update: 19th October 2025
  * @author Java-Sep-2024 Group
  */
 public class Point {
@@ -57,7 +57,12 @@ public class Point {
 	{
 		return PointCommon.euclideanDistance(m_x, m_y, x, y);
 	}
-	
+
+    public boolean equals(Object other)
+    {
+        return other instanceof Point p && PointCommon.equals(m_x, m_y, p.m_x, p.m_y);
+    }
+
 	public String toString()
 	{
 		return PointCommon.toString(m_x, m_y);

@@ -57,4 +57,9 @@ public class BallFall {
 
 		m_shape = sb.toString();
 	}
+
+    public String toString()
+    {
+        return m_shape;
+    }
 }
