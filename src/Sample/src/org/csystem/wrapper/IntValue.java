@@ -2,7 +2,7 @@ package org.csystem.wrapper;
 
 /**
  * Immutable class that wraps an int value by using cache for values between [-128, 127]
- * Last Update: 26th July 2025
+ * Last Update: 25th October 2025
  * @author Java-Sep-2024 Group
  */
 public final class IntValue {
@@ -31,6 +31,11 @@ public final class IntValue {
     public int getValue()
     {
         return m_value;
+    }
+
+    public boolean equals(Object other)
+    {
+        return other instanceof IntValue iv && iv.m_value == m_value;
     }
 
     public String toString()

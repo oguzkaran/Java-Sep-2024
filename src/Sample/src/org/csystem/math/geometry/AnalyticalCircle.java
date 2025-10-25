@@ -2,7 +2,7 @@ package org.csystem.math.geometry;
 
 /**
  * AnalyticalCircle class that represents a circle in Cartesian plane
- * Last Update: 19th October 2025
+ * Last Update: 25th October 2025
  * @author Java-Sep-2024 Group
  */
 public class AnalyticalCircle extends Circle {
@@ -69,6 +69,11 @@ public class AnalyticalCircle extends Circle {
     public void offset(double dx, double dy)
     {
         m_center.offset(dx, dy);
+    }
+
+    public boolean equals(Object other)
+    {
+        return other instanceof AnalyticalCircle ac && super.equals(ac) && m_center.equals(ac.m_center);
     }
 
     public String toString()

@@ -6672,7 +6672,7 @@ class DemoMenuApp {
 
 ##### switch Deyimi
 
-> `switch deyimi (switch statement)` sonlu sayıda ve sabitlerden oluşan seçeneklerin eşitlik karşılaştırması için kullanılan bir kontrol deyimidir. switch deyimi belirli koşullar altında if deyimi yerine kullanılabilir. Aslında bu deyim if deyimine göre okunabilirliği/algılanabilirliği artırdığı durumlarda tercih edilir. Şüphesiz if deyimi ile yapılabilen herşey switch deyimiyle yapılamaz. switch deyimine `Java 12` ile birlikte eklentiler yapılmıştır. Bu eklentiler ilerleyen sürümlerde de genişletilmiştir. Hatta bu anlamda `switch expression` da `Java 12` dile birlikte dile dahil edilmiştir. switch deyimine Java 12'den itibaren yapılan eklentiler `switch expression` başlığı altında ileride ele alınacaktır. 
+> `switch deyimi (switch statement)` sonlu sayıda ve sabitlerden oluşan seçeneklerin eşitlik karşılaştırması için kullanılan bir kontrol deyimidir. switch deyimi belirli koşullar altında if deyimi yerine kullanılabilir. Aslında bu deyim if deyimine göre okunabilirliği/algılanabilirliği artırdığı durumlarda tercih edilir. Şüphesiz if deyimi ile yapılabilen her şey switch deyimiyle yapılamaz. switch deyimine `Java 12` ile birlikte eklentiler yapılmıştır. Bu eklentiler ilerleyen sürümlerde de genişletilmiştir. Hatta bu anlamda `switch expression` da `Java 12` dile birlikte dile dahil edilmiştir. switch deyimine Java 12'den itibaren yapılan eklentiler `switch expression` başlığı altında ileride ele alınacaktır. 
 >
 >switch deyiminin genel biçimi şu şekildedir:
 
@@ -6692,7 +6692,7 @@ switch (<ifade>) {
 }
 ```
 
->switch parantezi içerisindeki ifadenin tam sayı türünden (int, long, byte, short) VEYA char türden VEYA String türünden VEYA enum class türünden olmak zorundadır. Bunlar dışında kalan türler için error oluşur. String ve enum class'lar ileride ele alınacaktır. Bir case bölümüne ilişkin ifadenin switch parantezi içerisindeki ifadenin türünden sabit ifadesi olması zorunludur. switch parantezi içerisinde tür ile case bölümüne ilişkin türün farklı olabileceği bazı istisna durumlar vardır, ileride ele alınacaktır. switch deyiminin default bölümü (default case) zorunlu değildir. Akış switch deyimine geldiğinde parantez içerisindeki ifade hesaplanır. Elde edilen değer ile ilk case bölümünden başlamak üzere ilgili sabit ifadesi ile `==` karşılaştırması yapılır. true olan ilk case bölümüne ilişkin deyim çalıştırılır. Eğer hiç bir case bölümünün sabit ifadesi ile karşılaştırma sonucunda true değeri elde edilmezse varsa default kısmı çalıştırılır. switch deyimi tamamlandığında akış switch deyiminden sonraki deyimden devam eder. 
+>switch parantezi içerisindeki ifadenin tam sayı türlerinde int, byte ve short) VEYA char türden VEYA String türünden VEYA enum class türünden olmak zorundadır. Bunlar dışında kalan türler için error oluşur. String ve enum class'lar ileride ele alınacaktır. Bir case bölümüne ilişkin ifadenin switch parantezi içerisindeki ifadenin türünden sabit ifadesi olması zorunludur. switch parantezi içerisinde tür ile case bölümüne ilişkin türün farklı olabileceği bazı istisna durumlar vardır, ileride ele alınacaktır. switch deyiminin default bölümü (default case) zorunlu değildir. Akış switch deyimine geldiğinde parantez içerisindeki ifade hesaplanır. Elde edilen değer ile ilk case bölümünden başlamak üzere ilgili sabit ifadesi ile `==` karşılaştırması yapılır. true olan ilk case bölümüne ilişkin deyim çalıştırılır. Eğer hiç bir case bölümünün sabit ifadesi ile karşılaştırma sonucunda true değeri elde edilmezse varsa default kısmı çalıştırılır. switch deyimi tamamlandığında akış switch deyiminden sonraki deyimden devam eder. 
 
 
 >Aşağıdaki demo örneğe ilişkin switch deyimin if deyimi karşılığı şu şekilde yazılabilir:
@@ -6950,8 +6950,6 @@ class App {
 		System.out.println("Tekrar yapıyor musunuz?");
 	}
 }
-
-
 ```
 
 >Aşağıdaki demo örneği inceleyiniz
@@ -6998,7 +6996,7 @@ class App {
 
 >switch deyiminde case ve default bölümlerinin çok uzun tutulması durumu okunabilirliği/algılanabilirliği olumsuz etkiler. Böylesi durumlarda programcının ilgili bölümlere ilişkin işlemler için metot yazması ve çağırması daha uygun olur. 
 
->switch deyiminde default bölümün deyimin neresinde olduğunun önemi yoktur. Yani default bölümün ne zaman çalıştırılacağı değişiklik göstermez şüphesiz switch deyiminin son bölüm olarak yazılması okunabilirlik/algılanabilirlik açısından daha uygundur.
+>switch deyiminde default bölümün deyimin neresinde olduğunun önemi yoktur. Yani default bölümün ne zaman çalıştırılacağı değişiklik göstermez. Şüphesiz switch deyiminin son bölüm olarak yazılması okunabilirlik/algılanabilirlik açısından daha uygundur.
 
 >Aşağıdaki demo örneği inceleyiniz. Örnekte default bölümde break deyimi olmazsa aşağı düşme olacaktır.
 
@@ -33646,18 +33644,639 @@ class App {
 }
 ```
 
->**- equals Metodu:** Object sınıfının equals isimli metodunun, Object parametreli ve geri dönüş değeri boolean'dır. Bu metot aynı türden iki nesne için mantıksal eşitlik karşılaştırması için kullanılır. Sınıfı yazan programcı, sınıf türünden iki nesne için mantıksal eşitlik kavramı söz konusuysa equals metodunu bir convention olarak override eder. Yani aslında override edilen metotta eşitliğe ilişkin kodlar yazılır. Object sınıfının equals metodu referans (adres) karşılaştırması yapar. equals metodu JavaSE ve çeşitli üçüncü parti kütüphaneler ve ortamlar (framework) tarafından da duruma göre Object sınıfı üzerinden çağrılmaktadır. Örneğin ArrayList sınıfının `indexOf`ve `lastIndexOf`metotları arama işlemini `null` araması yapılmıyorsa equals metodunu çağırarak yaparlar. Bu durumda ArrayList içerisinde tutulan referansın dinamik türü için, override edilmişse equals çağrılmış olur. Bu durumda ilgili tür için mantıksal eşitlik karşılaştırması yapılmış olur. equals metodu override edilirken, aldığı Object referansına ilişkin dinamik türün ilgili sınıf türünden olup olmadığına da genel olarak bakılır. Özel bir durum yoksa bu bir convention olarak düşünülmelidir. Pek çok static kod analizi aracı default konfigürasyonunda bu kontrolün yapılmadığı durumlarda uyarı vermektedir. Bu kontrol tipik olarak `instanceof` operatörü ile yapılabilir.
+###### 25 Ekim 2025
+
+>**- equals Metodu:** Object sınıfının equals isimli metodu, Object parametreli ve geri dönüş değeri boolean türden olan bir metottur. Bu metot aynı türden iki nesnenin mantıksal eşitlik karşılaştırması için kullanılır. Sınıfı yazan programcı, sınıf türünden iki nesne için mantıksal eşitlik kavramı söz konusuysa equals metodunu bir convention olarak override eder. Yani aslında override edilen metotta eşitliğe ilişkin kodlar yazılır. Object sınıfının equals metodu referans (adres) karşılaştırması yapar. equals metodu JavaSE ve çeşitli üçüncü parti kütüphaneler ve ortamlar (framework) tarafından da duruma göre Object sınıfı üzerinden çağrılmaktadır. Örneğin ArrayList sınıfının `indexOf`ve `lastIndexOf`metotları arama işlemini `null` araması yapılmıyorsa equals metodunu çağırarak yaparlar. Bu durumda ArrayList içerisinde tutulan referansın dinamik türü için, override edilmişse equals çağrılmış olur. Yani, ilgili tür için mantıksal eşitlik karşılaştırması yapılmış olur. equals metodu override edilirken, aldığı Object referansına ilişkin dinamik türün ilgili sınıf türünden olup olmadığına da genel olarak bakılır. Özel bir durum yoksa bu bir convention olarak düşünülmelidir. Pek çok static kod analizi aracı default konfigürasyonunda bu kontrolün yapılmadığı durumlarda uyarı vermektedir. Bu kontrol tipik olarak `instanceof` operatörü ile yapılabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+import org.csystem.math.util.MathUtil;  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoPointListGenerator.run();  
+    }  
+}  
+  
+class DemoPointListGenerator {  
+    private static ArrayList createRandomPoints()  
+    {  
+        ArrayList points = new ArrayList();  
+        Random random = new Random();  
+        Point origin = Point.createCartesian();  
+  
+        while (true) {  
+            Point p = MathUtil.createRandomPoint(random, -10, 11);  
+  
+            points.add(p);  
+  
+            if (p.equals(origin))  
+                return points;  
+        }  
+    }  
+    public static void run()  
+    {  
+        ArrayList points = createRandomPoints();  
+        Point p = Point.createCartesian(6, 10);  
+  
+        for (Object o : points)  
+            Console.writeLine(o);  
+  
+        int index = points.indexOf(p);  
+  
+        Console.writeLine(index != -1 ? "%s found at index:%d".formatted(p, index) : "%s not found".formatted(p));  
+    }  
+}
+```
+
+```java
+package org.csystem.math.util;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+  
+import java.util.Random;  
+  
+public final class MathUtil {  
+    private MathUtil()  
+    {  
+    }  
+  
+    public static Point createRandomPoint(Random random, int origin, int bound)  
+    {  
+        return Point.createCartesian(random.nextInt(origin, bound), random.nextInt(origin, bound));  
+    }  
+  
+    public static Point createRandomPoint(Random random, double origin, double bound)  
+    {  
+        return Point.createCartesian(random.nextDouble(origin, bound), random.nextDouble(origin, bound));  
+    }  
+  
+    public static Point[] createRandomPoints(Random random, int count, int origin, int bound)  
+    {  
+        Point [] points = new Point[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            points[i] = createRandomPoint(random, origin, bound);  
+  
+        return points;  
+    }  
+  
+    public static Point[] createRandomPoints(Random random, int count, double origin, double bound)  
+    {  
+        Point [] points = new Point[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            points[i] = createRandomPoint(random, origin, bound);  
+  
+        return points;  
+    }  
+  
+    public static Complex createRandomComplex(Random random, double origin, double bound)  
+    {  
+        return new Complex(random.nextDouble(origin, bound), random.nextDouble(origin, bound));  
+    }  
+  
+    public static Complex[] createRandomComplexNumbers(Random random, int count, double origin, double bound)  
+    {  
+        Complex [] numbers = new Complex[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            numbers[i] = createRandomComplex(random, origin, bound);  
+  
+        return numbers;  
+    }  
+}
+```
+
+>Aşağıdaki sınıfları ve equals metotlarını inceleyiniz
+
+```java
+package org.csystem.math.geometry;  
+  
+public class Point {  
+    public final double m_x, m_y;  
+  
+    private Point(double x, double y)  
+    {  
+       m_x = x;  
+       m_y = y;  
+    }  
+  
+    public static Point createCartesian()  
+    {  
+       return createCartesian(0);  
+    }  
+  
+    public static Point createCartesian(double x)  
+    {  
+       return createCartesian(x, 0);  
+    }  
+  
+    public static Point createCartesian(double x, double y)  
+    {  
+       return new Point(x, y);  
+    }  
+  
+    public static Point createPolar(double radius, double theta)  
+    {  
+       return new Point(PointCommon.getXByPolar(radius, theta), PointCommon.getYByPolar(radius, theta));  
+    }  
+  
+    public double getX()  
+    {  
+       return m_x;  
+    }  
+    public double getY()  
+    {  
+       return m_y;  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(Point other)  
+    {  
+       return euclideanDistance(other.m_x, other.m_y);  
+    }  
+      
+    public double euclideanDistance(double x, double y)  
+    {  
+       return PointCommon.euclideanDistance(m_x, m_y, x, y);  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof Point p && PointCommon.equals(m_x, m_y, p.m_x, p.m_y);  
+    }  
+  
+    public String toString()  
+    {  
+       return PointCommon.toString(m_x, m_y);  
+    }  
+}
+```
+
+```java
+package org.csystem.math.geometry;  
+  
+import static java.lang.Math.sqrt;  
+  
+class PointCommon {  
+    private PointCommon()  
+    {  
+    }  
+  
+    static final double DELTA = 0.000001;  
+  
+    static double euclideanDistance(double x1, double y1, double x2, double y2)  
+    {  
+        return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));  
+    }  
+  
+    static boolean equals(double x1, double y1, double x2, double y2)  
+    {  
+        return Math.abs(x1 - x2) < PointCommon.DELTA && Math.abs(y1 - y2) < PointCommon.DELTA;  
+    }  
+  
+    static String toString(double x, double y)  
+    {  
+        return "(%f, %f)".formatted(x, y);  
+    }  
+  
+    static double getXByPolar(double radius, double theta)  
+    {  
+        return radius * Math.cos(theta);  
+    }  
+  
+    static double getYByPolar(double radius, double theta)  
+    {  
+        return radius * Math.sin(theta);  
+    }  
+}
+```
 
 
+```java
+package org.csystem.math.geometry;  
+   
+public class MutablePoint {  
+    public double m_x, m_y;  
+  
+    private MutablePoint(double x, double y)  
+    {  
+       m_x = x;  
+       m_y = y;  
+    }  
+  
+    public static MutablePoint createCartesian()  
+    {  
+       return createCartesian(0);  
+    }  
+  
+    public static MutablePoint createCartesian(double x)  
+    {  
+       return createCartesian(x, 0);  
+    }  
+  
+    public static MutablePoint createCartesian(double x, double y)  
+    {  
+       return new MutablePoint(x, y);  
+    }  
+  
+    public static MutablePoint createPolar(double radius, double theta)  
+    {  
+       return new MutablePoint(PointCommon.getXByPolar(radius, theta), PointCommon.getYByPolar(radius, theta));  
+    }  
+  
+    public double getX()  
+    {  
+       return m_x;  
+    }  
+  
+    public void setX(double x)  
+    {  
+       m_x = x;  
+    }  
+  
+    public double getY()  
+    {  
+       return m_y;  
+    }  
+  
+    public void setY(double y)  
+    {  
+       m_y = y;  
+    }  
+  
+    public double euclideanDistance()  
+    {  
+       return euclideanDistance(0, 0);  
+    }  
+  
+    public double euclideanDistance(MutablePoint other)  
+    {  
+       return euclideanDistance(other.m_x, other.m_y);  
+    }  
+      
+    public double euclideanDistance(double x, double y)  
+    {  
+       return PointCommon.euclideanDistance(m_x, m_y, x, y);  
+    }  
+      
+    public void offset(double dxy)  
+    {  
+       offset(dxy, dxy);  
+    }  
+      
+    public void offset(double dx, double dy)  
+    {  
+       m_x += dx;  
+       m_y += dy;  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof MutablePoint p && PointCommon.equals(m_x, m_y, p.m_x, p.m_y);  
+    }  
+  
+    public String toString()  
+    {  
+       return PointCommon.toString(m_x, m_y);  
+    }  
+}
+```
 
+```java
+package org.csystem.math;  
+
+public class Complex {  
+    private static final double DELTA = 0.000001; 
+    public double real;  
+    public double imag;  
+      
+    private static Complex add(double re1, double im1, double re2, double im2)  
+    {    
+       return new Complex(re1 + re2, im1 + im2);  
+    }  
+      
+    private static Complex subtract(double re1, double im1, double re2, double im2)  
+    {  
+       return add(re1, im1, -re2, -im2);  
+    }  
+      
+    private static Complex multiply(double re1, double im1, double re2, double im2)  
+    {  
+       return new Complex(re1 * re2 - im1 * im2, re1 * im2 + re2 * im1);  
+    }  
+      
+    public Complex()  
+    {       
+    }  
+      
+    public Complex(double real)  
+    {  
+       this.real = real;  
+    }  
+      
+    public Complex(double real, double imag)  
+    {  
+       this.real = real;  
+       this.imag = imag;  
+    }  
+      
+    public static Complex add(double value, Complex z)  
+    {  
+       return add(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex add(double value)  
+    {  
+       return add(real, imag, value, 0);  
+    }  
+      
+    public Complex add(Complex other)  
+    {  
+       return add(real, imag, other.real, other.imag);  
+    }  
+      
+    public static Complex subtract(double value, Complex z)  
+    {  
+       return subtract(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex subtract(double value)  
+    {  
+       return subtract(real, imag, value, 0);  
+    }  
+      
+    public Complex subtract(Complex other)  
+    {  
+       return subtract(real, imag, other.real, other.imag);  
+    }  
+      
+    public static Complex multiply(double value, Complex z)  
+    {  
+       return multiply(value, 0, z.real, z.imag);  
+    }  
+      
+    public Complex multiply(double value)  
+    {  
+       return multiply(real, imag, value, 0);  
+    }  
+      
+    public Complex multiply(Complex other)  
+    {  
+       return multiply(real, imag, other.real, other.imag);  
+    }  
+  
+    //...  
+    public Complex getConjugate()  
+    {  
+       return new Complex(real, -imag);  
+    }  
+      
+    public double getNorm()  
+    {  
+       return Math.sqrt(real * real + imag * imag);  
+    }  
+      
+    public double getLength()  
+    {  
+       return getNorm();  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof Complex c && Math.abs(c.real - real) < DELTA && Math.abs(c.imag - imag) < DELTA;  
+    }  
+      
+    public String toString()  
+    {  
+       return "|(%f, %f)| = %.3f".formatted(real, imag, getLength());  
+    }  
+}
+```
+
+
+```java
+package org.csystem.math.geometry;  
+  
+public class Circle {  
+    private static final double DELTA = 0.000001;  
+    private double m_radius;  
+  
+    public Circle()  
+    {  
+    }  
+  
+    public Circle(double radius)  
+    {  
+        setRadius(radius);  
+    }  
+  
+    public double getRadius()  
+    {  
+        return m_radius;  
+    }  
+  
+    public void setRadius(double radius)  
+    {  
+        m_radius = Math.abs(radius);  
+    }  
+  
+    public double getArea()  
+    {  
+        return Math.PI * m_radius * m_radius;  
+    }  
+  
+    public double getCircumference()  
+    {  
+        return 2 * Math.PI * m_radius;  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof Circle c && Math.abs(m_radius - c.m_radius) < DELTA;  
+    }  
+  
+    public String toString()  
+    {  
+        return "Radius:%.2f, Area:%.2f, Circumference:%.2f".formatted(m_radius, getArea(), getCircumference());  
+    }  
+}
+```
+
+```java
+package org.csystem.math.geometry;  
+  
+public class AnalyticalCircle extends Circle {  
+    private static final double DELTA = 0.000001;  
+  
+    private final MutablePoint m_center;  
+  
+    public AnalyticalCircle()  
+    {  
+        this(0);  
+    }  
+  
+    public AnalyticalCircle(double radius)  
+    {  
+        this(radius, 0, 0);  
+    }  
+  
+    public AnalyticalCircle(double x, double y)  
+    {  
+        this(0, x, y);  
+    }  
+  
+    public AnalyticalCircle(double radius, double x, double y)  
+    {  
+        super(radius);  
+        m_center = MutablePoint.createCartesian(x, y);  
+    }  
+  
+    public double getX()  
+    {  
+        return m_center.getX();  
+    }  
+  
+    public void setX(double x)  
+    {  
+        m_center.setX(x);  
+    }  
+  
+    public double getY()  
+    {  
+        return m_center.getY();  
+    }  
+  
+    public void setY(double y)  
+    {  
+        m_center.setY(y);  
+    }  
+  
+    public double centerDistance(AnalyticalCircle other)  
+    {  
+        return m_center.euclideanDistance(other.m_center);  
+    }  
+  
+    public boolean isTangent(AnalyticalCircle other)  
+    {  
+        return Math.abs(getRadius() + other.getRadius() - centerDistance(other)) < DELTA;  
+    }  
+  
+    public void offset(double dxy)  
+    {  
+        offset(dxy, dxy);  
+    }  
+  
+    public void offset(double dx, double dy)  
+    {  
+        m_center.offset(dx, dy);  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof AnalyticalCircle ac && super.equals(ac) && m_center.equals(ac.m_center);  
+    }  
+  
+    public String toString()  
+    {  
+        return "%s, Center:%s".formatted(super.toString(), m_center);  
+    }  
+    //...  
+}
+```
 **Anahtar Notlar:** Bir sınıfta equals metodu override edildiğinde, Object sınıfının hashCode metodu da override edilir. Yani, bu iki metot ya hiç override edilmez ya da ikisi birden override edilir. hashCode metodu `Java ile Uygulama Geliştirme I` kursunda ele alınacaktır. Burada equals metodunun override edildiği sınıflarda hashCode metodu override edilmeyecektir.
 
+##### abstract Sınıflar ve abstract Metotlar
 
+>Bazı sınıflar bir kavramı **soyut (abstract)** olarak temsil ederler. Yani, bu tarz bir sınıf türünden doğrudan nesne yaratmanın bir anlamı yoktur. Ondan türeyen sınıflar türünden nesneler anlamlıdır. Örneğin, bir insan kaynakları otomasyon sisteminde bir grup sınıfa ilişkin UML `sınıf şeması` aşağıdaki gibi olsun:
 
+![DemoCompanyApp](./media/DemoCompanyApp.PNG)
 
+>Burada `Employee` türünden doğrudan nesne yaratmanın pratikte bir anlamı yoktur. Bu sınıf bu hiyerarşide `çalışan` kavramını dolayısıyla çalışanların ortak özelliklerini temsil etmektedir. Bu sınıftan türetilen sınıflar türünden doğrudan yaratılmış olan nesnelerin anlamı vardır. Yani, `Employee` sınıfı türünden bir nesne türemiş sınıf içerisinde (nesnesel kapsama) anlamlıdır. Ayrıca, `Employee` sınıfının, bir çalışanın sigorta ödeme miktarını döndüren `calculateInsurancePayment` isimli bir metodu vardır. Bu metodun, `Employee` sınıfında gövdesinin olması da anlamsızdır ancak var olması da gerekir çünkü `HumanResources`sınıfının `payInsurance` metodu içerisinde poliformik olarak çağrılabilecek. Yani metodun `Employee` sınıfında sanal olarak bildirilmiş olması gerekir, dolayısıyla türemiş sınıflarda override edilecektir. İşte böyle gövdesi olması gerekmeyen (ya da olmasının anlamsız olduğu) sanal metotlara **soyut metotlar (abstract methods)**, doğrudan nesne özelliği göstermeyen yani bir kavramı soyut olarak temsil eden sınıflara da **soyut sınıflar (abstract classes)** denir. Doğrudan nesne özelliği gösteren sınıflara yani o türden yaratılmış olan bir nesnenin anlamlı olduğu sınıflara ise **somut sınıflar (concrete classes)** denir. Buradaki hiyerarşiye ilişkin demo örnek bölüm sonunda yazılacaktır. 
+>
+>Programcı soyut bir sınıf gördüğünde şunu anlamalıdır: **Bu sınıf bir kavramı soyut olarak temsil ediyor, bu sınıf türünden doğrudan nesne yaratılması anlamsız, Bu sınıftan türetilen somut sınıflar olmalı ya da ben yazmalıyım,  muhtemel bulunan abstract metotları (hatta belki abstract olmayan sanala metotları) override etmeliyim ki somut bir sınıf olsun.** Benzer şekilde programcı bir sınıf hiyerarşisi için soyut bir kavramı yukarıdaki temsil eden bir sınıfı `abstract` olarak düşünmelidir. 
+>
+>Java'da abstract bir sınıf **abstract** anahtar sözcüğü ile bildirilir, abstract bir metot da **abstract** anahtar sözcüğü ile bildirilir. Bir metot abstract olarak bildirildiğinde gövde yazılmaz. Yazılması durumunda error oluşur. Bir sınıfın en az bir tane abstract metodu varsa sınıf abstract olarak bildirilmelidir. Aksi durumda error oluşur. Bununla birlikte abstract bir sınıfın abstract bir metodu olmak zorunda değildir. Bu durumda en az bir tane abstract metodu olan bir sınıf `concrete` olamaz. abstract sınıf türünden nesne new operatörü ile yani programcı tarafından doğrudan yaratılamaz. Türemiş sınıf nesnesi yaratıldığında onun taban sınıf kısmı olarak yaratılır. Bu durumda abstract bir sınıfın non-static veri elemanları da olabilir. abstract bir sınıfın ctor'ları olabilir. Zaten hiç bir ctor yazılmadığında derleyici tarafından default ctor'un içi boş ve public olarak yaratıldığını anımsayınız. abstract bir sınıfın bir ctor'ların public yapılmasının protected yapılmasından farkı yoktur. Bu durumda bir `convention` olarak abstract bir sınıfın bir ctor'u public yerine protected olarak bildirilir. Şüphesiz, sınıfın domain'ine göre private ya da no-modifier ctor'ları olabilir. 
 
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A(); //error  
+        C c = new C();  
+        D d = new D(10);  
+        E e = new E(); //error  
+    }  
+}  
+  
+abstract class E {  
+    //...  
+}  
+  
+class D extends A {  
+    public D(int x)  
+    {  
+        super(x);  
+    }  
+  
+    public void foo()  
+    {  
+        //...  
+    }  
+}  
+  
+class C extends A {  
+    public void foo()  
+    {  
+        //...  
+    }  
+    //...  
+}  
+  
+class B extends A { //error  
+    //...}  
+  
+abstract class A {  
+    private int m_x;  
+  
+    protected A()  
+    {  
+        //...  
+    }  
+  
+    protected A(int x)  
+    {  
+        m_x = x;  
+    }  
+  
+    abstract public void foo();  
+  
+    public void bar()  
+    {  
+        //...  
+    }  
+}
+```
  
-
 
 
 

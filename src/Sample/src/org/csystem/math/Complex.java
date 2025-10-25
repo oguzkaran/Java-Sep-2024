@@ -2,11 +2,12 @@ package org.csystem.math;
 
 /**
  * Complex class that represents a complex number
- * Last Update: 5th October 2025
+ * Last Update: 25th October 2025
  * @author Java-Sep-2024 Group
  */
 
 public class Complex {
+    private static final double DELTA = 0.000001;
 	public double real;
 	public double imag;
 	
@@ -101,6 +102,11 @@ public class Complex {
 	{
 		return getNorm();
 	}
+
+    public boolean equals(Object other)
+    {
+        return other instanceof Complex c && Math.abs(c.real - real) < DELTA && Math.abs(c.imag - imag) < DELTA;
+    }
 	
 	public String toString()
 	{
