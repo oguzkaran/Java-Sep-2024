@@ -34276,11 +34276,366 @@ abstract class A {
     }  
 }
 ```
- 
+###### 26 Ekim 2025
+
+>Aşağıda UML sınıf şeması verilen demo örneğe ilişkin kodları inceleyiniz
+![DemoCompanyApp](./media/DemoCompanyApp.PNG)
 
 
+```java
+package org.csystem.app.company;  
+  
+import org.csystem.app.company.employee.Employee;  
+import org.csystem.app.company.employee.EmployeeFactory;  
+import org.csystem.app.company.hr.HumanResources;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+public class DemoApp {  
+    private static void run()  
+    {        HumanResources humanResources = new HumanResources();  
+        EmployeeFactory employeeFactory = new EmployeeFactory();  
+  
+        while (true) {  
+            Employee employee = employeeFactory.getEmployee();  
+  
+            humanResources.payInsurance(employee);  
+            ThreadUtil.sleep(1000);  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public abstract class Employee {  
+    private String m_citizenId;  
+    private String m_name;  
+    private String m_address;  
+  
+    protected Employee()  
+    {  
+        this("", "", "");  
+    }  
+  
+    protected Employee(String citizenId, String name, String address)  
+    {  
+        m_citizenId = citizenId;  
+        m_name = name;  
+        m_address = address;  
+    }  
+  
+    public String getCitizenId()  
+    {  
+        return m_citizenId;  
+    }  
+  
+    public void setCitizenId(String citizenId)  
+    {  
+        m_citizenId = citizenId;  
+    }  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public String getAddress()  
+    {  
+        return m_address;  
+    }  
+  
+    public void setAddress(String address)  
+    {  
+        m_address = address;  
+    }  
+  
+    public abstract double calculateInsurancePayment();  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+import java.util.Random;  
+  
+public class EmployeeFactory {  
+    private final Random m_random = new Random();  
+  
+    private static Manager getManager()  
+    {  
+        return new Manager("12345678912", "Ali Veli", "Mecidiyeköy", "Pazarlama", 300000);  
+    }  
+  
+    private static SalesManager getSalesManager()  
+    {  
+        return new SalesManager("12345678914", "Zeynep Ayşe", "Şişli", "Pazarlama", 300000, 100000);  
+    }  
+  
+    private static Worker getWorker()  
+    {  
+        return new Worker("12345678916", "Ahmet Veli", "Bahçelievler", 1000, 8);  
+    }  
+  
+    private static ProjectWorker getProjectWorker()  
+    {  
+        return new ProjectWorker("12345678918", "Banu Oya", "Beykoz", 1000, 8, "Haberleşme", 800);  
+    }  
+  
+    public Employee getEmployee()  
+    {  
+        return switch (m_random.nextInt(4)) {  
+            case 0 -> getManager();  
+            case 1 -> getSalesManager();  
+            case 2 -> getWorker();  
+            default -> getProjectWorker();  
+        };  
+    }  
+}
+```
 
 
+```java
+package org.csystem.app.company.hr;  
+  
+import org.csystem.app.company.employee.Employee;  
+import org.csystem.util.console.Console;  
+  
+public class HumanResources {  
+    //...  
+  
+    public void payInsurance(Employee employee)  
+    {  
+        Console.writeLine("Citizen Id:%s", employee.getCitizenId());  
+        Console.writeLine("Name:%s", employee.getName());  
+        Console.writeLine("Insurance Payment%f", employee.calculateInsurancePayment());  
+    }  
+}
+```
+
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class Manager extends Employee {  
+    private String m_department;  
+    private double m_salary;  
+  
+    public Manager()  
+    {  
+        m_department = "";  
+    }  
+  
+    public Manager(String citizenId, String name, String address, String department, double salary)  
+    {  
+        super(citizenId, name, address);  
+        m_department = department;  
+        m_salary = salary;  
+    }  
+  
+    public String getDepartment()  
+    {  
+        return m_department;  
+    }  
+  
+    public void setDepartment(String department)  
+    {  
+        m_department = department;  
+    }  
+  
+    public double getSalary()  
+    {  
+        return m_salary;  
+    }  
+  
+    public void setSalary(double salary)  
+    {  
+        m_salary = salary;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return m_salary * 1.5;  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class Worker extends Employee {  
+    private double m_feePerHour;  
+    private int m_hourPerDay;  
+  
+    public Worker()  
+    {  
+    }  
+  
+    public Worker(String citizenId, String name, String address, double feePerHour, int hourPerDay)  
+    {  
+        super(citizenId, name, address);  
+        m_feePerHour = feePerHour;  
+        m_hourPerDay = hourPerDay;  
+    }  
+  
+    public double getFeePerHour()  
+    {  
+        return m_feePerHour;  
+    }  
+  
+    public void setFeePerHour(double feePerHour)  
+    {  
+        m_feePerHour = feePerHour;  
+    }  
+  
+    public int getHourPerDay()  
+    {  
+        return m_hourPerDay;  
+    }  
+  
+    public void setHourPerDay(int hourPerDay)  
+    {  
+        m_hourPerDay = hourPerDay;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return m_feePerHour * m_hourPerDay * 30;  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class SalesManager extends Manager {  
+    private double m_extra;  
+  
+    public SalesManager()  
+    {  
+    }  
+  
+    public SalesManager(String citizenId, String name, String address, String department, double salary, double extra)  
+    {  
+        super(citizenId, name, address, department, salary);  
+        m_extra = extra;  
+    }  
+  
+    public double getExtra()  
+    {  
+        return m_extra;  
+    }  
+  
+    public void setExtra(double extra)  
+    {  
+        m_extra = extra;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return super.calculateInsurancePayment() + m_extra;  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class ProjectWorker extends Worker {  
+    private String m_projectName;  
+    private double m_extraFee;  
+  
+    public ProjectWorker()  
+    {  
+        m_projectName = "";  
+    }  
+  
+    public ProjectWorker(String citizenId, String name, String address, double feePerHour, int hourPerDay, String projectName, double extraFee)  
+    {  
+        super(citizenId, name, address, feePerHour, hourPerDay);  
+        m_projectName = projectName;  
+        m_extraFee = extraFee;  
+    }  
+  
+    public String getProjectName()  
+    {  
+        return m_projectName;  
+    }  
+  
+    public void setProjectName(String projectName)  
+    {  
+        m_projectName = projectName;  
+    }  
+  
+    public double getExtraFee()  
+    {  
+        return m_extraFee;  
+    }  
+  
+    public void setExtraFee(double extraFee)  
+    {  
+        m_extraFee = extraFee;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return super.calculateInsurancePayment() + m_extraFee * getFeePerHour();  
+    }  
+}
+```
+
+##### final Metotlar
+
+>Non-static ve abstract olmayan bir metot `final` anahtar sözcüğü ile bildirildiğinde artık türemiş sınıfta override edilemez. Yani, final bir metot override işlemine kapatılmış olur. Başka bir deyişle final bir metot ile o sınıf içerisinde metodun sanallığı bitirilmiş olur. final bir metodun kendisi override edilmiş olur. Tanımdan da anlaşılacağı üzere abstract metotlar final olarak bildirilemezler. 
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class D extends C {  
+    public void foo() //error  
+    {  
+        //...  
+    }  
+}  
+  
+class C extends A {  
+    public final void foo()  
+    {  
+        //...  
+    }  
+}  
+  
+class B extends A {  
+    public final void bar() //error  
+    {  
+  
+    }  
+}  
+  
+class A {  
+    //...  
+    public void foo()  
+    {  
+  
+    }  
+  
+    public final void bar()  
+    {  
+  
+    }  
+}
+```
 
 
 
