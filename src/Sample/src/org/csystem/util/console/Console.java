@@ -5,14 +5,21 @@ import java.util.Scanner;
 
 /**
  * Utility class for console operations
- * Last Update: 20th September 2025
+ * Last Update: 8th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class Console {
-    private static final int RADIX_DECIMAL = 10;
-    private static final int RADIX_HEXADECIMAL = 16;
-    private static final int RADIX_BINARY = 2;
-    private static final Scanner KB = new Scanner(System.in);
+    private static final int RADIX_DECIMAL;
+    private static final int RADIX_HEXADECIMAL;
+    private static final int RADIX_BINARY;
+    private static final Scanner KB;
+
+    static {
+        RADIX_DECIMAL = 10;
+        RADIX_HEXADECIMAL = 16;
+        RADIX_BINARY = 2;
+        KB = new Scanner(System.in);
+    }
 
     private Console()
     {}

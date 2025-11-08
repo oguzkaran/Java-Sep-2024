@@ -2,15 +2,24 @@ package org.csystem.util.numeric;
 
 /**
  * Utility class for numeric operations
- * Last Update: 7th September 2025
+ * Last Update: 8th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class NumberUtil {
-    private static final String [] ONES_TR = {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
-    private static final String [] TENS_TR = {"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
+    private static final String [] ONES_TR;
+    private static final String [] TENS_TR;
 
-    private static final String [] ONES_EN = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    private static final String [] TENS_EN = {"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    private static final String [] ONES_EN;
+    private static final String [] TENS_EN;
+
+
+    static {
+        ONES_TR = new String[]{"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
+        TENS_TR = new String[]{"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};
+
+        ONES_EN = new String[]{"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+        TENS_EN = new String[]{"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    }
 
     private NumberUtil()
     {

@@ -489,8 +489,8 @@ class Mample {
 >		1111 1111	---->	-1
 >		
 >**SORU:** Bu sistemde bir sayının kaç olduğu bize sorulsa bunu nasıl yanıtlarız?
->**CEVAP:** Eğer en soldaki bit 0 ise sayının değeri doğrudan hesaplanır. Eğer en soldaki bit 1 ise bu sayının negatif olduğunu gösterir. Bu durumda sayının ikiye tümleyeni alınır. Pozitifinden hareketle negatifi bulunur. Şüphesiz bu soru sayının kaç bit olduğunun bilinmesi gerekir.
->Örneğin 1110 1110 sayısı kaçtır? Burada işaret biti 1 olduğuna göre sayı negatiftir. Negatif ve pozitif sayılar birbirlerinin ikiye tümleyenidirler. O zaman bu sayının ikiye tümleyenini alıp pozitifinden faydalanarak sayıyı bulalım:
+>**CEVAP:** Eğer en soldaki bit 0 ise sayının değeri doğrudan hesaplanır. Eğer en soldaki bit 1 ise bu sayının negatif olduğunu gösterir. Bu durumda sayının ikiye tümleyeni alınır. Pozitifinden hareketle negatifi bulunur. Şüphesiz bu soru için sayının kaç bit olduğunun bilinmesi gerekir.
+>Örneğin 1110 1110 sayısı kaçtır? Burada işaret biti 1 olduğuna göre sayı negatiftir. Negatif ve pozitif sayılar birbirlerinin ikiye tümleyeni olduklarından, bu sayının ikiye tümleyenini alıp pozitifinden faydalanarak sayıyı bulalım:
 >
 >		0001 0010	--->	+18
 >		
@@ -501,9 +501,9 @@ class Mample {
 >		0111 1111	--->	+127
 >		1000 0000	--->	-128
 >		
->Demek ki bu sistemde bir sayıyı üst limitten taşırırsak yüksek bir negatif sayıyla karşılaırız. Benzer şekilde alt limitten taşırırsak yüksek bir	pozitif sayı ile karşılaşırız
+>Demek ki bu sistemde bir sayıyı üst limitten taşırırsak yüksek bir negatif sayıyla karşılaşırız. Benzer şekilde alt limitten taşırırsak yüksek bir	pozitif sayı ile karşılaşırız
 >
->Tamsayılar ikilik sistemde **işaretsiz (unsigned)** ya da **işaretli (signed)** sistemde yorumlanabilirler. İşaretsiz sistemde sayının en soldaki biti işaret biti olarak yorumlanmaz. Sayı herzaman sıfır ya da pozitiftir. İşaretli sistemde ise sayının en solundaki biti işaret bitidir. Sayı ikiye tümleyen aritmetiğine göre yorumlanır.
+>Tamsayılar ikilik sistemde **işaretsiz (unsigned)** ya da **işaretli (signed)** sistemde yorumlanabilirler. İşaretsiz sistemde sayının en soldaki biti işaret biti olarak yorumlanmaz. Sayı her zaman sıfır ya da pozitiftir. İşaretli sistemde ise sayının en solundaki biti işaret bitidir. Sayı ikiye tümleyen aritmetiğine göre yorumlanır.
 >
 >İşlemciler aslında genellikle işaretli ve işaretsiz ayırımını yapmazlar. Çünkü ikisi de aslında aynı biçimde işleme sokulmaktadır. Sonucun yorumu değişmektedir.
 >
@@ -523,8 +523,8 @@ class Mample {
 >		
 >Bugün ağırlıklı kullanılan kayan noktalı format `IEEE 754` denilen formattır. Bu formatın üç farklı genişlikte biçimi vardır:
 >
->		IEEE 754 - Short Real Format 	(4 byte)
->		IEEE 754 - Long Real Format 	(8 byte)
+>		IEEE 754 - Short Real Format (4 byte)
+>		IEEE 754 - Long Real Format (8 byte)
 >		IEEE 754 - Extended Real Format (10 byte)
 >		
 >Bugün Intel, ARM, MIPS, Alpha, Power PC gibi yaygın işlemciler donanımsal olarak bu formatı desteklemektedir. Aynı zamanda bu format yaygın olarak Reel Sayı Ünitesi olmayan mikro denetleyicilerdeki derleyiciler tarafından da kullanılmaktadır.
@@ -7640,8 +7640,7 @@ class DateUtil {
 	public static void printDateTR(int day, int month, int year)
 	{
 		int dayOfWeek = getDayOfWeek(day, month, year);	
-		
-		
+	
 		switch (dayOfWeek) {
 			case 0:
 				System.out.printf("%02d/%02d/%04d Pazar%n", day, month, year);
@@ -8421,14 +8420,13 @@ class App {
 		System.out.printf("a = %d, b = %d%n", a, b);		
 	}
 }
-
 ```
 
 ###### 28 Aralık 2024
 
 ###### Temel Türler Arasındaki Doğrudan Dönüşüme İlişkin Ayrıntılar
 
-> Küçük tamsyı türünden büyük tamsayı türüne doğrudan atama geçerlidir. Bu dönüşümde kaynak türe ilişkin değer pozitif ise sayının yüksek anlamlı byte'larına ilişkin bitleri sıfır ile beslenir, değer negatif ise işaretin kaybedilmemesi için yüksek anlamlı byte'lara ilişkin bitler 1(bir) ile beslenir. 
+> Küçük tamsayı türünden büyük tamsayı türüne doğrudan atama geçerlidir. Bu dönüşümde kaynak türe ilişkin değer pozitif ise sayının yüksek anlamlı byte'larına ilişkin bitleri sıfır ile beslenir, değer negatif ise işaretin kaybedilmemesi için yüksek anlamlı byte'lara ilişkin bitler 1(bir) ile beslenir. 
 >
 > Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
 
@@ -34619,7 +34617,7 @@ class C extends A {
 class B extends A {  
     public final void bar() //error  
     {  
-  
+		  //...
     }  
 }  
   
@@ -34627,18 +34625,1069 @@ class A {
     //...  
     public void foo()  
     {  
-  
+		  //...
     }  
   
     public final void bar()  
     {  
+		  //...
+    }  
+}
+```
+
+###### 8 Kasım 2025
+
+##### Sınıfın static ve non-static initializer Elemanları
+
+>Sınıf içerisinde tüm metotların dışında static anahtar sözcüğü ile yazılan bloklara **static initializer**, static anahtar sözcüğü kullanılmadan yazılan bloklara ise **non-static initializer** elemanları denir. Sınıfın initializer (static ve non-static) elemanları istenildiği kadar yazılabilir. Ancak pratikte yazılacaksa 1 tane olacak şekilde yazılır. Sınıfın static initializer'ı, sınıfın bir elemanı ilk kez kullanıldığında ve bir kez olmak üzere çalıştırılır. Eğer static initializer birden fazla ise yazılma sırasında yukarıdan aşağıya doğru olacak şekilde çalıştırılır. 
+
+
+```java
+package org.csystem.app;  
   
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample.foo();  
+        Console.writeLine("-------------------------");  
+        Sample.foo();  
+    }  
+}  
+  
+class Sample {  
+    static {  
+        Console.writeLine("static initializer1");  
+    }  
+  
+    static {  
+        Console.writeLine("static initializer3");  
+    }  
+  
+    public Sample(int a)  
+    {  
+        //...  
+    }  
+  
+    static {  
+        Console.writeLine("static initializer3");  
+    }  
+  
+    public static void foo()  
+    {  
+        Console.writeLine("foo");  
+    }  
+}
+```
+
+>Anımsanacağı gibi sınıfın static initializer'ı içerisinde static ve final veri elemanına değer verilebilir. Bu durumda static initializer tipik olarak toplamda bir kez yapılacak işlemler için kullanılır. Adından da anlaşıldığı gibi static initializer static metot gibidir. Yani sınıfın non-static elemanlarına static initializer içerisinde doğrudan erişilemez. static bir veri elemanına static initializer içerisinde değer vermenin bildirim noktasında değer vermekten teknik olarak farkı yoktur. Ancak static initializer bir akış belirtir:
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Console.writeLine("Value:%d", Sample.getValue());  
+        Console.writeLine("Value:%d", Sample.getValue());  
+    }  
+}  
+  
+class Sample {  
+    private static final int VALUE;  
+  
+    static {  
+        Console.writeLine("static initializer");  
+        Random random = new Random();  
+  
+        VALUE = random.nextInt(100);  
+    }  
+  
+    public static int getValue()  
+    {  
+        return VALUE;  
+    }  
+  
+    public static void foo()  
+    {  
+        Console.writeLine("foo");  
+    }  
+}
+```
+
+>Şüphesiz bu örnek aşağıdaki gibi bir metot yazılarak ve metodun geri dönüş değeri VALUE veri elemanına ilk değer olarak verilebilir:
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Console.writeLine("Value:%d", Sample.getValue());  
+        Console.writeLine("Value:%d", Sample.getValue());  
+    }  
+}  
+  
+class Sample {  
+    private static final int VALUE = randomIntValue();  
+  
+    private static int randomIntValue()  
+    {  
+        Console.writeLine("static initializer");  
+        Random random = new Random();  
+  
+        return random.nextInt(100);  
+    }  
+  
+    public static int getValue()  
+    {  
+        return VALUE;  
+    }  
+  
+    public static void foo()  
+    {  
+        Console.writeLine("foo");  
     }  
 }
 ```
 
 
+>Sınıfın static initializer elemanı bazı durumlarda kodun daha derli toplu yazılabilmesi amacıyla programcı tarafından tercih edilebilir. Aşağıdaki sınıfları inceleyiniz:
 
+
+```java
+package org.csystem.util.string;  
+  
+import java.util.ArrayList;  
+import java.util.Random;  
+
+public final class StringUtil {  
+    private static final String LETTERS_TR;  
+    private static final String LETTERS_EN;  
+    private static final String CAPITAL_LETTERS_TR;  
+    private static final String CAPITAL_LETTERS_EN;  
+    private static final String ALL_LETTERS_TR;  
+    private static final String ALL_LETTERS_EN;  
+  
+    static {  
+        LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";  
+        LETTERS_EN = "abcdefghijklmnopqrstuvwxyz";  
+        CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";  
+        CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUVWXYZ";  
+        ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;  
+        ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;  
+    }  
+  
+    private StringUtil()  
+    {  
+    }  
+  
+    public static String capitalize(String s)  
+    {  
+        return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();  
+    }  
+  
+    public static String changeCase(String s)  
+    {  
+        StringBuilder sb = new StringBuilder(s);  
+  
+        for (int i = 0; i < sb.length(); ++i) {  
+            char c = sb.charAt(i);  
+  
+            sb.setCharAt(i, Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static int countString(String s1, String s2)  
+    {  
+        int count = 0;  
+  
+        for (int i = -1; (i = s1.indexOf(s2, i + 1)) != -1; ++count)  
+            ;  
+  
+        return count;  
+    }  
+  
+    public static String digits(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isDigit(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static boolean isPalindrome(String s)  
+    {  
+        int left = 0;  
+        int right = s.length() - 1;  
+  
+        while (left < right) {  
+            char cLeft = s.charAt(left);  
+  
+            if (!Character.isLetter(cLeft)) {  
+                ++left;  
+                continue;  
+            }  
+  
+            char cRight = s.charAt(right);  
+  
+            if (!Character.isLetter(cRight)) {  
+                --right;  
+                continue;  
+            }  
+  
+            if (Character.toLowerCase(cLeft) != Character.toLowerCase(cRight))  
+                return false;  
+  
+            ++left;  
+            --right;  
+        }  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangram(String s, String alphabet)  
+    {  
+        for (int i = 0; i < alphabet.length(); ++i)  
+            if (s.indexOf(alphabet.charAt(i)) == -1)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangramEN(String s)  
+    {  
+        return isPangram(s.toLowerCase(), LETTERS_EN);  
+    }  
+  
+    public static boolean isPangramTR(String s)  
+    {  
+        return isPangram(s.toLowerCase(), LETTERS_TR);  
+    }  
+  
+    public static String join(String [] s)  
+    {  
+        return join(s, "");  
+    }  
+  
+    public static String join(String [] s, char delimiter)  
+    {  
+        return join(s, String.valueOf(delimiter));  
+    }  
+  
+    public static String join(String [] str, String delimiter)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str)  
+            sb.append(s).append(delimiter);  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, boolean ignoreEmpties)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreEmpties);  
+    }  
+  
+    public static String join(String [] str, String delimiter, boolean ignoreEmpties)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str) {  
+            if (ignoreEmpties) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, int ignoreStatus)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreStatus);  
+    }  
+  
+    public static String join(String [] str, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str) {  
+            if (ignoreStatus == 1) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s.isBlank())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(ArrayList strList, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (Object o : strList) {  
+            String s = (String)o;  
+            if (ignoreStatus == 1) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s.isBlank())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String letters(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isLetter(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static String padLeading(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? String.valueOf(ch).repeat(n - len) + s : s;  
+    }  
+  
+    public static String padLeading(String s, int n)  
+    {  
+        return padLeading(s, n, ' ');  
+    }  
+  
+    public static String padTrailing(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? s + String.valueOf(ch).repeat(n - len) : s;  
+    }  
+  
+    public static String padTrailing(String s, int n)  
+    {  
+        return padTrailing(s, n, ' ');  
+    }  
+  
+    public static String randomText(Random random, int count, String sourceText)  
+    {  
+        StringBuilder sb = new StringBuilder(count);  
+  
+        for (int i = 0; i < count; ++i)  
+            sb.append(sourceText.charAt(random.nextInt(sourceText.length())));  
+  
+        return sb.toString();  
+    }  
+  
+    public static String randomTextTR(Random random, int count)  
+    {  
+        return randomText(random, count, ALL_LETTERS_TR);  
+    }  
+  
+    public static String randomTextEN(Random random, int count)  
+    {  
+        return randomText(random, count, ALL_LETTERS_EN);  
+    }  
+  
+    public static String [] randomTexts(Random random, int count, int min, int bound, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(random, random.nextInt(min, bound), sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(Random random, int count, int min, int bound)  
+    {  
+        return randomTexts(random, count, min, bound, ALL_LETTERS_TR);  
+    }  
+  
+    public static String [] randomTextsEN(Random random, int count, int min, int bound)  
+    {  
+        return randomTexts(random, count, min, bound, ALL_LETTERS_EN);  
+    }  
+  
+    public static String [] randomTexts(Random random, int count, int n, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(random, n, sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(Random random, int count, int n)  
+    {  
+        return randomTexts(random, count, n, ALL_LETTERS_TR);  
+    }  
+  
+    public static String [] randomTextsEN(Random random, int count, int n)  
+    {  
+        return randomTexts(random, count, n, ALL_LETTERS_EN);  
+    }  
+  
+    public static String reverse(String s)  
+    {  
+        return new StringBuilder(s).reverse().toString();  
+    }  
+  
+    public static String [] split(String s, String delimiters)  
+    {  
+        return split(s, delimiters, false);  
+    }  
+  
+    public static String [] split(String s, String delimiters, boolean removeEmpties)  
+    {  
+        StringBuilder sbRegex = new StringBuilder("[");  
+  
+        for (int i = 0; i < delimiters.length(); ++i) {  
+            char c = delimiters.charAt(i);  
+  
+            if (c == ']' || c == '[')  
+                sbRegex.append('\\');  
+  
+            sbRegex.append(c);  
+        }  
+  
+        sbRegex.append(']');  
+  
+        if (removeEmpties)  
+            sbRegex.append('+');  
+  
+        return s.split(sbRegex.toString());  
+    }  
+  
+    public static String trim(String s)  
+    {  
+        return trimLeading(trimTrailing(s));  
+    }  
+  
+    public static String trimLeading(String s)  
+    {  
+        int i = 0;  
+  
+        for (; i < s.length() && Character.isWhitespace(s.charAt(i)); ++i)  
+            ;  
+  
+        return s.substring(i);  
+    }  
+  
+    public static String trimTrailing(String s)  
+    {  
+        int i = s.length() - 1;  
+  
+        for (; i >= 0 && Character.isWhitespace(s.charAt(i)); --i)  
+            ;  
+  
+        return s.substring(0, i + 1);  
+    }  
+}
+```
+
+
+```java
+package org.csystem.util.numeric;  
+  
+public final class NumberUtil {  
+    private static final String [] ONES_TR;  
+    private static final String [] TENS_TR;  
+  
+    private static final String [] ONES_EN;  
+    private static final String [] TENS_EN;  
+  
+  
+    static {  
+        ONES_TR = new String[]{"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};  
+        TENS_TR = new String[]{"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};  
+  
+        ONES_EN = new String[]{"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};  
+        TENS_EN = new String[]{"", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};  
+    }  
+  
+    private NumberUtil()  
+    {  
+    }  
+  
+    private static int [] digits(long a, int n)  
+    {  
+        a = Math.abs(a);  
+        int divider = (int)Math.pow(10, n);  
+        int [] result = new int[(a != 0) ? ((int)Math.log10(Math.abs(a)) / n + 1) : 1];  
+  
+        for (int i = result.length - 1; i >= 0; result[i--] = (int)(a % divider), a /= divider)  
+            ;  
+  
+        return result;  
+    }  
+  
+    private static String numToStr3DigitTR(int val)  
+    {  
+        if (val == 0)  
+            return "sıfır";  
+  
+        StringBuilder sb = new StringBuilder(val < 0 ? "eksi" : "");  
+  
+        val = Math.abs(val);  
+        int a = val / 100;  
+        int b = val / 10 % 10;  
+        int c = val % 10;  
+  
+        if (a != 0) {  
+            if (a != 1)  
+                sb.append(ONES_TR[a]);  
+  
+            sb.append("yüz");  
+        }  
+  
+        sb.append(TENS_TR[b]);  
+        sb.append(ONES_TR[c]);  
+  
+        return sb.toString();  
+    }  
+  
+    private static long calculateDigitsPowSum(long a)  
+    {  
+        long result = 0;  
+        int n = countDigits(a);  
+  
+        while (a != 0) {  
+            result += (long) Math.pow(a % 10, n);  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int countHardyRamanujan(int n)  
+    {  
+        int count = 0;  
+  
+        EXIT_LOOP:  
+        for (int x = 1; x * x * x < n; ++x)  
+            for (int y = x + 1; x * x * x + y * y * y <= n; ++y) {  
+                if (x * x * x + y * y * y == n) {  
+                    if (++count == 2)  
+                        break EXIT_LOOP;  
+  
+                    ++x;  
+                }  
+            }  
+  
+        return count;  
+    }  
+  
+    public static int sumFactorialOfDigits(int n)  
+    {  
+        int total = 0;  
+  
+        while (n != 0) {  
+            total += factorial(n % 10);  
+            n /= 10;  
+        }  
+  
+        return total;  
+    }  
+  
+    public static int countDigits(long a)  
+    {  
+        return (a != 0) ? ((int)Math.log10(Math.abs(a)) + 1) : 1;  
+    }  
+  
+    public static int [] digits(long a)  
+    {  
+        return digits(a, 1);  
+    }  
+  
+    public static int [] digitsInTwos(long a)  
+    {  
+        return digits(a, 2);  
+    }  
+  
+    public static int [] digitsInThrees(long a)  
+    {  
+        return digits(a, 3);  
+    }  
+  
+    public static int factorial(int n)  
+    {  
+        int result = 1;  
+  
+        for (int i = 2; i <= n; ++i)  
+            result *= i;  
+  
+        return result;  
+    }  
+  
+    public static int fibonacciNumber(int n)  
+    {  
+        if (n <= 2)  
+            return n - 1;  
+  
+        int prev1 = 1, prev2 = 0, result = 1;  
+  
+        for (int i = 3; i < n; ++i) {  
+            prev2 = prev1;  
+            prev1 = result;  
+            result = prev1 + prev2;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int indexOfPrime(long a)  
+    {  
+        int i = 1;  
+        long val = 2;  
+  
+        while (true) {  
+            if (val == a)  
+                return i;  
+  
+            if (isPrime(val))  
+                ++i;  
+  
+            ++val;  
+        }  
+    }  
+  
+    public static boolean isArmstrong(long a)  
+    {  
+        return a >= 0 && calculateDigitsPowSum(a) == a;  
+    }  
+  
+    public static boolean isDecimalHarshad(int a)  
+    {  
+        return a > 0 && a % sumDigits(a) == 0;  
+    }  
+  
+    public static boolean isEven(int a)  
+    {  
+        return a % 2 == 0;  
+    }  
+  
+    public static boolean isFactorian(int n)  
+    {  
+        return n > 0 && sumFactorialOfDigits(n) == n;  
+    }  
+  
+    public static boolean isHardyRamanujan(int n)  
+    {  
+        return n > 0 && countHardyRamanujan(n) == 2;  
+    }  
+  
+    public static boolean isOdd(int a)  
+    {  
+        return !isEven(a);  
+    }  
+  
+    public static boolean isPrime(long a)  
+    {  
+        if (a <= 1)  
+            return false;  
+  
+        if (a % 2 == 0)  
+            return a == 2;  
+  
+        if (a % 3 == 0)  
+            return a == 3;  
+  
+        if (a % 5 == 0)  
+            return a == 5;  
+  
+        if (a % 7 == 0)  
+            return a == 7;  
+  
+        for (long i = 11; i * i <= a; i += 2)  
+            if (a % i == 0)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPrimeX(long a)  
+    {  
+        long sum = a;  
+        boolean result;  
+  
+        while ((result = isPrime(sum)) && sum > 9)  
+            sum = sumDigits(sum);  
+  
+        return result;  
+    }  
+  
+    public static boolean isSuperPrime(long a)  
+    {  
+        return isPrime(a) && isPrime(indexOfPrime(a));  
+    }  
+  
+    public static int mid(int a, int b, int c)  
+    {  
+        int result = c;  
+  
+        if (a <= b && b <= c || c <= b && b <= a)  
+            result = b;  
+        else if (b <= a && a <= c || c <= a && a <= b)  
+            result = a;  
+  
+        return result;  
+    }  
+  
+    public static int nextClosestFibonacciNumber(int a)  
+    {  
+        if (a < 0)  
+            return 0;  
+  
+        int prev1 = 1, prev2 = 0, next;  
+  
+        while (true) {  
+            next = prev1 + prev2;  
+            if (next > a)  
+                break;  
+  
+            prev2 = prev1;  
+            prev1 = next;  
+        }  
+  
+        return next;  
+    }  
+  
+    public static long nextClosestPrime(int a)  
+    {  
+        if (a < 2)  
+            return 2;  
+  
+        long i;  
+  
+        for (i = a + 1; !isPrime(i); ++i)  
+            ;  
+  
+        return i;  
+    }  
+  
+    public static String numToStrTR(int val)  
+    {  
+        //...  
+  
+        return numToStr3DigitTR(val);  
+    }  
+  
+    public static long nthPrime(int n)  
+    {  
+        long val = 2;  
+        int count = 0;  
+  
+        for (long i = 2; count < n; ++i)  
+            if (isPrime(i)) {  
+                ++count;  
+                val = i;  
+            }  
+  
+        return val;  
+    }  
+  
+    public static int reverse(int a)  
+    {  
+        int result = 0;  
+  
+        while (a != 0) {  
+            result = result * 10 + a % 10;  
+            a /= 10;  
+        }  
+  
+        return result;  
+    }  
+  
+    public static int sumDigits(long a)  
+    {  
+        int total = 0;  
+  
+        while (a != 0) {  
+            total += a % 10;  
+            a /= 10;  
+        }  
+  
+        return Math.abs(total);  
+    }  
+}
+```
+
+
+```java
+package org.csystem.util.console;  
+  
+  
+import java.util.Scanner;  
+  
+public final class Console {  
+    private static final int RADIX_DECIMAL;  
+    private static final int RADIX_HEXADECIMAL;  
+    private static final int RADIX_BINARY;  
+    private static final Scanner KB;  
+  
+    static {  
+        RADIX_DECIMAL = 10;  
+        RADIX_HEXADECIMAL = 16;  
+        RADIX_BINARY = 2;  
+        KB = new Scanner(System.in);  
+    }  
+  
+    private Console()  
+    {}  
+  
+    public static int readInt()  
+    {  
+        return readInt("");  
+    }  
+  
+    public static int readInt(String prompt)  
+    {  
+        return readInt(prompt, RADIX_DECIMAL);  
+    }  
+  
+    public static int readInt(int radix)  
+    {  
+        return readInt("", radix);  
+    }  
+  
+    public static int readInt(String prompt, int radix)  
+    {  
+        System.out.print(prompt);  
+  
+        return Integer.parseInt(KB.nextLine(), radix);  
+    }  
+  
+    public static int readIntHexadecimal()  
+    {  
+        return readIntHexadecimal("");  
+    }  
+  
+    public static int readIntHexadecimal(String prompt)  
+    {  
+        return readInt(prompt, RADIX_HEXADECIMAL);  
+    }  
+  
+    public static int readIntBinary()  
+    {  
+        return readIntBinary("");  
+    }  
+  
+    public static int readIntBinary(String prompt)  
+    {  
+        return readInt(prompt, RADIX_BINARY);  
+    }  
+  
+    public static double readDouble()  
+    {  
+        return readDouble("");  
+    }  
+  
+    public static double readDouble(String prompt)  
+    {  
+        System.out.print(prompt);  
+  
+        return Double.parseDouble(KB.nextLine());  
+    }  
+  
+    public static long readLong()  
+    {  
+        return readLong("");  
+    }  
+  
+    public static long readLong(String prompt)  
+    {  
+        return readLong(prompt, RADIX_DECIMAL);  
+    }  
+  
+    public static long readLong(int radix)  
+    {  
+        return readLong("", radix);  
+    }  
+  
+    public static long readLong(String prompt, int radix)  
+    {  
+        System.out.print(prompt);  
+  
+        return Long.parseLong(KB.nextLine());  
+    }  
+  
+    public static long readLongHexadecimal()  
+    {  
+        return readLongHexadecimal("");  
+    }  
+  
+    public static long readLongHexadecimal(String prompt)  
+    {  
+        return readLong(prompt, RADIX_HEXADECIMAL);  
+    }  
+  
+    public static long readLongBinary()  
+    {  
+        return readLongBinary("");  
+    }  
+  
+    public static long readLongBinary(String prompt)  
+    {  
+        return readLong(prompt, RADIX_BINARY);  
+    }  
+  
+    public static String readString()  
+    {  
+        return readString("");  
+    }  
+  
+    public static String readString(String prompt)  
+    {  
+        System.out.print(prompt);  
+        return KB.nextLine();  
+    }  
+  
+    //...  
+  
+    public static void write(Object o)  
+    {  
+        System.out.print(o);  
+    }  
+  
+    public static void write(String format, Object...args)  
+    {  
+        System.out.printf(format, args);  
+    }  
+  
+    public static void writeLine()  
+    {  
+        System.out.println();  
+    }  
+  
+    public static void writeLine(Object o)  
+    {  
+        System.out.println(o);  
+    }  
+  
+    public static void writeLine(String format, Object...args)  
+    {  
+        write(format + "%n", args);  
+    }  
+}
+```
+
+
+>Sınıfın non-static initializer'ı sınıfın bir ctor'undan önce çağrılır. Yani, non-static initializer kodları adeta derleyici tarafından her bir ctor'un başına gizlice yerleştirilir. Eğer non-static initializer birden fazla ise yine yukarıdan aşağıya yazılma sırasıyla çağrılır. Pratikte 1 tanesi yeterli olur. non-static initializer static initializer'dan daha az kullanılır. non-static initializer non-static metot gibidir. Yani sınıfın tüm elemanlarına doğrudan erişilebilir.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s1 = new Sample();  
+        Console.writeLine("-------------------------------------");  
+        Sample s2 = new Sample(10);  
+    }  
+}  
+  
+class Sample {  
+    {  
+        Console.writeLine("static initializer1");  
+    }  
+  
+    public Sample()  
+    {  
+        Console.writeLine("I am a default ctor");  
+    }  
+  
+    public Sample(int a)  
+    {  
+        Console.writeLine("I am a ctor with parameter type int");  
+    }  
+  
+    {  
+        Console.writeLine("static initializer2");  
+    }  
+  
+    {  
+        Console.writeLine("static initializer3");  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s2 = new Sample(10);  
+    }  
+}  
+  
+class Sample {  
+    {  
+        Console.writeLine("non-static initializer");  
+    }  
+  
+    public Sample()  
+    {  
+        Console.writeLine("I am a default ctor");  
+    }  
+  
+    public Sample(int a)  
+    {  
+        this();  
+        Console.writeLine("I am a ctor with parameter type int");  
+    }  
+}
+```
+
+##### Exception İşlemleri
+
+>
 
 
 

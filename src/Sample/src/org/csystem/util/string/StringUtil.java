@@ -5,16 +5,25 @@ import java.util.Random;
 
 /**
  * Utility class for string operations
- * Last Update: 12th October 2025
+ * Last Update: 8th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class StringUtil {
-    private static final String LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";
-    private static final String LETTERS_EN = "abcdefghijklmnopqrstuvwxyz";
-    private static final String CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";
-    private static final String CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUVWXYZ";
-    private static final String ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;
-    private static final String ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;
+    private static final String LETTERS_TR;
+    private static final String LETTERS_EN;
+    private static final String CAPITAL_LETTERS_TR;
+    private static final String CAPITAL_LETTERS_EN;
+    private static final String ALL_LETTERS_TR;
+    private static final String ALL_LETTERS_EN;
+
+    static {
+        LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";
+        LETTERS_EN = "abcdefghijklmnopqrstuvwxyz";
+        CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";
+        CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUVWXYZ";
+        ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;
+        ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;
+    }
 
     private StringUtil()
     {
