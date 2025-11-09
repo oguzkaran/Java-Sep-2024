@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /**
  * Utility class for console operations
- * Last Update: 8th November 2025
+ * Last Update: 9th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class Console {
@@ -31,19 +31,36 @@ public final class Console {
 
     public static int readInt(String prompt)
     {
-        return readInt(prompt, RADIX_DECIMAL);
+        return readInt(prompt, "");
+    }
+
+    public static int readInt(String prompt, String errorPrompt)
+    {
+        return readInt(prompt, RADIX_DECIMAL, errorPrompt);
     }
 
     public static int readInt(int radix)
     {
-        return readInt("", radix);
+        return readInt("", radix, "");
     }
 
     public static int readInt(String prompt, int radix)
     {
-        System.out.print(prompt);
+        return readInt(prompt, radix, "");
+    }
 
-        return Integer.parseInt(KB.nextLine(), radix);
+    public static int readInt(String prompt, int radix, String errorPrompt)
+    {
+        while (true) {
+            try {
+                System.out.print(prompt);
+
+                return Integer.parseInt(KB.nextLine(), radix);
+            }
+            catch (NumberFormatException ignore) {
+                System.out.print(errorPrompt);
+            }
+        }
     }
 
     public static int readIntHexadecimal()
