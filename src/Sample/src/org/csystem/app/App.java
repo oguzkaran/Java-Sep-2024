@@ -1,13 +1,24 @@
 package org.csystem.app;
 
-import org.csystem.util.console.Console;
-
 class App {
     public static void main(String[] args)
     {
-        int a = Console.readInt("Input first value:", "Invalid value!...");
-        int b = Console.readInt("Input second value:", "Invalid value!...");
+        System.out.println(Util.doSomething("something")); //somethingreturnfinally
+    }
+}
 
-        Console.writeLine("%d + %d = %d", a, b, a + b);
+class Util {
+    public static StringBuilder doSomething(String str)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(str);
+
+        try {
+            return sb.append("return");
+        }
+        finally {
+            sb.append("finally");
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /**
  * Utility class for console operations
- * Last Update: 9th November 2025
+ * Last Update: 15th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class Console {
@@ -90,9 +90,21 @@ public final class Console {
 
     public static double readDouble(String prompt)
     {
-        System.out.print(prompt);
+        return readDouble(prompt, "");
+    }
 
-        return Double.parseDouble(KB.nextLine());
+    public static double readDouble(String prompt, String errorPrompt)
+    {
+        while (true) {
+            try {
+                System.out.print(prompt);
+
+                return Double.parseDouble(KB.nextLine());
+            }
+            catch (NumberFormatException ignore) {
+                System.out.print(errorPrompt);
+            }
+        }
     }
 
     public static long readLong()
@@ -112,9 +124,21 @@ public final class Console {
 
     public static long readLong(String prompt, int radix)
     {
-        System.out.print(prompt);
+        return readLong(prompt, radix, "");
+    }
 
-        return Long.parseLong(KB.nextLine());
+    public static long readLong(String prompt, int radix, String errorPrompt)
+    {
+        while (true) {
+            try {
+                System.out.print(prompt);
+
+                return Long.parseLong(KB.nextLine());
+            }
+            catch (NumberFormatException ignore) {
+                System.out.print(errorPrompt);
+            }
+        }
     }
 
     public static long readLongHexadecimal()

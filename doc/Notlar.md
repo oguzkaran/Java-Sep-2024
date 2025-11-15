@@ -8632,7 +8632,7 @@ class App {
 		char c = 67;
 		short a;
 		
-		c = a; //error
+		a = c; //error
 		
 	}
 }
@@ -8699,6 +8699,7 @@ class App {
 
 ```
 
+>double türünden float türüne doğrudan atama geçersizdir
 
 ```java
 package csd;
@@ -8812,7 +8813,7 @@ T2 t2;
 
 t1 <operator> t2
 ```
-işlemi için:
+>işlemi için:
 >1. T1'i T2'ye dönüştürür. İşlem T2 türünden yapılır ve sonuç T2 türünden elde edilir
 >2. T1 ve T2 ortak bir türe (T3) dönüştürülür. İşlem T3 türünden yapılır. Sonuç T3 türünden elde edilir.
 >3. Her hangi bir ortak türe dönüşüm yapılamaz. Error oluşur.
@@ -36026,7 +36027,7 @@ class MathException extends RuntimeException {
 
 >Tüm exception sınıflar doğrudan ya da dolaylı olarak `Throwable` sınıfından türetildiğine göre `Throwable` parametreli bir catch bloğu ile tüm exception'lar yakalanabilir. Bu durumda `Throwable` parametreli catch bloğunun bir try deyiminde en sonda bulunması gerekir. Aralarında türetme ilişkisi olmayan sınıflar türünden parametreli catch blokları bir try deyiminde istenilen sırada yazılabilir.
 
->Aşağıdaki demo örnekte `Throwable` parametreli catch bloğu ile `NegativException` dışında kalan tüm exception'lar yakalanabilmektedir.
+>Aşağıdaki demo örnekte `Throwable` parametreli catch bloğu ile `NegativeException` dışında kalan tüm exception'lar yakalanabilmektedir.
 
 ```java
 package org.csystem.app;  
@@ -36085,7 +36086,529 @@ class MathException extends RuntimeException {
 }
 ```
 
+###### 15 Kasım 2025
+
+>Aşağıdaki örnekte Console sınıfının temel türlerden değerler okuyan readXXX metotlarının geçersiz giriş durumunda tekrar istediği kodları inceleyiniz. Exception handling kullanmadan bunu nasıl yapabilirdiniz? Bu kadar kolay olur muydu? Sınıfa bazı metotlar gerektikçe eklenmek üzere bırakılmıştır.
+
+```java
+package org.csystem.util.console;  
+
+import java.util.Scanner;  
+  
+public final class Console {  
+    private static final int RADIX_DECIMAL;  
+    private static final int RADIX_HEXADECIMAL;  
+    private static final int RADIX_BINARY;  
+    private static final Scanner KB;  
+  
+    static {  
+        RADIX_DECIMAL = 10;  
+        RADIX_HEXADECIMAL = 16;  
+        RADIX_BINARY = 2;  
+        KB = new Scanner(System.in);  
+    }  
+  
+    private Console()  
+    {}  
+  
+    public static int readInt()  
+    {  
+        return readInt("");  
+    }  
+  
+    public static int readInt(String prompt)  
+    {  
+        return readInt(prompt, "");  
+    }  
+  
+    public static int readInt(String prompt, String errorPrompt)  
+    {  
+        return readInt(prompt, RADIX_DECIMAL, errorPrompt);  
+    }  
+  
+    public static int readInt(int radix)  
+    {  
+        return readInt("", radix, "");  
+    }  
+  
+    public static int readInt(String prompt, int radix)  
+    {  
+        return readInt(prompt, radix, "");  
+    }  
+  
+    public static int readInt(String prompt, int radix, String errorPrompt)  
+    {  
+        while (true) {  
+            try {  
+                System.out.print(prompt);  
+  
+                return Integer.parseInt(KB.nextLine(), radix);  
+            }  
+            catch (NumberFormatException ignore) {  
+                System.out.print(errorPrompt);  
+            }  
+        }  
+    }  
+  
+    public static int readIntHexadecimal()  
+    {  
+        return readIntHexadecimal("");  
+    }  
+  
+    public static int readIntHexadecimal(String prompt)  
+    {  
+        return readInt(prompt, RADIX_HEXADECIMAL);  
+    }  
+  
+    public static int readIntBinary()  
+    {  
+        return readIntBinary("");  
+    }  
+  
+    public static int readIntBinary(String prompt)  
+    {  
+        return readInt(prompt, RADIX_BINARY);  
+    }  
+  
+    public static double readDouble()  
+    {  
+        return readDouble("");  
+    }  
+  
+    public static double readDouble(String prompt)  
+    {  
+        return readDouble(prompt, "");  
+    }  
+  
+    public static double readDouble(String prompt, String errorPrompt)  
+    {  
+        while (true) {  
+            try {  
+                System.out.print(prompt);  
+  
+                return Double.parseDouble(KB.nextLine());  
+            }  
+            catch (NumberFormatException ignore) {  
+                System.out.print(errorPrompt);  
+            }  
+        }  
+    }  
+  
+    public static long readLong()  
+    {  
+        return readLong("");  
+    }  
+  
+    public static long readLong(String prompt)  
+    {  
+        return readLong(prompt, RADIX_DECIMAL);  
+    }  
+  
+    public static long readLong(int radix)  
+    {  
+        return readLong("", radix);  
+    }  
+  
+    public static long readLong(String prompt, int radix)  
+    {  
+        return readLong(prompt, radix, "");  
+    }  
+  
+    public static long readLong(String prompt, int radix, String errorPrompt)  
+    {  
+        while (true) {  
+            try {  
+                System.out.print(prompt);  
+  
+                return Long.parseLong(KB.nextLine());  
+            }  
+            catch (NumberFormatException ignore) {  
+                System.out.print(errorPrompt);  
+            }  
+        }  
+    }  
+  
+    public static long readLongHexadecimal()  
+    {  
+        return readLongHexadecimal("");  
+    }  
+  
+    public static long readLongHexadecimal(String prompt)  
+    {  
+        return readLong(prompt, RADIX_HEXADECIMAL);  
+    }  
+  
+    public static long readLongBinary()  
+    {  
+        return readLongBinary("");  
+    }  
+  
+    public static long readLongBinary(String prompt)  
+    {  
+        return readLong(prompt, RADIX_BINARY);  
+    }  
+  
+    public static String readString()  
+    {  
+        return readString("");  
+    }  
+  
+    public static String readString(String prompt)  
+    {  
+        System.out.print(prompt);  
+        return KB.nextLine();  
+    }  
+  
+    //...  
+  
+    public static void write(Object o)  
+    {  
+        System.out.print(o);  
+    }  
+  
+    public static void write(String format, Object...args)  
+    {  
+        System.out.printf(format, args);  
+    }  
+  
+    public static void writeLine()  
+    {  
+        System.out.println();  
+    }  
+  
+    public static void writeLine(Object o)  
+    {  
+        System.out.println(o);  
+    }  
+  
+    public static void writeLine(String format, Object...args)  
+    {  
+        write(format + "%n", args);  
+    }  
+}
+```
+
+Bazen bir kod birden fazla try bloğu içerisinde olabilir. Bu durumda iç içe try deyimleri söz konusudur. Şüphesiz programcı doğrudan iç içe try deyimi yazmayabilir, programcının try deyimi içerisinde çağırdığı bir metot içerisinde de bir try deyimi olabilir. Bu durumda içteki try bloğunda bir exception oluştuğunda o try bloğuna ilişkin catch bloklarına bakılır, uygun catch bloğu bulunursa çalıştırılır ve akış içteki try deyiminin sonundan devam eder. Kapsayan try deyimine ilişkin catch bloklarına bakılmaz. İçteki try deyiminde uygun catch bloğu bulunamazsa dıştaki try deyimine ilişkin catch bloklarına bakılır. Bu işlem uygun catch bloğu bulununcaya veya bulunamayıncaya kadar devam eder. Hiç uygun catch bulunamazsa akış abnormal bir biçimde sonlanır. 
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Util.doWork();  
+        }  
+        catch (NegativeException ignore) {  
+            System.out.println("Negative value is not allowed for logarithm");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class Util {  
+    public static void  doWork()  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (ZeroException ignore) {  
+            System.out.println("Zero value is not allowed for logarithm");  
+        }  
+  
+        System.out.println("doWork ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NegativeException();  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new ZeroException();  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NegativeException extends RuntimeException {  
+    //...  
+}  
+  
+class ZeroException extends RuntimeException {  
+    //...  
+}
+```
+
+>Buradaki örnekte bulunan doWork dokümantasyonunda `NegativeException` ve `InputMismatch` exception fırlattığını doğrudan ya da dolaylı olarak belirtmesi gerekir. 
+
+>Bazen bir metot, bir exception oluştuğunda onu handle eder ancak metodun müşterisi olan kodlara (yani metodu çağıran kodlara) aynı nesneyi fırlatmak ister. Bu durumda yakalanan catch bloğunun sonunda aynı catch parametresi ile throw işlemi yapılır. Bu işleme **yeniden fırlatma (re-throw)** denir. Bu, aslında araya girme işlemidir. Yeniden fırlatma yapan metot dokümantasyonunda artık yakalayıp fırlattığı exception'ı da belirtmelidir ancak bunu yeniden fırlattığını belirtmek durumunda olmayabilir.
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Util.doWork();  
+        }  
+        catch (NegativeException ignore) {  
+            System.out.println("Negative value is not allowed for logarithm");  
+        }  
+        catch (ZeroException ignore) {  
+            System.out.println("main -> Zero value is not allowed for logarithm");  
+        }  
+        catch (InputMismatchException ignore) {  
+            System.out.println("Invalid numeric value");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class Util {  
+    public static void  doWork()  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (ZeroException e) {  
+            System.out.println("doWork -> Zero value is not allowed for logarithm");  
+            throw e; //re-throw  
+        }  
+  
+        System.out.println("doWork ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NegativeException();  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new ZeroException();  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NegativeException extends RuntimeException {  
+    //...  
+}  
+  
+class ZeroException extends RuntimeException {  
+    //...  
+}
+```
+`finally` bloğu akış try deyiminden nasıl çıkarsa çıksın (yani exception oluşsun ya da oluşmasın veya yakalansın ya da yakalanmasın) çalıştırılır. try deyiminde finally bloğu olmak zorunda değildir. Eğer catch blokları ile birlikte finally bloğu yazılacaksa tüm catch bloklarının sonunda olmalıdır. Yani, finally bloğu ilgili try deyiminin son bloğu olarak yazılmalıdır. finally bloğunda tipik olarak exception oluşsa da oluşmasa da yapılacak işlemler yazılır. Örneğin, bir veritabanına bağlatı sağlandığında, işlemler sırasında exception oluşsa da oluşmasa da bağlantının kopartılması gereken bir durumda bağlantı kopartma işlemi her adım yazılıp kod tekrarı yapılmaktansa finally bloğuna yazılabilir. 
 
 
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
 
+```java
+package org.csystem.app;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Util.doWork();  
+        }  
+        catch (NegativeException ignore) {  
+            System.out.println("Negative value is not allowed for logarithm");  
+        }  
+        finally {  
+            System.out.println("main -> finally");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class Util {  
+    public static void  doWork()  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (ZeroException ignore) {  
+            System.out.println("doWork -> Zero value is not allowed for logarithm");  
+        }  
+        finally {  
+            System.out.println("doWork -> finally");  
+        }  
+  
+        System.out.println("doWork ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NegativeException();  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new ZeroException();  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NegativeException extends RuntimeException {  
+    //...  
+}  
+  
+class ZeroException extends RuntimeException {  
+    //...  
+}
+```
+
+>try deyimimde, try bloğu yalnıza finally bloğu takip edebilir. Bu kullanıma `try-finally bloğu` da denilmektedir. Tipik olarak exception fırlatılsa da fırlatılmasa da yapılacak ortak işlemlerin exception yakalanmadan yapılması için kullanılır
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Util.doWork();  
+        }  
+        catch (NegativeException ignore) {  
+            System.out.println("Negative value is not allowed for logarithm");  
+        }  
+        catch (ZeroException ignore) {  
+            System.out.println("Zero value is not allowed for logarithm");  
+        }  
+        catch (InputMismatchException ignore) {  
+            System.out.println("Invalid numeric value");  
+        }  
+        finally {  
+            System.out.println("main -> finally");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class Util {  
+    public static void  doWork()  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        finally {  
+            System.out.println("doWork -> finally");  
+        }  
+  
+        System.out.println("doWork ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NegativeException();  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new ZeroException();  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NegativeException extends RuntimeException {  
+    //...  
+}  
+  
+class ZeroException extends RuntimeException {  
+    //...  
+}
+```
+
+>**Soru:** Aşağıdaki programın ekran çıktısı nedir?
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        System.out.println(Util.doSomething("something")); //somethingreturnfinally  
+    }  
+}  
+  
+class Util {  
+    public static StringBuilder doSomething(String str)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        sb.append(str);  
+  
+        try {  
+            return sb.append("return");  
+        }  
+        finally {  
+            sb.append("finally");  
+        }  
+    }  
+}
+```
 
