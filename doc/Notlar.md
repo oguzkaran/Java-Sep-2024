@@ -36612,3 +36612,785 @@ class Util {
 }
 ```
 
+###### 16 Kasım 2025
+
+>Bir exception sınıfı içerisinde çeşitli veriler tutulabilir ve exception'ı yakalayan kişi bu verileri kullanabilir. Bu anlamda Throwable sınıfı içerisinde bazı veriler tutulabilmektedir. Bunlardan en tipik olanı String türünde message (detail message) elemanıdır. Bu anlamda Throwable sınıfının message parametreli ctor'ları vardır. Message değerini elde etmek için `getMessage` sanal metodu çağrılabilir. Bu sınıftan doğrudan ya da dolaylı olarak türetilen sınıfların genel olarak message parametreli ctor veya ctor'ları bulunur. Exception, RuntimeException ve Error sınıflarının da message parametreli ctor'ları vardır. Programcı isterse kendi exception sınıfına başka elemanlar da ekleyebilir. getMessage metodu sanal bir metot olduğundan gerektiğinde override edilebilir. JavaSE içerisinde bulunan pek çok exception sınıfı bu metodu override etmişlerdir. 
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Util.doWork();  
+        }  
+        catch (NegativeException e) {  
+            Console.writeLine("NegativeException -> Message:%s", e.getMessage());  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class Util {  
+    public static void  doWork()  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (ZeroException e) {  
+            Console.writeLine("ZeroException -> Message:%s", e.getMessage());  
+        }  
+  
+        System.out.println("doWork ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NegativeException("Negative value is not allowed for logarithm:%f".formatted(a));  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new ZeroException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NegativeException extends RuntimeException {  
+    public NegativeException()  
+    {  
+        this(null);  
+    }  
+    public NegativeException(String message)  
+    {  
+        super(message);  
+    }  
+}  
+  
+class ZeroException extends RuntimeException {  
+    public ZeroException()  
+    {  
+        this(null);  
+    }  
+    public ZeroException(String message)  
+    {  
+        super(message);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (MathException e) {  
+            Console.writeLine("Exception occurred:%s", e.getMessage());  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NanException("Negative value is not allowed for logarithm", a);  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new NegativeInfinityException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NanException extends MathException {  
+    private final double m_value;  
+  
+    public NanException(double value)  
+    {  
+        this(null, value);  
+    }  
+    public NanException(String message, double value)  
+    {  
+        super(message, MathExceptionStatus.NAN);  
+        m_value = value;  
+    }  
+  
+    public double getValue()  
+    {  
+        return m_value;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "%s, Value:%f".formatted(super.getMessage(), m_value);  
+    }  
+}  
+  
+class NegativeInfinityException extends MathException {  
+    public NegativeInfinityException()  
+    {  
+        this(null);  
+    }  
+    public NegativeInfinityException(String message)  
+    {  
+        super(message, MathExceptionStatus.NEGATIVE_INFINITY);  
+    }  
+}  
+  
+  
+class MathException extends RuntimeException {  
+    private final MathExceptionStatus m_mathExceptionStatus;  
+  
+    public MathException(MathExceptionStatus mathExceptionStatus)  
+    {  
+        this(null, mathExceptionStatus);  
+    }  
+  
+    public MathException(String message, MathExceptionStatus mathExceptionStatus)  
+    {  
+        super(message);  
+        m_mathExceptionStatus = mathExceptionStatus;  
+    }  
+  
+    public MathExceptionStatus getMathExceptionStatus()  
+    {  
+        return m_mathExceptionStatus;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "Message:%s, Status:%s".formatted(super.getMessage(), m_mathExceptionStatus);  
+    }  
+}  
+  
+enum MathExceptionStatus {  
+    NAN, NEGATIVE, ZERO, INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_ZERO, NEGATIVE_ZERO  
+}
+```
+
+>Throwable sınıfının printStackTrace metotları exception oluşma noktalarını bir stack olarak gösteren bir mesajı ilgili output'a gönderir. Parametresiz `printStackTrace` metodu standard error'a (stderr) basar. Basılan mesaj exception'ın yakalanmamasından olayı akışın abnormal olarak sonlandığı durumda basılan mesaja oldukça benzerdir. Bu mesajlar tipik olarak geliştirme aşamasında debug etmek için kullanılabilmektedir.
+
+**Anahtar Notlar:** Bir takım bilgilerin daha sonra incelenmek üzere saklanmasına yazılım geliştirmede `logging` denir. Örneğin, uygulama test aşamasında çalıştırılırken bir takım hata mesajları saklanarak daha sonra incelenebilir. Bunun her ne kadar `printStackTrace` gibi metotları kullanılabilse de daha detaylı durumlar için bu mesajlar yetersiz kalabilir. Hatta, hata dışındaki bazı mesajlarında `loglanmnası` gerekebilir. Bu durumda, sırf loglama işlemleri tasarlanmış üçüncü parti `logger` kütüphaneler de kullanılabilmektedir. Bu sebeple `printStackTrace` metodunun parametresiz çağrısında bazı static kod analizi araçları default konfigürasyonda uyarı verebilmektedirler. Logger'lar `Java ile Uygulama Geliştirme` kurslarında kullanılacak ve çeşitli düzeylerde detaylandırılacaktır.
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (MathException e) {  
+            e.printStackTrace();  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NanException("Negative value is not allowed for logarithm", a);  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new NegativeInfinityException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NanException extends MathException {  
+    private final double m_value;  
+  
+    public NanException(double value)  
+    {  
+        this(null, value);  
+    }  
+    public NanException(String message, double value)  
+    {  
+        super(message, MathExceptionStatus.NAN);  
+        m_value = value;  
+    }  
+  
+    public double getValue()  
+    {  
+        return m_value;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "%s, Value:%f".formatted(super.getMessage(), m_value);  
+    }  
+}  
+  
+class NegativeInfinityException extends MathException {  
+    public NegativeInfinityException()  
+    {  
+        this(null);  
+    }  
+    public NegativeInfinityException(String message)  
+    {  
+        super(message, MathExceptionStatus.NEGATIVE_INFINITY);  
+    }  
+}  
+  
+  
+class MathException extends RuntimeException {  
+    private final MathExceptionStatus m_mathExceptionStatus;  
+  
+    public MathException(MathExceptionStatus mathExceptionStatus)  
+    {  
+        this(null, mathExceptionStatus);  
+    }  
+  
+    public MathException(String message, MathExceptionStatus mathExceptionStatus)  
+    {  
+        super(message);  
+        m_mathExceptionStatus = mathExceptionStatus;  
+    }  
+  
+    public MathExceptionStatus getMathExceptionStatus()  
+    {  
+        return m_mathExceptionStatus;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "Message:%s, Status:%s".formatted(super.getMessage(), m_mathExceptionStatus);  
+    }  
+}  
+  
+enum MathExceptionStatus {  
+    NAN, NEGATIVE, ZERO, INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_ZERO, NEGATIVE_ZERO  
+}
+```
+
+>Aralarında türetme ilişkisi olmayan exception sınıfı fırlatma potansiyeli olan bir akışta, ilgili exception'ların hepsi için ortak bir işlem yapılacaksa catch bloğunda exception sınıfları `|` atomu ile birbirinde ayrılabilir. Bu durumda catch bloğu içerisinde exception sınıflarına ilişkin yalnızca ortak elemanlara erişilebilir. Bu sentaksla yazılan exception sınıfları arasında türetme ilişkisi varsa error oluşur. Bu sentaks Java 7 ile dile eklenmiştir.
+
+>Aşağıdaki demo örneği çeşitli değerler ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (NanException | NegativeInfinityException e) { //Since Java 7  
+            Console.writeLine("Exception occurred while calculating logarithm:%s", e.getMessage());  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a)  
+    {  
+        if (a < 0)  
+            throw new NanException("Negative value is not allowed for logarithm", a);  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new NegativeInfinityException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NanException extends MathException {  
+    private final double m_value;  
+  
+    public NanException(double value)  
+    {  
+        this(null, value);  
+    }  
+    public NanException(String message, double value)  
+    {  
+        super(message, MathExceptionStatus.NAN);  
+        m_value = value;  
+    }  
+  
+    public double getValue()  
+    {  
+        return m_value;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "%s, Value:%f".formatted(super.getMessage(), m_value);  
+    }  
+}  
+  
+class NegativeInfinityException extends MathException {  
+    public NegativeInfinityException()  
+    {  
+        this(null);  
+    }  
+    public NegativeInfinityException(String message)  
+    {  
+        super(message, MathExceptionStatus.NEGATIVE_INFINITY);  
+    }  
+}  
+  
+  
+class MathException extends RuntimeException {  
+    private final MathExceptionStatus m_mathExceptionStatus;  
+  
+    public MathException(MathExceptionStatus mathExceptionStatus)  
+    {  
+        this(null, mathExceptionStatus);  
+    }  
+  
+    public MathException(String message, MathExceptionStatus mathExceptionStatus)  
+    {  
+        super(message);  
+        m_mathExceptionStatus = mathExceptionStatus;  
+    }  
+  
+    public MathExceptionStatus getMathExceptionStatus()  
+    {  
+        return m_mathExceptionStatus;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "Message:%s, Status:%s".formatted(super.getMessage(), m_mathExceptionStatus);  
+    }  
+}  
+  
+enum MathExceptionStatus {  
+    NAN, NEGATIVE, ZERO, INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_ZERO, NEGATIVE_ZERO  
+}
+```
+
+>Java'da exception sınıfları kategori olarak iki gruba ayrılır: **checked exceptions, unchecked exceptions.**
+
+![BasicExceptionClasses](./media/BasicExceptionClasses.png)
+>Bir exception sınıfının doğrudan ya da dolaylı taban sınıflarından biri `RuntimeException` ve `Error` sınıflarından bir değilse sınıf bir **checked exception** sınıfıdır. checked olmayan bir exception sınıfı da bir **unchecked exception** sınıfıdır. 
+>
+>Bu tanımlara göre, bir exception sınıfının kategorisi taban sınıfının kategorisi ile aynıdır ve değiştirilemez.
+
+**Anahtar Notlar:** Bir exception sınıfının checked veya unchecked olması çalışma zamanına ilişkin bir kavram değildir. Derleme zamanında checked exception sınıfları bazı sentaks ve semantic zorunluluklar söz konusudur. Kategorisi ne olursa olsun çalışma zamanında exception işlemlerin bir değişiklik yoktur.
+
+>Checked bir exception fırlatama potansiyelindeki bir akış için, ya try deyimi ile ilgili checked exception'ın yakalanabileceği bir catch bloğu olması ya da akışa ilişkin metota **throws bildirimi (throws declaration)** yapılmazı gerekir. Aksi durumda error oluşur. throw bildirimi metot parametre parantezinden sonra, metot gövdesinden önce yazılır. throws bildiriminin genel biçimi şu şekildedir:
+
+```java
+throws <Exception sınıfı ismi>[, Exeption sınıf ismi][, Esception sınıf ismi] ...
+```
+>Aşağıdaki demo örnekte `log` metodundaki akışta her iki checked exception sınıfı da fırlatıldığından ve akış try deyimi ile ele alınmadığından throws listesinde her iki exception sınıfı da bulunmalıdır. Aksi durumda error oluşur. doWork metodunda `ZeroException` yakalanabildiğinden doWork metodunun throws listesine yazılmaz ancak `NegativeException` yakalanmadığından doWork metodunun throws listesinde bulunmalıdır. main metodunda `NegativeException` da yakalanabildiğinden herhangi bir throws listesi gerekmez. Dikkat edilirse bu kurallar derleme zamanına ilişkindir. Çalışma zamanında herhangi bir fark yoktur.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Util.doWork();  
+        }  
+        catch (NegativeException e) {  
+            Console.writeLine("NegativeException -> Message:%s", e.getMessage());  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class Util {  
+    public static void  doWork() throws NegativeException  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (ZeroException e) {  
+            Console.writeLine("ZeroException -> Message:%s", e.getMessage());  
+        }  
+  
+        System.out.println("doWork ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a) throws NegativeException, ZeroException  
+    {  
+        if (a < 0)  
+            throw new NegativeException("Negative value is not allowed for logarithm:%f".formatted(a));  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new ZeroException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NegativeException extends Exception {  
+    public NegativeException()  
+    {  
+        this(null);  
+    }  
+    public NegativeException(String message)  
+    {  
+        super(message);  
+    }  
+}  
+  
+class ZeroException extends Exception {  
+    public ZeroException()  
+    {  
+        this(null);  
+    }  
+    public ZeroException(String message)  
+    {  
+        super(message);  
+    }  
+}
+```
+
+>throws listesinde taban exception sınıfı varsa ondan türemiş olan sınıfların throws listesinde yazılması zorunlu değildir. Yazılmaması tavsiye edilir.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (MathException e) {  
+            Console.writeLine("Exception occurred while calculating logarithm:%s", e.getMessage());  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a) throws MathException  
+    {  
+        if (a < 0)  
+            throw new NanException("Negative value is not allowed for logarithm", a);  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new NegativeInfinityException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NanException extends MathException {  
+    private final double m_value;  
+  
+    public NanException(double value)  
+    {  
+        this(null, value);  
+    }  
+    public NanException(String message, double value)  
+    {  
+        super(message, MathExceptionStatus.NAN);  
+        m_value = value;  
+    }  
+  
+    public double getValue()  
+    {  
+        return m_value;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "%s, Value:%f".formatted(super.getMessage(), m_value);  
+    }  
+}  
+  
+class NegativeInfinityException extends MathException {  
+    public NegativeInfinityException()  
+    {  
+        this(null);  
+    }  
+    public NegativeInfinityException(String message)  
+    {  
+        super(message, MathExceptionStatus.NEGATIVE_INFINITY);  
+    }  
+}  
+  
+  
+class MathException extends Exception {  
+    private final MathExceptionStatus m_mathExceptionStatus;  
+  
+    public MathException(MathExceptionStatus mathExceptionStatus)  
+    {  
+        this(null, mathExceptionStatus);  
+    }  
+  
+    public MathException(String message, MathExceptionStatus mathExceptionStatus)  
+    {  
+        super(message);  
+        m_mathExceptionStatus = mathExceptionStatus;  
+    }  
+  
+    public MathExceptionStatus getMathExceptionStatus()  
+    {  
+        return m_mathExceptionStatus;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "Message:%s, Status:%s".formatted(super.getMessage(), m_mathExceptionStatus);  
+    }  
+}  
+  
+enum MathExceptionStatus {  
+    NAN, NEGATIVE, ZERO, INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_ZERO, NEGATIVE_ZERO  
+}
+```
+
+>Bir metodun throws listesinde unchecked bir exception sınıfı da yazılabilir. Yazılmasının yazılmamasından hiç bir farkı yoktur. Yazılmaması tavsiye edilir.
+
+>Aşağıdaki demo örnekte log metodundan throws bildirimi zorunlu değildir. Hatta okunabilirlik/algılanabilirlik açısından olumsuz bir etki de oluşturabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.InputMismatchException;  
+import java.util.Scanner;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        try {  
+            Scanner kb = new Scanner(System.in);  
+  
+            System.out.print("Input a value:");  
+            double a = kb.nextDouble();  
+            double result = MathUtil.log(a);  
+  
+            System.out.printf("log(%f) = %f%n", a, result);  
+        }  
+        catch (MathException e) {  
+            Console.writeLine("Exception occurred while calculating logarithm:%s", e.getMessage());  
+        }  
+        catch (InputMismatchException e) {  
+            String message = e.getMessage();  
+  
+            Console.writeLine("InputMismatchException%s", message != null ? " -> Message:%s".formatted(message) : "");  
+        }  
+  
+        System.out.println("main ends");  
+    }  
+}  
+  
+class MathUtil {  
+    public static final double DELTA = 0.000001;  
+  
+    public static double log(double a) throws MathException  
+    {  
+        if (a < 0)  
+            throw new NanException("Negative value is not allowed for logarithm", a);  
+  
+        if (Math.abs(a) < DELTA)  
+            throw new NegativeInfinityException("Zero value is not allowed for logarithm");  
+  
+        return Math.log(a);  
+    }  
+}  
+  
+class NanException extends MathException {  
+    private final double m_value;  
+  
+    public NanException(double value)  
+    {  
+        this(null, value);  
+    }  
+    public NanException(String message, double value)  
+    {  
+        super(message, MathExceptionStatus.NAN);  
+        m_value = value;  
+    }  
+  
+    public double getValue()  
+    {  
+        return m_value;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "%s, Value:%f".formatted(super.getMessage(), m_value);  
+    }  
+}  
+  
+class NegativeInfinityException extends MathException {  
+    public NegativeInfinityException()  
+    {  
+        this(null);  
+    }  
+    public NegativeInfinityException(String message)  
+    {  
+        super(message, MathExceptionStatus.NEGATIVE_INFINITY);  
+    }  
+}  
+  
+  
+class MathException extends RuntimeException {  
+    private final MathExceptionStatus m_mathExceptionStatus;  
+  
+    public MathException(MathExceptionStatus mathExceptionStatus)  
+    {  
+        this(null, mathExceptionStatus);  
+    }  
+  
+    public MathException(String message, MathExceptionStatus mathExceptionStatus)  
+    {  
+        super(message);  
+        m_mathExceptionStatus = mathExceptionStatus;  
+    }  
+  
+    public MathExceptionStatus getMathExceptionStatus()  
+    {  
+        return m_mathExceptionStatus;  
+    }  
+  
+    public String getMessage()  
+    {  
+        return "Message:%s, Status:%s".formatted(super.getMessage(), m_mathExceptionStatus);  
+    }  
+}  
+  
+enum MathExceptionStatus {  
+    NAN, NEGATIVE, ZERO, INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_ZERO, NEGATIVE_ZERO  
+}
+```
+
+
+
