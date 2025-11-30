@@ -10139,7 +10139,7 @@ class Mample {
 
 ```
 
->Aslında genel bir kural olarak şu şsöylenebilir: **Bir sınıf içerisinde AYNI metottan birden fazla bildirim geçersizdir.** ya da farklı bir şekilde söylersek: **Bir sınıf içerisindeki tüm metotların birbirinden FARKLI olması gerekir.** Burada iki metot için **AYNI OLMA veya AYNI OLMAMA)**, **FARKLI OLMA veya FARKLI OLMAMA** kuralları ele alınacaktır.
+>Aslında genel bir kural olarak şu söylenebilir: **Bir sınıf içerisinde AYNI metottan birden fazla bildirim geçersizdir.** ya da farklı bir şekilde söylersek: **Bir sınıf içerisindeki tüm metotların birbirinden FARKLI olması gerekir.** Burada iki metot için **AYNI OLMA veya AYNI OLMAMA)**, **FARKLI OLMA veya FARKLI OLMAMA** kuralları ele alınacaktır.
 
 >Bir metodun erişim belirleyicisini değiştirmek o metodu farklı yapmaz. Yani erişim belirleyicinin overload işlemine etkisi yoktur
 
@@ -10194,7 +10194,7 @@ class Sample {
 }
 ```
 
->Bir metodun parametre değişken isimlerinin verload işlemine etkisi yoktur
+>Bir metodun parametre değişken isimlerinin overload işlemine etkisi yoktur
 
 ```java
 class Sample {
@@ -10238,7 +10238,7 @@ class Sample {
 }
 
 ```
->Aslında bir sınıf içerisindeki her metodun tekil (unique) bir bilgisi olmalıdır. Bu unique bilgiye genel olarak **metodun imza (method signature)** ya da **imza (signature)** diyebiliriz**. Bir metodun imzası, **metodun ismi ve parametrik yapı kombinasyonudur.** Genel kural şudur: **Bir sınıf içerisinde aynı imzaya sahip birden fazla metot bildirimi geçersizdir** ya da başka bir deyişle: **Bir sınıf içerisindeki her metodun imzası diğerlerinden farklı olmalıdır.** Aksi durumda error oluşur. Bu genel kurala göre method overloading için isimler aynı kalacağından imzanın farklı olması ancak parametrik yapının farklı olması ile mümkündür. 
+>Aslında bir sınıf içerisindeki her metodun tekil (unique) bir bilgisi olmalıdır. Bu unique bilgiye genel olarak **metodun imzası (method signature)** ya da **imza (signature)** diyebiliriz. Bir metodun imzası, **metodun ismi ve parametrik yapı kombinasyonudur.** Genel kural şudur: **Bir sınıf içerisinde aynı imzaya sahip birden fazla metot bildirimi geçersizdir** ya da başka bir deyişle: **Bir sınıf içerisindeki her metodun imzası diğerlerinden farklı olmalıdır.** Aksi durumda error oluşur. Bu genel kurala göre method overloading için isimler aynı kalacağından imzanın farklı olması ancak parametrik yapının farklı olması ile mümkündür. 
 
 ```java
 class Sample {
@@ -10569,7 +10569,7 @@ class Sample {
 
 ##### Nesne Yönelimli Programlama (Object Oriented Programming)
 
->Nesne yönelimli programlama tekniğini (NYPT) tek bir cümle ile açıklamak pek mümkün değildir. Ancak, bu tekniği bilen veya belirli ölçüde fikri olan birisine **sınıflar kullanarak program yazma tekniğidir** denebilir. NYPT aslında pek çok anahtar kavramın birleşimidir. Bu anahtar kavramlar içiçe geçmiş dairler biçiminde düşünülebilir. Tüm bu anahtar kavramların temelinde kodun **okunabilir/algılanabilir olması ve daha iyi yönetilmesi** vardır. Örneğin, benzer işi yapan metotlara aynı ismin verilmesi (method overloading) programcıyı **çok şey var** algısından uzaklaştırıp, **az şey var** gibi bir algı oluşmasını sağlar. Bu da hatırlamayı kolaylaştırır ve kodun okunabilirliğini/algılanabilirliğini artırır.
+>Nesne yönelimli programlama tekniğini (NYPT) tek bir cümle ile açıklamak pek mümkün değildir. Ancak, bu tekniği bilen veya belirli ölçüde fikri olan birisine **sınıflar kullanarak program yazma tekniğidir** denebilir. NYPT aslında pek çok anahtar kavramın birleşimidir. Bu anahtar kavramlar iç içe geçmiş dairler biçiminde düşünülebilir. Tüm bu anahtar kavramların temelinde kodun **okunabilir/algılanabilir olması ve daha iyi yönetilmesi** vardır. Örneğin, benzer işi yapan metotlara aynı ismin verilmesi (method overloading) programcıyı **çok şey var** algısından uzaklaştırıp, **az şey var** gibi bir algı oluşmasını sağlar. Bu da hatırlamayı kolaylaştırır ve kodun okunabilirliğini/algılanabilirliğini artırır.
 >
 >NYPT insanın doğayı algılama biçimini model alır. İnsanlar her şeyi nesne biçiminde alıp kullanırlar. Örneğin herkesin cep telefonu olabilse de konuşurken bunu cep telefonu olarak konuşuruz. Yani aslında cep telefonu soyut (abstract) bir kavramdır. Örneğin, bize ait olan bir cep telefonu artık somutlaşmıştır (concrete). Bu anlamda, herkesin sahip olduğu cep telefonu artık bir nesne biçimindedir.
 >
@@ -12795,7 +12795,7 @@ class App {
 
 >Random sınıfına Java 17 ile birlikte iki parametreli `nextInt` metodu dolaylı olarak eklenmiştir. Bu metot aldığı parametre değerlerine göre `[origin, bound)` aralığında üretilmiş rassal sayıya geri döner.
 
-**Anahtar Notlar:** Burada `dolaylı olarak eklenmiştir` denmesinin detayları ile ele alınacaktır.
+**Anahtar Notlar:** Burada `dolaylı olarak eklenmiştir` denmesinin detayları ileride ele alınacaktır.
 
 ```java
 package csd;
@@ -37812,3 +37812,1804 @@ class MathException extends Exception {
 >
 >Şüphesiz, yukarıdaki exception sınıfları dışında da pek çok exception sınıfı bulunmaktadır.
 
+
+###### 29 Kasım 2025
+##### Arayüzler
+
+>Bir **arayüz (interface)** bir UDT'dir. Bir arayüz **interface** anahtar sözcüğü ile bildirilir. Arayüzler en çok abstract class'lara benzeseler de sentaks ve semantik açıdan farklı kurallara sahiptirler. Arayüzler ile tam bir soyutlama (abstraction) sağlanmış olur. Ayrıca arayüzler Java'da çok türetmenin de belirli ölçüde kullanılabilmesine olanak sağlar. Özellikle Java 8 ile birlikte eklenen özellikler ile arayüzler çok daha yetenekli hale gelmişlerdir.
+>
+>Arayüzler nesne özelliği göstermezler. Yani, arayüz türünden bir nesne hiç bir şekilde yaratıl(a)maz. Arayüzler aslında bir anlaşma (contract) belirtmek için kullanılır.
+>
+
+
+**Anahtar Notlar:** Arayüz isimlerini diğer UDT'lerdan ayırmak için bazı programcılar isimlerini `I`
+ ile başlatmayı tercih ederler. Biz de arayüz isimlerimizi `I` ile başlatacağız ancak JavaSE'de bulunan arayüz isimleri `I` ile başlatılmamaktadır. 
+
+>Bir arayüz içerisinde veri elemanı olabilir Arayüz içerisinde bildirilen bir veri elemanı yazılsa da yazılmasa da `public static final` olarak bildirilmiş olur. Yani, bir arayüz içerisinde public olmayan veya static olmayan veya final olmayan bir veri elemanı bildirimi yapılamaz. `public static final` yazarak bildirim yapılabilse de hiç birisinin yazılmaması tavsiye edilir. Bir arayüz içerisinde `public abstract` metotlar bildirilebilir. public ve abstract anahtar sözcükleri bildirimde yazılmayabilir. Yazılmaları error oluşturmasa da yazılmamaları tavsiye edilir. Java 8 ile birlikte abstract olmayan sanal metot bildirimi yapılabilmektedir. Bu durumda metodun default anahtar sözcüğü ile bildirilmesi gerekir. Şüphesiz default olarak bildirilen sanal metodun gövdesi yazılmalıdır. Bu sentaks ile birlikte bir arayüz içerisinde default anahtar sözcüğü ile bildirilen metotlara da **default method** denilmektedir. Default metotlar da yazılsa da yazılmasa da public olarak bildirilmiş olur. Yine public yazılması tavsiye edilmez. Bu durumda public olmayan default metot bildirimi geçersizdir. Java 8 ile birlikte bir arayüz içerisinde static metot bildirimi yapılabilmektedir. Yine static metotlar da yazılsa da yazılmasa da public olarak bildirilmiş olur. Yine public yazılmaması tavsiye edilir. Java 9 ile birlikte bir arayüz içerisinde private olan static ve non-static metotlar bildirilebilir. private olarak bildirilmiş metotların gövdesi olmalıdır. Aksi durumda error oluşur.
+>
+>Tüm bu açıklamara göre bir arayüz içerisinde friendly veya protected bir eleman bildirilemez. 
+
+>Aşağıdaki örnek, arayüz içerisinde olabilecek tüm eleman çeşitlerini göstermektedir
+
+```java
+interface IX {  
+    int X = 10;  
+    void foo();  
+    int bar(double a);  
+  
+    default void tar() //Since Java 8  
+    {  
+        //...  
+    }  
+  
+    static void car() //Since Java 8  
+    {  
+         //...  
+    }  
+  
+    private static void zar() //Since Java 9  
+    {  
+        //...  
+    }  
+  
+    private void par() //Since Java 9  
+    {  
+        //...  
+    }  
+}
+```
+
+>Hiç abstract metodu olmayan arayüzlere **marker interfaces** denilmektedir. Genel olarak bir marker interface'in içerisi tamamen boş bırakılır yani hiç bir eleman bildirimi yapılmaz.
+
+```java
+interface IX { //marker interface  
+    int X = 10;  
+      
+    default void tar() //Since Java 8  
+    {  
+        //...  
+    }  
+  
+    static void car() //Since Java 8  
+    {  
+         //...  
+    }  
+  
+    private static void zar() //Since Java 9  
+    {  
+        //...  
+    }  
+  
+    private void par() //Since Java 9  
+    {  
+        //...  
+    }  
+}  
+  
+interface IY { //marker interface  
+
+}
+```
+
+**Anahtar Notlar:** Java 5 ile eklenen annotation'lar ile marker arayüzlere çok ihtiyaç kalmamıştır. Ancak Java 5 öncesinden gelen ve önemli bazı durumlarda kullanılan bazı marker interface'ler bulunmaktadır. Java programcısı Java 5 sonrasında kendisi bir marker interface yazma ihtiyacı genel olarak duymaz. Annotation da bir UDT'dir ve Java ile Uygulama Geliştirme 1 kursunda ele alanacaktır.  
+
+>Java 8 ile birlikte içerisinde **bir ve yalnız bir tane** abstract metodu olan arayüzler **functional interface** olarak kullanılabilmektedir. Functional interface'ler Java'da fonksiyonel programlama tekniğinin daha gelişmiş bir biçimde kullanılmasına başka eklenenler ile birlikte olanak sağlar. 
+
+**Anahtar Notlar:** Java 8 ile birlikte `Lambda expressions ve method references` dile eklenmiştir. Lambda ifadeleri ve method referansları fonksiyonel arayüzler ile kullanılabilmektedir. Bu anlamda fonksiyonel arayüzler Java'da yeni nesil programlama tekniğini de kullanılabilir hale getirmiştir. Lambda ifadeleri ve method referansları Java ile Uygulama Geliştirme 1 kursunda ele alınacaktır.
+
+>Aşağıdaki demo örnekte fonksiyonel arayüzler ile Lambda ifadeleri kullanımı örneklenmiştir. Konunun detayları şu aşamada öncemsizdir.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.numeric.NumberUtil;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Arrays;  
+import java.util.Random;   
+import java.util.stream.IntStream;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Random random = new Random();  
+        int n = Console.readInt("Input count", "Invalid value:!...");  
+  
+        String [] str = StringUtil.randomTextsEN(random, n, 5, 15);  
+  
+        for (String s : str)  
+            Console.write("%s ", s);  
+  
+        Console.writeLine();  
+  
+        Arrays.stream(str).forEach(s -> Console.write("%s ", s));  
+  
+        Console.writeLine();  
+  
+        Arrays.stream(str).forEach(Console::writeLine);  
+  
+        Console.writeLine();  
+  
+        Arrays.stream(str).filter(s -> s.length() < 10).forEach(s -> Console.write("%s ", s));  
+  
+        Console.writeLine();  
+  
+        int [] a = IntStream.generate(() -> random.nextInt(2, 100)).filter(NumberUtil::isPrime).limit(10).toArray();  
+  
+        Arrays.stream(a).forEach(e -> Console.write("%d ", e));  
+  
+        Console.writeLine();  
+    }  
+}
+```
+
+>Bir arayüz abstract anahtar sözcüğü ile bildirilebilir. abstract yazmakla yazmamak arasında bir fark yoktur, yazılmaması tavsiye edilir.
+
+```java
+abstract interface IX {  
+    //...  
+}
+```
+
+>Bir sınıf bir arayüzü **implements** anahtar sözcüğü ile destekler (implementation). Bir sınıf birden fazla arayüzü destekleyebilir. Bu durumda arayüzler virgül atomu ile listelenir. Buna sınıfın arayüz listesi (interface list) de denilmektedir. Arayüz listesinde arayüzlerin sırasının önemi yoktur. Anımsanacağı gibi bir sınıf yalnızca tek bir sınıftan türetilebilir, istediği kadar arayüzü destekleyebilir.
+
+```java
+class A implements IX, IY, IZ {  
+    //...  
+}  
+  
+class B extends X implements IX, IY, IZ {  
+    //...  
+}  
+  
+class X {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}  
+  
+interface IY {  
+    //...  
+}  
+  
+  
+interface IZ {  
+    //...  
+}
+```
+
+>Bir sınıf desteklediği bir arayüzün en az bir tane abstract metodunu override etmezse, kendisi de abstract olarak bildirilmelidir. Buna göre bir sınıfın concrete olabilmesi için tüm abstract metotları (taban sınıftan ve arayüzlerden gelen) override etmiş olması gerekir. Aksi durumda sınıf abstract olarak bildirilmelidir.
+
+```java
+abstract class A implements IX, IY, IZ {  
+    //...  
+}  
+  
+  
+class B implements IX, IY, IZ { //error  
+    //...  
+    public void foo()  
+    {  
+        //....  
+    }  
+  
+    public void bar()  
+    {  
+        //....  
+    }  
+}  
+  
+  
+class C implements IX, IY, IZ { //error  
+    //...  
+    public void foo()  
+    {  
+        //....  
+    }  
+  
+    public void bar()  
+    {  
+        //....  
+    }  
+  
+    public void tar()  
+    {  
+        //....  
+    }  
+}  
+  
+  
+interface IX {  
+    void foo();  
+}  
+  
+interface IY {  
+    void bar();  
+}  
+  
+  
+interface IZ {  
+    void tar();  
+}
+```
+
+>Bir arayüz referansı taban sınıf referansı gibi kullanılabilir. Bu durumda RTP gerçekleştirilebilir. Aslında bir sınıfı birden fazla arayüzü desteklemesi ile tüm arayüzler için RTP yapılabilir. Bu da belirli ölçüde de olsa çoklu türetmeye benzetilebilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        XFactory xFactory = new XFactory();  
+        YFactory yFactory = new YFactory();  
+  
+        while (true) {  
+            IX ix = xFactory.create();  
+            IY iy = yFactory.create();  
+  
+            Console.writeLine("-----------------------------------------");  
+            Console.writeLine("Dynamic type of ix:%s", ix.getClass().getName());  
+            Console.writeLine("Dynamic type of iy:%s", iy.getClass().getName());  
+            Util.doWork(ix);  
+            Util.doWork(iy);  
+            Console.writeLine("-----------------------------------------");  
+  
+            ThreadUtil.sleep(1000);  
+        }  
+    }  
+}  
+  
+class Util {  
+    public static void doWork(IX ix)  
+    {  
+        //...  
+        ix.foo();  
+        //...  
+    }  
+  
+    public static void doWork(IY iy)  
+    {  
+        //...  
+        iy.bar();  
+        //...  
+    }  
+}  
+  
+class XFactory {  
+    private final Random m_random = new Random();  
+  
+    public IX create()  
+    {  
+        return switch (m_random.nextInt(1, 4)) {  
+            case 1 -> new A();  
+            case 2 -> new C();  
+            default -> new D();  
+        };  
+    }  
+}  
+  
+class YFactory {  
+    private final Random m_random = new Random();  
+  
+    public IY create()  
+    {  
+        return switch (m_random.nextInt(1, 4)) {  
+            case 1 -> new B();  
+            case 2 -> new C();  
+            default -> new D();  
+        };  
+    }  
+}  
+  
+class A implements IX {  
+    public void foo()  
+    {  
+        Console.writeLine("A.foo");  
+    }  
+}  
+  
+class B implements IY {  
+    public void bar()  
+    {  
+        Console.writeLine("B.bar");  
+    }  
+}  
+  
+class C implements IX, IY {  
+    public void foo()  
+    {  
+        Console.writeLine("C.foo");  
+    }  
+  
+    public void bar()  
+    {  
+        Console.writeLine("C.bar");  
+    }  
+}  
+  
+class D implements IX, IY {  
+    public void foo()  
+    {  
+        Console.writeLine("D.foo");  
+    }  
+  
+    public void bar()  
+    {  
+        Console.writeLine("D.bar");  
+    }  
+}  
+  
+interface IX {  
+    void foo();  
+}  
+  
+interface IY {  
+    void bar();  
+}
+```
+
+###### 30 Kasım 2025
+
+>Bir sınıf bir arayüzü destekliyorsa ondan türeyen sınıflar da o arayüzü destekler. Bu durumda türemiş sınıf arayüz listesine ilgili destekleyen arayüzün yazılması gerekmez, istenirse yazılabilir.
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B b = new B();  
+        C c = new C();  
+  
+        Util.doWork(b);  
+        Util.doWork(c);  
+    }  
+}  
+  
+class Util {  
+    public static void doWork(IX ix)  
+    {  
+        //...  
+    }  
+}  
+  
+class C extends A implements IX, IY {  
+    //...  
+}  
+  
+class B extends A implements IY {  
+    //...  
+}  
+  
+class A implements IX {  
+    //...  
+}  
+  
+interface IY {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+Bir sınıfın desteklediği arayüzlerin geri dönüş değeri ve imzası aynı olan bir sanal metodu varsa, override edilen ilgili metot tüm arayüzler için override edilmiş olur
+
+```java
+class A implements IX, IY {  
+    public void foo(int a)  
+    {  
+        //...  
+    }  
+  
+    public void bar()  
+    {  
+        //...  
+    }  
+}  
+  
+interface IY {  
+    void foo(int a);  
+    void bar();  
+  
+}  
+  
+interface IX {  
+    void foo(int a);  
+}
+```
+
+>Aşağıdaki demo örnekte A sınıfı IX ve IY arayüzlerinin her ikisini birden implemente ettiğinde her iki foo metodunu override edemez. Çünkü her iki foo metodu da aynı imzaya sahiptir
+
+```java
+class A implements IX, IY {  
+    public int foo(int a) //error  
+    {  
+        //...  
+        return 0;  
+    }  
+  
+    public void foo(int a) //error  
+    {  
+        //...  
+    }  
+  
+    public void bar()  
+    {  
+        //...  
+    }  
+}  
+  
+interface IY {  
+    int foo(int a);  
+    void bar();  
+  
+}  
+  
+interface IX {  
+    void foo(int a);  
+}
+```
+
+>Arayüzler birbirlerinden türetilebilirler. Bu işlem `extends` anahtar sözcüğü ile yapılır. Burada türetme (inheritance) terimi kullanıldığına, implementation terimi kullanılmadığına dikkat ediniz. Arayüzler arasında çoklu türetme (multiple inheritance) de geçerlidir. Türemiş arayüz içerisinde taban arayüzün tüm public elemanları da bulunur. Türemiş bir arayüzü destekleyen bir sınıf taban arayüzlerini de desteklemiş olur. Tabana arayüzlerin arayüz listesinde yazılması gerekmez, istenirse yazılabilir.
+
+```java
+class A implements IZ {  
+    public void zar()  
+    {  
+        //...  
+    }  
+  
+    public void foo()  
+    {  
+        //...  
+    }  
+  
+    public void bar()  
+    {  
+        //...  
+    }  
+  
+    public void tar()  
+    {  
+        //...  
+    }  
+}  
+  
+interface IT extends IX, IY, IZ {  
+    void zar();  
+}  
+  
+interface IZ {  
+    void tar();  
+}  
+  
+  
+interface IY {  
+    void bar();  
+}  
+  
+interface IX {  
+    void foo();  
+}
+```
+
+###### Arayüzler ile abstract Sınıflar Arasındaki Farklar
+
+>Bu farklar tipik olarak şunlardır:
+>
+>- Bir arayüz interface anahtar sözcüğü ile, abstract bir sınıf class anahtar sözcüğü ile bildirilir.
+>- Bir sınıf tek bir sınıftan türetilebilirken, istenilen sayıda arayüzü destekleyebilir.
+>- Bir arayüz içerisinde yalnızca private metotlar ve/veya public elemanlar olabilir, abstract sınıf içerisinde protected veya friendly elemanlar da olabilir
+>- Arayüzler arasında çok türetme geçerlidir, sınıflar arasında geçersizdir.
+>- Bir arayüzün non-static bir veri elemanı olamaz, abstract bir sınıfın olabilir.
+>- Bir arayüz nesne özelliği göstermez, abstract sınıf türünden bir nesne türemiş sınıf nesnesi içerisinde yaratılır. Bu durumda arayüzlerin ctor'u da olamaz.
+>- Bir arayüzün gövdesiz bir metodu abstract'dır, abstract bir sınıfın gövdesiz metodunun abstract anahtar sözcüğü ile bildirilmesi gerekir.
+>- Bir arayüzün non-static gövdeli bir metodu default anahtar sözcüğü ile bildirilmelidir, abstract bir sınıfın non-static gövdeli bir metodun doğrudan bildirilir. Bu durum Java 8+ için geçerlidir, Java 8 öncesinde bir arayüzün gövdeli bir metodu bildirilemez.
+>- Bir abstract sınıf içerisinde no-modifier bir eleman friendly anlamındadır, bir arayüz içeriinde public anlamındadır.
+>
+>Programcı soyut bir UDT için abstract sınıf mı yoksa arayüz mü yapacağına (abstraction) nasıl karar verecektir? Programcı bu durumda ilk olarak arayüz düşünmelidir. Eğer arayüze ilişkin sentaks ve semantik kurallar ilgili soyut tür için yetersiz kalıyorsa abstract sınıf olarak tasarlamalıdır. Yetersiz kalması tipik olarak nesne özelliği gösterip göstermemesi biçiminde düşünülebilir. Eğer, arayüz yapılabildiği durumda programcı ilgili UDT'yi abstract sınıf olarak soyutlarsa, hem okunabilirlik/algılanabilirlik olumsuz olarak etkilenir hem de o abstract sınıftan türeyen bir sınıf başka bir sınıftan türetilemez. Halbuki, arayüz yapılırsa, bir sınıftan türetilip, ilgili arayüzü de (hatta başka arayüzleri de) destekleyebilir (implements). Aynı zamanda bu basit yaklaşımı uygulamak abstract sınıfların okunabilirliğini/algılanabilirliğini artırır. Çünkü bu durumda abstract bir sınıf gören programcı genel olarak `"demek ki bu sınıf nesne özelliği gösteriyor aksi durumda arayüz olarak bildirilirdi"` şeklinde algılar.
+
+>Demo CompanyApp uygulamasında `Employee` sınıfı bir arayüz olamaz. Çünkü non-static veri elemanlarına sahip soyutlanmış bir UDT'dir. Sigortalı olabilme, yani belirli bir Id ve sigorta ücretine ilişkin soyutlama `IInsured` arayüzü ile gerçekleştirilmiştir. Employee sınıfının bu arayüzü implemente etmesi ile ondan türeyen sınıflar da `IInsured`anlaşmasına (contract) uymaktadır. Ayrıca demo uygulama içerisinde Employee sınıfı dışından `IInsured` anlaşmasına uyan sınıflar için `payInsurance`metodu çağrılabilir. Demo örneğin yeni UML sınıf şeması aşağıdaki gibidir.
+
+
+![DemoCompanyApp](./media/DemoCompanyApp-last.PNG)
+
+```java
+package org.csystem.app.company;  
+  
+import org.csystem.app.company.employee.Employee;  
+import org.csystem.app.company.employee.EmployeeFactory;  
+import org.csystem.app.company.hr.HumanResources;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+public class DemoApp {  
+    private static void run()  
+    {        HumanResources humanResources = new HumanResources();  
+        EmployeeFactory employeeFactory = new EmployeeFactory();  
+  
+        while (true) {  
+            Employee employee = employeeFactory.getEmployee();  
+  
+            humanResources.payInsurance(employee);  
+            ThreadUtil.sleep(1000);  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public interface IInsured {  
+    String getId();  
+    double calculateInsurancePayment();  
+}
+```
+
+```java
+package org.csystem.app.company.hr;  
+  
+import org.csystem.app.company.employee.IInsured;  
+import org.csystem.util.console.Console;  
+  
+public class HumanResources {  
+    //...  
+  
+    public void payInsurance(IInsured insured)  
+    {  
+        Console.writeLine("Citizen Id:%s", insured.getId());  
+        Console.writeLine("Insurance Payment%f", insured.calculateInsurancePayment());  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public abstract class Employee implements IInsured {  
+    private String m_citizenId;  
+    private String m_name;  
+    private String m_address;  
+  
+    protected Employee()  
+    {  
+        this("", "", "");  
+    }  
+  
+    protected Employee(String citizenId, String name, String address)  
+    {  
+        m_citizenId = citizenId;  
+        m_name = name;  
+        m_address = address;  
+    }  
+  
+    public String getId()  
+    {  
+        return m_citizenId;  
+    }  
+  
+    public void setId(String citizenId)  
+    {  
+        m_citizenId = citizenId;  
+    }  
+  
+    public String getName()  
+    {  
+        return m_name;  
+    }  
+  
+    public void setName(String name)  
+    {  
+        m_name = name;  
+    }  
+  
+    public String getAddress()  
+    {  
+        return m_address;  
+    }  
+  
+    public void setAddress(String address)  
+    {  
+        m_address = address;  
+    }  
+}
+```
+
+
+```java
+package org.csystem.app.company.employee;  
+  
+import java.util.Random;  
+  
+public class EmployeeFactory {  
+    private final Random m_random = new Random();  
+  
+    private static Manager getManager()  
+    {  
+        return new Manager("12345678912", "Ali Veli", "Mecidiyeköy", "Pazarlama", 300000);  
+    }  
+  
+    private static SalesManager getSalesManager()  
+    {  
+        return new SalesManager("12345678914", "Zeynep Ayşe", "Şişli", "Pazarlama", 300000, 100000);  
+    }  
+  
+    private static Worker getWorker()  
+    {  
+        return new Worker("12345678916", "Ahmet Veli", "Bahçelievler", 1000, 8);  
+    }  
+  
+    private static ProjectWorker getProjectWorker()  
+    {  
+        return new ProjectWorker("12345678918", "Banu Oya", "Beykoz", 1000, 8, "Haberleşme", 800);  
+    }  
+  
+    public Employee getEmployee()  
+    {  
+        return switch (m_random.nextInt(4)) {  
+            case 0 -> getManager();  
+            case 1 -> getSalesManager();  
+            case 2 -> getWorker();  
+            default -> getProjectWorker();  
+        };  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class Manager extends Employee {  
+    private String m_department;  
+    private double m_salary;  
+  
+    public Manager()  
+    {  
+        m_department = "";  
+    }  
+  
+    public Manager(String citizenId, String name, String address, String department, double salary)  
+    {  
+        super(citizenId, name, address);  
+        m_department = department;  
+        m_salary = salary;  
+    }  
+  
+    public String getDepartment()  
+    {  
+        return m_department;  
+    }  
+  
+    public void setDepartment(String department)  
+    {  
+        m_department = department;  
+    }  
+  
+    public double getSalary()  
+    {  
+        return m_salary;  
+    }  
+  
+    public void setSalary(double salary)  
+    {  
+        m_salary = salary;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return m_salary * 1.5;  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class ProjectWorker extends Worker {  
+    private String m_projectName;  
+    private double m_extraFee;  
+  
+    public ProjectWorker()  
+    {  
+        m_projectName = "";  
+    }  
+  
+    public ProjectWorker(String citizenId, String name, String address, double feePerHour, int hourPerDay, String projectName, double extraFee)  
+    {  
+        super(citizenId, name, address, feePerHour, hourPerDay);  
+        m_projectName = projectName;  
+        m_extraFee = extraFee;  
+    }  
+  
+    public String getProjectName()  
+    {  
+        return m_projectName;  
+    }  
+  
+    public void setProjectName(String projectName)  
+    {  
+        m_projectName = projectName;  
+    }  
+  
+    public double getExtraFee()  
+    {  
+        return m_extraFee;  
+    }  
+  
+    public void setExtraFee(double extraFee)  
+    {  
+        m_extraFee = extraFee;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return super.calculateInsurancePayment() + m_extraFee * getFeePerHour();  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class SalesManager extends Manager {  
+    private double m_extra;  
+  
+    public SalesManager()  
+    {  
+    }  
+  
+    public SalesManager(String citizenId, String name, String address, String department, double salary, double extra)  
+    {  
+        super(citizenId, name, address, department, salary);  
+        m_extra = extra;  
+    }  
+  
+    public double getExtra()  
+    {  
+        return m_extra;  
+    }  
+  
+    public void setExtra(double extra)  
+    {  
+        m_extra = extra;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return super.calculateInsurancePayment() + m_extra;  
+    }  
+}
+```
+
+```java
+package org.csystem.app.company.employee;  
+  
+public class Worker extends Employee {  
+    private double m_feePerHour;  
+    private int m_hourPerDay;  
+  
+    public Worker()  
+    {  
+    }  
+  
+    public Worker(String citizenId, String name, String address, double feePerHour, int hourPerDay)  
+    {  
+        super(citizenId, name, address);  
+        m_feePerHour = feePerHour;  
+        m_hourPerDay = hourPerDay;  
+    }  
+  
+    public double getFeePerHour()  
+    {  
+        return m_feePerHour;  
+    }  
+  
+    public void setFeePerHour(double feePerHour)  
+    {  
+        m_feePerHour = feePerHour;  
+    }  
+  
+    public int getHourPerDay()  
+    {  
+        return m_hourPerDay;  
+    }  
+  
+    public void setHourPerDay(int hourPerDay)  
+    {  
+        m_hourPerDay = hourPerDay;  
+    }  
+  
+    public double calculateInsurancePayment()  
+    {  
+        return m_feePerHour * m_hourPerDay * 30;  
+    }  
+}
+```
+
+###### Önemli Bazı Standart Arayüzler
+
+>Bu bölümde JavaSE'de önemli bazı arayüzler ele alınacaktır.
+
+>**CharSequence Arayüzü:** Bu arayüz karakterlerin dizilimine ilişkin (sequence of characters) bir soyutlama yani anlaşma sunar. Bu arayüz ile dizilmiş olan karakterler için okuma (read)  işlemlerine ilişkin abstract ve default metotlar bulunur. Karakterler ile işlem yapan sınıflar bu arayüzü bir anlaşma olarak implemente ederler. String ve StringBuilder sınıfları da bu arayüzü implemente etmektedir. JavaSE'de ve geliştime ortamlarına ilişkin pek çok metot arayüzü parametre değişkeni olarak ve geri dönüş değeri olarak kullanmaktadır. Bu arayüzün `length, charAt` gibi önemli abstract metotları vardır. Java8 sonra yararlı default ve static metotlar eklenmiştir. 
+
+>**RandomGenerator Arayüzü:** Java 17 ile birlikte rassal sayılara ilişkin üretim algoritmalarını soyutlayan arayüzdür. Bu arayüz ile birlikte  farklı rassal sayı üretim algoritmalarıda JavaSE'de desteklenmiştir. `java.util.Random` sınıfı ve daha öncesinde var olan diğer rassal sayı üreten sınıflar Java 17 ile birlikte bu arayüzü destekler duruma gelmiştir. Bu durumda Random sınıfına ve diğer eski sınıflara pek metot da dolaylı olarak eklemmiştir. RandomGenerator arayüzünün bir tane abstract metodu vardır:
+
+```java
+long nextLong();
+```
+
+>Diğer tüm metotları default olarak bildirilmiştir. Sınıfın ayrıca static metotları bulunur. Örneğin `of` factory metodu ile rassal sayı üretim algoritması ismi verilerek referans elde edilebilir. Bu arayüz ile birlikte Java'da rassal sayı üretimi soyutlanmış dolayısıyla daha genel duruma getirilmiştir. 
+
+>Aşağıdaki demo örnekte Random parametreli metotları RandomGenerator parametreli hale getirilerek genelleştirilmiş StringUtil sınıfı kullanılmıştır. Örnekte `Xoshiro256PlusPlus` rassal dayı üretimi algoritması kullanan nesne ile de ilgili metotların çağrılabildiğine dikkat ediniz. Rassal sayı üretim algoritmalarının detayları şu aşamada önemsizidir, yalnızca RandomGenerator arayüzüne ve kullanımına odaklanınız
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+import java.util.random.RandomGenerator;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        RandomGenerator randomGenerator = RandomGenerator.of("Xoshiro256PlusPlus");  
+        Random random = new Random();  
+  
+        for (int i = 0; i < 10; ++i)  
+            Console.writeLine(StringUtil.randomTextEN(randomGenerator, randomGenerator.nextInt(5, 15)));  
+  
+        Console.writeLine("-----------------------------------------------------");  
+          
+        for (int i = 0; i < 10; ++i)  
+            Console.writeLine(StringUtil.randomTextEN(random, random.nextInt(5, 15)));  
+  
+    }  
+}
+```
+
+>StringUtil sınıfı
+```java
+package org.csystem.util.string;  
+  
+import java.util.ArrayList;  
+import java.util.random.RandomGenerator;  
+  
+public final class StringUtil {  
+    private static final String LETTERS_TR;  
+    private static final String LETTERS_EN;  
+    private static final String CAPITAL_LETTERS_TR;  
+    private static final String CAPITAL_LETTERS_EN;  
+    private static final String ALL_LETTERS_TR;  
+    private static final String ALL_LETTERS_EN;  
+  
+    static {  
+        LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";  
+        LETTERS_EN = "abcdefghijklmnopqrstuvwxyz";  
+        CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";  
+        CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUVWXYZ";  
+        ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;  
+        ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;  
+    }  
+  
+    private StringUtil()  
+    {  
+    }  
+  
+    public static String capitalize(String s)  
+    {  
+        return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();  
+    }  
+  
+    public static String changeCase(String s)  
+    {  
+        StringBuilder sb = new StringBuilder(s);  
+  
+        for (int i = 0; i < sb.length(); ++i) {  
+            char c = sb.charAt(i);  
+  
+            sb.setCharAt(i, Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static int countString(String s1, String s2)  
+    {  
+        int count = 0;  
+  
+        for (int i = -1; (i = s1.indexOf(s2, i + 1)) != -1; ++count)  
+            ;  
+  
+        return count;  
+    }  
+  
+    public static String digits(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isDigit(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static boolean isPalindrome(String s)  
+    {  
+        int left = 0;  
+        int right = s.length() - 1;  
+  
+        while (left < right) {  
+            char cLeft = s.charAt(left);  
+  
+            if (!Character.isLetter(cLeft)) {  
+                ++left;  
+                continue;  
+            }  
+  
+            char cRight = s.charAt(right);  
+  
+            if (!Character.isLetter(cRight)) {  
+                --right;  
+                continue;  
+            }  
+  
+            if (Character.toLowerCase(cLeft) != Character.toLowerCase(cRight))  
+                return false;  
+  
+            ++left;  
+            --right;  
+        }  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangram(String s, String alphabet)  
+    {  
+        for (int i = 0; i < alphabet.length(); ++i)  
+            if (s.indexOf(alphabet.charAt(i)) == -1)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangramEN(String s)  
+    {  
+        return isPangram(s.toLowerCase(), LETTERS_EN);  
+    }  
+  
+    public static boolean isPangramTR(String s)  
+    {  
+        return isPangram(s.toLowerCase(), LETTERS_TR);  
+    }  
+  
+    public static String join(String [] s)  
+    {  
+        return join(s, "");  
+    }  
+  
+    public static String join(String [] s, char delimiter)  
+    {  
+        return join(s, String.valueOf(delimiter));  
+    }  
+  
+    public static String join(String [] str, String delimiter)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str)  
+            sb.append(s).append(delimiter);  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, boolean ignoreEmpties)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreEmpties);  
+    }  
+  
+    public static String join(String [] str, String delimiter, boolean ignoreEmpties)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str) {  
+            if (ignoreEmpties) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, int ignoreStatus)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreStatus);  
+    }  
+  
+    public static String join(String [] str, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str) {  
+            if (ignoreStatus == 1) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s.isBlank())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(ArrayList strList, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (Object o : strList) {  
+            String s = (String)o;  
+            if (ignoreStatus == 1) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s.isBlank())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String letters(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isLetter(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static String padLeading(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? String.valueOf(ch).repeat(n - len) + s : s;  
+    }  
+  
+    public static String padLeading(String s, int n)  
+    {  
+        return padLeading(s, n, ' ');  
+    }  
+  
+    public static String padTrailing(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? s + String.valueOf(ch).repeat(n - len) : s;  
+    }  
+  
+    public static String padTrailing(String s, int n)  
+    {  
+        return padTrailing(s, n, ' ');  
+    }  
+  
+    public static String randomText(RandomGenerator randomGenerator, int count, String sourceText)  
+    {  
+        StringBuilder sb = new StringBuilder(count);  
+  
+        for (int i = 0; i < count; ++i)  
+            sb.append(sourceText.charAt(randomGenerator.nextInt(sourceText.length())));  
+  
+        return sb.toString();  
+    }  
+  
+    public static String randomTextTR(RandomGenerator randomGenerator, int count)  
+    {  
+        return randomText(randomGenerator, count, ALL_LETTERS_TR);  
+    }  
+  
+    public static String randomTextEN(RandomGenerator randomGenerator, int count)  
+    {  
+        return randomText(randomGenerator, count, ALL_LETTERS_EN);  
+    }  
+  
+    public static String [] randomTexts(RandomGenerator randomGenerator, int count, int min, int bound, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(randomGenerator, randomGenerator.nextInt(min, bound), sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(RandomGenerator randomGenerator, int count, int min, int bound)  
+    {  
+        return randomTexts(randomGenerator, count, min, bound, ALL_LETTERS_TR);  
+    }  
+  
+    public static String [] randomTextsEN(RandomGenerator randomGenerator, int count, int min, int bound)  
+    {  
+        return randomTexts(randomGenerator, count, min, bound, ALL_LETTERS_EN);  
+    }  
+  
+    public static String [] randomTexts(RandomGenerator randomGenerator, int count, int n, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(randomGenerator, n, sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(RandomGenerator randomGenerator, int count, int n)  
+    {  
+        return randomTexts(randomGenerator, count, n, ALL_LETTERS_TR);  
+    }  
+  
+    public static String [] randomTextsEN(RandomGenerator randomGenerator, int count, int n)  
+    {  
+        return randomTexts(randomGenerator, count, n, ALL_LETTERS_EN);  
+    }  
+  
+    public static String reverse(String s)  
+    {  
+        return new StringBuilder(s).reverse().toString();  
+    }  
+  
+    public static String [] split(String s, String delimiters)  
+    {  
+        return split(s, delimiters, false);  
+    }  
+  
+    public static String [] split(String s, String delimiters, boolean removeEmpties)  
+    {  
+        StringBuilder sbRegex = new StringBuilder("[");  
+  
+        for (int i = 0; i < delimiters.length(); ++i) {  
+            char c = delimiters.charAt(i);  
+  
+            if (c == ']' || c == '[')  
+                sbRegex.append('\\');  
+  
+            sbRegex.append(c);  
+        }  
+  
+        sbRegex.append(']');  
+  
+        if (removeEmpties)  
+            sbRegex.append('+');  
+  
+        return s.split(sbRegex.toString());  
+    }  
+  
+    public static String trim(String s)  
+    {  
+        return trimLeading(trimTrailing(s));  
+    }  
+  
+    public static String trimLeading(String s)  
+    {  
+        int i = 0;  
+  
+        for (; i < s.length() && Character.isWhitespace(s.charAt(i)); ++i)  
+            ;  
+  
+        return s.substring(i);  
+    }  
+  
+    public static String trimTrailing(String s)  
+    {  
+        int i = s.length() - 1;  
+  
+        for (; i >= 0 && Character.isWhitespace(s.charAt(i)); --i)  
+            ;  
+  
+        return s.substring(0, i + 1);  
+    }  
+}
+```
+
+>ArrayUtil sınıfı
+
+```java
+package org.csystem.util.array;  
+  
+  
+import java.util.random.RandomGenerator;  
+  
+public final class ArrayUtil {  
+    private ArrayUtil()  
+    {  
+    }  
+  
+    private static void bubbleSortAscending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k + 1] < a[k])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    private static void bubbleSortDescending(int [] a)  
+    {  
+        for (int i = 0; i < a.length - 1; ++i)  
+            for (int k = 0; k < a.length - 1 - i; ++k)  
+                if (a[k] < a[k + 1])  
+                    swap(a, k, k + 1);  
+    }  
+  
+    private static void selectionSortAscending(int [] a)  
+    {  
+        int min, minIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            min = a[i];  
+            minIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (a[k] < min) {  
+                    min = a[k];  
+                    minIndex = k;  
+                }  
+  
+            a[minIndex] = a[i];  
+            a[i] = min;  
+        }  
+    }  
+  
+    private static void selectionSortDescending(int [] a)  
+    {  
+        int max, maxIndex;  
+  
+        for (int i = 0; i < a.length - 1; ++i) {  
+            max = a[i];  
+            maxIndex = i;  
+  
+            for (int k = i + 1; k < a.length; ++k)  
+                if (max < a[k]) {  
+                    max = a[k];  
+                    maxIndex = k;  
+                }  
+  
+            a[maxIndex] = a[i];  
+            a[i] = max;  
+        }  
+    }  
+  
+    public static void add(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] += val;  
+    }  
+  
+    public static void addBy(int [][] a, int value)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] += value;  
+    }  
+  
+    public static double average(int [] a)  
+    {  
+        return (double) sum(a) / a.length;  
+    }  
+  
+    public static void bubbleSort(int [] a)  
+    {  
+        bubbleSort(a, false);  
+    }  
+  
+  
+    public static void bubbleSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            bubbleSortDescending(a);  
+        else  
+            bubbleSortAscending(a);  
+    }  
+  
+    public static boolean equals(int [] a, int [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (a[i] != b[i])  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equals(int [][] a, int [][] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        int len = a.length;  
+  
+        for (int i = 0; i < len; ++i)  
+            if (!equals(a[i], b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equals(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equals(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean equalsIgnoreCase(String [] a, String [] b)  
+    {  
+        if (a.length != b.length)  
+            return false;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            if (!a[i].equalsIgnoreCase(b[i]))  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static void fillRandomArray(int [][] a, RandomGenerator randomGenerator, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] = randomGenerator.nextInt(min, bound);  
+    }  
+  
+    public static void fillRandomArray(int [] a, RandomGenerator randomGenerator, int min, int bound)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] = randomGenerator.nextInt(min, bound);  
+    }  
+  
+    public static int [] randomArray(RandomGenerator randomGenerator, int count, int min, int bound)  
+    {  
+        int [] a = new int[count];  
+  
+        fillRandomArray(a, randomGenerator, min, bound);  
+  
+        return a;  
+    }  
+  
+    public static int [] histogramData(int [] a, int n)  
+    {  
+        int [] counts = new int[n + 1];  
+  
+        for (int val : a)  
+            ++counts[val];  
+  
+        return counts;  
+    }  
+  
+    public static int max(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.max(result, a[i]);  
+  
+        return result;  
+    }  
+  
+    public static int min(int [] a)  
+    {  
+        int result = a[0];  
+  
+        for (int i = 1; i < a.length; ++i)  
+            result = Math.min(result, a[i]);  
+  
+        return result;  
+    }  
+    public static void multiply(int [] a, int val)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            a[i] *= val;  
+    }  
+  
+    public static void multiplyBy(int [][] a, int value)  
+    {  
+        for (int i = 0; i < a.length; ++i)  
+            for (int j = 0; j < a[i].length; ++j)  
+                a[i][j] *= value;  
+    }  
+  
+    public static int partition(int [] a, int threshold)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] < threshold)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] < threshold)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static int partitionByEven(int [] a)  
+    {  
+        int pi = 0;  
+  
+        while (pi != a.length && a[pi] % 2 == 0)  
+            ++pi;  
+  
+        if (pi == a.length)  
+            return pi;  
+  
+        for (int i = pi + 1; i < a.length; ++i)  
+            if (a[i] % 2 == 0)  
+                swap(a, i, pi++);  
+  
+        return pi;  
+    }  
+  
+    public static void print(int [] a, int n, String sep, String end)  
+    {  
+        String fmt = "%%0%dd%%s".formatted(n);  
+        for (int i = 0; i < a.length - 1; ++i)  
+            System.out.printf(fmt, a[i], sep);  
+  
+        System.out.printf(fmt, a[a.length - 1], end);  
+    }  
+  
+    public static void print(int [] a, String sep, String end)  
+    {  
+        print(a, 1, sep, end);  
+    }  
+  
+    public static void print(int [] a)  
+    {  
+        print(a, " ", "\n");  
+    }  
+    public static void print(int [] a, int n)  
+    {  
+        print(a, n, " ", "\n");  
+    }  
+  
+  
+    public static void print(int [][] a, int n)  
+    {  
+        for (int [] array : a)  
+            print(array, n);  
+    }  
+  
+    public static void print(int [][] a)  
+    {  
+        print(a, 1);  
+    }  
+  
+    public static void reverse(int [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static void reverse(char [] a)  
+    {  
+        int first = 0;  
+        int last = a.length - 1;  
+  
+        while (first < last)  
+            swap(a, first++, last--);  
+    }  
+  
+    public static int [] reversed(int [] a)  
+    {  
+        int [] result = new int[a.length];  
+        int len = a.length;  
+  
+        for (int i = len - 1; i >= 0; --i)  
+            result[len - 1 - i] = a[i];  
+  
+        return result;  
+    }  
+  
+    public static void selectionSort(int [] a)  
+    {  
+        selectionSort(a, false);  
+    }  
+  
+  
+    public static void selectionSort(int [] a, boolean descending)  
+    {  
+        if (descending)  
+            selectionSortDescending(a);  
+        else  
+            selectionSortAscending(a);  
+    }  
+  
+    public static void subtract(int [] a, int val)  
+    {  
+        add(a, -val);  
+    }  
+  
+    public static void subtractBy(int [][] a, int value)  
+    {  
+        addBy(a, -value);  
+    }  
+  
+    public static long sum(int [] a)  
+    {  
+        long total = 0;  
+  
+        for (int val : a)  
+            total += val;  
+  
+        return total;  
+    }  
+  
+    public static void swap(int [] a, int i, int k)  
+    {  
+        int temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+  
+    public static void swap(char [] a, int i, int k)  
+    {  
+        char temp = a[i];  
+  
+        a[i] = a[k];  
+        a[k] = temp;  
+    }  
+}
+```
+
+>MatrixUtil sınıfı
+
+
+```java
+package org.csystem.util.matrix;  
+  
+import org.csystem.util.array.ArrayUtil;  
+  
+import java.util.random.RandomGenerator;  
+  
+public final class MatrixUtil {  
+    private MatrixUtil()  
+    {  
+    }  
+  
+    public static int [][] add(int [][] a, int [][] b)  
+    {  
+        int row = a.length;  
+        int col = a[0].length;  
+  
+        int [][] r = new int[row][col];  
+  
+        for (int i = 0; i < row; ++i)  
+            for (int j = 0; j < col; ++j)  
+                r[i][j] = a[i][j] + b[i][j];  
+  
+        return r;  
+    }  
+  
+    public static void addBy(int [][] a, int value)  
+    {  
+        ArrayUtil.addBy(a, value);  
+    }  
+  
+    public static boolean equals(int [][] a, int [][] b)  
+    {  
+        return isMatrix(a) && isMatrix(b) && ArrayUtil.equals(a, b);  
+    }  
+  
+    public static void fillRandomMatrix(int [][] a, RandomGenerator randomGenerator, int min, int bound)  
+    {  
+        ArrayUtil.fillRandomArray(a, randomGenerator, min, bound);  
+    }  
+  
+    public static boolean isMatrix(int [][] a)  
+    {  
+        for (int i = 1; i < a.length; ++i)  
+            if (a[i].length != a[0].length)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isSquareMatrix(int [][] a)  
+    {  
+        return isMatrix(a) && a[0].length == a.length;  
+    }  
+  
+    public static int [][] multiply(int [][] a, int [][] b)  
+    {  
+        int m = a.length;  
+        int n = a[0].length;  
+        int p = b[0].length;  
+        int [][] r = new int[m][p];  
+  
+        for (int i = 0; i < m; ++i)  
+            for (int j = 0; j < n; ++j)  
+                for (int k = 0; k < p; ++k)  
+                    r[i][k] += a[i][j] * b[j][k];  
+  
+        return r;  
+    }  
+  
+    public static void multiplyBy(int [][] a, int value)  
+    {  
+        ArrayUtil.multiplyBy(a, value);  
+    }  
+  
+    public static int [][] randomMatrix(RandomGenerator randomGenerator, int m, int n, int min, int bound)  
+    {  
+        int [][] a = new int[m][n];  
+  
+        fillRandomMatrix(a, randomGenerator, min, bound);  
+  
+        return a;  
+    }  
+  
+    public static int [][] subtract(int [][] a, int [][] b)  
+    {  
+        int row = a.length;  
+        int col = a[0].length;  
+  
+        int [][] r = new int[row][col];  
+  
+        for (int i = 0; i < row; ++i)  
+            for (int j = 0; j < col; ++j)  
+                r[i][j] = a[i][j] - b[i][j];  
+  
+        return r;  
+    }  
+  
+    public static void subtractBy(int [][] a, int value)  
+    {  
+        addBy(a, -value);  
+    }  
+  
+    public static long sumDiagonal(int [][] a)  
+    {  
+        long total = 0;  
+  
+        for (int i = 0; i < a.length; ++i)  
+            total += a[i][i];  
+  
+        return total;  
+    }  
+  
+    public static int [][] transpose(int [][] a)  
+    {  
+        int row = a.length;  
+        int col = a[0].length;  
+        int [][] t = new int[col][row];  
+  
+        for (int i = 0; i < row; ++i)  
+            for (int j = 0; j < col; ++j)  
+                t[j][i] = a[i][j];  
+  
+        return t;  
+    }  
+}
+```
+
+>MathUtil sınıfı
+
+```java
+package org.csystem.math.util;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+  
+import java.util.random.RandomGenerator;  
+  
+public final class MathUtil {  
+    private MathUtil()  
+    {  
+    }  
+  
+    public static Point createRandomPoint(RandomGenerator randomGenerator, int origin, int bound)  
+    {  
+        return Point.createCartesian(randomGenerator.nextInt(origin, bound), randomGenerator.nextInt(origin, bound));  
+    }  
+  
+    public static Point createRandomPoint(RandomGenerator randomGenerator, double origin, double bound)  
+    {  
+        return Point.createCartesian(randomGenerator.nextDouble(origin, bound), randomGenerator.nextDouble(origin, bound));  
+    }  
+  
+    public static Point[] createRandomPoints(RandomGenerator randomGenerator, int count, int origin, int bound)  
+    {  
+        Point [] points = new Point[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            points[i] = createRandomPoint(randomGenerator, origin, bound);  
+  
+        return points;  
+    }  
+  
+    public static Point[] createRandomPoints(RandomGenerator randomGenerator, int count, double origin, double bound)  
+    {  
+        Point [] points = new Point[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            points[i] = createRandomPoint(randomGenerator, origin, bound);  
+  
+        return points;  
+    }  
+  
+    public static Complex createRandomComplex(RandomGenerator randomGenerator, double origin, double bound)  
+    {  
+        return new Complex(randomGenerator.nextDouble(origin, bound), randomGenerator.nextDouble(origin, bound));  
+    }  
+  
+    public static Complex[] createRandomComplexNumbers(RandomGenerator randomGenerator, int count, double origin, double bound)  
+    {  
+        Complex [] numbers = new Complex[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            numbers[i] = createRandomComplex(randomGenerator, origin, bound);  
+  
+        return numbers;  
+    }  
+}
+```
+
+>**Closable ve AutoClosable Arayüzleri:** 

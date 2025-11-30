@@ -1,11 +1,11 @@
 /**
  * Mutable class for some string operations
- * Last Update: 12th October 2025
+ * Last Update: 30th November 2025
  * @author Java-Sep-2024 Group
  */
 package org.csystem.string;
 
-public class CSDStringBuilder {
+public class CSDStringBuilder  implements CharSequence {
     public CSDStringBuilder()
     {
         throw new UnsupportedOperationException("TODO");
@@ -134,5 +134,10 @@ public class CSDStringBuilder {
     public String toString()
     {
         throw new UnsupportedOperationException("TODO");
+    }
+
+    public CharSequence subSequence(int start, int end)
+    {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

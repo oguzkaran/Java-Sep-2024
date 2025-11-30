@@ -7,6 +7,7 @@ import org.csystem.random.generator.ObjectArrayGenerator;
 import org.csystem.util.console.Console;
 
 import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class DemoObjectArrayGeneratorApp {
     public  static void run()
@@ -28,7 +29,7 @@ public class DemoObjectArrayGeneratorApp {
                 case Character c -> {char ch = c; Console.writeLine("ch = %c, lower: %c", ch, Character.toLowerCase(ch));}
                 case Double d -> {double a = d; Console.writeLine("%f + %f = %f", a, a, a + a);}
                 case Boolean b -> {boolean flag = b; Console.writeLine("flag = %b, !flag = %b", flag, !flag);}
-                default -> {Random random = (Random) o; Console.writeLine("Random number:%d", random.nextInt()); }
+                default -> {RandomGenerator orandomGenerator = (Random) o; Console.writeLine("Random number:%d", orandomGenerator.nextInt()); }
             }
 
             Console.writeLine("----------------------------------------------------");

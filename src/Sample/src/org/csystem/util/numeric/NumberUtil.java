@@ -12,7 +12,6 @@ public final class NumberUtil {
     private static final String [] ONES_EN;
     private static final String [] TENS_EN;
 
-
     static {
         ONES_TR = new String[]{"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
         TENS_TR = new String[]{"", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan"};

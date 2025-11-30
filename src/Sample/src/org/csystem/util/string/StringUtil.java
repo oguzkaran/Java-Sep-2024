@@ -1,11 +1,11 @@
 package org.csystem.util.string;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * Utility class for string operations
- * Last Update: 8th November 2025
+ * Last Update: 30th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class StringUtil {
@@ -245,64 +245,64 @@ public final class StringUtil {
         return padTrailing(s, n, ' ');
     }
 
-    public static String randomText(Random random, int count, String sourceText)
+    public static String randomText(RandomGenerator randomGenerator, int count, String sourceText)
     {
         StringBuilder sb = new StringBuilder(count);
 
         for (int i = 0; i < count; ++i)
-            sb.append(sourceText.charAt(random.nextInt(sourceText.length())));
+            sb.append(sourceText.charAt(randomGenerator.nextInt(sourceText.length())));
 
         return sb.toString();
     }
 
-    public static String randomTextTR(Random random, int count)
+    public static String randomTextTR(RandomGenerator randomGenerator, int count)
     {
-        return randomText(random, count, ALL_LETTERS_TR);
+        return randomText(randomGenerator, count, ALL_LETTERS_TR);
     }
 
-    public static String randomTextEN(Random random, int count)
+    public static String randomTextEN(RandomGenerator randomGenerator, int count)
     {
-        return randomText(random, count, ALL_LETTERS_EN);
+        return randomText(randomGenerator, count, ALL_LETTERS_EN);
     }
 
-    public static String [] randomTexts(Random random, int count, int min, int bound, String sourceText)
+    public static String [] randomTexts(RandomGenerator randomGenerator, int count, int min, int bound, String sourceText)
     {
         String [] texts = new String[count];
 
         for (int i = 0; i < count; ++i)
-            texts[i] = randomText(random, random.nextInt(min, bound), sourceText);
+            texts[i] = randomText(randomGenerator, randomGenerator.nextInt(min, bound), sourceText);
 
         return texts;
     }
 
-    public static String [] randomTextsTR(Random random, int count, int min, int bound)
+    public static String [] randomTextsTR(RandomGenerator randomGenerator, int count, int min, int bound)
     {
-        return randomTexts(random, count, min, bound, ALL_LETTERS_TR);
+        return randomTexts(randomGenerator, count, min, bound, ALL_LETTERS_TR);
     }
 
-    public static String [] randomTextsEN(Random random, int count, int min, int bound)
+    public static String [] randomTextsEN(RandomGenerator randomGenerator, int count, int min, int bound)
     {
-        return randomTexts(random, count, min, bound, ALL_LETTERS_EN);
+        return randomTexts(randomGenerator, count, min, bound, ALL_LETTERS_EN);
     }
 
-    public static String [] randomTexts(Random random, int count, int n, String sourceText)
+    public static String [] randomTexts(RandomGenerator randomGenerator, int count, int n, String sourceText)
     {
         String [] texts = new String[count];
 
         for (int i = 0; i < count; ++i)
-            texts[i] = randomText(random, n, sourceText);
+            texts[i] = randomText(randomGenerator, n, sourceText);
 
         return texts;
     }
 
-    public static String [] randomTextsTR(Random random, int count, int n)
+    public static String [] randomTextsTR(RandomGenerator randomGenerator, int count, int n)
     {
-        return randomTexts(random, count, n, ALL_LETTERS_TR);
+        return randomTexts(randomGenerator, count, n, ALL_LETTERS_TR);
     }
 
-    public static String [] randomTextsEN(Random random, int count, int n)
+    public static String [] randomTextsEN(RandomGenerator randomGenerator, int count, int n)
     {
-        return randomTexts(random, count, n, ALL_LETTERS_EN);
+        return randomTexts(randomGenerator, count, n, ALL_LETTERS_EN);
     }
 
     public static String reverse(String s)

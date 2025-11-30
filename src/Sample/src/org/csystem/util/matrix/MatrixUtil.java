@@ -2,11 +2,11 @@ package org.csystem.util.matrix;
 
 import org.csystem.util.array.ArrayUtil;
 
-import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * Utility class for matrix operations
- * Last Update: 7th September 2025
+ * Last Update: 30th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class MatrixUtil {
@@ -38,9 +38,9 @@ public final class MatrixUtil {
         return isMatrix(a) && isMatrix(b) && ArrayUtil.equals(a, b);
     }
 
-    public static void fillRandomMatrix(int [][] a, Random random, int min, int bound)
+    public static void fillRandomMatrix(int [][] a, RandomGenerator randomGenerator, int min, int bound)
     {
-        ArrayUtil.fillRandomArray(a, random, min, bound);
+        ArrayUtil.fillRandomArray(a, randomGenerator, min, bound);
     }
 
     public static boolean isMatrix(int [][] a)
@@ -77,11 +77,11 @@ public final class MatrixUtil {
         ArrayUtil.multiplyBy(a, value);
     }
 
-    public static int [][] randomMatrix(Random random, int m, int n, int min, int bound)
+    public static int [][] randomMatrix(RandomGenerator randomGenerator, int m, int n, int min, int bound)
     {
         int [][] a = new int[m][n];
 
-        fillRandomMatrix(a, random, min, bound);
+        fillRandomMatrix(a, randomGenerator, min, bound);
 
         return a;
     }

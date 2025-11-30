@@ -1,6 +1,6 @@
 package org.csystem.app.company.employee;
 
-public abstract class Employee {
+public abstract class Employee implements IInsured {
     private String m_citizenId;
     private String m_name;
     private String m_address;
@@ -17,12 +17,12 @@ public abstract class Employee {
         m_address = address;
     }
 
-    public String getCitizenId()
+    public String getId()
     {
         return m_citizenId;
     }
 
-    public void setCitizenId(String citizenId)
+    public void setId(String citizenId)
     {
         m_citizenId = citizenId;
     }
@@ -46,6 +46,4 @@ public abstract class Employee {
     {
         m_address = address;
     }
-
-    public abstract double calculateInsurancePayment();
 }

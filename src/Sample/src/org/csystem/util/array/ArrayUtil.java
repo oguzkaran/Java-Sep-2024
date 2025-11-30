@@ -1,10 +1,11 @@
 package org.csystem.util.array;
 
-import java.util.Random;
+
+import java.util.random.RandomGenerator;
 
 /**
  * Utility class for array operations
- * Last Update: 7th September 2025
+ * Last Update: 30th November 2025
  * @author Java-Sep-2024 Group
  */
 public final class ArrayUtil {
@@ -148,24 +149,24 @@ public final class ArrayUtil {
         return true;
     }
 
-    public static void fillRandomArray(int [][] a, Random random, int min, int bound)
+    public static void fillRandomArray(int [][] a, RandomGenerator randomGenerator, int min, int bound)
     {
         for (int i = 0; i < a.length; ++i)
             for (int j = 0; j < a[i].length; ++j)
-                a[i][j] = random.nextInt(min, bound);
+                a[i][j] = randomGenerator.nextInt(min, bound);
     }
 
-    public static void fillRandomArray(int [] a, Random random, int min, int bound)
+    public static void fillRandomArray(int [] a, RandomGenerator randomGenerator, int min, int bound)
     {
         for (int i = 0; i < a.length; ++i)
-            a[i] = random.nextInt(min, bound);
+            a[i] = randomGenerator.nextInt(min, bound);
     }
 
-    public static int [] randomArray(Random random, int count, int min, int bound)
+    public static int [] randomArray(RandomGenerator randomGenerator, int count, int min, int bound)
     {
         int [] a = new int[count];
 
-        fillRandomArray(a, random, min, bound);
+        fillRandomArray(a, randomGenerator, min, bound);
 
         return a;
     }

@@ -2,14 +2,14 @@ package org.csystem.random.generator;
 
 import org.csystem.util.string.StringUtil;
 
-import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class RandomStringArrayGenerator {
     private final String [] m_texts;
 
-    public RandomStringArrayGenerator(Random random, int count, int origin, int bound)
+    public RandomStringArrayGenerator(RandomGenerator randomGenerator, int count, int origin, int bound)
     {
-        m_texts = StringUtil.randomTextsEN(random, count, origin, bound);
+        m_texts = StringUtil.randomTextsEN(randomGenerator, count, origin, bound);
     }
 
     public int count()
