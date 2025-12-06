@@ -28361,12 +28361,12 @@ class A {
 
 >Türetme ilişkisinde nesnesel kapsama söz konusudur. Bu ilişkide türemiş sınıf nesnesi içerisinde taban sınıf nesnesi kadarlık bir bölüm de bulunur. Yani türemiş sınıf nesnesi yaratıldığında nesnesel olarak kapsadığı taban sınıf nesnesi de yaratılmış olur. Bu anlamda bakıldığında türemiş sınıf, eklenmiş veri elemanları ile aslında taban sınıfının genişletilmişi (extension) olur. Bu durumda türemiş sınıf nesnesinin uzunluğu **en az, taban sınıf nesnesinin uzunluğu + türemiş sınıfa eklenen non-static veri elemanlarının toplam uzunluğu kadardır.** Aslında türemiş sınıfa eklenen non-static veri elemanları ile nesne genişletilmiş (extension) olur. Yukarıdaki demo örneğin sınıf şeması detaylar gözardı edildiğinde şu şekildedir:
 
-![inheritance3](./media/inheritance3.PNG)
+![inheritance3](./media/inheritance-data-members.png)
 
 >Yukarıdaki demo örnekte sınıflara ilişkin nesnelerin bellekteki yerleşimleri aşağıdaki biçimde gösterilebilir:
 
 
-![InheritanceMemory](./media/inheritanceMemory.PNG)
+![InheritanceMemory](./media/InheritanceMemory.PNG)
 >Burada türemiş sınıfa eklenen veri elemanlarının düşük numaralı adreste veya yüksek numaralı adrese yerleştirilmesinin bir standardı yoktur, Java programcısı açısından önemi de yoktur.
 
 ###### 31 Ağustos 2025
