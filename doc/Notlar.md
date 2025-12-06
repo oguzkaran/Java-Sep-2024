@@ -28366,7 +28366,7 @@ class A {
 >Yukarıdaki demo örnekte sınıflara ilişkin nesnelerin bellekteki yerleşimleri aşağıdaki biçimde gösterilebilir:
 
 
-![Inheritance Memory](./media/inheritancememory.PNG)
+![InheritanceMemory](./media/inheritanceMemory.PNG)
 >Burada türemiş sınıfa eklenen veri elemanlarının düşük numaralı adreste veya yüksek numaralı adrese yerleştirilmesinin bir standardı yoktur, Java programcısı açısından önemi de yoktur.
 
 ###### 31 Ağustos 2025
