@@ -10671,7 +10671,7 @@ a = 0x000A; //10
 
 >Çalıştırılabilen (executable) bir dosya diskte bulunur. Çalıştırılmak istendiğinde diskten alınarak RAM'e yüklenir. Programın çalışması bittiğinde program RAM'den boşaltılır. 
 
->Anımsanacağı gibi bir değişkenin bellekte yaratılmasıyla (yani o değişken için bellekte yer ayrılması ile) yok edilmesi (yani değişkenin bellekten atılması) arasındaki süreye **ömür (storage duration)** denilmektedir. Peki, bir değişken için ayrılan bellek bölgesi neresidir? Bir Java uygulaması çalıştırıldığında, o uygulama için tipik olarak iki tane bellek alanı ayrılır: **stack alanı ya da kısaca stack**, **heap alanı ya da kısaca heap**. Aslında başka bellek alanları da ayrılır. Stack ve heap, genel olarak Java seviyesinde ayrılan tipik alanlar olarak düşünülebilir. Stack ve heap alanları RAM'de organize edilir. Bir program çalıştırılırken bu alamnların uzunlukları belirlenebilir. Her hangi bir belirleme yapılmazsa bu alanlar için default değerler kullanılır. Default uzunluklar sistemden sisteme değişiklik gösterebilmektedir. 
+>Anımsanacağı gibi bir değişkenin bellekte yaratılmasıyla (yani o değişken için bellekte yer ayrılması ile) yok edilmesi (yani değişkenin bellekten atılması) arasındaki süreye **ömür (storage duration)** denilmektedir. Peki, bir değişken için ayrılan bellek bölgesi neresidir? Bir Java uygulaması çalıştırıldığında, o uygulama için tipik olarak iki tane bellek alanı ayrılır: **stack alanı ya da kısaca stack**, **heap alanı ya da kısaca heap**. Aslında başka bellek alanları da ayrılır. Stack ve heap, genel olarak Java seviyesinde ayrılan tipik alanlar olarak düşünülebilir. Stack ve heap alanları RAM'de organize edilir. Bir program çalıştırılırken bu alanların uzunlukları belirlenebilir. Her hangi bir belirleme yapılmazsa bu alanlar için default değerler kullanılır. Default uzunluklar sistemden sisteme değişiklik gösterebilmektedir. 
 
 **Anahtar Notlar:** Veri yapısı (data structure), genel olarak birbiri ile ilişkili olan verilerin bir arada ve bir takım algoritmalar kullanılarak tutulmasını sağlayan ve istenildiğinde bu verilere erişilebilen yapılardır. Örneğin dizi, elemanları aynı türden olan ve bellekte peş peşe olarak yaratılan bir veri yapısıdır. **Stack**, **LIFO (Last In First Out)** kuyruk (queue) biçiminde çalışan bir veri yapısıdır. Tipik olarak editör programlarını `undo-redo` mekanizmaları bu şekilde implemente edilir. Stack veri yapısına ekleme yapma işlemine **push**, eleman silme (bazı yaklaşımlara göre hem elemanı silme hem de elemanı elde etme) işlemine **pop** denilmektedir. Uygulama için ayrılan `stack`alanında yer ayrılması stack veri yapısı biçiminde yapıldığından bu alana `stack alanı`denilmektedir. Stack alanında yaratma ve yok etme işlemi (tipik olarak push ve pop işlemi) çok hızlı bir biçimde gerçekleşmektedir.
 
@@ -28295,7 +28295,7 @@ class Driver {
 
 >Örneğin, `Vehicle` kavramı taşıma özelliğine sahip olsun. Bu domain'de bir `MarineVehicle`, deniz'e ilişkin özelliklerinin yanında taşıma özelliğine de sahip olduğunda `Marine vehicle is a vehicle` cümlesi geçerlidir. Benzer durum `GroundVehicle` ve `AeroVehicle` için de söz konusudur. Bu hiyerarşide `Ship` bir `marine vehicle` olarak nitelendirilebilir. Bu hiyerarşiye ilişkin örnek bir sınıf şeması şu şekilde olabilir:
 
-![Inheritance3](./media/vehicles.png)
+![Vehicles](./media/Vehicles.PNG)
 >Bu hiyerarşide dikkat edilirse `Vehicle`'dan aşağıya doğru inildikçe bir **özelleşme (specialization)**, `Vehicle`'a doğru çıkıldıkça bir **genelleşme (generalization)** söz konusu olmaktadır. Bir sınıfın birden fazla taban sınıfı olması durumuna **çoklu türetme (multiple inheritance)** denir. Java'da multiple inheritance yoktur. Yani bir sınıfın yalnızca bir tane taban sınıfı olabilir. Aslında çoklu türetmenin programlamada da doğrudan bir domain karşılığı yoktur. Bu anlamda Java'da ileride göreceğimiz `arayüzler (interface)` ile çoklu türetme belirli bir ölçüde (pratikteki gerekliliği karşılacayacak kadar) desteklemektedir. Yani, Java'da çoklu türetmenin olmaması bir eksiklik oluşturmaz. Örneğin, bu hiyerarşide `deniz uçağı (float plane)` hem `marine vehicle` hem de `aero vehicle` değildir. Deniz uçağı aslında bir hava aracıdır. Bu anlamda deniz uçağı için çoklu türetme söz konusu olmaz. 
 >
 >Bir sınıf kendisinden doğrudan ya da dolaylı olarak türetilemez yani türetme ilişkisinde döngüsellik söz konusu değildir.
@@ -28361,12 +28361,12 @@ class A {
 
 >Türetme ilişkisinde nesnesel kapsama söz konusudur. Bu ilişkide türemiş sınıf nesnesi içerisinde taban sınıf nesnesi kadarlık bir bölüm de bulunur. Yani türemiş sınıf nesnesi yaratıldığında nesnesel olarak kapsadığı taban sınıf nesnesi de yaratılmış olur. Bu anlamda bakıldığında türemiş sınıf, eklenmiş veri elemanları ile aslında taban sınıfının genişletilmişi (extension) olur. Bu durumda türemiş sınıf nesnesinin uzunluğu **en az, taban sınıf nesnesinin uzunluğu + türemiş sınıfa eklenen non-static veri elemanlarının toplam uzunluğu kadardır.** Aslında türemiş sınıfa eklenen non-static veri elemanları ile nesne genişletilmiş (extension) olur. Yukarıdaki demo örneğin sınıf şeması detaylar gözardı edildiğinde şu şekildedir:
 
-![inheritance3](./media/inheritance3.png)
+![inheritance3](./media/inheritance3.PNG)
 
 >Yukarıdaki demo örnekte sınıflara ilişkin nesnelerin bellekteki yerleşimleri aşağıdaki biçimde gösterilebilir:
 
 
-![Inheritance Memory](./media/inheritancememory.png)
+![Inheritance Memory](./media/inheritancememory.PNG)
 >Burada türemiş sınıfa eklenen veri elemanlarının düşük numaralı adreste veya yüksek numaralı adrese yerleştirilmesinin bir standardı yoktur, Java programcısı açısından önemi de yoktur.
 
 ###### 31 Ağustos 2025
@@ -39612,4 +39612,216 @@ public final class MathUtil {
 }
 ```
 
->**Closable ve AutoClosable Arayüzleri:** 
+###### 6 Aralık 2025
+
+>**Closeable ve AutoCloseable Arayüzleri:** Bazı sınıflar bir **kaynağı (resource)** kullanırlar. Bu kaynakların kullanılmaya başlamadan önce **mantıksal olarak açılması (open)** gerekir. Burada **mantıksal açma** işlemi, kaynağın kulalanılmaya başlamadan önce bir takım işlemlerin tamamlanması, dolayısıyla kullanılabilir duruma gelmesi demektir. Bu tip kaynakların kullanımı bittikten sonra **mantıksal olarak kaptılması (close)** yani **geri bırakılması (free/release)** ile ilgili işlemlerin tamamlanması gerekir. Örneğin, bir dosyaının verileri ile işlem yapmak için o dosyanın açılması gerekir, işlemler bittikten sonra da kapatılması gerekir. Bir dosyanın açılması, işletim sistemi düzeyinde bir takım aşağı seviyeli işlemlerin yapılması, benzer şekilde kapatılması da yine işletim sistemi düzeyin bir takım aşağı seviyeli işlemlerin yapılması demektir. İşte böylesi durumlar için Java dünyasında **Closeable** arayüzü kullanılır. Bu arayüzün aşağıdaki prototipe sahip close isimli abstract bir metodu vardır:
+
+```java
+void close() throws IOException;
+```
+
+>Bu durumda ilgili sınıf kaynağı geri bırakma işlemini override ettiği bu metot içerisinde yapar. Kaynağı mantıksal olarak açma işlemi sınıftan sınıfa değişebilmektedir. Örneğin bazı sınıflar kullandıkları kaynakları açma işlemini ctor içerisinde yani nesne yaratılırken yaparlar. Domain (yani senaryo) ne olursa olsun bir Java programcısı için Closeable arayüzünü destekleyen bir sınıfı kullanmak, onun close metodunun da genel olarak çağrılması gerektiği anlamına gelir. Benzer şekilde programcı, böylesi kaynak kullanan bir sınıf yazdığında da Closeable arayüzünü destekler. JavaSE'de, Closeable arayüzünü destekleyen pek sınıf bulunur. Java 7 ile birlikte aynı metoda sahip **AutoCloseable** isimli bir arayüz eklenmiştir ve Java 7 ile birlikte Closeable arayüzü AutoCloseable arayüzünden türetilmiştir. AutoCloseable arayüzüne ilişkin konu içerisinde ele alınacaktır. 
+
+**Anahtar Notlar:** Closeable arayüzünü destekleyen bazı sınıfların close metotları throws IOException bildirerek override edilse de bu exception'ın handle edilmesi gerekmeyebilir ya da handle edilse de anlamlı olmayabilir. Örneğin açık olan bir dosyanın kapatılamaması durumunda oluşacak exception için programın içerisinde yapılacak çok da bir şey yoktur. Yani programcı açısından bu exception'ın handle edilmesi bir anlam ifade etmez ancak close metodu IOException'ı throws listesinde içerecek biçimde override edildiğinden programcının bu exception'ı akış içerisinde handle etmesi veya metodu çağırdığı yerde throws bildirimi yapması gerekir. Her iki durumda da gereksiz kod olması dolayısıyla clean code yazılmamış olur. Bu durumda programcının strateji değiştirerek daha clean code yazması gerekir.
+
+>Aşağıdaki demo örnekte finally bloğu içerisinde aslında ihtiyaç olmasa da (demo örnekte ihtiyaç olmadığını varsayınız) close metodu çağrısı IOException fırlattığı için try deyimi ile sarmalanmıştır. Yine checked exception dolayısıyla programcının strateji değiştirmesi gerekmiştir ayrıca gereksiz kodlar da yazılmıştır.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        DemoDbConnection connection = null;  
+          
+        try {  
+            connection = new DemoDbConnection(url, username, password);  
+            String sqlStr = Console.readString("Input SQL commmand:");  
+  
+            connection.insert(sqlStr);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+        finally {  
+            if (connection != null)  
+                try {  
+                    connection.close();  
+                }  
+                catch (IOException ignore) {  
+  
+                }  
+        }  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>Yukarıdaki demo örnek aşağıdaki gibi daha okunabilir hale getirilebilir ancak yine de programcı strateji değiştirmek zorunda kalmıştır. Üstelik programcı close metodunun çağrılmasını unutabilir ya da gözünden kaçabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        DemoDbConnection connection = null;  
+  
+        try {  
+            DemoDemoDbConnectionUtil.insert(url, username, password);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+  
+class DemoDemoDbConnectionUtil {  
+    //...  
+    public static void insert(String url, String username, String password) throws IOException  
+    {  
+        DemoDbConnection connection = null;  
+  
+        try {  
+            connection = new DemoDbConnection(url, username, password);  
+            String sqlStr = Console.readString("Input SQL commmand:");  
+  
+            connection.insert(sqlStr);  
+        }  
+        finally {  
+            if (connection != null)  
+                connection.close();  
+        }  
+    }  
+}  
+  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>Yukarıdaki yaklaşımlarda checked exception dolayısıyla programcının strateji değiştirmesi söz konusudur ayrıca kod içerisinde close metodunun çağrılmasının gözden kaçtığı durumlar olabilir ve bu da senaryoya göre çeşitli bug'ların oluşmasına sebep olabilir.  Java 7 ile birlikte **AutoCloseable** arayüzü eklenmiş, `Closeable` arayüzü AutoCloseable arayüzünden türetilmiştir. Yani Java 7 ile birlikte Closeable arayüzünü destekleyen her sınıf aynı zamanda AutoCloseable arayüzünü de destekler duruma gelmiştir. Java 7 ile birlikte ismine **try-with-resources (TWR)** denilen bir deyim eklenmiştir. Bu deyimin genel biçimi şu şekildedir:  
+
+```java
+try (<AutoCloseble arayüzü türüden referans>[;]AutoCloseble arayüzü türüden referans>; ...) {
+	//...
+}
+[catch blokları VEYA finally bloğu VEYA catch blokları ile finally bloğu]
+```
+
+
+>Bu deyim ile close metodu otomatik olarak çağrılır. Yani programcının bu deyim ile birlikte close metodunu çağırması gerekmez. Bu durumda programcı ne strateji değiştirmek zorunda kalır ne de close metodunun çağrılmasının gözden kaçabileceği durumlar oluşabilir. 
+
+
+
+
+
+
+

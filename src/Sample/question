@@ -1,22 +1,27 @@
-package org.csystem.app;
-
-import org.csystem.util.console.Console;
-
-class App {
-    public static void main(String[] args)
+class A implements IX, IY {
+    public int foo(int a)
     {
-        Object o = 12; //Integer.valueOf(12)
-        long val;
+        //...
+        return 0;
+    }
 
-        val = (long)o; //((Long)o).longValue();
+    public void foo(int a)
+    {
+        //...
+    }
 
-        Console.writeLine("val = %d", val);
+    public void bar()
+    {
+        //...
     }
 }
 
-Bu kod için aşağıdakilerden hangisi doğrudur
+interface IY {
+    int foo(int a);
+    void bar();
 
-1. Sentaks hatası vardır. Nedeni ...
-2. Ekrana val = 12 yazılır
-3. Exception oluşur. Nedeni  ...
-4. Hiçbiri. Ne olur?...
+}
+
+interface IX {
+    void foo(int a);
+}
