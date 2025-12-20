@@ -10792,7 +10792,7 @@ class TCPServer {
 
 >Madem ki sınıf bildirimi bir tür bildirimidir, bu durumda sınıf türünden değişkenler bildirilebilir.
 
->Aşağıdeki demo örneği inceleyiniz
+>Aşağıdaki demo örneği inceleyiniz
 
 ```java
 package csd;
@@ -10826,7 +10826,6 @@ class TCPServer {
 
 **Anahtar Notlar:** Sınıf türünden bir değişkene (aslında bir UDT türünden değişkene) **referans değişken (reference variable)** ya da kısaca **referans (reference)** denir. Java seviyesinde `adres (address)` terimi yerine `referans (reference)` terimi de kullanılmaktadır. Referans dendiğinde, ya adres ya da referans değişken kastedilmiş olur. Buna göre örneğin bir cümlede **reference to an object** ya da benzeri bir içerik söz konusu ise, burada referans adres anlamındadır. Cümle içerisinde örneğin **address of an object is assigned to a reference** gibi içerik söz konusu ise, buradaki referans, değişken anlamındadır. Yukarıdaki içerik **reference of an object is assigned to a reference** biçiminde olsaydı, soldaki referans adres, sağdaki referans ise değişken anlamında olurdu.
 
->
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -11045,14 +11044,13 @@ class Sample {
 }
 ```
 
->Sınıfın non-static bir veri elemanı, nesneye özgü olduğundan, nesneye ilişkin kavramın yani programlamada sınıfın bir **karakteristiği (characteristics)** ya da başka bir deyişle bir **öz niteliği (attribute)** belirtir. Bu anlamda bir sınıf non-static veri elemanları ile bir **bileşik türdür (compound type).** Örneğin, geometride bir üçgen kavramı için uygun şartları sağlayan 3 tane kenar olmalıdır. Herhangi bir kenar tek başına bir üçgeni temsil edemez. Bunların 3'ü birden olursa uygun şartları şağlarsa artık üçgen kavramından bahsedilebilir. O zaman programlama olarak düşünürsek, üçgeni temsil eden sınıfa `Triangle` dediğimize bu sınıfın üçgenin kenarlarını temsil eden 3 tane non-static veri elemanı olmalıdır. 
-Dikkat edilirse sınıfın ismi, veri elemanları vb. bilgiler sınıfın ait olduğu **domain** içerisinde temsil ettiği kavrama göre belirlenir. 
+>Sınıfın non-static bir veri elemanı, nesneye özgü olduğundan, nesneye ilişkin kavramın yani programlamada sınıfın bir **karakteristiği (characteristics)** ya da başka bir deyişle bir **öz niteliği (attribute)** belirtir. Bu anlamda bir sınıf non-static veri elemanları ile bir **bileşik türdür (compound type).** Örneğin, geometride bir üçgen kavramı için uygun şartları sağlayan 3 tane kenar olmalıdır. Herhangi bir kenar tek başına bir üçgeni temsil edemez. Bunların 3'ü birden olursa uygun şartları sağlarsa artık üçgen kavramından bahsedilebilir. O zaman programlama olarak düşünürsek, üçgeni temsil eden sınıfa `Triangle` dediğimize bu sınıfın üçgenin kenarlarını temsil eden 3 tane non-static veri elemanı olmalıdır. Dikkat edilirse sınıfın ismi, veri elemanları vb. bilgiler sınıfın ait olduğu **domain** içerisinde temsil ettiği kavrama göre belirlenir. 
 >
->Non-static bir veri elemanın ömrü (storage duration) nedir? Non-static bir veri elemanı nesne yaratıldığında yaratılır, nesne yok edildiğinde kod edilir. Yani, non-static bir veri elemanın ömrü ait olduğu nesnenin bellekte kalma süresi (yani onun için de ömür diyebiliriz) kadardır. Java'da nesneler `çöp toplayıcı (garbage collector)` tarafından yok edilir. Bir nesnenin yok edilmesine ilişkin detaylar ve garbage colletor'e ilişkin detaylar ileride ele alınacaktır.
+>Non-static bir veri elemanın ömrü (storage duration) nedir? Non-static bir veri elemanı nesne yaratıldığında yaratılır, nesne yok edildiğinde yok edilir. Yani, non-static bir veri elemanın ömrü ait olduğu nesnenin bellekte kalma süresi (yani onun için de ömür diyebiliriz) kadardır. Java'da nesneler `çöp toplayıcı (garbage collector)` tarafından yok edilir. Bir nesnenin yok edilmesine ilişkin detaylar ve garbage collector'e ilişkin detaylar ileride ele alınacaktır.
 
 ###### Sınıf Static Veri Elemanları ve Sınıf Dışından Static Veri Elemanlarına Erişim
 
->Sınıf static veri elemanları nesne içerisinde yaratılmaz. Sınıfın static bir elemanına sınıf dışıdan sınıf ismi ve nokta operatörü ile erişilebilir. Nokta operatörü sınıf ismi ve static veri elemanı ile kullanıldığında static veri elemanına ilişkin değişkeni üretir. Sınıfın static veri elemanları, ilgili sınıfın bir elemanı (member) ilk kez kullanıldığında (hepsi birden) yaratılır ve program sonuna kadar yaşarlar. Bu durumda static veri elemanları stack alanında **yaratılamazlar**. Static veri elemanlarının nerede yaratıldığına ilikin bazı detaylar söz konusu olsa da şu aşamada dolaylı olarak heap'de yaratıldıkları var sayılabilir. Bu durumda bir sınıf için static bir elemanından toplamda bir tane vardır. Bu sebeple static bir elemanına erişmek için nesne yaratılması gerekmez. Bu durumda static bir veri elemanı mantıksal olarak, nesneye özgü değil, türe özgü olarak düşünülebilir.
+>Sınıf static veri elemanları nesne içerisinde yaratılmaz. Sınıfın static bir veri elemanına sınıf dışından sınıf ismi ve nokta operatörü ile erişilebilir. Nokta operatörü sınıf ismi ve static veri elemanı ile kullanıldığında static veri elemanına ilişkin değişkeni üretir. Sınıfın static veri elemanları, ilgili sınıfın bir elemanı (member) ilk kez kullanıldığında (hepsi birden) yaratılır ve program sonuna kadar yaşarlar. Bu durumda static veri elemanları stack alanında **yaratılamazlar**. Static veri elemanlarının nerede yaratıldığına ilikin bazı detaylar söz konusu olsa da şu aşamada dolaylı olarak heap'de yaratıldıkları var sayılabilir. Bu durumda bir sınıf için static bir elemanından toplamda bir tane vardır. Bu sebeple static bir elemanına erişmek için nesne yaratılması gerekmez. Bu durumda static bir veri elemanı mantıksal olarak, nesneye özgü değil, türe özgü olarak düşünülebilir.
 >
 >Sınıfın static veri elemanlarına da yaratıldıklarında default değerler atanır. 
 ```java
@@ -11144,7 +11142,7 @@ class Civilian {
 }
 
 ```
->Yukarıdaki demo örnekte `count` isimli static veri elemanı her bir sınıfa eklenerek anlatılan problemler çözülebilir
+>Yukarıdaki demo örnekte `count` isimli static veri elemanı her bir sınıfa eklenerek anlatılan problemler çözülebilir.
 
 **Anahtar Notlar:** `**` ve `***` ile belirtilen kodların detayları şu an için önemsizdir. Burada sayacın her nesne yaratıldığında artırıldığına odaklanınız. Detaylar ileride ele alınacaktır.
 
@@ -39652,7 +39650,7 @@ class DemoApp {
           
         try {  
             connection = new DemoDbConnection(url, username, password);  
-            String sqlStr = Console.readString("Input SQL commmand:");  
+            String sqlStr = Console.readString("Input SQL command:");  
   
             connection.insert(sqlStr);  
         }  
@@ -39755,7 +39753,7 @@ class DemoDemoDbConnectionUtil {
   
         try {  
             connection = new DemoDbConnection(url, username, password);  
-            String sqlStr = Console.readString("Input SQL commmand:");  
+            String sqlStr = Console.readString("Input SQL command:");  
   
             connection.insert(sqlStr);  
         }  
@@ -39807,6 +39805,8 @@ class DemoDbConnection implements Closeable {
 }
 ```
 
+###### 20 Aralık 2025
+
 >Yukarıdaki yaklaşımlarda checked exception dolayısıyla programcının strateji değiştirmesi söz konusudur ayrıca kod içerisinde close metodunun çağrılmasının gözden kaçtığı durumlar olabilir ve bu da senaryoya göre çeşitli bug'ların oluşmasına sebep olabilir.  Java 7 ile birlikte **AutoCloseable** arayüzü eklenmiş, `Closeable` arayüzü AutoCloseable arayüzünden türetilmiştir. Yani Java 7 ile birlikte Closeable arayüzünü destekleyen her sınıf aynı zamanda AutoCloseable arayüzünü de destekler duruma gelmiştir. Java 7 ile birlikte ismine **try-with-resources (TWR)** denilen bir deyim eklenmiştir. Bu deyimin genel biçimi şu şekildedir:  
 
 ```java
@@ -39818,6 +39818,633 @@ try (<AutoCloseble arayüzü türüden referans>[;]AutoCloseble arayüzü türü
 
 
 >Bu deyim ile close metodu otomatik olarak çağrılır. Yani programcının bu deyim ile birlikte close metodunu çağırması gerekmez. Bu durumda programcı ne strateji değiştirmek zorunda kalır ne de close metodunun çağrılmasının gözden kaçabileceği durumlar oluşabilir. 
+
+>Yukarıdaki demo örnek TWR kullanılarak aşağıdaki gibi daha okunabilir ve kapatma (close) anlamında daha güvenli bir biçimde
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        try (DemoDbConnection connection = new DemoDbConnection(url, username, password)) {  
+            String sqlStr = Console.readString("Input SQL command:");  
+  
+            connection.insert(sqlStr);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>Java 9'dan önce bu deyimin parantezi içerisinde referansa ilk değer verilmesi orunluydu yani referansın değerinin bu parantez içerisinde verilmesi gerekiyordu. Java 9 ile birlikte parantez içerisinde daha önce değer verilmiş referanslar da kullanılabilir. TWR parantezi içerisindeki referansın AutoCloseable arayüzünü destekleyen bir sınıf türünden ya da AutoCloseable arayüzünden türetilmiş bir arayüz türünden olması zorunludur. Closeable arayüzü de AutoCloaeable arayüzünde türetildiği için TWR ile kullanılabilmektedir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        try  {  
+            DemoDbConnection connection = new DemoDbConnection(url, username, password);  
+  
+            DemoDbConnectionUtil.insert(connection);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+  
+class DemoDbConnectionUtil {  
+    //...  
+  
+    public static void insert(DemoDbConnection connection)  
+    {  
+        try (connection) {  //Since Java 9
+            String sqlStr = Console.readString("Input SQL command:");  
+  
+            connection.insert(sqlStr);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred while insert:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>Java programcısının özel bir durum yoksa TWR kullanması tavsiye edilir. Dikkat edilirse bu deyim ile close metodunun fırlattığı exception da handle edilebilmektedir.
+
+>Genel biçimden de anlaşılabileceği gibi TWR bloğundan sonra bir catch bloğu ya da finally bloğu gelmek zorunda değildir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        try  {  
+            DemoDbConnection connection = new DemoDbConnection(url, username, password);  
+  
+            DemoDbConnectionUtil.insert(connection);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+class DemoDbConnectionUtil {  
+    //...  
+  
+    public static void insert(DemoDbConnection connection) throws IOException  
+    {  
+        try (connection) {  
+            String sqlStr = Console.readString("Input SQL command:");  
+  
+            connection.insert(sqlStr);  
+        }  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>TWR deyiminin parantezi içerisinde bildirilen referansın faaliyet alanı ilgili TWR'nin try bloğu boyuncadır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        try (DemoDbConnection connection = new DemoDbConnection(url, username, password)) {  
+            String sqlStr = Console.readString("Input SQL command:");  
+  
+            connection.insert(sqlStr);  
+        }  
+        catch (IOException ex) {  
+            connection = null; //error  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+          
+        connection = null; //error  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>TWR parantezi içerisinde kullanılan referans final olarak kabul edilir yani try bloğu boyunca herhangi bir atama yapılamaz. 
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        try (DemoDbConnection connection = new DemoDbConnection(url, username, password)) {  
+            String sqlStr = Console.readString("Input SQL command:");  
+  
+            connection.insert(sqlStr);  
+            connection = null; //error  
+        }  
+        catch (IOException ex) {  
+  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+  
+        try  {  
+            DemoDbConnection connection = new DemoDbConnection(url, username, password);  
+  
+            DemoDbConnectionUtil.insert(connection);  
+            connection = null;  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+  
+class DemoDbConnectionUtil {  
+    //...  
+    public static void insert(DemoDbConnection connection)  
+    {  
+        try (connection) {  
+            String sqlStr = Console.readString("Input SQL command:");  
+  
+            connection = null;  
+            connection.insert(sqlStr);  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred while insert:%s", ex.getMessage());  
+        }  
+  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+    }  
+  
+    public void insert(String sqlStr) throws IOException  
+    {  
+        //...  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("Sql string can be null or blank");  
+  
+        Console.writeLine("'%s' sent to %s", sqlStr, m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+**Anahtar Notlar:** Bir değişkenin final olarak bildirilmemesine rağmen belirli koşullar altında final olarak kabul edilmesine genel olarak **effectively final** denir.
+
+>TWR deyiminin parantezi içerisinde birden fazla referans kullanılması close metodu kullanım ile ters sırada çağrılır
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.Closeable;  
+import java.io.IOException;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        DemoApp.run();  
+    }  
+}  
+  
+class DemoApp {  
+    public static void run()  
+    {  
+        String url = Console.readString("Input url:");  
+        String username = Console.readString("Input username:");  
+        String password = Console.readString("Input password:");  
+        String sqlStr = Console.readString("Input SQL command:");  
+  
+        try (Statement statement = new Statement(sqlStr); DemoDbConnection connection = new DemoDbConnection(url, username, password, statement)) {  
+            connection.insert();  
+        }  
+        catch (IOException ex) {  
+            Console.writeLine("Problem occurred:%s", ex.getMessage());  
+        }  
+    }  
+}  
+  
+class Statement implements Closeable {  
+    private final String m_sqlStr;  
+  
+    public Statement(String sqlStr) throws IOException  
+    {  
+        Console.writeLine("Preparing SQL statement:");  
+        if (sqlStr == null || sqlStr.isBlank())  
+            throw new IOException("SQL statement can not be null or blank");  
+  
+        m_sqlStr = sqlStr;  
+    }  
+  
+    public String getSqlStr()  
+    {  
+        return m_sqlStr;  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Closing SQL statement:");  
+    }  
+}  
+  
+class DemoDbConnection implements Closeable {  
+    private String m_url;  
+    private String m_username;  
+    private String m_password;  
+    private Statement m_statement;  
+  
+    //...  
+  
+    private void checkInformation(String url, String username, String password) throws IOException  
+    {  
+        if (url == null || url.isBlank() || username == null || username.isBlank() || password == null)  
+            throw new IOException("Invalid connection parameters");  
+    }  
+  
+    public DemoDbConnection(String url, String username, String password, Statement statement) throws IOException  
+    {  
+        checkInformation(url, username, password);  
+        m_url = url;  
+        m_username = username;  
+        m_password = password;  
+        m_statement = statement;  
+    }  
+  
+    public void insert() throws IOException  
+    {  
+        //...  
+        Console.writeLine("'%s' sent to %s", m_statement.getSqlStr(), m_url);  
+    }  
+  
+    //...  
+  
+    public void close() throws IOException  
+    {  
+        //...  
+        Console.writeLine("Connection of %s closed for %s", m_username, m_url);  
+    }  
+}
+```
+
+
+##### Generics
+
+>
+
+
+
+
+
+
 
 
 
