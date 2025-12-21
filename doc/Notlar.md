@@ -40435,10 +40435,513 @@ class DemoDbConnection implements Closeable {
 }
 ```
 
+######  21 Aralık 2025
+
+###### Arayüzlerle İlgili Tür Dönüştürmeleri
+
+>Arayüzlerle ilgili tür dönüştürmeleri 4 (dört) durumda incelenebilir:  
+>- Bir sınıf referansının onun desteklediği (implementation) bir arayüz referansına dönüştürülmesi  
+>- Bir arayüz referansının herhangi bir sınıf türüne dönüştürülmesi
+>- Bir arayüz referansının başka bir arayüz referansına dönüştürülmesi
+>- Bir sınıf referansının onun desteklemediği bir arayüz referansına dönüştürülmesi  
+
+> Bir sınıf referansının onun desteklediği (implementation) bir arayüz referansına dönüştürülmesi doğrudan (implicit) yapılabilir. Bu durum arayüz referansının taban sınıf referansı gibi kullanılmasıdır. Zaten arayüzün hedeflerinden biri de budur  
+
+>Aşağıdaki demo örneği inceleyiniz
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A();  
+        IX ix;  
+  
+        ix = a;  
+    }  
+}  
+  
+  
+class A implements IX {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+>Bir arayüz referansının herhangi bir sınıf türüne dönüştürülmesi explicit olarak yani tür dönüştürme operatörü ile yapılır. Ancak çalışma zamanı sırasında arayüz referansının dinamik türünün dönüştürülecek sınıfı kapsayıp kapsamadığına bakılır. Kapsıyorsa haklı dönüşümdür, akış devam eder. Kapsamıyorsa haksız dönüşümdür, ClassCastException  fırlatılır.
+
+>Aşağıdaki demo örnekleri inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A();  
+        IX ix;  
+  
+        ix = a;  
+  
+        Console.writeLine("Dinamik tür:%s", ix.getClass().getName());  
+        B b = (B) ix; //haklı dönüşüm  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+class A extends B implements IX {  
+    //...  
+}  
+  
+class B  {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A();  
+        IX ix;  
+  
+        ix = a;  
+  
+        Console.writeLine("Dinamik tür:%s", ix.getClass().getName());  
+        B b = (B) ix; //haksız dönüşüm  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+class A implements IX {  
+    //...  
+}  
+  
+class B  {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+>Bir arayüz referansının başka başka bir arayüz referansına dönüştürülmesi iki şekilde incelenebilir:  
+>1. Kaynak arayüz hedef arayüzden türetilmişse doğrudan yapılabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A();  
+        IY iy = a;  
+        IX ix;  
+  
+        ix = iy; //upcasting  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+class A implements IY {  
+    //...  
+}  
+  
+interface IY extends IX {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+
+>Bir arayüz referansının başka başka bir arayüz referansına dönüştürülmesi iki şekilde incelenebilir:  
+> 2. Kaynak arayüz hedef arayüzden türetilmemişse explicit olarak yapılablir. Bu durumda çalışma zamanı sırasında  kaynak arayüz referansının dinamik türünün hedef arayüzü destekleyip desteklemediğine bakılır. Destekliyorsa haklı dönüşümdür. Desteklemiyorsa haksız dönüşümdür. ClassCastException fırlatılır.
+
+>Aşağıdaki demo örnekleri inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A();  
+        IY iy = a;  
+        IX ix;  
+  
+        Console.writeLine("Dinamik tür:%s", iy.getClass().getName());  
+  
+        ix = (IX)iy; //haklı dönüşüm  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+class A implements IX, IY {  
+    //...  
+}  
+  
+interface IY {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new A();  
+        IY iy = a;  
+        IX ix;  
+  
+        Console.writeLine("Dinamik tür:%s", iy.getClass().getName());  
+  
+        ix = (IX)iy; //haksız dönüşüm  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+class A implements IY {  
+    //...  
+}  
+  
+interface IY {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+  
+>Bir sınıf referansının onun desteklemediği bir arayüz referansına dönüştürülmesi:  Bu işlem tür dönüştürme operatörü ile yapılabilir. Çalışma zamanı sırasında kaynak referansın dinamik türünün hedef arayüzü destekleyip desteklemediğine bakılır. Destekliyorsa haklı dönüşümdür. Desteklemiyorsa haksız dönüşümdür, ClassCastException fırlatılır.
+
+>Aşağıdaki demo örnekleri inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new B();  
+        IX ix;  
+  
+        Console.writeLine("Dinamik tür:%s", a.getClass().getName());  
+        ix = (IX)a; //haksız dönüşüm  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+  
+class B extends A implements IX {  
+    //...  
+}  
+  
+class A  {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A a = new B();  
+        IX ix;  
+  
+        Console.writeLine("Dinamik tür:%s", a.getClass().getName());  
+        ix = (IX)a; //haksız dönüşüm  
+  
+        System.out.println("Tekrar yapıyor musunuz?");  
+    }  
+}  
+  
+  
+class B extends A {  
+    //...  
+}  
+  
+class A  {  
+    //...  
+}  
+  
+interface IX {  
+    //...  
+}
+```
+
+
+###### enum Sınıflar ve Arayüzler
+
+>enum sınıflar arayüzleri destekleyebilirler. Bu durumda enum class içerisinde arayüzün varsa abstract metotları override edilebilir. enum sınıfı içerisinde arayüzün abstract bir metodu override edilmezse error oluşur. Çünkü enum sınıflar abstract olamaz.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+import java.util.random.RandomGenerator;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        SampleFactory sampleFactory = new SampleFactory();  
+  
+        while (true) {  
+            Sample sample = sampleFactory.create();  
+            Console.writeLine("--------------------------------------------");  
+            Console.writeLine("Sample: %s", sample);  
+            Console.writeLine(sample.foo(3));  
+            Console.writeLine("--------------------------------------------");  
+            ThreadUtil.sleep(2000);  
+        }  
+    }  
+}  
+  
+class SampleFactory {  
+    private static final Sample [] VALUES = Sample.values();  
+    private final RandomGenerator m_randomGenerator = new Random();  
+  
+    public Sample create()  
+    {  
+        return switch (m_randomGenerator.nextInt(VALUES.length)) {  
+            case 0 -> Sample.AA;  
+            case 1 -> Sample.BB;  
+            case 2 -> Sample.CC;  
+            default -> Sample.DD;  
+        };  
+    }  
+}  
+  
+enum Sample implements IX {  
+    AA, BB, CC, DD;  
+  
+    public int foo(int a)  
+    {  
+        return ordinal() + a;  
+    }  
+}  
+  
+interface IX {  
+    int foo(int a);  
+}
+```
+
+>enum sınıflar için desteklediği arayüzlerin sanal metotları her enum sabiti için ayrıca override edilebilir. Bu durumda enum class için override edilen metot yalnızca özellikle override edilmemiş bir sabit için çağrılır. Eğer tüm sabitler için ayrı override'lar yapılırsa enum class için yapılan genel override edilen metot hiç bir şekilde çağrılamaz yani bu durumda genel override'ın anlamı yoktur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.thread.ThreadUtil;  
+  
+import java.util.Random;  
+import java.util.random.RandomGenerator;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        SampleFactory sampleFactory = new SampleFactory();  
+  
+        while (true) {  
+            Sample sample = sampleFactory.create();  
+            Console.writeLine("--------------------------------------------");  
+            Console.writeLine("Sample: %s", sample);  
+            Console.writeLine(sample.foo(3));  
+            Console.writeLine("--------------------------------------------");  
+            ThreadUtil.sleep(2000);  
+        }  
+    }  
+}  
+  
+class SampleFactory {  
+    private static final Sample [] VALUES = Sample.values();  
+    private final RandomGenerator m_randomGenerator = new Random();  
+  
+    public Sample create()  
+    {  
+        return switch (m_randomGenerator.nextInt(VALUES.length)) {  
+            case 0 -> Sample.AA;  
+            case 1 -> Sample.BB;  
+            case 2 -> Sample.CC;  
+            default -> Sample.DD;  
+        };  
+    }  
+}  
+  
+enum Sample implements IX {  
+    AA {  
+        public int foo(int a)  
+        {  
+            Console.writeLine("A");  
+            return ordinal() + a;  
+        }  
+    },  
+    BB {  
+        public int foo(int a)  
+        {  
+            Console.writeLine("B");  
+            return ordinal() + a;  
+        }  
+    },  
+    CC {  
+        public int foo(int a)  
+        {  
+            Console.writeLine("C");  
+            return ordinal() + a;  
+        }  
+    },  
+    DD;  
+  
+    public int foo(int a)  
+    {  
+        Console.writeLine(toString());  
+        return ordinal() + a;  
+    }  
+}  
+  
+interface IX {  
+    int foo(int a);  
+}
+```
+
+>Aşağıdaki `IRandomGeneratorFactory` arayüzü ve `RandomGeneratorAlgorithm` enum sınıfını ve kullanımına ilişkin demo örneği inceleyiniz.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.random.RandomGeneratorAlgorithm;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.util.Random;  
+import java.util.random.RandomGenerator;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        RandomGenerator randomGenerator = RandomGeneratorAlgorithm.XOROSHIRO256_PLUS_PLUS.create();  
+        Random random = new Random();  
+  
+        for (int i = 0; i < 10; ++i)  
+            Console.writeLine(StringUtil.randomTextEN(randomGenerator, randomGenerator.nextInt(5, 15)));  
+  
+        Console.writeLine("-----------------------------------------------------");  
+  
+        for (int i = 0; i < 10; ++i)  
+            Console.writeLine(StringUtil.randomTextEN(random, random.nextInt(5, 15)));  
+  
+    }  
+}
+```
+
+```java
+package org.csystem.util.random;  
+  
+import java.util.random.RandomGenerator;  
+  
+public interface IRandomGeneratorFactory {  
+    RandomGenerator create();  
+}
+```
+
+```java
+package org.csystem.util.random;  
+  
+import java.security.SecureRandom;  
+import java.util.concurrent.ThreadLocalRandom;  
+import java.util.random.RandomGenerator;    
+    
+public enum RandomGeneratorAlgorithm implements IRandomGeneratorFactory {    
+    L128X1024_MIX_RANDOM("L128X1024MixRandom"), L128X128_MIX_RANDOM("L128X128MixRandom"), L128X256_MIX_RANDOM("L128X256MixRandom"),    
+    L32X64_MIX_RANDOM("L32X64MixRandom"), L64X1024MIX_RANDOM("L64X1024MixRandom"), L64X128_MIX_RANDOM("L64X128MixRandom"),    
+    L64X128_STAR_STAR_RANDOM("L64X128StarStarRandom"), L64X256_MIX_RANDOM("L64X256MixRandom"), RANDOM("Random"),    
+    XOROSHIRO128_PLUS_PLUS("Xoroshiro128PlusPlus"), XOROSHIRO256_PLUS_PLUS("Xoshiro256PlusPlus"),    
+    SPLITTABLE_RANDOM("SplittableRandom"),  
+    THREAD_LOCAL_RANDOM("ThreadLocalRandom") {  
+        public RandomGenerator create()    
+        {    
+            return ThreadLocalRandom.current();    
+        }    
+    },  
+  
+    SECURE_RANDOM("SecureRandom") {    
+        public RandomGenerator create()    
+        {    
+            return new SecureRandom();    
+        }    
+    };    
+    
+    public final String name;  
+    
+    RandomGeneratorAlgorithm(String name)    
+    {    
+        this.name = name;  
+    }  
+    
+    public RandomGenerator create()    
+    {    
+        return RandomGenerator.of(name);  
+    }    
+    
+    //...  
+}
+```
 
 ##### Generics
 
->
 
 
 
