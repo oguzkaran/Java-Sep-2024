@@ -5,7 +5,7 @@ import java.util.random.RandomGenerator;
 
 /**
  * Utility class for string operations
- * Last Update: 30th November 2025
+ * Last Update: 27th December 2025
  * @author Java-Sep-2024 Group
  */
 public final class StringUtil {
@@ -186,12 +186,11 @@ public final class StringUtil {
         return sb.substring(0, sb.length() - delimiter.length());
     }
 
-    public static String join(ArrayList strList, String delimiter, int ignoreStatus)
+    public static String join(ArrayList<String> strList, String delimiter, int ignoreStatus)
     {
         StringBuilder sb = new StringBuilder();
 
-        for (Object o : strList) {
-            String s = (String)o;
+        for (String s : strList) {
             if (ignoreStatus == 1) {
                 if (!s.isEmpty())
                     sb.append(s).append(delimiter);

@@ -11382,9 +11382,9 @@ class Sample {
 >
 >**Buna göre türü ne olursa olsun tüm referansların uzunlukları aynıdır. Aynı türden nesnelerin uzunlukları aynıdır. Farklı türden nesnelerin non-static veri elemanlarına göre uzunlukları farklı olabilir.**
 
-##### Raferansların Birbirina Atanması
+##### Referansların Birbirine Atanması
 
->Java'da farklı türden referanslar tür dönüştürme operatörü ile (explicit conversion/casting) bile bibirine atanamazlar. Aynı türden iki referans birbirine doğrundan (implicit) atanabilir.
+>Java'da farklı türden referanslar tür dönüştürme operatörü ile (explicit conversion/casting) bile birbirine atanamazlar. Aynı türden iki referans birbirine doğrundan (implicit) atanabilir.
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -40940,8 +40940,572 @@ public enum RandomGeneratorAlgorithm implements IRandomGeneratorFactory {
 }
 ```
 
+
+###### 27 Aralık 2025
 ##### Generics
 
+>Generic'ler **derleme zamanı çok biçimliliğinin (compile time polymorphism - CTP)** gerçekleştirmek için kullanılır. Java 1.5 ile dile eklenmiştir. Generic'ler C++'ın template kavramının Java'ya uyarlanmış biçimidir. Generic'ler genel olarak iki gruba ayrılır: **generic türler (generic types), generic metotlar (generic methods)**.  Şu ana kadar görmüş olduğumuz tür bildirimleri içerisinde yalnızca sınıflar ve arayüzler generic olarak bildirilebilirler. enum sınıfları ve exception sınıfları da generic olarak bildirilemezler. Generic konusuna ilişkin ileri özellikler `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır. 
+
+###### Generic Types
+
+>Generic bir UDT bildiriminde açısal parantezler kullanılır. Açısal parantezler UDT isminden sonra yazılır. Açısal parantezler içerisinde değişken isimlendirme kurallarına uygun isimler virgül ile listelenebilir. Açısal parantezler içerisindeki bu isimlere **generic tür parametreleri (generic type parameters)** veya **tür parametreleri (type parameters)** veya **parametrelenmiş türler (parameterized types)** denir. Adından da anlaşılacağı gibi bu isimler aslında bir tür belirtirler. Bir convention olarak tür parametreleri `upper camel case` olarak yazılırlar. Bazı durumlarda bu isimler tek bir karakterden de oluşabilir. Tek karakterden oluşan isimlendirmelerde çoğunlukla `T, K, L, E` gibi karakterler kullanılır. Şüphesiz bu bir zorunluluk değildir. Generic tür parametrelerine ilişkin isimlerin faaliyet alanı (scope) ilgili UDT boyuncadır. Bu parametreler ilgili UDT içerisinde tür olarak kullanılabilir:
+
+>Aşağıdaki demo sınıf bildirimlerini inceleyiniz
+
+```java
+class A<T, K> {  
+    private T m_t;  
+    private K m_k;  
+  
+    public A(T t, K k)  
+    {  
+        m_t = t;  
+        m_k = k;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public void setT(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public K getK()  
+    {  
+        return m_k;  
+    }  
+  
+    public void setK(K k)  
+    {  
+        m_k = k;  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(m_t, m_k);  
+    }  
+}  
+  
+class B<T> {  
+    private final T m_t;  
+  
+    public B(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_t);  
+    }  
+}
+```
+
+>Generic bir UDT ismi iki şekilde kullanılabilir: **açılım (istantiation) yapılarak, doğrudan yani açılım yapılmayarak (raw usage).** Açılım yapılarak kullanımda UDT ismi ile beraber açısal parantez içerisinde generic tür parametrelerine ilişkin türler açıkça belirtilir. Birden fazla generic tür parametresi varsa bu durumda virgül ile ayrılacak şekilde yazılır. Aslında açılım, ilgili tür parametrelerine karşılık gelen türlerin belirtilmesi demektir. Bu durumda **derleme zamanında** generic tür parametrelerinin kullanıldığı her durumda o açılım için belirtilen türler işlem yapılmış olur. Açılımda generic tür parametrelerinin sayısı kadar tür yazılmalıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A<String, Point> asp;  
+        A<String, String> as;  
+        A<Integer, String> asi;  
+        B<Complex> bc;  
+        B<String> bs;  
+        B<Double> bd;  
+  
+        //...  
+    }  
+}  
+  
+  
+class A<T, K> {  
+    private T m_t;  
+    private K m_k;  
+  
+    public A(T t, K k)  
+    {  
+        m_t = t;  
+        m_k = k;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public void setT(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public K getK()  
+    {  
+        return m_k;  
+    }  
+  
+    public void setK(K k)  
+    {  
+        m_k = k;  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(m_t, m_k);  
+    }  
+}  
+  
+class B<T> {  
+    private final T m_t;  
+  
+    public B(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_t);  
+    }  
+}
+```
+
+>Generic bir UDT açılım yapılmadan kullanıldığında yani açısal parantez olmadan kullanıldığında generic tür parametreleri `Object` olarak ele alınır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A asp;  
+        A as;  
+        A asi;  
+        B bc;  
+        B bs;  
+        B bd;  
+  
+        //...  
+    }  
+}  
+  
+  
+class A<T, K> {  
+    private T m_t;  
+    private K m_k;  
+  
+    public A(T t, K k)  
+    {  
+        m_t = t;  
+        m_k = k;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public void setT(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public K getK()  
+    {  
+        return m_k;  
+    }  
+  
+    public void setK(K k)  
+    {  
+        m_k = k;  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(m_t, m_k);  
+    }  
+}  
+  
+class B<T> {  
+    private final T m_t;  
+  
+    public B(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_t);  
+    }  
+}
+```
+
+> Generic tür parametreleri açılım yapılsa da yapılmasa da **çalışma zamanında** `Object` olarak ele alınır. Bunun için **erasure** terimi de kullanılmaktadır. Bu anlamda generic'ler **derleme zamanında tür kontrolü** açısında önemlidir. Generic parametreler Object olarak kullanılacak bile olsa açılım yapılmalıdır. Yani, generic bir UDT'nin açılım yapılmadan kullanılması tavsiye edilmez. Pek çok static kod analizi aracı da açılım yapılmadan kullanımda uyarı vermektedir.
+
+>Generic bir sınıf türünden nesne yaratılırken yine açısal parantez kullanılır. Aslında burada da açısal parantez kullanılmadan nesne yaratmak mümkündür ancak tavsiye edilmez.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A<String, Point> asp;  
+        A<String, String> as;  
+        A<Integer, String> asi;  
+        B<Complex> bc;  
+        B<String> bs;  
+        B<Double> bd;  
+  
+        asp = new A<String, Point>("ankara", Point.createCartesian());  
+        as = new A<String, String>("ankara", "istanbul");  
+        asi = new A<Integer, String>(67, "Zonguldak");  
+        bc = new B<Complex>(new Complex());  
+        bs = new B<String>("kastamonu");  
+        bd = new B<Double>(5.8);  
+    }  
+}  
+  
+  
+class A<T, K> {  
+    private T m_t;  
+    private K m_k;  
+  
+    public A(T t, K k)  
+    {  
+        m_t = t;  
+        m_k = k;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public void setT(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public K getK()  
+    {  
+        return m_k;  
+    }  
+  
+    public void setK(K k)  
+    {  
+        m_k = k;  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(m_t, m_k);  
+    }  
+}  
+  
+class B<T> {  
+    private final T m_t;  
+  
+    public B(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_t);  
+    }  
+}
+```
+
+>Java 7 ile birlikte nesne yaratılırken atanacak referansa ilişkin açılım yapılmışsa, açısal parantez arası boş bırakılabilir. Burada yine açısal parantez olmadan kullanılması tavsiye edilmez. Bu kullanımda açısal parantezlerin durumu karo şekline benzediğinden **diamond syntax** da denilmektedir. 
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.Complex;  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A<String, Point> asp;  
+        A<String, String> as;  
+        A<Integer, String> asi;  
+        B<Complex> bc;  
+        B<String> bs;  
+        B<Double> bd;  
+  
+        asp = new A<>("ankara", Point.createCartesian());  
+        as = new A<>("ankara", "istanbul");  
+        asi = new A<>(67, "Zonguldak");  
+        bc = new B<>(new Complex());  
+        bs = new B<>("kastamonu");  
+        bd = new B<>(5.8);  
+    }  
+}  
+  
+  
+class A<T, K> {  
+    private T m_t;  
+    private K m_k;  
+  
+    public A(T t, K k)  
+    {  
+        m_t = t;  
+        m_k = k;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public void setT(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public K getK()  
+    {  
+        return m_k;  
+    }  
+  
+    public void setK(K k)  
+    {  
+        m_k = k;  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(m_t, m_k);  
+    }  
+}  
+  
+class B<T> {  
+    private final T m_t;  
+  
+    public B(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_t);  
+    }  
+}
+```
+
+>Generic parametreler temel türler olacak şekilde açılamaz. Bir generic tür parametresi için temel tür kullanımı gerektiğinde ilgili türe karşılık gelen sarmalayan sınıf kullanılır. Bu durumda temel türler ile yani sarmalayan sınıflar ile kullanımda auto-boxing söz konusudur. Bu da duruma göre maliyetli olabilmektedir. Buna göre programcı temel türler için ayrı bir UDT de yazabilmektedir. Bu durum ileride ele alınacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B<int> b; //error  
+    }  
+}  
+  
+class B<T> {  
+    private final T m_t;  
+  
+    public B(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public String toString()  
+    {  
+        return String.valueOf(m_t);  
+    }  
+}
+```
+
+
+>Çalışma zamanında generic bir UDT'nin farklı türlerle açılımları farklı türler değildir.
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        A<String, String> as = new A<>("Ahmet", "Arslan");  
+        A<Integer, String> ai = new A<>(34, "İstanbul");  
+  
+        Console.writeLine(as.getClass().getName());  
+        Console.writeLine(ai.getClass().getName());  
+    }  
+}  
+  
+  
+class A<T, K> {  
+    private T m_t;  
+    private K m_k;  
+  
+    public A(T t, K k)  
+    {  
+        m_t = t;  
+        m_k = k;  
+    }  
+  
+    public T getT()  
+    {  
+        return m_t;  
+    }  
+  
+    public void setT(T t)  
+    {  
+        m_t = t;  
+    }  
+  
+    public K getK()  
+    {  
+        return m_k;  
+    }  
+  
+    public void setK(K k)  
+    {  
+        m_k = k;  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(m_t, m_k);  
+    }  
+}
+```
+
+>ArrayList sınıfı da generic bir sınıftır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        ArrayList<String> list = new ArrayList<>();  
+  
+        while (true) {  
+            String s = Console.readString("Input a text:");  
+  
+            if ("quit".equals(s))  
+                break;  
+  
+            list.add(s);  
+        }  
+  
+        for (String s : list)  
+            Console.writeLine(s);  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte ArrayList'e ekleme yapılırken `auto boxing`, eklenen elemanların toplamı bulunurken `auto unboxing` yapıldığına dikkat ediniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.util.ArrayList;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        ArrayList<Integer> list = new ArrayList<>();  
+  
+        while (true) {  
+            int a = Console.readInt("Input a number:");  
+  
+            if (a == 0)  
+                break;  
+  
+            list.add(a);  
+        }  
+  
+        for (int s : list)  
+            Console.writeLine(s);  
+    }  
+}
+```
+
+
+
+>Generic sınıflarla ilgili türetme durumları aşağıdakilerden biri biçiminde olabilir:
+>- Generic bir sınıfın generic olmayan bir sınıftan türetilmesi.
+>- Generic bir sınıfın, generic bir sınıfın bir açılımından türetilmesi.
+>- Generic olmayan bir sınıfın generic sınıfın bir açılımından türetilmesi.
+>- Generic bir sınıfın generic bir sınıftan türetilmesi.
 
 
 

@@ -1,25 +1,30 @@
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
-import org.csystem.util.random.RandomGeneratorAlgorithm;
-import org.csystem.util.string.StringUtil;
 
-import java.util.Random;
-import java.util.random.RandomGenerator;
+import java.util.ArrayList;
 
 class App {
     public static void main(String[] args)
     {
-        RandomGenerator randomGenerator = RandomGeneratorAlgorithm.XOROSHIRO256_PLUS_PLUS.create();
-        Random random = new Random();
+        ArrayList<Integer> list = new ArrayList<>();
 
-        for (int i = 0; i < 10; ++i)
-            Console.writeLine(StringUtil.randomTextEN(randomGenerator, randomGenerator.nextInt(5, 15)));
+        while (true) {
+            int a = Console.readInt("Input a number:");
 
-        Console.writeLine("-----------------------------------------------------");
+            if (a == 0)
+                break;
 
-        for (int i = 0; i < 10; ++i)
-            Console.writeLine(StringUtil.randomTextEN(random, random.nextInt(5, 15)));
+            list.add(a);
+        }
 
+        int total = 0;
+        for (int a : list)
+            total += a;
+
+
+        Console.writeLine("Total:%d", total);
     }
 }
+
+
