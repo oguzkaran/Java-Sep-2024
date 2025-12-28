@@ -41499,13 +41499,288 @@ class App {
 }
 ```
 
-
+###### 28 Aralık 2025
 
 >Generic sınıflarla ilgili türetme durumları aşağıdakilerden biri biçiminde olabilir:
->- Generic bir sınıfın generic olmayan bir sınıftan türetilmesi.
+>- Generic bir sınıfın, generic olmayan bir sınıftan türetilmesi.
 >- Generic bir sınıfın, generic bir sınıfın bir açılımından türetilmesi.
->- Generic olmayan bir sınıfın generic sınıfın bir açılımından türetilmesi.
+>- Generic olmayan bir sınıfın, generic bir sınıfın bir açılımından türetilmesi.
 >- Generic bir sınıfın generic bir sınıftan türetilmesi.
+
+>**Generic bir sınıfın, generic olmayan bir sınıftan türetilmesi:** Bu durumda generic sınıfın her açılımı ilgili taban sınıftan türetilmiş olur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B<Integer, Long> bil = new B<>();  
+        B<String, Point> bsp = new B<>();  
+        A a;  
+  
+        a = bil;  
+  
+        //...  
+  
+        a = bsp;  
+    }  
+}  
+  
+class B<T, K> extends A {  
+    //...  
+}  
+  
+  
+class A {  
+    //...  
+}
+```
+
+
+>**Generic bir sınıfın, generic bir sınıfın bir açılımından türetilmesi:** Bu durumda türemiş sınıfın her açılımı ilgili biçimde açılmış taban sınıftan türetilmiş olur. Taban sınıfın sanal metotları açılıma uygun olacak şekilde override edilmelidir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B<Integer, Long> bil = new B<>();  
+        B<String, Point> bsp = new B<>();  
+        A<String> a;  
+  
+        a = bil;  
+  
+        //...  
+  
+        a = bsp;  
+    }  
+}  
+  
+class B<T, K> extends A<String> {  
+    //...  
+  
+    public void foo(String s)  
+    {  
+        Console.writeLine(s);  
+    }  
+}  
+  
+  
+abstract class A<T> {  
+    //...  
+    public abstract void foo(T t);  
+}
+```
+
+
+>**Generic olmayan bir sınıfın, bir generic sınıfın bir açılımından türetilmesi:** Bu durumda taban sınıfın sanal metotları türemiş sınıfta açılıma uygun olacak şekilde override edilmelidir.
+
+>Aşağıdaki demo  sınıfları inceleyiniz
+
+```java  
+class C extends A<String, String> {  
+    public String foo(String s)  
+    {  
+        return s.toUpperCase();  
+    }  
+}  
+  
+class B extends A<Integer, String> {  
+    public String foo(Integer val)  
+    {  
+        return val.toString();  
+    }  
+}  
+  
+  
+abstract class A<T, K> {  
+    public abstract K foo(T t);  
+}
+```
+
+>**Generic bir sınıfın, bir generic bir sınıftan türetilmesi:** Bu durumda türemiş sınıfın her açılımı ilgili taban sınıfın açılımından türetilmiş olur. Yine taban sınıfın sanal metotları taban sınıfın generic tür parametrelerine uygun olacak şekilde override edilmelidir.
+
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        B<Integer, Long> bil = new B<>();  
+        B<String, Point> bsp = new B<>();  
+        A<Integer, Long> ail;  
+        A<String, Point> asp;  
+  
+        ail = bil;  
+  
+        //...  
+  
+        asp = bsp;  
+  
+        //...  
+    }  
+}  
+  
+class B<T, K> extends A<T, K> {  
+    //...  
+  
+    public void foo(T t, K k)  
+    {  
+        Console.writeLine("(%s, %s)", t, k);  
+    }  
+}  
+  
+  
+abstract class A<T, K> {  
+    //...  
+    public abstract void foo(T t, K k);  
+}
+```
+
+>Bir arayüz generic olabilir. Bu durumda generic bir arayüzü destekleyen bir sınıfın arayüzün sanal metotlarını açılımına uygun olarak override etmesi gerekir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+class B<T, K> implements IX<T, K> {  
+    //...  
+    public void foo(T t, K k)  
+    {  
+        //...  
+    }  
+}  
+  
+class A implements IX<String, Point> {  
+    //...  
+  
+    public void foo(String s, Point p)  
+    {  
+        //...  
+    }  
+}  
+  
+interface IX<T, K> {  
+    void foo(T t, K k);  
+    //...  
+}
+```
+
+>Aşağıdaki demo örnekte A sınıfı bir arayüzü iki defa implementasyon listesine yazdığından error oluşur. Çünkü arayüzün her farklı açılımı farklı bir değildir
+
+```java
+class A implements IX<String, Integer>, IX<Point, Complex> { //error  
+    public void foo(String s, Integer i)  
+    {  
+        //...  
+    }  
+  
+    public void foo(Point p, Complex z)  
+    {  
+        //...  
+    }  
+}  
+  
+interface IX<T, K> {  
+    void foo(T t, K k);  
+    //...  
+}
+```
+
+>Aşağıdaki demo örnekte farklı arayüzlerin override edilen metotlarının byte code'daki karşılıkları yani erasure'ları aynı olacağından error oluşur
+
+```java
+class A implements IX<String, Integer>, IY<Point, Complex> { //error  
+    public void foo(String s, Integer i)  
+    {  
+        //...  
+    }  
+  
+    public void foo(Point p, Complex z)  
+    {  
+        //...  
+    }  
+}  
+  
+interface IX<T, K> {  
+    void foo(T t, K k);  
+    //...  
+}  
+  
+  
+interface IY<T, K> {  
+    void foo(T t, K k);  
+    //...  
+}
+```
+
+>Aşağıdaki demo örnekte error oluşmaz
+
+```java
+class A implements IX<String, Integer>, IY<Point, Complex> { //error  
+    public void foo(String s, Integer i)  
+    {  
+        //...  
+    }  
+  
+    public void bar(Point p, Complex z)  
+    {  
+        //...  
+    }  
+}  
+  
+interface IX<T, K> {  
+    void foo(T t, K k);  
+    //...  
+}  
+  
+  
+interface IY<T, K> {  
+    void bar(T t, K k);  
+    //...  
+}
+```
+
+>Generic arayüzler programlamada çok kullanıldığından bazı durumlarda bu arayüzü kullanan sınıflar açısından otomatik kutulama ve otomatik kutu açma maliyeti olmaması için generic arayüzün ilgili temel türler için benzer arayüzleri de kütüphane içerisinde bulundurulur. Örneğin, Java 8'de çok kullanılan `Predicate<T>` arayüzünün kullanıldığı yerlerde kutulama bir maliyet oluşturabileceğinden JavaSE'de ayrıca IntPredicate, LongPredicate ve DoublePredicate gibi 3 tane daha benzer arayüz bulunur. Bu gruptaki arayüzlerin test isimli abstract metotları `Predicate<T>` için T türden, IntPredicate için int türden, LongPredicate için long türden ve DoublePredicate için double türden parametreye sahiptir. Şüphesiz bu durum generic sınıflar için de duruma göre yapılabilmektedir. 
+
+>Generic arayüzlerin de açılımsız kullanımı tavsiye edilmez. Generic bir arayüzün taban arayüz referansı olarak kullanılması durumunda yine derleme zamanında açılıma ilişkin tür kontrolü yapılmaktadır. 
+
+>enum sınıflar ve exception sınıflarının generic bildirilmesi geçersizdir
+
+```java
+enum Sample<T> { //error  
+    //...
+}  
+  
+class MyException<T> extends Exception { //error  
+    //...
+}  
+  
+class YourException<T> extends RuntimeException { //error  
+    //...
+}
+```
+
+
+###### Generic Methods
+
+>
 
 
 
