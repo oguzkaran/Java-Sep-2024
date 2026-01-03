@@ -13891,8 +13891,8 @@ class JoinWithHyphenApp {
 ```
 
 >String sınıfının `indexOf` metotları yazı içerisinde bir karakteri ya da bir yazıyı aramak için kullanılır. Metotlar ilk bulduklarına ilişkin indeks numarasına geri dönerler. Bulamazlarsa `-1` değerine geri dönerler. Bu metotlar şunlardır:
->**1. indexOf(char ch):** Yazı içerisinde parametresi ile aldığı karakteri arar ilk bulduğunun indeks numarasına geri döner. 
->**2. indexOf(char ch, int fromIndex):** Yazı içerisinde parametresi ile aldığı karakteri, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun indeks numarasına geri döner. 
+>**1. indexOf(int ch):** Yazı içerisinde parametresi ile aldığı karakteri arar ilk bulduğunun indeks numarasına geri döner. 
+>**2. indexOf(int ch, int fromIndex):** Yazı içerisinde parametresi ile aldığı karakteri, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun indeks numarasına geri döner. 
 >**3. indexOf(String str):** Yazı içerisinde parametresi ile aldığı yazıyı arar ilk bulduğunum ilk karakterinin indeks numarasına geri döner. 
 >**4. indexOf(String str, int fromIndex):** Yazı içerisinde parametresi ile aldığı yazıyı, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun ilk karakterinin indeks numarasına geri döner. 
 
@@ -41499,6 +41499,368 @@ class App {
 }
 ```
 
+
+>StringUtil sınıfı
+
+```java
+package org.csystem.util.string;  
+  
+import java.util.ArrayList;  
+import java.util.random.RandomGenerator;  
+  
+public final class StringUtil {  
+    private static final String LETTERS_TR;  
+    private static final String LETTERS_EN;  
+    private static final String CAPITAL_LETTERS_TR;  
+    private static final String CAPITAL_LETTERS_EN;  
+    private static final String ALL_LETTERS_TR;  
+    private static final String ALL_LETTERS_EN;  
+  
+    static {  
+        LETTERS_TR = "abcçdefgğhıijklmnoöprsştuüvyz";  
+        LETTERS_EN = "abcdefghijklmnopqrstuvwxyz";  
+        CAPITAL_LETTERS_TR = "ABCÇDEFGĞHIİJKLMOÖPRSŞTUÜVYZ";  
+        CAPITAL_LETTERS_EN = "ABCDEFGHIJKLMOPQRSTUVWXYZ";  
+        ALL_LETTERS_TR = LETTERS_TR + CAPITAL_LETTERS_TR;  
+        ALL_LETTERS_EN = LETTERS_EN + CAPITAL_LETTERS_EN;  
+    }  
+  
+    private StringUtil()  
+    {  
+    }  
+  
+    public static String capitalize(String s)  
+    {  
+        return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();  
+    }  
+  
+    public static String changeCase(String s)  
+    {  
+        StringBuilder sb = new StringBuilder(s);  
+  
+        for (int i = 0; i < sb.length(); ++i) {  
+            char c = sb.charAt(i);  
+  
+            sb.setCharAt(i, Character.isLowerCase(c) ? Character.toUpperCase(c) : Character.toLowerCase(c));  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static int countString(String s1, String s2)  
+    {  
+        int count = 0;  
+  
+        for (int i = -1; (i = s1.indexOf(s2, i + 1)) != -1; ++count)  
+            ;  
+  
+        return count;  
+    }  
+  
+    public static String digits(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isDigit(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static boolean isPalindrome(String s)  
+    {  
+        int left = 0;  
+        int right = s.length() - 1;  
+  
+        while (left < right) {  
+            char cLeft = s.charAt(left);  
+  
+            if (!Character.isLetter(cLeft)) {  
+                ++left;  
+                continue;  
+            }  
+  
+            char cRight = s.charAt(right);  
+  
+            if (!Character.isLetter(cRight)) {  
+                --right;  
+                continue;  
+            }  
+  
+            if (Character.toLowerCase(cLeft) != Character.toLowerCase(cRight))  
+                return false;  
+  
+            ++left;  
+            --right;  
+        }  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangram(String s, String alphabet)  
+    {  
+        for (int i = 0; i < alphabet.length(); ++i)  
+            if (s.indexOf(alphabet.charAt(i)) == -1)  
+                return false;  
+  
+        return true;  
+    }  
+  
+    public static boolean isPangramEN(String s)  
+    {  
+        return isPangram(s.toLowerCase(), LETTERS_EN);  
+    }  
+  
+    public static boolean isPangramTR(String s)  
+    {  
+        return isPangram(s.toLowerCase(), LETTERS_TR);  
+    }  
+  
+    public static String join(String [] s)  
+    {  
+        return join(s, "");  
+    }  
+  
+    public static String join(String [] s, char delimiter)  
+    {  
+        return join(s, String.valueOf(delimiter));  
+    }  
+  
+    public static String join(String [] str, String delimiter)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str)  
+            sb.append(s).append(delimiter);  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, boolean ignoreEmpties)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreEmpties);  
+    }  
+  
+    public static String join(String [] str, String delimiter, boolean ignoreEmpties)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str) {  
+            if (ignoreEmpties) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(String [] s, char delimiter, int ignoreStatus)  
+    {  
+        return join(s, String.valueOf(delimiter), ignoreStatus);  
+    }  
+  
+    public static String join(String [] str, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : str) {  
+            if (ignoreStatus == 1) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s.isBlank())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String join(ArrayList<String> strList, String delimiter, int ignoreStatus)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (String s : strList) {  
+            if (ignoreStatus == 1) {  
+                if (!s.isEmpty())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else if (ignoreStatus == 2) {  
+                if (!s.isBlank())  
+                    sb.append(s).append(delimiter);  
+            }  
+            else  
+                sb.append(s).append(delimiter);  
+        }  
+  
+        return sb.substring(0, sb.length() - delimiter.length());  
+    }  
+  
+    public static String letters(String s)  
+    {  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < s.length(); ++i) {  
+            char c = s.charAt(i);  
+  
+            if (Character.isLetter(c))  
+                sb.append(c);  
+        }  
+  
+        return sb.toString();  
+    }  
+  
+    public static String padLeading(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? String.valueOf(ch).repeat(n - len) + s : s;  
+    }  
+  
+    public static String padLeading(String s, int n)  
+    {  
+        return padLeading(s, n, ' ');  
+    }  
+  
+    public static String padTrailing(String s, int n, char ch)  
+    {  
+        int len = s.length();  
+  
+        return len < n ? s + String.valueOf(ch).repeat(n - len) : s;  
+    }  
+  
+    public static String padTrailing(String s, int n)  
+    {  
+        return padTrailing(s, n, ' ');  
+    }  
+  
+    public static String randomText(RandomGenerator randomGenerator, int count, String sourceText)  
+    {  
+        StringBuilder sb = new StringBuilder(count);  
+  
+        for (int i = 0; i < count; ++i)  
+            sb.append(sourceText.charAt(randomGenerator.nextInt(sourceText.length())));  
+  
+        return sb.toString();  
+    }  
+  
+    public static String randomTextTR(RandomGenerator randomGenerator, int count)  
+    {  
+        return randomText(randomGenerator, count, ALL_LETTERS_TR);  
+    }  
+  
+    public static String randomTextEN(RandomGenerator randomGenerator, int count)  
+    {  
+        return randomText(randomGenerator, count, ALL_LETTERS_EN);  
+    }  
+  
+    public static String [] randomTexts(RandomGenerator randomGenerator, int count, int min, int bound, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(randomGenerator, randomGenerator.nextInt(min, bound), sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(RandomGenerator randomGenerator, int count, int min, int bound)  
+    {  
+        return randomTexts(randomGenerator, count, min, bound, ALL_LETTERS_TR);  
+    }  
+  
+    public static String [] randomTextsEN(RandomGenerator randomGenerator, int count, int min, int bound)  
+    {  
+        return randomTexts(randomGenerator, count, min, bound, ALL_LETTERS_EN);  
+    }  
+  
+    public static String [] randomTexts(RandomGenerator randomGenerator, int count, int n, String sourceText)  
+    {  
+        String [] texts = new String[count];  
+  
+        for (int i = 0; i < count; ++i)  
+            texts[i] = randomText(randomGenerator, n, sourceText);  
+  
+        return texts;  
+    }  
+  
+    public static String [] randomTextsTR(RandomGenerator randomGenerator, int count, int n)  
+    {  
+        return randomTexts(randomGenerator, count, n, ALL_LETTERS_TR);  
+    }  
+  
+    public static String [] randomTextsEN(RandomGenerator randomGenerator, int count, int n)  
+    {  
+        return randomTexts(randomGenerator, count, n, ALL_LETTERS_EN);  
+    }  
+  
+    public static String reverse(String s)  
+    {  
+        return new StringBuilder(s).reverse().toString();  
+    }  
+  
+    public static String [] split(String s, String delimiters)  
+    {  
+        return split(s, delimiters, false);  
+    }  
+  
+    public static String [] split(String s, String delimiters, boolean removeEmpties)  
+    {  
+        StringBuilder sbRegex = new StringBuilder("[");  
+  
+        for (int i = 0; i < delimiters.length(); ++i) {  
+            char c = delimiters.charAt(i);  
+  
+            if (c == ']' || c == '[')  
+                sbRegex.append('\\');  
+  
+            sbRegex.append(c);  
+        }  
+  
+        sbRegex.append(']');  
+  
+        if (removeEmpties)  
+            sbRegex.append('+');  
+  
+        return s.split(sbRegex.toString());  
+    }  
+  
+    public static String trim(String s)  
+    {  
+        return trimLeading(trimTrailing(s));  
+    }  
+  
+    public static String trimLeading(String s)  
+    {  
+        int i = 0;  
+  
+        for (; i < s.length() && Character.isWhitespace(s.charAt(i)); ++i)  
+            ;  
+  
+        return s.substring(i);  
+    }  
+  
+    public static String trimTrailing(String s)  
+    {  
+        int i = s.length() - 1;  
+  
+        for (; i >= 0 && Character.isWhitespace(s.charAt(i)); --i)  
+            ;  
+  
+        return s.substring(0, i + 1);  
+    }  
+}
+```
 ###### 28 Aralık 2025
 
 >Generic sınıflarla ilgili türetme durumları aşağıdakilerden biri biçiminde olabilir:
@@ -41733,7 +42095,7 @@ interface IY<T, K> {
 >Aşağıdaki demo örnekte error oluşmaz
 
 ```java
-class A implements IX<String, Integer>, IY<Point, Complex> { //error  
+class A implements IX<String, Integer>, IY<Point, Complex> {  
     public void foo(String s, Integer i)  
     {  
         //...  
@@ -41777,10 +42139,498 @@ class YourException<T> extends RuntimeException { //error
 }
 ```
 
+##### 3 Ocak 2026
 
 ###### Generic Methods
 
->
+>Bir metot generic olarak bildirilebilir. Generic bir metodun generic tür parametreleri metodun geri dönüş değerinden  önce açısal parantez içerisinde bildirilir. Generic bir metot çağrısında generic parametrelerin türleri çağrı  sırasında **tespit edilebiliyorsa (type inference/deduction)** bu durumda açılım yapmaya gerek yoktur. Açılım, metot isminden önce açısal parantez içerisinde yapılabilir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample s = new Sample();  
+  
+        s.foo(20);  
+        s.foo("Zonguldak");  
+        s.<String>foo("Riva");  
+        s.<Integer>foo(10);  
+        Sample.bar(3.4, true);  
+        Sample.<Double, Boolean>bar(3.4, true);  
+        Sample.bar(34, "İstanbul");  
+        Sample.<Integer, String>bar(34, "İstanbul");  
+    }  
+}  
+  
+class Sample {  
+    public <T> void foo(T t)  
+    {  
+        Console.writeLine(t);  
+    }  
+  
+    public static <T, K> void bar(T t, K k)  
+    {  
+        Console.writeLine(t);  
+        Console.writeLine(k);  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte int türden veya String türden bir argüman ile açılım yapılsa bile generic metodun çağrılması mümkün değildir. Çünkü Java'da her durumda argümandan parametrelere olan dönüşümün kalitesine göre, daha kaliteli ya da daha az kaliteli olmayan dönüşüm sunan metot seçilir. Bu durumda `örnek özelinde` int veya String bir argüman ile generic metodun çağrılması mümkün olmadığına göre, int türden değer kutulanarak, String türden değer de Object türüne dönüştürülerek generic metodun çağrılması sağlanabilir. 
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.math.geometry.Point;  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample.foo(10);  
+        Sample.<Integer>foo(10);  
+        Sample.foo((Integer)10);  
+        Sample.foo("Ankara");  
+        Sample.<String>foo("Ankara");  
+        Sample.foo((Object)"Ankara");  
+        Sample.foo(Point.createCartesian(100, 100));  
+    }  
+}  
+  
+class Sample {  
+    public static <T> void foo(T t)  
+    {  
+        Console.writeLine("T -> %s", t);  
+    }  
+  
+    public static void foo(int a)  
+    {  
+        Console.writeLine("int -> %d", a);  
+    }  
+  
+    public static void foo(String s)  
+    {  
+        Console.writeLine("String -> %s", s);  
+    }  
+}
+```
+
+>Yukarıdaki gibi bir metodun hem generic hem de özel türler için overload edilmesinen **generic parameter type specialization** da denilmektedir. Yani bu anlamda ilgili metot bazı türler için özelleştirilmiş olur.
+
+
+>Generic bir sınıfın generic bir metodu  olabilir. Buna **member generic** de denilmektedir.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample<Boolean> s = new Sample<>();  
+  
+        s.foo(true, "Ankara");  
+        s.foo(false, 2.3);  
+    }  
+}  
+  
+class Sample<T> {  
+    public <K> void foo(T t, K k)  
+    {  
+        Console.writeLine(t);  
+        Console.writeLine(k);  
+    }  
+}
+```
+
+>Generic bir UDT'nin generic tür parametresi static bir metot içerisinde kullanılamaz. Yani generic UDT'nin generic tür parametre isminin faaliyet alanına static metotlar dahil değildir
+
+```java
+class Sample<T> {  
+    public static <K> void foo(T t, K k)  //error
+    {  
+        Console.writeLine(t);  
+        Console.writeLine(k);  
+    }  
+}
+```
+
+>Yukarıdaki durum için generic metoda ayrı bir tür parametresi bildirimi yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample.foo(true, "Ankara");  
+        Sample.foo(2.3, 'a');  
+    }  
+}  
+  
+class Sample<T> {  
+    //...  
+    public static <L, K> void foo(L a, K b)  
+    {  
+        Console.writeLine(a);  
+        Console.writeLine(b);  
+    }  
+}
+```
+
+>Yukarıda bildirilen generic tür parametresi ismi generic sınıfın generic tür parametresi ile aynı isimde olabilir. Çünkü bunlar farklı faaliyet alanlarına sahiptirler
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample.foo(true, "Ankara");  
+        Sample.foo(2.3, 'a');  
+    }  
+}  
+  
+class Sample<T> {  
+    //...  
+    public static <T, K> void foo(T a, K b)  
+    {  
+        Console.writeLine(a);  
+        Console.writeLine(b);  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte generic metodun `T` tür parametresi, sınıfın `T` tür parametresini gölgeler (shadowing/hiding). Yani foo metodu içerisinde sınıfın generic tür parametresi olan T ismi kullanılamaz. Bu durumun pratikte pek karşılığı yoktur.
+
+```java
+class Sample<T> {  
+    //...  
+    public <T, K> void foo(T a, K b)  
+    {  
+        Console.writeLine(a);  
+        Console.writeLine(b);  
+    }  
+}
+```
+
+>Aşağıdaki demo örnekte static bir veri elemanı, ait olduğu generic sınıfın generic tür parametresi türünden bildirilemez
+
+```java
+class Sample<T> {  
+    public static T a; //error  
+    //...
+}
+```
+
+>Kısaca belirtmek gerekirse bir UDT'nin generic tür parametresi **static bağlamda (static context)** kullanılamaz. Yani, static metot, static veri elemanı ve static initializer gibi static context'de olan elemanlar faaliyet alanına dahil değildir. 
+
+>Programlamda bir `n-li (n-ary)` temsil eden veri yapılarına genel olarak `tuple` denir. Maalesef, JavaSE'de tuple veri yapısını temsil eden sınıflar doğrudan bulunmaz. Böylesi sınıflar gerektiğinde programcı ya yazılmış olan başka bir kütüphaneyi kullanır ya da kendisi bir kütüphane yazar. Tuple veri yapısını temsil eden bir sınıfın generic olması daha uygundur. Burada bir `ikiliyi (pair)`temsil eden `Pair` ve bir `üçlüyü (triple)` temsil eden `Triple` generic sınıfları immutable olarak yazılacaktır.
+
+>Aşağıdaki Pair sınıfını ve test kodlarını inceleyiniz
+
+**Anahtar Notlar:** Generic bir UDT'nin açılımında tür parametreleri için `?` karakteri kullanılabilir. Bu şekilde bir açılım generic'ler için genel olarak `any type` anlamına gelmektedir. Genel olarak tür bilgisinin önemi olmadığı ancak açılım yapılması gerektiği durumlarda kullanılır. Burada `?` atomuna `wildcard` denilmektedir. Wildcard kullanımına ilişkin detaylar `Java ile Uygulama Geliştirme I ve II` kurslarından ele alınacaktır. Aşağıdaki `Pair` sınıfında açılımsız kullanmak yerine bu şekilde kullanımı uygundur. Şimdilik bir kalıp olarak düşünülebilir.
+
+```java
+package org.csystem.tuple.test;  
+  
+import org.csystem.tuple.Pair;  
+import org.csystem.util.console.Console;  
+  
+public class PairEqualsTest {  
+    public static void run()  
+    {  
+        Pair<Integer, String> p1 = new Pair<>(67, "Zonguldak");  
+        Pair<Integer, String> p2 = new Pair<>(67, "Zonguldak");  
+        Pair<Integer, String> p3 = new Pair<>(37, "Kastamonu");  
+  
+        Console.writeLine(p1);  
+        Console.writeLine(p2);  
+        Console.writeLine(p3);  
+  
+  
+        Console.writeLine(p1.equals(p2));  
+        Console.writeLine(p1.equals(p3));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.tuple.test;  
+  
+import org.csystem.tuple.Pair;  
+import org.csystem.util.console.Console;  
+  
+public class PairOfest {  
+    public static void run()  
+    {  
+        Pair<Integer, String> p1 = Pair.of(67, "Zonguldak");  
+        Pair<Integer, String> p2 = Pair.of(67, "Zonguldak");  
+        Pair<Integer, String> p3 = Pair.of(37, "Kastamonu");  
+  
+        Console.writeLine(p1);  
+        Console.writeLine(p2);  
+        Console.writeLine(p3);  
+  
+  
+        Console.writeLine(p1.equals(p2));  
+        Console.writeLine(p1.equals(p3));  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run();  
+    }  
+}
+```
+
+```java
+package org.csystem.tuple;  
+  
+public class Pair<F, S> {  
+    public final F first;  
+    public final S second;  
+  
+    public static <F, S> Pair<F, S> of(F first, S second)  
+    {  
+        return new Pair<>(first, second);  
+    }  
+  
+    public Pair(F first, S second)  
+    {  
+        this.first = first;  
+        this.second = second;  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof Pair<?, ?> p && this.first.equals(p.first) && this.second.equals(p.second);  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s)".formatted(first, second);  
+    }  
+    //...  
+}
+```
+
+
+>Aşağıdaki Triple sınıfını inceleyiniz
+
+```java
+package org.csystem.tuple;  
+  
+public class Triple<F, S, T> {  
+    public final F first;  
+    public final S second;  
+    public final T third;  
+  
+    public static <F, S, T> Triple<F, S, T> of(F first, S second, T third)  
+    {  
+        return new Triple<>(first, second, third);  
+    }  
+  
+    public Triple(F first, S second, T third)  
+    {  
+        this.first = first;  
+        this.second = second;  
+        this.third = third;  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof Triple<?, ?, ?> t && this.first.equals(t.first) && this.second.equals(t.second)  
+                && this.third.equals(t.third);  
+    }  
+  
+    public String toString()  
+    {  
+        return "(%s, %s, %s)".formatted(first, second, third);  
+    }  
+    //...  
+}
+```
+
+>Bir UDT ya da bir metodun generic tür parametresi için kısıt (constraint) verilebilir. Örneğin bir sınıfın generic bir tür parametresi için `TWR` kullanmak isteyebilir. Yani generic türün `AutoCloseable` olması tasarımı dolayısıyla gerekebilir. Bu durumda derleyici generic tür parametresinin `AutoCloseable` olduğunu anlamlıdır. İşte, bu sebeple generic tür parametreleri için kısıtlar verilebilir. Bunun için genel olarak `extends` anahtar sözcüğü kullanılır. Kısıt verilen generic tür parametreler, verilen ksııtlara uygun olan türlerler açılabilir. Aksı durumda error oluşur.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.io.FileOutputStream;  
+  
+class App {  
+    public static void main(String[] args)  
+    {  
+        Sample<FileOutputStream, MyRunnable> s1;  
+        Sample<AutoCloseable, Runnable> s2;  
+        Sample<String, Runnable> s3; //error  
+        Sample<FileOutputStream, Integer> s4; //error  
+    }  
+}  
+  
+class Sample<T extends AutoCloseable, K extends Runnable> {  
+    public void foo(T t, K k)  
+    {  
+        try (t) {  
+            k.run();  
+        }  
+        catch (Exception e) {  
+            //...  
+        }  
+    }  
+}  
+  
+  
+class MyRunnable implements Runnable {  
+    //...  
+    public void run()  
+    {  
+        //...  
+    }  
+}
+```
+
+**Anahtar Notlar:** Generic tür parametrelerine ilişkin kısıtların detayları `Java ile Uygulama Geliştirme I` kursunda ele alınacaktır. 
+
+>Generic türden bir nesne new operatörü ile doğrudan yaratılamaz. Benzer şekilde generic türden bir dizi de new operatörü ile doğrudan yaratılamaz
+
+```java
+class Sample<T, K> {  
+    private T m_t;  
+    private K [] m_ks;  
+  
+    public Sample(int size)  
+    {  
+        m_t = new T(); //error  
+        m_ks = new K[size]; //error  
+    }  
+  
+    //...  
+}
+```
+
+>Bunu yapabilmenin pek çok çok yöntemi vardır. Burada, aşağıdaki biçimde nesne yaratma yöntemi (kalıbı diyebilirsiniz) ele alınacaktır. Bu yöntemde nesne için önce Object türden bir nesne yaratılmış ve referansı explicit olarak (casting) generic türe dönüştürülmüştür, dizi için ise önce Object türden bir dizi yaratılmış ve referansı generic türden diziye explicit olarak dönüştürülmüştür. Diğer yöntemler, `Java ile Uygulama Geliştirme I ve II` kurslarında ele alınacaktır. 
+
+**Anahtar Notlar:** Bu yöntemde pek çok static kod analizi aracı uyarı verebilecektir. Bu uyarının ne olduğu be neden olduğu şu aşamada önemsizdir
+
+```java
+class Sample<T, K> {  
+    private T m_t;  
+    private K [] m_ks;  
+  
+    public Sample(int size)  
+    {  
+        m_t = (T)new Object();  
+        m_ks = (K[])new Object[size];  
+    }  
+  
+    //...  
+}
+```
+
+>**Sınıf Çalışması:** İskeleti verilen `CSDArrayList<E>` sınıfını aşağıdaki açıklamalara göre yazınız:  
+>**Açıklamalar:**  
+>- Sınıfın metotları `ArrayList<E>` sınıfındaki metotların yaptığı işleri yapacaktır.  
+>- Metotların karmaşıklıklarının `ArrayList<E>` ile aynı olması gerekir.  
+>- Metotlarda fırlatılacak exception'lar yine `ArrayList<E>` ile aynı olacaktır.  
+>- Sınıfın public bölümünü değiştirmeden istediğiniz eklemeyi yapabilirsiniz.
+>- `CSDArrayList<E>` sınıfının iskeleti şu şekildedir:
+```java
+package org.csystem.collection;  
+  
+public class CSDArrayList<E> {  
+  
+    public CSDArrayList()  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public CSDArrayList(int initialCapacity)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public boolean add(E element)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public void add(int index, E element)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public int capacity()  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public void clear()  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public void ensureCapacity(int minCapacity)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public E get(int index)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public E remove(int index)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public E set(int index, E element)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public int size()  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public void trimToSize()  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+  
+    public String toString()  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented");  
+    }  
+}
+```
+
+
+
+
 
 
 
