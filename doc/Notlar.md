@@ -30515,7 +30515,7 @@ class A {
 
 >Yukarıdaki demo örneğin sınıf şeması detaylar gözardı edilerek şu şekildedir:
 
-![inheritance3](./media/inheritance3.PNG)
+![inheritance3](./media/Inheritance3.PNG)
 >Yukarıdaki demo örneğe ilişkin sınıflar türünden nesnelerin bellekteki durumları şu şekilde gösterilebilir:
 
 
