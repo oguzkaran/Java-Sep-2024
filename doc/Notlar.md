@@ -30519,7 +30519,7 @@ class A {
 >Yukarıdaki demo örneğe ilişkin sınıflar türünden nesnelerin bellekteki durumları şu şekilde gösterilebilir:
 
 
-![Inheritance Memory](./media/inheritancememory.png)
+![Inheritance Memory](./media/inheritancememory.PNG)
 
 >Upcasting argümandan parametre aktarım ve metodun geri dönüş değerinin geçici değişkene atanması durumunlarında da geçerlidir.
 
