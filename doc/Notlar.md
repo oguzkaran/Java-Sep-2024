@@ -30515,11 +30515,11 @@ class A {
 
 >Yukarıdaki demo örneğin sınıf şeması detaylar gözardı edilerek şu şekildedir:
 
-![inheritance3](./media/inheritance3.png)
+![inheritance3](./media/inheritance3.PNG)
 >Yukarıdaki demo örneğe ilişkin sınıflar türünden nesnelerin bellekteki durumları şu şekilde gösterilebilir:
 
 
-![Inheritance Memory](./media/inheritancememory.PNG)
+![Inheritance Memory](./media/inheritanceMemory.PNG)
 
 >Upcasting argümandan parametre aktarım ve metodun geri dönüş değerinin geçici değişkene atanması durumunlarında da geçerlidir.
 
