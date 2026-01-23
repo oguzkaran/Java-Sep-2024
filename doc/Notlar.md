@@ -42627,6 +42627,9 @@ public class CSDArrayList<E> {
 }
 ```
 
+>**Anahtar Notlar:** Anımsanacağı gibi bir nesneyi gösteren en az bir tane referans kaldığında nesne eligible duruma geçemez. Bu durumda GC devreye girdiğinde nesneyi çöp olarak kabul etmez. Bazı durumlarda programcı nesneyi referanstan kopartmayı gözden kaçırırsa bu durumda nesne hiç bir zaman eligible duruma gelemez. ArrayList sınıfının clear metodunda  ve remove metodunda böylesi bir durum oluşmaması için referanslar null'a çekilmiştir.
+
+
 >**Çözüm:**
 
 ```java
