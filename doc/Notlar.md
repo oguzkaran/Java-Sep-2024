@@ -11590,9 +11590,9 @@ class DateUtil {
 
 ##### Sınıf Elemanlarına Sınıf İçerisinden Erişim
 
->Sınıfın bir elemanına, bir metodu içerisinde aşağıdaki kurallar ile **doğrudan** erişilebilir. Burada `doğrudan` erişim en genel ifadesiyle nokta operatörü kullanılmadan erişim olarak düşünülmelidir:
+>Sınıfın bir elemanına, bir metodu içerisinde aşağıdaki kurallar ile **doğrudan** erişilebilir. Burada **doğrudan** erişim en genel ifadesiyle nokta operatörü kullanılmadan erişim olarak düşünülmelidir:
 >
->- Sınıfın non-static bir metodu içerisinde aynı sınıfıın non-static bir veri elemanına doğrudan erişilebilir. Doğrudan erişilen bu eleman, non-static metodun çağrıldığı referansın gösterdiği nesnenin veri elemanıdır.
+>- Sınıfın non-static bir metodu içerisinde aynı sınıfın non-static bir veri elemanına doğrudan erişilebilir. Doğrudan erişilen bu eleman, non-static metodun çağrıldığı referansın gösterdiği nesnenin veri elemanıdır.
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -12018,7 +12018,7 @@ class Point {
 ##### 22 Şubat 2025
 
 >Aşağıdaki, bir karmaşık sayıyı (complex number) temsil eden `Complex` sınıfın ve test kodlarını inceleyiniz.
-**Açıklamalar:** $z = a + i * b$, $z_1 = a_1 + i * b_1$, $z_2 = a_2 + i * b_2$ karmaşık sayıları için
+>**Açıklamalar:** $z = a + i * b$, $z_1 = a_1 + i * b_1$, $z_2 = a_2 + i * b_2$ karmaşık sayıları için
 >- $\bar{z} = a - i * b$
 >- $|z| = \sqrt{a^2 + b^2}$
 >- $z_1 \pm z_2 = (a_1 \pm a_2) + i * (b_1 \pm b2)$
@@ -12291,7 +12291,7 @@ class Complex {
 >- Hangi ctor'un çağrılacağı new operatöründe geçilen argümanlara göre klasik `method overload resolution` kurallarına göre belirlenir. 
 >- ctor programcı tarafından çağrılamaz. Programcı, nesne yaratılması sırasında hangi ctor'un çağrılacağının belirlendiği kodu yazar.
 >- Nesne yaratılması adımları dolayısıyla ctor çağrılmadan önce non-static olan (fakat final olmayan) veri elamanlarına default değerler verilmiş olur. 
->- ctor, geri dönüş değeri olmayan bir metot olsa da void bir metot gibi, istenirse return deyimi ctor'u sonlandırmak için kullanılabilir. Burada sonlandırma, ctor'un normal olarak sonlamasına yol açar yani nesne yaratılmış olur. 
+>- ctor, geri dönüş değeri kavramı olmayan bir metot olsa da void bir metot gibi, istenirse return deyimi ctor'u sonlandırmak için kullanılabilir. Burada sonlandırma, ctor'un normal olarak sonlamasına yol açar yani nesne yaratılmış olur. 
 
 >Aşağıdaki demo örnekte Sample sınıfında default ctor da dahil 4 tane ctor overload edilmiştir. Mample sınıfında herhangi bir ctor bildirilmediğinden derleyici default ctor'u public ve içi boş olarak yazar
 
@@ -12438,8 +12438,7 @@ class App {
 		Sample s1 = new Sample(); 
 	
 		
-		//...
-		
+		//...		
 	}
 }
 
@@ -42627,6 +42626,593 @@ public class CSDArrayList<E> {
     }  
 }
 ```
+
+>**Çözüm:**
+
+```java
+package org.csystem.collection;  
+  
+import java.util.Arrays;  
+  
+public class CSDArrayList<E> {  
+    private static final int DEFAULT_CAPACITY = 10;  
+    private E [] m_elements;  
+    private int m_index;  
+  
+    private void throwIllegalArgumentException(String message)  
+    {  
+        throw new IllegalArgumentException(message);  
+    }  
+  
+    private void throwIndexOutOfBoundsException(String message)  
+    {  
+        throw new IndexOutOfBoundsException(message);  
+    }  
+  
+    private void checkCapacity(int capacity)  
+    {  
+        if (capacity < 0)  
+            throwIllegalArgumentException(String.format("Capacity must be non-negative:%d", capacity));  
+    }  
+  
+    private void checkIndex(int index)  
+    {  
+        if (index < 0 || index >= m_index)  
+            throwIndexOutOfBoundsException(String.format("Index out of bounds:%d", index));  
+    }  
+  
+    private void changeCapacity(int capacity)  
+    {  
+        m_elements = Arrays.copyOf(m_elements, capacity);  
+    }  
+  
+    private void increaseCapacityIfNecessary()  
+    {  
+        if (m_elements.length == m_index)  
+            changeCapacity(m_elements.length == 0 ? 1 : m_elements.length * 2);  
+    }  
+  
+    public CSDArrayList()  
+    {  
+        m_elements = (E[])new Object[DEFAULT_CAPACITY];  
+    }  
+  
+    public CSDArrayList(int initialCapacity)  
+    {  
+        checkCapacity(initialCapacity);  
+        m_elements = (E[])new Object[initialCapacity];  
+    }  
+  
+    public boolean add(E element)  
+    {  
+        increaseCapacityIfNecessary();  
+        m_elements[m_index++] = element;  
+  
+        return true;  
+    }  
+  
+    public void add(int index, E element)  
+    {  
+        increaseCapacityIfNecessary();  
+  
+        for (int i = m_index++; i > index; --i)  
+            m_elements[i] = m_elements[i - 1];  
+  
+        m_elements[index] = element;  
+    }  
+  
+    public int capacity()  
+    {  
+        return m_elements.length;  
+    }  
+  
+    public void clear()  
+    {  
+        for (int i = 0; i < m_index; ++i)  
+            m_elements[i] = null;  
+  
+        m_index = 0;  
+    }  
+  
+    public void ensureCapacity(int minCapacity)  
+    {  
+        if (minCapacity > m_elements.length)  
+            changeCapacity(Math.max(minCapacity, m_elements.length * 2));  
+    }  
+  
+    public E get(int index)  
+    {  
+        checkIndex(index);  
+  
+        return m_elements[index];  
+    }  
+  
+    public E remove(int index)  
+    {  
+        checkIndex(index);  
+        E oldElement = m_elements[index];  
+  
+        for (int i = index; i < m_index - 1; ++i)  
+            m_elements[i] = m_elements[i + 1];  
+  
+        m_elements[--m_index] = null;  
+  
+        return oldElement;  
+    }  
+  
+    public E set(int index, E element)  
+    {  
+        checkIndex(index);  
+        E oldElement = m_elements[index];  
+  
+        m_elements[index] = element;  
+  
+        return oldElement;  
+    }  
+  
+    public int size()  
+    {  
+        return m_index;  
+    }  
+  
+    public void trimToSize()  
+    {  
+        if (m_elements.length != m_index)  
+            changeCapacity(m_index);  
+    }  
+  
+    public String toString()  
+    {  
+        StringBuilder sb = new StringBuilder("[");  
+  
+        for (int i = 0; i < m_index; ++i)  
+            sb.append(m_elements[i]).append(", ");  
+  
+        return (m_index != 0 ? sb.substring(0, sb.length() - 2) : sb.toString()) + "]";  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Bir kesri temsil eden Fraction isimli sınıfı aşağıdaki açıklamalara göre yazınız  
+>  
+>**Açıklamalar:**  
+>- Sınıf Matematikteki bir kesri temsil ettiğinden pay (numerator) ve payda (denominator) değerleri tutulacaktır.  
+>- Sınıfın ilgili set ve get metotları yazılacaktır.  
+>- Pay'ın sıfırdan farklı veya sıfır VE paydanın sıfır olması durumunda uygun mesajlar ile `IllegalArgumentException` fırlatılacaktır  
+>- Kesir her durumda sadeleşmiş bir biçimde tutulacaktır. Örneğin kesrin pay ve paydası sırasıyla 4 ve 18 olarak verildiğinde kesir 2 / 9 olarak tutulacaktır.  
+>- Kesir negatif ise işaret payda bulunacaktır. Örneğin kesrin pay ve paydası sırasıyla 3 ve -4 olarak verilmişse  kesir -3 / 4 biçiminde tutulacaktır.  
+>- Kesrin pay ve paydasının her ikisinin birden negatif olması durumunda kesir pozitif olarak tutulacaktır.  
+>- Kesrin payının sıfır olması durumunda payda ne olursa olsun 1(bir) yapılacaktır.  
+>- Sınıfın iki kesri toplayan, bir kesir ile bir tamsayıyı toplayan metotları olacaktır. Aynı işlemler çıkarma, çarpma ve bölme için de yapılacaktır.  
+>- Sınıfın kesri 1(bir) artıran ve bir azaltan sırasıyla inc ve dec metotları yazılacaktır.  
+>- Sınıfın toString metodu şu formatta yazı döndürecek şekilde override edilecektir. Örneğin 3 / 10 kesri için -> 3 / 10 = 3.333333  10 / 1 kesri için -> 10 . Ondalık kısımda 6 basamak gösterilecektir. Geri kalan basamaklar yuvarlanacaktır.  
+>- Sınıfın equals metodu iki kesrin eşitlik karşılaştırması için override edilecektir.  
+>- Sınıfın default ctor'u `0 / 1` kesrini temsil eden nesneyi yaratmak için kullanılabilecektir.  
+>- Sınıfın compareTo metodu iki kesrin büyüklük küçüklük karşılaştırmasını yapacaktır. String sınıfının compareTo metodunun mantığına göre tasarlayınız.  
+>- Kesrin double türden ondalık değerini döndüren getRealValue metodu yazılacaktır.  
+>- Sınıfın public bölümünü değiştirmeden istediğiniz değişikliği ve eklemeleri yapabilirsiniz.  
+>- Sınıfın public bölümü ile birlikte iskeleti şu şekildedir:  
+  
+```java  
+package org.csystem.math;  
+  
+public class Fraction {  
+    public Fraction()    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction(int a)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction(int a, int b)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public int getNumerator()    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public void setNumerator(int val)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public int getDenominator()    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public void setDenominator(int val)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public double getRealValue()    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction add(Fraction other)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction add(int val)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction subtract(Fraction other)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction subtract(int val)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction multiply(Fraction other)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction multiply(int val)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction divide(Fraction other)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public Fraction divide(int val)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public void inc()    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public void dec()    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public int compareTo(Fraction other)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public boolean equals(Object other)    {        throw new UnsupportedOperationException("TODO:");  
+    }  
+    public String toString()    {         throw new UnsupportedOperationException("TODO:");  
+    }}  
+```
+
+>**Çözüm:**
+
+>Test Kodları
+
+```java
+package org.csystem.math.test;  
+    
+import org.csystem.math.Fraction;    
+import org.csystem.util.console.Console;    
+    
+import java.util.Random;    
+    
+public class FractionCtorsTest {    
+    public static void run()    
+    {    
+        try {    
+            Random r = new Random();    
+            Fraction f1 = new Fraction();    
+            Fraction f2 = new Fraction(3);    
+            Fraction f3 = new Fraction(3, 4);    
+            Fraction f4 = new Fraction(3, -4);    
+            Fraction f5 = new Fraction(-3, -4);    
+            Fraction f6 = new Fraction(120, 160);    
+            Fraction f7 = new Fraction(120, -160);    
+            Fraction f8 = new Fraction(-120, -160);    
+    
+            Console.writeLine("f1 -> %s", f1);    
+            Console.writeLine("f2 -> %s", f2);    
+            Console.writeLine("f3 -> %s", f3);    
+            Console.writeLine("f4 -> %s", f4);    
+            Console.writeLine("f5 -> %s", f5);    
+            Console.writeLine("f6 -> %s", f6);    
+            Console.writeLine("f7 -> %s", f7);    
+            Console.writeLine("f8 -> %s", f8);    
+    
+            int a = r.nextInt(3);    
+    
+            Console.writeLine("a = %d", a);    
+            Fraction f9 = new Fraction(a, 0);    
+        }    
+        catch (IllegalArgumentException ex) {    
+            Console.writeLine(ex.getMessage());    
+        }    
+    }    
+    
+    public static void main(String[] args)    
+    {    
+        run();    
+    }    
+}
+```
+
+```java
+package org.csystem.math.test;  
+    
+import org.csystem.math.Fraction;    
+import org.csystem.util.console.Console;    
+    
+public class FractionArithmeticOperationsTest {    
+    public static void run()    
+    {    
+        try {    
+            Fraction f1 = new Fraction(1,2);    
+            Fraction f2 = new Fraction(1, -4);    
+              
+            Console.writeLine(f1.add(f2).equals(new Fraction(1, 4)));    
+            Console.writeLine(f1.subtract(f2).equals(new Fraction(3, 4)));    
+            Console.writeLine(f1.multiply(f2).equals(new Fraction(1, -8)));    
+            Console.writeLine(f1.divide(f2).equals(new Fraction(-2)));    
+            Console.writeLine(f1.divide(new Fraction()));    
+        }    
+        catch (IllegalArgumentException ex) {    
+            Console.writeLine("Exception Message:%s", ex.getMessage());    
+        }    
+    }    
+    public static void main(String[] args)    
+    {    
+        run();    
+    }    
+}
+```
+
+```java
+package org.csystem.math.test;  
+    
+import org.csystem.math.Fraction;    
+import org.csystem.util.console.Console;    
+    
+public class FractionComparisonTest {    
+    public static void run()    
+    {    
+        Fraction f1 = new Fraction(1,2);    
+        Fraction f2 = new Fraction(-10, 20);    
+        Fraction f3 = new Fraction(1, -4);    
+        Fraction f4 = new Fraction(3, 4);    
+        Fraction f5 = new Fraction();    
+        Fraction f6 = new Fraction(2, 4);    
+        Fraction f7 = new Fraction(-120, -160);    
+    
+        Console.writeLine(f1.compareTo(f3) > 0);    
+        Console.writeLine(f2.compareTo(f1) < 0);    
+        Console.writeLine(f4.compareTo(f7) == 0);    
+        Console.writeLine(f5.compareTo(f6) < 0);    
+        Console.writeLine(f6.compareTo(f3) > 0);    
+    }    
+    public static void main(String[] args)    
+    {    
+        run();    
+    }    
+}
+```
+
+```java
+package org.csystem.math.test;  
+    
+import org.csystem.math.Fraction;    
+import org.csystem.util.console.Console;    
+    
+public class FractionEqualityTest {    
+    public static void run(){    
+    
+        Fraction f1 = new Fraction(1, 2);    
+        Fraction f2 = new Fraction(-10, 20);    
+        Fraction f3 = new Fraction(1, -4);    
+        Fraction f4 = new Fraction(3, 4);    
+        Fraction f5 = new Fraction(0, 10);    
+        Fraction f6 = new Fraction();    
+        Fraction f7 = new Fraction(2, 4);    
+        Fraction f8 = new Fraction(-120, -160);    
+    
+        Console.writeLine(f1.equals(f3));    
+        Console.writeLine(f2.equals(f1));    
+        Console.writeLine(f4.equals(f8));    
+        Console.writeLine(f6.equals(f5));    
+        Console.writeLine(f7.equals(f3));    
+    
+    }    
+    public static void main(String[] args)    
+    {    
+        run();    
+    }    
+}
+```
+
+```java
+package org.csystem.math.test;  
+    
+import org.csystem.math.Fraction;    
+import org.csystem.util.console.Console;    
+    
+import java.util.Random;    
+    
+public class FractionSettersTest {    
+    public static void run()    
+    {    
+        try {    
+            Random r = new Random();    
+            Fraction f1 = new Fraction(12, 16);    
+    
+            Console.writeLine("f1 -> %s", f1);    
+    
+            f1.setNumerator(0);    
+    
+            Console.writeLine("f1 -> %s", f1);    
+    
+            f1.setNumerator(6);    
+            Console.writeLine("f1 -> %s", f1);    
+            f1.setDenominator(36);    
+            Console.writeLine("f1 -> %s", f1);    
+    
+            int a = r.nextInt(3);    
+    
+            Console.writeLine("a = %d", a);    
+            f1.setNumerator(a);    
+            f1.setDenominator(0);    
+        }    
+        catch (IllegalArgumentException ex) {    
+            Console.writeLine(ex.getMessage());    
+        }    
+    }    
+    
+    public static void main(String[] args)    
+    {    
+        run();    
+    }    
+}
+```
+
+>Fraction sınıfı
+```java
+  
+package org.csystem.math;  
+  
+public class Fraction {  
+    private int m_a;  
+    private int m_b;  
+  
+    private static Fraction add(int a1, int b1, int a2, int b2)  
+    {  
+        return new Fraction(a1 * b2 + a2 * b1, b1 * b2);  
+    }  
+  
+    private static Fraction subtract(int a1, int b1, int a2, int b2)  
+    {  
+        return add(a1, b1, -a2, b2);  
+    }  
+  
+    private static Fraction multiply(int a1, int b1, int a2, int b2)  
+    {  
+        return new Fraction(a1 * a2, b1 * b2);  
+    }  
+  
+    private static Fraction divide(int a1, int b1, int a2, int b2)  
+    {  
+        return multiply(a1, b1, b2, a2);  
+    }  
+  
+    private static void check(int a, int b)  
+    {  
+        if (b == 0)  
+            throw new IllegalArgumentException(a == 0 ? "Indeterminate" : "Undefined");  
+    }  
+  
+    private void setSign()  
+    {  
+        if (m_b < 0) {  
+            m_a = -m_a;  
+            m_b = -m_b;  
+        }  
+    }  
+  
+    private void simplify()  
+    {  
+        int min = Math.min(Math.abs(m_a), m_b);  
+  
+        for (int i = min; i >= 2; --i)  
+            if (m_a % i == 0 && m_b % i == 0) {  
+                m_a /= i;  
+                m_b /= i;  
+                break;  
+            }  
+    }  
+  
+    private void setFields(int a, int b)  
+    {  
+        m_a = a;  
+        m_b = b;  
+    }  
+  
+    private void set(int a, int b)  
+    {  
+        if (a == 0) {  
+            setFields(0, 1);  
+            return;  
+        }  
+  
+        setFields(a, b);  
+        setSign();  
+        simplify();  
+    }  
+  
+    public Fraction()  
+    {  
+        this(0);  
+    }  
+  
+    public Fraction(int a)  
+    {  
+        m_a = a;  
+        m_b = 1;  
+    }  
+  
+    public Fraction(int a, int b)  
+    {  
+        check(a, b);  
+        set(a, b);  
+    }  
+  
+    public int getNumerator()  
+    {  
+        return m_a;  
+    }  
+  
+    public void setNumerator(int val)  
+    {  
+        set(val, m_b);  
+    }  
+  
+    public int getDenominator()  
+    {  
+        return m_b;  
+    }  
+  
+    public void setDenominator(int val)  
+    {  
+        check(m_a, val);  
+        set(m_a, val);  
+    }  
+  
+    public double getRealValue()  
+    {  
+        return (double) m_a / m_b;  
+    }  
+  
+    public Fraction add(Fraction other)  
+    {  
+        return add(m_a, m_b, other.m_a, other.m_b);  
+    }  
+  
+    public Fraction add(int val)  
+    {  
+        return add(m_a, m_b, val, 1);  
+    }  
+  
+    public Fraction subtract(Fraction other)  
+    {  
+        return subtract(m_a, m_b, other.m_a, other.m_b);  
+    }  
+  
+    public Fraction subtract(int val)  
+    {  
+        return subtract(m_a, m_b, val, 1);  
+    }  
+  
+    public Fraction multiply(Fraction other)  
+    {  
+        return multiply(m_a, m_b, other.m_a, other.m_b);  
+    }  
+  
+    public Fraction multiply(int val)  
+    {  
+        return multiply(m_a, m_b, val, 1);  
+    }  
+  
+    public Fraction divide(Fraction other)  
+    {  
+        return divide(m_a, m_b, other.m_a, other.m_b);  
+    }  
+  
+    public Fraction divide(int val)  
+    {  
+        return divide(m_a, m_b, val, 1);  
+    }  
+  
+    public void inc()  
+    {  
+        m_a += m_b;  
+    }  
+  
+    public void dec()  
+    {  
+        m_a -= m_b;  
+    }  
+  
+    public int compareTo(Fraction other)  
+    {  
+        return m_a * other.m_b - other.m_a * m_b;  
+    }  
+  
+    public boolean equals(Object other)  
+    {  
+        return other instanceof Fraction f && compareTo(f) == 0;  
+    }  
+  
+    public String toString()  
+    {  
+         return "%d%s".formatted(m_a, m_b != 1 ? " / %d = %.6f".formatted(m_b, getRealValue()) : "");  
+    }  
+}
+```
+
+
 
 
 
