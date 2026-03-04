@@ -12744,7 +12744,7 @@ class Complex {
 >
 >Java'da rassal sayı üretimine ilişkin pek çok sınıf bulunmaktadır. Özellikle `Java 17`ile birlikte çeşitli rassal algoritmalarının kullanılabilmesine yönelik eklentiler de yapılmıştır. Java'da rassal sayı üretimine ilişkin en temel sınıf `java.util` paketi içerisindeki **Random** sınıfıdır. Bu sınıfın rassal sayı üretimi orta kalitededir. Çoğu zaman yeterli olmaktadır. Zaten yeterli olmadığında programcı diğer algoritmalara yönelir. Java 17'den itibaren Random sınıfına ilişkin rassal sayı üretimine **legacy random** da denilmektedir. Bu sınıf `Donald Knuth`'un `The Art of Computer Programming` kitaplar serisinin ikinci cildinde, `Seminumerical Algorithms` kategorisindeki algoritmayı kullanmaktadır (Section 3.2.1). Kursumuzda, rassal sayı üretimine ilişkin yalnızca Random sınıfı ele alınacaktır. Diğer sınıflar ve algoritmalar `Java ile Uygulama Geliştirme` kurslarında ele alınacaktır. 
 >
->Bilgisayar dünyasında genel olarak rassal üretiminde ismine **tohum değeri (seed value)** denilen bir değer kullanılır. Aslında rassal sayı üretimi bu değer ile başlar ve her üretimde bu değer güncellenerek devam eder. Yani tohum değeri rassal sayı üretim algoritmasına özgü işlemlerde kullanılır. Random sınıfının default ctor'u ile nesne yaratıldığında tohum değeri, o uygulama içerisimde daha önce yine default kullanılarak yaratılmış olan nesnelere ilişkin tohum değerinden mümkün olduğunca farklı olma eğilimindedir. 
+>Bilgisayar dünyasında genel olarak rassal üretiminde ismine **tohum değeri (seed value)** denilen bir değer kullanılır. Aslında rassal sayı üretimi bu değer ile başlar ve her üretimde bu değer güncellenerek devam eder. Yani tohum değeri rassal sayı üretim algoritmasına özgü işlemlerde kullanılır. Random sınıfının default ctor'u ile nesne yaratıldığında tohum değeri, o uygulama içerisinde daha önce yine default kullanılarak yaratılmış olan nesnelere ilişkin tohum değerinden mümkün olduğunca farklı olma eğilimindedir. 
 >
 >Random sınıfının `nextXXX` metotları ile rassal sayılar elde edilebilir. Bu metotlar dışında da çeşitli metotlar bulunmaktadır. Bazı metotlar konular içerisinde ayrıca ele alınacaktır.
 >
@@ -13172,7 +13172,7 @@ class App {
 }
 ```
 
->Aşağıdaki demo örnek her çalıştırıldığında ilk 10 sayının dizilimi diğer çalıştırmalardan farklı olacaktır. İkinic 10 sayının dizilimi ise girilen tohum değerine bağlı olduğundan daha önceki bir çalıştırmada girilen tohum değeri ile aynı değer girilirse dizilim aynı olacaktır. Kodu birden fazla kez çalıştırıp sonuçları gözlemleyiniz
+>Aşağıdaki demo örnek her çalıştırıldığında ilk 10 sayının dizilimi diğer çalıştırmalardan farklı olacaktır. İkinci 10 sayının dizilimi ise girilen tohum değerine bağlı olduğundan daha önceki bir çalıştırmada girilen tohum değeri ile aynı değer girilirse dizilim aynı olacaktır. Kodu birden fazla kez çalıştırıp sonuçları gözlemleyiniz
 
 ```java
 package csd;
@@ -13294,7 +13294,7 @@ class Point {
 
 ##### Immutable Sınıflar
 
->Bir nesnenin içeriği (genel olarak non-static veri elemanları) nesne yaratıldıktan sonra sınıfı kullanan programcı tarafından değiştirilemiyorsa, bu tarz nesnelerin yaratılabildiği sınıflara **immutable classes** denir. Pek çok immutable sınıfın non-static veri elemanları içsel olarak da bir kez ddeğer alırlar. Immutable bir sınıfın nasıl yazılabileceği ileride ele alınacaktır. Genel olarak bir sınıfın immutable olduğu dökumantasyonunda belirtilir. Belirtilmeyen sınıflar için de sınıfın elemanlarından immutable olup olmadığı anlaşılabilir.
+>Bir nesnenin içeriği (genel olarak non-static veri elemanları) nesne yaratıldıktan sonra sınıfı kullanan programcı tarafından değiştirilemiyorsa, bu tarz nesnelerin yaratılabildiği sınıflara **immutable classes** denir. Pek çok immutable sınıfın non-static veri elemanları içsel olarak da bir kez değer alırlar. Immutable bir sınıfın nasıl yazılabileceği ileride ele alınacaktır. Genel olarak bir sınıfın immutable olduğu dökumantasyonunda belirtilir. Belirtilmeyen sınıflar için de sınıfın elemanlarından immutable olup olmadığı anlaşılabilir.
 
 ##### Yazılarla İşlemler
 
@@ -13302,7 +13302,7 @@ class Point {
 
 **Anahtar Notlar:** `java.lang` paketi içerisinde bulunan bir UDT ismi, herhangi bir bildirim yapmadan doğrudan kullanılabilir. Örneğin, `String, System` gibi sınıflar bu paket içerisinde bulunduklarından isimleri doğrudan kullanılabilmektedir. Ancak örneğin Random sınıfı `java.util` paketi içerisinde olduğundan isminin doğru kullanılabilmesi ileride detaylı olarak ele alacağımız bazı bildirimlerin yapılmış olması gerekir. Aksi durumda paket ismi ile erişilmelidir.
 
->Derleyici bir string literal gördüğünde ve bu string literal'ı ilk kez görüyorsa kabaca şu şekilde bir kod üretir: **String türünden bir nesne yarat ve string literal içerisindeki karakterleri bu String nesnesi ile tutulabilecek duruma getir ve ilgli String nesnesinin adresini (referansını) ver.** Bu durumda string literal ile bir String nesnesinin referansı (adresi) elde edilebilir. `print` ve `println` metotlarının String parametreli overload'ları aldıkları String referansına ilişkin yazıyı ekrana basarlar. `printf` metodu `s` format karakteri ile, aldığı String referansına ilişkin yazıyı ekrana basar. 
+>Derleyici bir string literal gördüğünde ve bu string literal'ı ilk kez görüyorsa kabaca şu şekilde bir kod üretir: **String türünden bir nesne yarat ve string literal içerisindeki karakterleri bu String nesnesi ile tutulabilecek duruma getir ve ilgili String nesnesinin adresini (referansını) ver.** Bu durumda string literal ile bir String nesnesinin referansı (adresi) elde edilebilir. `print` ve `println` metotlarının String parametreli overload'ları aldıkları String referansına ilişkin yazıyı ekrana basarlar. `printf` metodu `s` format karakteri ile, aldığı String referansına ilişkin yazıyı ekrana basar. 
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -13388,7 +13388,7 @@ class App {
 }
 ```
 
->String sınıfı `immutable` bir sınıftır. Yani, bir String nesnesine ilişkin yazı değiştirelemez. String sınıfının yazıda değişiklik yapan metotları, değiştirilmiş yazıya ilişkin yeni bir String nesnesinin referansına geri dönerler. Örneğin, `toUpperCase` metodu yazının tüm karakterlerini büyük harf yapmak (yani büyütmek) için kullanılır. Bu metot değiştirilmiş yazıya ilişkin yeni bir String nesnesinin referansına geri döner.
+>String sınıfı `immutable` bir sınıftır. Yani, bir String nesnesine ilişkin yazı değiştirilemez. String sınıfının yazıda değişiklik yapan metotları, değiştirilmiş yazıya ilişkin yeni bir String nesnesinin referansına geri dönerler. Örneğin, `toUpperCase` metodu yazının tüm karakterlerini büyük harf yapmak (yani büyütmek) için kullanılır. Bu metot değiştirilmiş yazıya ilişkin yeni bir String nesnesinin referansına geri döner.
 
 ```java
 package csd;
@@ -13505,7 +13505,6 @@ class App {
 		
 		System.out.print("Birinci yazıyı giriniz:");
 		String s1 = kb.nextLine();
-				
 		
 		System.out.print("İkinci yazıyı giriniz:");
 		String s2 = kb.nextLine();
@@ -13537,7 +13536,7 @@ class App {
 
 ```
 
->İki yazının case-insnsitive olarak özdeşlik karşılaştırması `equalsIgnoreCase` metodu ile yapılabilir
+>İki yazının case-insensitive olarak özdeşlik karşılaştırması `equalsIgnoreCase` metodu ile yapılabilir
 
 ```java
 package csd;
@@ -13735,7 +13734,7 @@ class App {
 }
 ```
 
->Bir String'in boş olup olmadığı çeşitli şekillerde anlaşılabilir. Örneğin, uzunluğunun sıfır olup olmadığı kontrol edilebilir ya da örneğin `""` ile özdeşlik kontrolü (equals metodu ile) yapılabilir. Pratikte bu kontrol çok gerekli olduğundan String sınıfında `isEmpty` isimli bir metot bulundurulmuştur. Bu durumda hem okunabilirlik/anlaşılabilirlik hem de kolay yazım açısından `isEmpty` metodunun kullanılması tavsiye edilir. 
+>Bir string'in boş olup olmadığı çeşitli şekillerde anlaşılabilir. Örneğin, uzunluğunun sıfır olup olmadığı kontrol edilebilir ya da örneğin `""` ile özdeşlik kontrolü (equals metodu ile) yapılabilir. Pratikte bu kontrol çok gerekli olduğundan String sınıfında `isEmpty` isimli bir metot bulundurulmuştur. Bu durumda hem okunabilirlik/anlaşılabilirlik hem de kolay yazım açısından `isEmpty` metodunun kullanılması tavsiye edilir. 
 
 >Aşağıdaki demo örneği inceleyiniz
 
@@ -13760,9 +13759,7 @@ class App {
 			}
 			
 			System.out.printf("Text:%s%n", s);
-	
 		}
-		
 	}
 }
 ```
@@ -13892,7 +13889,7 @@ class JoinWithHyphenApp {
 >String sınıfının `indexOf` metotları yazı içerisinde bir karakteri ya da bir yazıyı aramak için kullanılır. Metotlar ilk bulduklarına ilişkin indeks numarasına geri dönerler. Bulamazlarsa `-1` değerine geri dönerler. Bu metotlar şunlardır:
 >**1. indexOf(int ch):** Yazı içerisinde parametresi ile aldığı karakteri arar ilk bulduğunun indeks numarasına geri döner. 
 >**2. indexOf(int ch, int fromIndex):** Yazı içerisinde parametresi ile aldığı karakteri, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun indeks numarasına geri döner. 
->**3. indexOf(String str):** Yazı içerisinde parametresi ile aldığı yazıyı arar ilk bulduğunum ilk karakterinin indeks numarasına geri döner. 
+>**3. indexOf(String str):** Yazı içerisinde parametresi ile aldığı yazıyı arar ilk bulduğunun ilk karakterinin indeks numarasına geri döner. 
 >**4. indexOf(String str, int fromIndex):** Yazı içerisinde parametresi ile aldığı yazıyı, ikinci parametresi ile aldığı indeks değerinden itibaren arar ilk bulduğunun ilk karakterinin indeks numarasına geri döner. 
 
 ```java
@@ -13915,8 +13912,6 @@ class App {
 ```
 
 **Sınıf Çalışması:** Parametresi ile aldığı iki yazıdan birinci içerisinde ikincisinden kaç tane olduğu bilgisine geri dönen `countString` isimli metodu `StringUtil` sınıfı içerisinde yazınız ve aşağıdaki kod ile test ediniz
-
- 
 
 >Test kodu
 ```java
@@ -14015,18 +14010,18 @@ class StringUtil {
 >Write function
 
 ```java
-		class Solution { public int solution(int A, int B); }	
+class Solution { public int solution(int A, int B); }	
 ```
 
 >that, given two integers A and B, returns the leftmost position at which A occurs in B the function should return -1 if A does not occur in B.
 >
->For example, given A = 53 and B = 195378653, the function should return 2, as explained above.\
+>For example, given A = 53 and B = 195378653, the function should return 2, as explained above.
 >Assume that:	
 >- A and B are integers within the range `[0..999,999,999]`
 >
 >In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment.
 
-**Çözüm-1:**
+**Çözüm:**
 
 ```java
 package csd;
@@ -14145,7 +14140,7 @@ class StringUtil {
 
 ```
 
->String sınıfının `trim` metodu yazının başındaki (leading) ve sonundaki (trailing) boşluk karakterlerini siler. Bu metot `[\u0000, \u0020]` aralığındaki boşluk karakterkleri için çalışır. Diğer boşluk (whitespace) karakterlerini silmez. Java 11 ile birlikte tüm whitespace karakterler için çalışan `strip` isimli bir metot String sınıfına eklenmiştir. Ayrıca Java 11 ile birlikte yazının yalnızca başındaki boşluk karakterlerini silen `stripLeading` ve yalnızca sonundaki boşluk karakterlerini silen `stripTrailing` isimli iki metot daha eklenmiştir. Java 11 öncesi için trim metodunun tüm whitespace karakterler için çalışan, yalnızca başındaki ve sonundaki boşluk karakterlerini silen metotlar bulunmadığında programcı gerekirse bunu kendisi yazabilir. Her ne kadar trim metodu pratikte çoğu durumda işimizi görse de Java 11+ ile çalışıyorsak strip metodunu tercih etmeliyiz. Bu metotlar karakterler arasındaki boşluk karakterlerini silmez.
+>String sınıfının `trim` metodu yazının başındaki (leading) ve sonundaki (trailing) boşluk karakterlerini siler. Bu metot `[\u0000, \u0020]` aralığındaki boşluk karakterleri için çalışır. Diğer boşluk (whitespace) karakterlerini silmez. Java 11 ile birlikte tüm whitespace karakterler için çalışan `strip` isimli bir metot String sınıfına eklenmiştir. Ayrıca Java 11 ile birlikte yazının yalnızca başındaki boşluk karakterlerini silen `stripLeading` ve yalnızca sonundaki boşluk karakterlerini silen `stripTrailing` isimli iki metot daha eklenmiştir. Java 11 öncesi için trim metodunun tüm whitespace karakterler için çalışan, yalnızca başındaki ve sonundaki boşluk karakterlerini silen metotlar bulunmadığında programcı gerekirse bunu kendisi yazabilir. Her ne kadar trim metodu pratikte çoğu durumda işimizi görse de Java 11+ ile çalışıyorsak strip metodunu tercih etmeliyiz. Bu metotlar karakterler arasındaki boşluk karakterlerini silmez.
 
 ```java
 package csd;
@@ -14180,7 +14175,7 @@ class App {
 ```
 >**Açıklamalar:** 
 >- Metotlar Java 11 öncesi için yazılacaktır.
->- Metotlar sırasıyla yazının başındaki ve sonundaki, yazının yalnızca başındaki ve yazının yalnızce sonundaki boşluk (whitespace) karakterleri silecektir.
+>- Metotlar sırasıyla yazının başındaki ve sonundaki, yazının yalnızca başındaki ve yazının yalnızca sonundaki boşluk (whitespace) karakterleri silecektir.
 >- Metotlar `StringUtil` sınıfı içerisinde yazılacaktır
 
 >**Çözüm:**
@@ -14256,14 +14251,13 @@ public static String reverse(String s)
 }
 ```
 
->Burada dikkat edilirse her adımda bir String nesnesi yaratılmakta ve yaratılmış nesne bir sonraki adımda ilgili referanstan kopartılmakte ve artık kullanılmaz duruma gelmektedir. Bu durumda metoda verilen yazı ne kadar uzunsa yaklaşık o kadar sayıda nesne yaratma maaliyeti söz konusudur. İşte StringBuilder sınıfı ile bu maaliyet ortadan kaldırılabilir.
->
+>Burada dikkat edilirse her adımda bir String nesnesi yaratılmakta ve yaratılmış nesne bir sonraki adımda ilgili referanstan kopartılmakta ve artık kullanılmaz duruma gelmektedir. Bu durumda metoda verilen yazı ne kadar uzunsa yaklaşık o kadar sayıda nesne yaratma maliyeti söz konusudur. İşte StringBuilder sınıfı ile bu maliyet ortadan kaldırılabilir.
+
 **Anahtar Notlar:** StringBuilder sınıfının pek çok metodu çağrılan StringBuilder referansına geri döner. Bu şekildeki sınıflar ve metotları, ileride ele alacağımız `fluent pattern`'e uygun olarak yazılmışlardır. 
 
 >StringBuilder sınıfının `append` metotları yazıya ekleme yapmak için kullanılır. StringBuilder sınıfının default ctor'u ile length'i sıfır olan bir yazıya ilişkin bir StringBuilder nesnesi yaratılır, String parametreli ctor'u ile yazının karakterlerinden oluşan bir StringBuilder nesnesi yaratılmış olur. StringBuilder sınıfının da String sınıfındaki gibi substring metotları bulunmaktadır. String sınıfının toString metodu ile yazıya ilişkin String nesnesi referansı elde edilebilir. StringBuilder sınıfının `length` ve `isEmpty` metotları da bulundurulmuştur. StringBuilder sınıfının `charAt` metodu vardır ayrıca verilen bir indeksteki karakteri set eden `setCharAt` isimli bir metodu da vardır.
 
 >Aşağıdaki demo örnekte girilen yazıların aralarına `-` konarak birleştirilmesi StringBuilder ile yapılmıştır. String sınıfı `+` operatörü kullanılarak yapılması görece maliyetlidir.
-
 
 ```java
 package csd;
@@ -14638,9 +14632,7 @@ class StringUtil {
 		public static String padTrailing(String s, int n);
 ```
 >**Açıklamalar:** 
->- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı
-uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili 
-yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
+>- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:
 ```java
 padLeading("ankara", 8, 'x');
 ```
@@ -14735,9 +14727,7 @@ class StringUtil {
 		public static String padTrailing(String s, int n);
 ```
 >**Açıklamalar:** 
->- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı
-uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili 
-yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
+>- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:
 ```java
 padLeading("ankara", 8, 'x');
 ```
@@ -14870,9 +14860,7 @@ class App {
 		public static String padTrailing(String s, int n);
 ```
 >**Açıklamalar:** 
->- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı
-uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili 
-yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
+>- padLeading metodunun üç parametreli overload'u parametresi ile aldığı yazıyı ikinci parametresi ile aldığı uzunluk kadar baştan ch karakteri ile besleyecektir. İkinci parametresi ile aldığı uzunluk bilgisi ilgili yazının uzunluğundan küçük veya eşit aynı yazıya geri dönecektir. Örneğin:\
 ```java
 padLeading("ankara", 8, 'x');
 ```
@@ -14949,7 +14937,7 @@ class StringUtil {
 
 **Anahtar Notlar:** Aldığı parametreleri kullanarak bir nesnenin referansına geri dönen metotlara **factory methods** denilmektedir. Bu metotlar genel olarak static metotlar biçiminde yazılırlar. Bu metotlar ile nesnenin yaratılma detayları programcıdan soyutlanmış olur. Bu anlamda String sınıfının valueOf metotları factory metotlardır. JavaSE'de bazı sınıfların factory metotları bulunur. Java 8 'de kadar bu tarz metotların isimleri genel olarak **valueOf** biçimindedir. Java 8'den itibaren eklenen sınıflara ilişkin factory metotlar **of** biçiminde isimlendirilmiştir. 
 
->String sınıfının `contains' metodu yazı içerisinde parametresi ile aldığı yazının olup olmadığını test etmek için kullanılır. 
+>String sınıfının `contains` metodu yazı içerisinde parametresi ile aldığı yazının olup olmadığını test etmek için kullanılır. 
 
 >**Sınıf Çalışması:**  Parametresi ile aldığı bir yazının Türkçe pangram olup olmadığını test eden `isPangramTR` ve İngilizce pangram olup olmadığını test eden `isPangramEN` isimli metotları yazınız ve test ediniz
 >**Açıklamalar:** 
@@ -15031,9 +15019,9 @@ class StringUtil {
 }
 ```
 
-**Anahtar Notlar:** contains metodunun paramtresi `CharSequence` türündendir. CharSequence türü ileride ele alınacaktır. CharSequence türüne String ya da StringBuilder türünden bir referans doğrudan atanabilir. 
+**Anahtar Notlar:** contains metodunun parametresi `CharSequence` türündendir. CharSequence türü ileride ele alınacaktır. CharSequence türüne String ya da StringBuilder türünden bir referans doğrudan atanabilir. 
 
->java.util.Scanner sınıfının çalışma sistemi gereği, bazı sistemlerde `nextLine` metodu ve temel türlere ilişkin `nextXXX` metotları peşpeşe kullanılmamalıdır. Bu aslında Scanner sınıfı açısından bir problem değildir, bu sınıfın içsel çalışması ile ilgilidir. Detayının bu anlamda önemi yoktur. Programcı bu tip durumlarda nextLine ile birlikte `parseXXX` metotlarını kullanmalıdır
+>java.util.Scanner sınıfının çalışma sistemi gereği, bazı sistemlerde `nextLine` metodu ve temel türlere ilişkin `nextXXX` metotları peş peşe kullanılmamalıdır. Bu aslında Scanner sınıfı açısından bir problem değildir, bu sınıfın içsel çalışması ile ilgilidir. Detayının bu anlamda önemi yoktur. Programcı bu tip durumlarda nextLine ile birlikte `parseXXX` metotlarını kullanmalıdır
 
 >Aşağıdaki demo örnek bazı sistemlerde istenildiği gibi çalışmayacaktır.
 
@@ -15614,7 +15602,7 @@ public static String repeat(int n, char ch);
 ```
 >**Açıklamalar:** 
 >- Metot parametresi ile n değeri kadar çoklanmış ch karakterlerinden oluşan yazıya geri dönecektir.
->- Metot Java 17 ile String sınıfına eklenen repeat metodu kullanılarak yazılmayacaktır.
+>- Metot Java 11 ile String sınıfına eklenen repeat metodu kullanılarak yazılmayacaktır.
 >- Metot döngü kullanılmadan yazılacaktır.
 
 >**Çözüm-1:**
@@ -15738,7 +15726,7 @@ class StringUtil {
 }
 ```
 
->**Sınıf Çalışması:** Parametresi ile aldığı bir yazının içerisindeki whitespace karakteri atan `removeWhitespaces`isimli metodu `StringUtil`sınıfı içerisinde yazınız test ediniz.
+>**Sınıf Çalışması:** Parametresi ile aldığı bir yazının içerisindeki whitespace karakterleri atan `removeWhitespaces`isimli metodu `StringUtil`sınıfı içerisinde yazınız test ediniz.
 
 >**Çözüm:**
 
@@ -15964,7 +15952,7 @@ class App {
 
 **Anahtar Notlar:** String sınıfının diğer metotları konular içerisinde ele alınacaktır
 
-**Anahtar Notlar:** Java 13 ile birlikte (yan pratikte Java 17 ile kullanılabilen) `Text Block` denilen bir String literal biçimi dile eklenmiştir. Text block konusu ileride ayrı bir bölüm olarak ele alınacaktır.
+**Anahtar Notlar:** Java 13 ile birlikte (yani pratikte Java 17 ile kullanılabilen) `Text Block` denilen bir String literal biçimi dile eklenmiştir. Text block konusu ileride ayrı bir bölüm olarak ele alınacaktır.
 
 ###### 5 Nisan 2025 - 12 Nisan 2025
 
