@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * CSDArrayList class that represents a synamic array
- * Last Update: 23rd January 2026
+ * Last Update: 7th March 2026
  * @author Java-Sep-2024 Group
  */
 public class CSDArrayList<E> {
