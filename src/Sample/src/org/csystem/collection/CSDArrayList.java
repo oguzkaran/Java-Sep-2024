@@ -8,7 +8,11 @@ import java.util.Arrays;
  * @author Java-Sep-2024 Group
  */
 public class CSDArrayList<E> {
+    private static final String TO_STRING_SEPARATOR = ", ";
+    private static final String TO_STRING_PREFIX = "[";
+    private static final String TO_STRING_SUFFIX = "]";
     private static final int DEFAULT_CAPACITY = 10;
+
     private E [] m_elements;
     private int m_index;
 
@@ -126,11 +130,11 @@ public class CSDArrayList<E> {
 
     public String toString()
     {
-        StringBuilder sb = new StringBuilder("[");
+        StringBuilder sb = new StringBuilder(TO_STRING_PREFIX);
 
         for (int i = 0; i < m_index; ++i)
-            sb.append(m_elements[i]).append(", ");
+            sb.append(m_elements[i]).append(TO_STRING_SEPARATOR);
 
-        return (m_index != 0 ? sb.substring(0, sb.length() - 2) : sb.toString()) + "]";
+        return (m_index != 0 ? sb.substring(0, sb.length() - TO_STRING_SEPARATOR.length()) : sb.toString()) + TO_STRING_SUFFIX;
     }
 }
