@@ -42626,30 +42626,24 @@ package org.csystem.collection;
 import java.util.Arrays;  
   
 public class CSDArrayList<E> {  
+    private static final String TO_STRING_SEPARATOR = ", ";  
+    private static final String TO_STRING_PREFIX = "[";  
+    private static final String TO_STRING_SUFFIX = "]";  
     private static final int DEFAULT_CAPACITY = 10;  
+  
     private E [] m_elements;  
     private int m_index;  
-  
-    private void throwIllegalArgumentException(String message)  
-    {  
-        throw new IllegalArgumentException(message);  
-    }  
-  
-    private void throwIndexOutOfBoundsException(String message)  
-    {  
-        throw new IndexOutOfBoundsException(message);  
-    }  
   
     private void checkCapacity(int capacity)  
     {  
         if (capacity < 0)  
-            throwIllegalArgumentException(String.format("Capacity must be non-negative:%d", capacity));  
+            throw new IllegalArgumentException("Capacity must be non-negative:%d".formatted(capacity));  
     }  
   
     private void checkIndex(int index)  
     {  
         if (index < 0 || index >= m_index)  
-            throwIndexOutOfBoundsException(String.format("Index out of bounds:%d", index));  
+            throw new IndexOutOfBoundsException("Index out of bounds:%d".formatted(index));  
     }  
   
     private void changeCapacity(int capacity)  
@@ -42752,14 +42746,21 @@ public class CSDArrayList<E> {
             changeCapacity(m_index);  
     }  
   
+    @Override  
+    public boolean equals(Object obj)  
+    {  
+        throw new UnsupportedOperationException("Not yet implemented.");  
+    }  
+  
+    @Override  
     public String toString()  
     {  
-        StringBuilder sb = new StringBuilder("[");  
+        StringBuilder sb = new StringBuilder(TO_STRING_PREFIX);  
   
         for (int i = 0; i < m_index; ++i)  
-            sb.append(m_elements[i]).append(", ");  
+            sb.append(m_elements[i]).append(TO_STRING_SEPARATOR);  
   
-        return (m_index != 0 ? sb.substring(0, sb.length() - 2) : sb.toString()) + "]";  
+        return (m_index != 0 ? sb.substring(0, sb.length() - TO_STRING_SEPARATOR.length()) : sb.toString()) + TO_STRING_SUFFIX;  
     }  
 }
 ```
