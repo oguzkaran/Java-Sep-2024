@@ -12,26 +12,16 @@ public class CSDArrayList<E> {
     private E [] m_elements;
     private int m_index;
 
-    private void throwIllegalArgumentException(String message)
-    {
-        throw new IllegalArgumentException(message);
-    }
-
-    private void throwIndexOutOfBoundsException(String message)
-    {
-        throw new IndexOutOfBoundsException(message);
-    }
-
     private void checkCapacity(int capacity)
     {
         if (capacity < 0)
-            throwIllegalArgumentException(String.format("Capacity must be non-negative:%d", capacity));
+            throw new IllegalArgumentException("Capacity must be non-negative:%d".formatted(capacity));
     }
 
     private void checkIndex(int index)
     {
         if (index < 0 || index >= m_index)
-            throwIndexOutOfBoundsException(String.format("Index out of bounds:%d", index));
+            throw new IndexOutOfBoundsException("Index out of bounds:%d".formatted(index));
     }
 
     private void changeCapacity(int capacity)
