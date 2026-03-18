@@ -16907,8 +16907,7 @@ package org.csystem.util.string.test;
   
 import org.csystem.util.string.StringUtil;  
   
-import java.util.Random;  
-import java.util.Scanner;  
+import java.util.*;  
   
 public class StringUtilRandomTextTRENTest {  
     public static void run()  
