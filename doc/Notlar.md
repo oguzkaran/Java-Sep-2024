@@ -16934,7 +16934,7 @@ public class StringUtilRandomTextTRENTest {
 >Bu bildirimin UDT isimleri için (import single type declaration) genel biçimi şu şekildedir:
 
 ```java
-import <paket ismi>[.<alt paket listesi>].<UDT ismi>
+import <paket ismi>[.<alt paket listesi>].<UDT ismi>;
 ```
 
 >Bu bildirimde belirtilen UDT ismi derleme birimi boyunca her yerde niteliksiz olarak kullanılabilir (visible) ya da başka bir deyişle buradaki bildirim, bu ismin derleme birimi boyunca kullanılabileceğini yani bu isim için niteliksiz isim arama genel kurallarının uygulanmayacağını belirtir.
@@ -17280,7 +17280,7 @@ public class Circle {
 ```java
 package org.csystem.app;  
   
-import com.huseyinyilmaz.math.Circle;  
+import com.huseyinyilmaz.math.Circle; //error
   
 class App {  
     public static void main(String [] args)  
@@ -17515,8 +17515,7 @@ public class Point {
 ```
 
 
-**Anahtar Notlar:** Paketler ve isim arama konularına ilişkin burada ele alınmayan bazı kurallar ya konular içerisinde ele alınacaktır ya da pratikte kullanılmadığından ele alınmayacaktır.
-
+**Anahtar Notlar:** Paketler ve isim arama konularına ilişkin burada ele alınmayan bazı kurallar ya konular içerisinde ele alınacaktır ya da pratikte kullanılmadığından ele alınmayacaktır
 ###### 26 Nisan 2025
 
 ##### Diziler
@@ -17540,7 +17539,7 @@ int b[];
 >Burada a ve b referansları `int türden bir dizinin` adresini tutabilirler. `T türden dizi` her bir elemanı `T` türünden olan dizi demektir. 
 
 
->Birinci biçim ile ikinci biçimin tek farkı virgül değişken bildirimlerinde orataya çıkmaktadır:
+>Birinci biçim ile ikinci biçimin tek farkı virgül değişken bildirimlerinde ortaya çıkmaktadır:
 
 ```java
 int []a, b, c; // a, b ve c int türden dizi referansları
@@ -17586,7 +17585,7 @@ class App {
   
        System.out.println();  
   
-       for (int i = 0; i < a.length; ++i)  
+       for (int i = 0; i < b.length; ++i)  
           System.out.printf("%b ", b[i]);  
   
        System.out.println();  
@@ -17788,7 +17787,7 @@ public class ArrayUtilSumTest {
 }
 ```
 
->Sıfır elemanları yani uzunluğu sıfır olan bir dizi yaratılabilir. Bu durumda bu dizi içerisinde herhangi bir değer tutulamaz ancak dizi yaratılmış olur. Uzunluğu sıfır olan dizilere **boş dizi (empty array)** de denilmektedir. Boş diziler bazı durumlarda kontrol amaçlı kullanılabilmektedir. Örneği bir metot bir takım değerlere göre bir dizi yaratıp döncek olsun. Metoda geçilen parametrelere ilişkin argümanlar geçersiz olması durumunda metot boş dizi referansına geri dönebilir. Bu durumda metodu çağıran programcı geri dönen dizinin eleman saysını kontrol ederek geçerlilik kontrolü yapabilir. Boş dizi yaratmanın sentaks olarak yöntemleri şunlardır:
+>Uzunluğu sıfır olan bir dizi yaratılabilir. Bu durumda bu dizi içerisinde herhangi bir değer tutulamaz ancak dizi yaratılmış olur. Uzunluğu sıfır olan dizilere **boş dizi (empty array)** de denilmektedir. Boş diziler bazı durumlarda kontrol amaçlı kullanılabilmektedir. Örneğin bir metot bir takım değerlere göre bir dizi yaratıp döncek olsun. Metoda geçilen parametrelere ilişkin argümanların geçersiz olması durumunda metot boş dizi referansına geri dönebilir. Bu durumda metodu çağıran programcı geri dönen dizinin eleman saysını kontrol ederek geçerlilik kontrolü yapabilir. Boş dizi yaratmanın sentaks olarak yöntemleri şunlardır:
 
 ```java
 int [] a = new int[0];
@@ -18273,9 +18272,7 @@ public class ArrayUtilHistogramDataTest {
 }
 ```
 
-##### Bölümleme Algoritması (Partition Algorithm)
-
->Bu algoritmada amaç, bir dizinin belirli bir koşula uyan elemanlarının dizinin başına, koşula uymayanların ise dizinin sonuna getirilmesidir. Bu algoritma başka bir dizi kullanmadan gerçekleştirilebilir. Dizi bölümlendikten sonra ilk koşula uymayan elemanın indeks değerine **bölümleme indeksi (partition index)** denir. Bu durumda dizinin tüm elemanları koşula uyuyorsa bölümleme indeksi dizinin uzunluğudur, hiç bir eleman koşulan uymuyorsa bölümleme indeksi sıfır değerindedir. Bu algoritma tipik olarak şu şekildedir: Öne dizinin koşula uymayan ilk elemanı bulunur. Daha sonra ikinci bir indeks, koşula uymayan ilk elemandan sonraki elemana konumlandırılır. İkinci indeksteki eleman koşula uyuyorsa, birinci indeksteki eleman ile yer değiştirilir. İkinci indeksteki eleman koşula uymuyorsa herhangi bir değiştirme işlemi yapılmaz, yalnızca ikinci indeks bir sonraki elemana konumlandırılır. Böylece ilerlenir. Bu durumda ikinci indeks ile dizinin son elemanı da kontrol edilip ilgili işlemler yapıldıktan sonra birinci indeks artık bölümleme indeksi olur.
+>**Bölümleme Algoritması (Partition Algorithm):** Bu algoritmada amaç, bir dizinin belirli bir koşula uyan elemanlarının dizinin başına, koşula uymayanların ise dizinin sonuna getirilmesidir. Bu algoritma başka bir dizi kullanmadan gerçekleştirilebilir. Dizi bölümlendikten sonra ilk koşula uymayan elemanın indeks değerine **bölümleme indeksi (partition index)** denir. Bu durumda dizinin tüm elemanları koşula uyuyorsa bölümleme indeksi dizinin uzunluğudur, hiç bir eleman koşulan uymuyorsa bölümleme indeksi sıfır değerindedir. Bu algoritma tipik olarak şu şekildedir: Öne dizinin koşula uymayan ilk elemanı bulunur. Daha sonra ikinci bir indeks, koşula uymayan ilk elemandan sonraki elemana konumlandırılır. İkinci indeksteki eleman koşula uyuyorsa, birinci indeksteki eleman ile yer değiştirilir. İkinci indeksteki eleman koşula uymuyorsa herhangi bir değiştirme işlemi yapılmaz, yalnızca ikinci indeks bir sonraki elemana konumlandırılır. Böylece ilerlenir. Bu durumda ikinci indeks ile dizinin son elemanı da kontrol edilip ilgili işlemler yapıldıktan sonra birinci indeks artık bölümleme indeksi olur.
 
 
 >Örneğin
@@ -18329,9 +18326,9 @@ public class ArrayUtilPartitionTest {
 ###### 4 Mayıs 2025
 ###### Dizilerin Sıraya Dizilmesi
 
->Dizilerin sıraya dizilmesine (sorting) yönelik pek çok algoritma bulunmaktadır. Sıralama işleminin artan sırada (ascending) ya da başka bir deyişle küçükten büyüğe (mantıksal) yapılmasında **doğal sıralama (natural sort order)** denir. Azalan sırada ya da başka bir deyişle büyükten küçüğe (mantıksal) sıralama işlemine `descending order` denilmektedir. Bu bölümede **kabarcık sıralama (bubble sort)** ve **seçerek sıralama (selection sort)** algoritmaları ele alınacaktır. Bu algoritmalar doğal sıralayacak biçimde anlatılacaktır ancak hem ascending hem de descending order biçimleri implemente edilecektir.
+>Dizilerin sıraya dizilmesine (sorting) yönelik pek çok algoritma bulunmaktadır. Sıralama işleminin artan sırada (ascending) ya da başka bir deyişle küçükten büyüğe (mantıksal) yapılmasında **doğal sıralama (natural sort order)** denir. Azalan sırada ya da başka bir deyişle büyükten küçüğe (mantıksal) sıralama işlemine `descending order` denilmektedir. Bu bölümde **kabarcık sıralama (bubble sort)** ve **seçerek sıralama (selection sort)** algoritmaları ele alınacaktır. Bu algoritmalar doğal sıralayacak biçimde anlatılacaktır ancak hem ascending hem de descending order biçimleri implemente edilecektir.
 
-**Anahtar Notlar:** Algoritmaların karşılaştırılmasına yönelik iki ölçüt kullanılır: **hız (speed)**, **kaynak kullanımı (resource usage)**. Burada ele alınacak olan sıralama algoritmaları bu anlamda karşılaştırılmayacaktır. `Algoritma Analizi` konusu içerisinde buradaki sıralama algoritmalarının da karşılaştırması ayrıca yapılacaktır.
+**Anahtar Notlar:** Algoritmaların karşılaştırılmasına yönelik iki ölçüt kullanılır: **hız (speed)**, **kaynak kullanımı (resource usage)**. Burada ele alınacak olan sıralama algoritmaları bu anlamda karşılaştırılmayacaktır. `Temel Algoritma Analizi` konusu içerisinde buradaki sıralama algoritmalarının da karşılaştırması ayrıca yapılacaktır.
 
 >**Kabarcık Sıralama (Bubble Sort) Algoritması:** Bu algoritmada dizinin yan yana iki elemanı karşılaştırılır. Duruma göre yer değiştirilir. Her yinelemede en büyük eleman daraltılmış dizinin sonuna gider. Böylece her yinelemede bir geriye kadar gidilmiş olur:
 >
@@ -18563,7 +18560,6 @@ class Util {
 ```
 
 >Yukarıdaki metotlarda char türden diziden String elde etme işlemi ilgili ctor'lar kullanılarak da yapılabilir.
-
 
 ###### 17 Mayıs 2025
 

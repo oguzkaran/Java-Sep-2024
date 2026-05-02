@@ -2,16 +2,26 @@ package org.csystem.app;
 
 import org.csystem.util.console.Console;
 
+import java.io.File;
+
+import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;
+
 class Application {
     public static void run(String[] args)
     {
-        Console.writeLine("File separator:%s", System.getProperty("file.separator"));
-        Console.writeLine("System:%s",  System.getProperty("file.separator").charAt(0) == '/' ? "Unix-Linux" : "Windows");
-        Console.writeLine("Java Version:%s", System.getProperty("java.version"));
-        Console.writeLine("OS architecture:%s", System.getProperty("os.arch"));
-        Console.writeLine("OS version:%s", System.getProperty("os.version"));
-        Console.writeLine("OS name:%s", System.getProperty("os.name"));
-        Console.writeLine("Java Vendor:%s", System.getProperty("java.vendor"));
-        Console.writeLine("User name:%s", System.getProperty("user.name"));
+        checkLengthEquals(1, args.length, "Wrong number of arguments");
+
+        var file = new File(args[0]);
+
+        if (file.exists()) {
+            if (file.isFile())
+                Console.writeLine("%s is a file", args[0]);
+            else if (file.isDirectory())
+                Console.writeLine("%s is a directory", args[0]);
+            else
+                Console.writeLine("%s is another type", args[0]);
+        }
+        else
+            Console.writeLine("%s not found", args[0]);
     }
 }
