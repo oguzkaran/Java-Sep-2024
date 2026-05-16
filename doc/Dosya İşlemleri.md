@@ -33,7 +33,7 @@ package org.csystem.app;
   
 import org.csystem.util.console.Console;  
   
-import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
   
 class Application {  
     public static void run(String[] args)  
@@ -106,7 +106,7 @@ import org.csystem.util.console.Console;
   
 import java.io.File;  
   
-import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
   
 class Application {  
     public static void run(String[] args)  
@@ -142,7 +142,7 @@ import org.csystem.util.console.Console;
   
 import java.io.File;  
   
-import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
   
 class Application {  
     public static void run(String[] args)  
