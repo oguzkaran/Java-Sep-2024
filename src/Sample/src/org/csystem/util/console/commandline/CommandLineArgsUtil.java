@@ -1,4 +1,4 @@
-package org.csystem.util.console.commanline;
+package org.csystem.util.console.commandline;
 
 /**
  * Utility class for command line arguments operations

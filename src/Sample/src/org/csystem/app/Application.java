@@ -4,7 +4,7 @@ import org.csystem.util.console.Console;
 
 import java.io.File;
 
-import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
 class Application {
     public static void run(String[] args)
@@ -14,12 +14,18 @@ class Application {
         var file = new File(args[0]);
 
         if (file.exists()) {
-            if (file.isFile())
-                Console.writeLine("%s is a file", args[0]);
-            else if (file.isDirectory())
-                Console.writeLine("%s is a directory", args[0]);
+            if (file.isDirectory()) {
+                File [] files = file.listFiles();
+
+                if (files != null) {
+                    for (File s : files)
+                        Console.writeLine(s.getAbsolutePath());
+                }
+                else
+                    Console.writeLine("IO problem occurred");
+            }
             else
-                Console.writeLine("%s is another type", args[0]);
+                Console.writeLine("'%s' is not a directory", file.getAbsolutePath());
         }
         else
             Console.writeLine("%s not found", args[0]);

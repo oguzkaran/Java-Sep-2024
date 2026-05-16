@@ -129,16 +129,167 @@ class Application {
 }
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXX
+###### 16 Mayıs 2026
 
->File sınıfının getAbsolutePath isimli metodu ile File sınıfına verilen yol ifadesi mutlak olarak elde edilir. Zaten  mutlak verilmişse aynısı, mutlak verilmemişse çalışma dizini ile birleştirilmiş hali elde edilir. File sınıfının  getName isimli metodu ile yol ifadesine ilişkin dosyanın veya dizinin doğrudan ismi elde edilebilir. Benzer şekilde getParent isimli metodu ile de dosya ya da dizinin üst dizini (parent) elde edilebilir. geParentFile isimli metodu ile üst dizine ilişkin File referansı elde edilebilir. getParent ve getParentFile metotları, içerisinde hiç `/` ve `\` olmayan bir yol ifadesi ile yaratılmış File nesnesinden elde ediliyorsa null değere dönerler. Bu durumda en iyi     yöntem getAbsoluteFile metodu ile mutlak yol ifadesine ilişkin File referansı alınıp getParent veya getParentFile çağrılmalıdır  
+>File sınıfının **getAbsolutePtath** isimli metodu ile File sınıfına verilen yol ifadesi mutlak olarak elde edilir. Zaten  mutlak verilmişse aynısı, mutlak verilmemişse çalışma dizini ile birleştirilmiş hali elde edilir. File sınıfının  **getName** isimli metodu ile yol ifadesine ilişkin dosyanın veya dizinin doğrudan ismi elde edilebilir. Benzer şekilde **getParent** isimli metodu ile de dosya ya da dizinin üst dizini (parent) elde edilebilir. **getParentFile** isimli metodu ile üst dizine ilişkin File referansı elde edilebilir. **getParent** ve **getParentFile** metotları, içerisinde hiç `/` ve `\` olmayan bir yol ifadesi ile yaratılmış File nesnesinden elde ediliyorsa `null` değere dönerler. Bu durumda en iyi yöntem **getAbsoluteFile** metodu ile mutlak yol ifadesine ilişkin File referansı alınıp **getParent** veya **getParentFile** çağrılmalıdır.
+
+>Aşağıdaki demo örneği inceleyiniz ve çeşitli yol ifadeleri ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
   
+import org.csystem.util.console.Console;  
   
->File sınıfının delete metodu ilgili yol ifadesinde bulunan dosya ya da dizini silmektedir. Boş olmayan dizinler silinemez. Bunun için önce dizinin boşaltılması sonra silinmesi gerekir. File sınıfının delete metodunun geri dönüş değeri yol ifadesine ilişkin bilginin silinip silinmediğine belirten boolean türündendir. Bu geri dönüş değerinden dosyanın hangi sebepten silinemediği anlaşılamaz
+import java.io.File;  
   
->File nesnesi bir dizin gösteriyorsa bu durumda o dizin içerisindeki dosyalar ve dizinler elde edilebilir. Bir dizin içerisindeki dosyaların ve dizinlerin isimleri list metoduyla elde edilebilir. list metodu eğer File nesnesine ilişkin yol ifadesi bir dizin değilse veya bir IO problemi oluşursa null değerine geri döner  
+import static org.csystem.util.console.commanline.CommandLineArgsUtil.checkLengthEquals;  
   
->Bir dizin içerisindeki dosyalara ve dizinlere işlişkin File referanlarından oluşan dizi listFiles metodu ile elde edilebilir.  listFiles metodu eğer File nesnesine ilişkin yol ifadesi bir dizin değilse veya IO problemi oluşursa null değerine  geri döner. File sınıfının length metodu ile ilgili dosyanın uzunluğu byte cinsinden elde edilebilir.  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        Console.writeLine("Absolute Path:%s", file.getAbsolutePath());  
+        Console.writeLine("Absolute Path:%s", file.getAbsoluteFile().getAbsolutePath());  
+        Console.writeLine("Parent:%s", file.getParent());  
+        Console.writeLine("Parent:%s", file.getParentFile() == null ? "null" : file.getParentFile().getAbsolutePath());  
+        Console.writeLine("Parent:%s", file.getAbsoluteFile().getParent());  
+        Console.writeLine("Parent:%s", file.getAbsoluteFile().getParentFile().getAbsolutePath());  
+        Console.writeLine("Name:%s", file.getName());  
+    }  
+}
+```
+  
+>File sınıfının **delete** metodu ilgili yol ifadesinde bulunan dosya ya da dizini silmektedir. Boş olmayan dizinler bu metot ile silinemez. Bunun için önce dizinin boşaltılması sonra silinmesi gerekir. File sınıfının **delete** metodunun geri dönüş değeri yol ifadesine ilişkin bilginin silinip silinmediğini belirtir. Bu geri dönüş değerinden dosyanın hangi sebepten silinemediği anlaşılamaz.
+
+
+>Aşağıdaki demo örneği inceleyiniz ve çeşitli yol ifadeleri ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        if (file.exists()) {  
+            boolean result = file.delete();  
+  
+            if (file.isDirectory()) {  
+                if (result)  
+                    Console.writeLine("Directory '%s' deleted", args[0]);  
+                else  
+                    Console.writeLine("Directory '%s' can not be deleted", args[0]);  
+            }  
+            else {  
+                if (result)  
+                    Console.writeLine("File '%s' deleted", args[0]);  
+                else  
+                    Console.writeLine("File '%s' can not be deleted", args[0]);  
+            }  
+        }  
+        else  
+            Console.writeLine("%s not found", args[0]);  
+    }  
+}
+```
+
+
+>File nesnesi bir dizin gösteriyorsa bu durumda o dizin içerisindeki dosyalar ve dizinler elde edilebilir. Bir dizin içerisindeki dosyaların ve dizinlerin isimleri **list** metoduyla elde edilebilir. **list** metodu eğer File nesnesine ilişkin yol ifadesi bir dizin değilse veya bir IO problemi oluşursa null değerine geri döner.
+
+>Aşağıdaki demo örneği inceleyiniz ve çeşitli yol ifadeleri ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        if (file.exists()) {  
+            if (file.isDirectory()) {  
+                String [] files = file.list();  
+  
+                if (files != null) {  
+                    for (String s : files)  
+                        Console.writeLine(s);  
+                }  
+                else  
+                    Console.writeLine("IO problem occurred");  
+            }  
+            else  
+                Console.writeLine("'%s' is not a directory", file.getAbsolutePath());  
+        }  
+        else  
+            Console.writeLine("%s not found", args[0]);  
+    }  
+}
+```
+
+>Bir dizin içerisindeki dosyalara ve dizinlere ilişkin File referanslarından oluşan dizi **listFiles** metodu ile elde edilebilir.  **listFiles** metodu eğer File nesnesine ilişkin yol ifadesi bir dizin değilse veya IO problemi oluşursa null değerine  geri döner. 
+
+>Aşağıdaki demo örneği inceleyiniz ve çeşitli yol ifadeleri ile çalıştırıp sonuçları gözlemleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        if (file.exists()) {  
+            if (file.isDirectory()) {  
+                File [] files = file.listFiles();  
+  
+                if (files != null) {  
+                    for (File s : files)  
+                        Console.writeLine(s.getAbsolutePath());  
+                }  
+                else  
+                    Console.writeLine("IO problem occurred");  
+            }  
+            else  
+                Console.writeLine("'%s' is not a directory", file.getAbsolutePath());  
+        }  
+        else  
+            Console.writeLine("%s not found", args[0]);  
+    }  
+}
+```
+
+
+XXXXXXXXXXXXXXXXXX
+
+File sınıfının length metodu ile ilgili dosyanın uzunluğu byte cinsinden elde edilebilir.  
   
 **Anahtar Notlar:** İşletim sistemlerinde dizinlerin uzunlukları (length) dizine ilişkin bir bilgi olarak tutulmaz. Bu durumda dizin ağacı dolaşılarak içerisindeki dosyalardan hesaplanması gerekir. Bu sebeple bir dizine ilişkin File nesnesi ile length metodu çağrıldığında sisteme göre farklı değerler elde edilebilir. Yani aslında bu length bilgisinin bir dizinin kapladığı alan anlamında doğrudan bir ilişkisi yoktur.
   

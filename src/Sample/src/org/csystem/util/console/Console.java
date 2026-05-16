@@ -6,7 +6,6 @@ import java.util.Scanner;
 /**
  * Utility class for console operations
  * Last Update: 15th November 2025
- * @author Java-Sep-2024 Group
  */
 public final class Console {
     private static final int RADIX_DECIMAL;
@@ -198,4 +197,30 @@ public final class Console {
     {
         write(format + "%n", args);
     }
+
+    public static void writeErr(Object o)
+    {
+        System.err.print(o);
+    }
+
+    public static void writeErr(String format, Object...args)
+    {
+        System.err.printf(format, args);
+    }
+
+    public static void writeErrLine()
+    {
+        System.err.println();
+    }
+
+    public static void writeErrLine(Object o)
+    {
+        System.err.println(o);
+    }
+
+    public static void writeErrLine(String format, Object...args)
+    {
+        writeErr(format + "%n", args);
+    }
+
 }
