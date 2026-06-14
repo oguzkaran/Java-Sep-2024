@@ -271,8 +271,8 @@ class Application {
                 File [] files = file.listFiles();  
   
                 if (files != null) {  
-                    for (File s : files)  
-                        Console.writeLine(s.getAbsolutePath());  
+                    for (File f : files)  
+                        Console.writeLine(f.getAbsolutePath());  
                 }  
                 else  
                     Console.writeLine("IO problem occurred");  
@@ -287,19 +287,126 @@ class Application {
 ```
 
 
-XXXXXXXXXXXXXXXXXX
+File sınıfının **length** metodu ile ilgili dosyanın byte uzunluğu elde edilebilir.  
 
-File sınıfının length metodu ile ilgili dosyanın uzunluğu byte cinsinden elde edilebilir.  
-  
 **Anahtar Notlar:** İşletim sistemlerinde dizinlerin uzunlukları (length) dizine ilişkin bir bilgi olarak tutulmaz. Bu durumda dizin ağacı dolaşılarak içerisindeki dosyalardan hesaplanması gerekir. Bu sebeple bir dizine ilişkin File nesnesi ile length metodu çağrıldığında sisteme göre farklı değerler elde edilebilir. Yani aslında bu length bilgisinin bir dizinin kapladığı alan anlamında doğrudan bir ilişkisi yoktur.
-  
->File sınıfının mkdir metodu verilen yol ifadesine ilişkin bir dizin yaratır. Eğer yol ifadesine ilişkin dizin varsa bu durumda hiç birşey yapmaz. Metodun geri dönüş değeri dizinin yaratılıp yaratılmadığını gösteren boolean türden değerdir. mkdir metodu yaratılmak istenen dizine ilişkin yol ifadesi geçersizse dizini yaratamaz ve false değerine döner.  
 
->Verilen yol ifadesine ilişkin tüm dizinlerin yaratılabilmesi için mkdirs metodu kullanılmalıdır  
+>Aşağıdaki demo örneği inceleyiniz ve çeşitli yol ifadeleri ile çalıştırıp sonuçları gözlemleyiniz
 
+```java
+package org.csystem.app;  
   
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        if (file.exists()) {  
+            if (file.isDirectory()) {  
+                File [] files = file.listFiles();  
+  
+                if (files != null) {  
+                    for (File f : files)  
+                        Console.writeLine("%s %s", f.getName(), f.isDirectory() ? "<DIR>" : "%s B".formatted(f.length()));  
+                }  
+                else  
+                    Console.writeLine("IO problem occurred");  
+            }  
+            else  
+                Console.writeLine("'%s' is not a directory", file.getAbsolutePath());  
+        }  
+        else  
+            Console.writeLine("%s not found", args[0]);  
+    }  
+}
+```
+  
+>File sınıfının **mkdir** metodu verilen yol ifadesine ilişkin bir dizin yaratır. Eğer yol ifadesine ilişkin dizin varsa bu durumda hiç bir şey yapmaz. Metodun geri dönüş değeri dizinin yaratılıp yaratılmadığını gösteren boolean türden değerdir. mkdir metodu yaratılmak istenen dizine ilişkin yol ifadesi geçersizse dizini yaratamaz ve false değerine döner. 
+
+>Aşağıdaki demo örneği inceleyiniz. Örnekte dizinin var olmasından dolayı mı ya da yol ifadesinin yanlış olmasından dolayı mı ya da dizin yaratma hakkı olmamasından dolayı yaratılamadığı anlaşılamaz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        Console.writeLine(file.mkdir() ? "Created" : "Not created");  
+    }  
+}
+```
+>Aşağıdaki demo örneği inceleyiniz. Örnekte dizinin var olmasından dolayı mı ya da yol ifadesinin yanlış olmasından dolayı yaratılamadığı anlaşılmaktadır ancak dizin yaratma hakkı olmadığından dolayı yaratılamadığı anlaşılamamaktadır. Dizin yaratma hakkı sistemden sisteme değişiklik gösterebilir, dolayısıyla genel bir kontrol yöntemi yoktur
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        if (file.getAbsoluteFile().getParentFile().exists())  
+            Console.writeLine(file.mkdir() ? "Created" : "Not created");  
+        else  
+            Console.writeLine("'%s' not exist", file.getAbsoluteFile().getParentFile().getAbsolutePath());  
+    }  
+}
+```
+
+>Verilen yol ifadesine ilişkin tüm dizinlerin yaratılabilmesi için **mkdirs** metodu kullanılmalıdır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.File;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        var file = new File(args[0]);  
+  
+        Console.writeLine(file.mkdirs() ? "Created" : "Not created");  
+    }  
+}
+```
+
 >Dosyanın bütünü üzerinde işlem yapan bazı sınıflar ve arayüzler JavaSE'ye daha sonradan eklenmiştir. Yeni eklenen bu  sınıflar ve arayüzler genel olarak `java.nio` paketi içerisinde bulunurlar.
-  
+
+XXXXXXXXXXXXXXXXXXXXXXXX
+
 >**Path Arayüzü, Paths ve Files Sınıfları**  Path arayüzü dosya ve dizinler üzerinde daha kolay işlem yapılmasını sağlayan bir arayüzdür. Kullanımı karışık gibi  gözükse de birçok işlemi kolaylaştırmaktadır. Tipik olarak bir Path referansı elde etmek için Java 11 ile birlikte  of metodu kullanılabilir. Java 11 öncesinde Path referansı elde etmek için genel olarak Paths isimli sınıfın get  metotları kullanılıyordu. Ancak bu sınıfın dökümanlarına göre ileride "deprecated" olabileceği söylendiğinden Java 11+  için bu sınıfın kullanımı tavsiye edilmez. Path arayüzü, Paths sınıfı ve Files sınıfı java.nio.file paketi içerisinde  bildirilmiştir ve Java 7 ile birlikte eklenmiştir.
   
   
@@ -309,27 +416,20 @@ File sınıfının length metodu ile ilgili dosyanın uzunluğu byte cinsinden e
  >Aşağıdaki basit örnek Java 11+ için Path referansı elde edilmesinin of metodu ile yapılışını göstermektedir. Path  arayüzünün of metodu formatı geçersiz bir path için InvalidPathException fırlatır
   
 
-**Anahtar Notlar:** Bir path'in geçerli veya geçersiz olmasına yönelik formatı işletime sistemine özgüdür, değişiklik  gösterebilmektedir  
+**Anahtar Notlar:** Bir path'in geçerli veya geçersiz olmasına yönelik formatı işletime sistemine özgüdür, değişiklik  gösterebilmektedir. 
 
  
->Files utility sınıfı birçok yararlı static metot barındırır. Aslında File sınıfının da içerisinde bulunan birçok yararlı metodu barındırır. Ancak File sınıfında da Files'da da olmayan bazı metotlar vardır. Benzer şekilde Files sınıfında da File sınıfında olmayan bazı metotlar vardır. Aslında genel olarak Files sınıfı, File sınıfının birçok işleminin daha detaylandırılmış biçimidir. Files sınıfı (aslında bazı metotları anlamında File sınıfı da) yalnızca dosyanın bütünü  üzerinde işlemler yapan metotlara sahip değildir. Dosyanın verileri üzerinde işlem yapan çeşitli metotları da vardır.  Dosyanın verileri üzerinde işlem yapan metotlar ileride ele alınacaktır. Files sınıfının bir çok metodu yol ifadesini Path arayüzü olarak alırlar. Files sınıfının metotları çeşitli durumlar için çeşitli exception'lar fırlatırlar  
-  
-  
-  
+>**Files Sınıfı:** Files utility sınıfı birçok yararlı static metot barındırır. Aslında File sınıfının da içerisinde bulunan birçok yararlı metodu barındırır. Ancak File sınıfında da Files'da da olmayan bazı metotlar vardır. Benzer şekilde Files sınıfında da File sınıfında olmayan bazı metotlar vardır. Aslında genel olarak Files sınıfı, File sınıfının birçok işleminin daha detaylandırılmış biçimidir. Files sınıfı (aslında bazı metotları anlamında File sınıfı da) yalnızca dosyanın bütünü  üzerinde işlemler yapan metotlara sahip değildir. Dosyanın verileri üzerinde işlem yapan çeşitli metotları da vardır.  Dosyanın verileri üzerinde işlem yapan metotlar ileride ele alınacaktır. Files sınıfının bir çok metodu yol ifadesini Path arayüzü olarak alırlar. Files sınıfının metotları çeşitli durumlar için çeşitli exception'lar fırlatırlar.
+>
 >Files sınıfının exists, notExists, isRegularFile, isDirectory gibi metotları vardır. Bu metotların LinkOption parametresi optional'dır, geçilmeyebilir. Bu parametrenin anlamı bu kursta ele alınmayacaktır. Files sınıfının delete ve deleteIfExists metotları path'e ilişkin dosyayı silerler. delete metodu parametresi ile aldığı path'e ilişkin dosya yoksa NoSuchFileException fırlatır. Path bir dizin belirtiyorsa ve boş değilse DirectoryNotEmptyException fırlatır. Herhangi bir IO problemi oluşursa IOException fırlatır. deleteIfExists metodu aldığı path'e ilişkin dosya yoksa false, varsa true değerine geri döner. Bu metot'da directory için doluysa DirectoryNotEmptyException fırlatır. Herhangi bir IO problemi oluşursa IOException fırlatır. Files sınıfının exists ve notExists isimli metotları da vardır. Bu metotların da LinkOption parametreleri optional'dır, geçilmeyebilir.
-  
-
 
   
 >Yukarıdaki örnekte path'in kontrolü exists metodu ile aşağıdaki gibi yapılabilir  
 
 
-
 >Yukarıdaki örnekte path'in kontrolü notExists metodu ile aşağıdaki gibi yapılabilir  
   
-  
-  
-  
+
 >Files sınıfının copy metotları belirli bir kaynaktan başka bir kaynağa kopyalama yapmak amaçlı kullanılmaktadır. Bu  metodun bir çok overload'u bulunmaktadır. Path türünden iki argümanla çağrılabilen overload'u birinci parametre ile  alınan path'in, ikinci parametredeki path'e doğrudan kopyalanmasını sağlar. Bu metot kaynak (source) path ile belirtilen dosyayı bulamazsa NoSuchFileException fırlatır. Metot iki argüman ile çağrıldığında, hedef (destination/target) path'e ilişkin bir dosya mevcutsa bu durumda FileAlreadyExistsException nesnesini fırlatır. Bu metot hedef Path referansına geri döner  
   
 

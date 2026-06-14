@@ -20694,7 +20694,7 @@ class App {
 
 >Bir dizinin her bir elemanı yine bir dizi referansı ise bu durumda bu diziye artık **dizi dizisi (array of array)** denir. Programlamada dizi dizisi için **jagged array** terimi de kullanılmaktadır. Örneğin, `int[][] a;` bildiriminde a referansı her bir elemanı `int []` türünden bir dizi türündendir. Yani aslında bu bir referans dizisidir. Dizi dizisi yaratılırken new operatörü ile birlikte iki tane `[]` kullanılmalıdır. Bu durumda ilk köşeli parantez ana dizinin uzunluğunu belirtir. Dizi yaratılırken ikinci köşeli parantezin içerisi boş bırakılabilir. İlk köşeli parantezin içerisinin boş bırakılması ilk değer verme sentaksı dışında error oluşturur. Bu durumda dizinin her bir elemanı olan referanslara default değer yani null değeri atanır. Bir dizi dizisinin her bir elemanı olan referansların gösterdiği dizilerinde her birinin uzunluğu aynı ise bu dizi artık bir matrisi temsil edebilir. Yani örneğin ana dizinin `m`, elemanı olan her bir dizinin uzunlukları `n` ise bu dizi dizisi `m * n'lik` bir matris olarak kullanılabilir. 
 
-**Anahtar Notlar:** Java'da çok boyutlu dizi (multi dimensional array) yoktur. Yan Java'da `matris iki boyutlu bir dizidir` demek teknik olarak doğru değildir. Teknik olarak matris de bir dizi dizisidir. 
+**Anahtar Notlar:** Java'da çok boyutlu dizi (multi dimensional array) yoktur. Yani Java'da `matris iki boyutlu bir dizidir` demek teknik olarak doğru değildir. Teknik olarak matris de bir dizi dizisidir. 
 
 >Aşağıdaki demo örnekte bir matrisin elemanları rassal olarak üretilmiştir
 

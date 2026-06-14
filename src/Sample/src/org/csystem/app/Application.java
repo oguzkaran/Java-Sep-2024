@@ -13,21 +13,6 @@ class Application {
 
         var file = new File(args[0]);
 
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                File [] files = file.listFiles();
-
-                if (files != null) {
-                    for (File s : files)
-                        Console.writeLine(s.getAbsolutePath());
-                }
-                else
-                    Console.writeLine("IO problem occurred");
-            }
-            else
-                Console.writeLine("'%s' is not a directory", file.getAbsolutePath());
-        }
-        else
-            Console.writeLine("%s not found", args[0]);
+        Console.writeLine(file.mkdirs() ? "Created" : "Not created");
     }
 }
