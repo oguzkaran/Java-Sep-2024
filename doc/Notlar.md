@@ -20501,7 +20501,7 @@ public class NumberUtil {
 
 >for-each döngü deyimi Java 1.5 ile dile eklenmiştir. Bu döngü deyimi **dolaşılabilir (iterable)** türler ile kullanılabilmektedir. Diziler bu anlamda dolaşılabilir türlerdir, dolayısıyla for-each döngü deyimi diziler ile kullanılabilmektedir. İleride dolaşılabilir olan başka sınıflar da ele alınacaktır.  for-each döngüsü deyimine **enhanced for loop** ya da **range based loop** ya da **special for loop** de denilebilmektedir. 
 
-**Anahtar Notlar:** Bir sınıfın iterable olarak bildirimi yani bir sınıf ile for-each deyiminin kullanılabilmesi `Java ile Uygulama Geliştirme 1` kursunda ele alınacaktır. 
+**Anahtar Notlar:** Bir sınıfın iterable olarak bildirimi yani bir sınıf ile for-each deyiminin kullanılabilmesi `Java ile Uygulama Geliştirme I` kursunda ele alınacaktır. 
 
 >**Java programcısı for-each döngü deyiminin kullanılabildiği VE okunabilirliği/algılanabilirliği olumsuz etkilemediği durumda KESİNLİKLE bu döngü deyimini kullanmalıdır.** 
 >
@@ -37040,7 +37040,7 @@ enum MathExceptionStatus {
 >Java'da exception sınıfları kategori olarak iki gruba ayrılır: **checked exceptions, unchecked exceptions.**
 
 ![BasicExceptionClasses](./media/BasicExceptionClasses.png)
->Bir exception sınıfının doğrudan ya da dolaylı taban sınıflarından biri `RuntimeException` ve `Error` sınıflarından bir değilse sınıf bir **checked exception** sınıfıdır. checked olmayan bir exception sınıfı da bir **unchecked exception** sınıfıdır. 
+>Bir exception sınıfının doğrudan ya da dolaylı taban sınıflarından biri `RuntimeException` ve `Error` sınıflarından biri değilse sınıf bir **checked exception** sınıfıdır. checked olmayan bir exception sınıfı da bir **unchecked exception** sınıfıdır. 
 >
 >Bu tanımlara göre, bir exception sınıfının kategorisi taban sınıfının kategorisi ile aynıdır ve değiştirilemez.
 
@@ -37500,7 +37500,7 @@ import java.io.IOException;
 
 
 class Sample {  
-    public static void doWork()  throws IOException  
+    public static void doWork() throws IOException  
     {  
         //...  
     }  

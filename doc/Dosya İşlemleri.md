@@ -405,30 +405,216 @@ class Application {
 
 >Dosyanın bütünü üzerinde işlem yapan bazı sınıflar ve arayüzler JavaSE'ye daha sonradan eklenmiştir. Yeni eklenen bu  sınıflar ve arayüzler genel olarak `java.nio` paketi içerisinde bulunurlar.
 
-XXXXXXXXXXXXXXXXXXXXXXXX
+>**Path Arayüzü, Paths ve Files Sınıfları**  Path arayüzü dosya ve dizinler üzerinde daha kolay işlem yapılmasını sağlayan bir arayüzdür. Kullanımı karışık gibi  gözükse de birçok işlemi kolaylaştırmaktadır. Tipik olarak bir Path referansı elde etmek için Java 11 ile birlikte  **of** metodu kullanılabilir. Java 11 öncesinde Path referansı elde etmek için genel olarak Paths isimli sınıfın **get**  metotları kullanılıyordu. Ancak bu sınıfın dökümanlarına göre ileride "deprecated" olabileceği söylendiğinden Java 11+  için bu sınıfın kullanımı tavsiye edilmez. Path arayüzü, Paths sınıfı ve Files sınıfı **java.nio.file** paketi içerisinde  bildirilmiştir ve Java 7 ile birlikte eklenmiştir. Path sınıfının **toString** metodu ile ilgili Path referansına ilişkin yol ifadesi String olarak elde edilebilir.
+  
+>Aşağıdaki basit örnek Java 11 öncesi Path referansı elde edilmesinin Paths sınıfıyla yapılışını göstermektedir. Paths  sınıfının get metodu formatı geçersiz bir path için `InvalidPathException` fırlatır
 
->**Path Arayüzü, Paths ve Files Sınıfları**  Path arayüzü dosya ve dizinler üzerinde daha kolay işlem yapılmasını sağlayan bir arayüzdür. Kullanımı karışık gibi  gözükse de birçok işlemi kolaylaştırmaktadır. Tipik olarak bir Path referansı elde etmek için Java 11 ile birlikte  of metodu kullanılabilir. Java 11 öncesinde Path referansı elde etmek için genel olarak Paths isimli sınıfın get  metotları kullanılıyordu. Ancak bu sınıfın dökümanlarına göre ileride "deprecated" olabileceği söylendiğinden Java 11+  için bu sınıfın kullanımı tavsiye edilmez. Path arayüzü, Paths sınıfı ve Files sınıfı java.nio.file paketi içerisinde  bildirilmiştir ve Java 7 ile birlikte eklenmiştir.
+  ```java
+package org.csystem.app;  
   
+import org.csystem.util.console.Console;  
   
->Aşağıdaki basit örnek Java 11 öncesi Path referansı elde edilmesinin Paths sınıfıyla yapılışını göstermektedir. Paths  sınıfının get metodu formatı geçersiz bir path için InvalidPathException fırlatır.   
+import java.nio.file.InvalidPathException;  
+import java.nio.file.Path;  
+import java.nio.file.Paths;  
   
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
   
- >Aşağıdaki basit örnek Java 11+ için Path referansı elde edilmesinin of metodu ile yapılışını göstermektedir. Path  arayüzünün of metodu formatı geçersiz bir path için InvalidPathException fırlatır
+class Application {  
+    public static void run(String[] args)  
+    {  
+        try {  
+            checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+            Path path = Paths.get(args[0]);  
+  
+            Console.writeLine("Path:%s", path);  
+        }  
+        catch (InvalidPathException e) {  
+            Console.writeErrLine("Invalid Path:%s", e.getInput());  
+        }  
+    }  
+}
+  ```
+  
+ >Aşağıdaki basit örnek Java 11+ için Path referansı elde edilmesinin of metodu ile yapılışını göstermektedir. Path  arayüzünün of metodu da formatı geçersiz bir path için `InvalidPathException` fırlatır
+ 
+ ```java
+ package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.nio.file.InvalidPathException;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        try {  
+            checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+            Path path = Path.of(args[0]);  
+  
+            Console.writeLine("Path:%s", path);  
+        }  
+        catch (InvalidPathException e) {  
+            Console.writeErrLine("Invalid Path:%s", e.getInput());  
+        }  
+    }  
+}
+ ```
   
 
-**Anahtar Notlar:** Bir path'in geçerli veya geçersiz olmasına yönelik formatı işletime sistemine özgüdür, değişiklik  gösterebilmektedir. 
+**Anahtar Notlar:** Bir yol ifadesinin (path) geçerli veya geçersiz olmasına yönelik formatı işletim sistemine özgüdür, değişiklik gösterebilmektedir. 
 
+**Anahtar Notlar:** Path arayüzünün diğer metotları kullandıkça ele alınacaktır. Gerektiğinde dokümantasyondan bakılabilir.
  
 >**Files Sınıfı:** Files utility sınıfı birçok yararlı static metot barındırır. Aslında File sınıfının da içerisinde bulunan birçok yararlı metodu barındırır. Ancak File sınıfında da Files'da da olmayan bazı metotlar vardır. Benzer şekilde Files sınıfında da File sınıfında olmayan bazı metotlar vardır. Aslında genel olarak Files sınıfı, File sınıfının birçok işleminin daha detaylandırılmış biçimidir. Files sınıfı (aslında bazı metotları anlamında File sınıfı da) yalnızca dosyanın bütünü  üzerinde işlemler yapan metotlara sahip değildir. Dosyanın verileri üzerinde işlem yapan çeşitli metotları da vardır.  Dosyanın verileri üzerinde işlem yapan metotlar ileride ele alınacaktır. Files sınıfının bir çok metodu yol ifadesini Path arayüzü olarak alırlar. Files sınıfının metotları çeşitli durumlar için çeşitli exception'lar fırlatırlar.
 >
->Files sınıfının exists, notExists, isRegularFile, isDirectory gibi metotları vardır. Bu metotların LinkOption parametresi optional'dır, geçilmeyebilir. Bu parametrenin anlamı bu kursta ele alınmayacaktır. Files sınıfının delete ve deleteIfExists metotları path'e ilişkin dosyayı silerler. delete metodu parametresi ile aldığı path'e ilişkin dosya yoksa NoSuchFileException fırlatır. Path bir dizin belirtiyorsa ve boş değilse DirectoryNotEmptyException fırlatır. Herhangi bir IO problemi oluşursa IOException fırlatır. deleteIfExists metodu aldığı path'e ilişkin dosya yoksa false, varsa true değerine geri döner. Bu metot'da directory için doluysa DirectoryNotEmptyException fırlatır. Herhangi bir IO problemi oluşursa IOException fırlatır. Files sınıfının exists ve notExists isimli metotları da vardır. Bu metotların da LinkOption parametreleri optional'dır, geçilmeyebilir.
+>Files sınıfının **exists, notExists, isRegularFile, isDirectory** gibi metotları vardır. Bu metotların LinkOption parametresi optional'dır, geçilmeyebilir. Bu parametrenin anlamı bu kursta ele alınmayacaktır. Files sınıfının **delete** ve **deleteIfExists** metotları path'e ilişkin dosyayı silerler. delete metodu parametresi ile aldığı path'e ilişkin dosya yoksa **NoSuchFileException** fırlatır. Path bir dizin belirtiyorsa ve boş değilse **DirectoryNotEmptyException** fırlatır. Herhangi bir IO problemi oluşursa **IOException** fırlatır. deleteIfExists metodu aldığı path'e ilişkin dosya yoksa false, varsa true değerine geri döner. Bu metot'da directory için doluysa **DirectoryNotEmptyException** fırlatır. Herhangi bir IO problemi oluşursa **IOException** fırlatır.
 
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app;  
   
->Yukarıdaki örnekte path'in kontrolü exists metodu ile aşağıdaki gibi yapılabilir  
-
-
->Yukarıdaki örnekte path'in kontrolü notExists metodu ile aşağıdaki gibi yapılabilir  
+import org.csystem.util.console.Console;  
   
+import java.io.IOException;  
+import java.nio.file.DirectoryNotEmptyException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        Path path = Path.of(args[0]);  
+  
+        try {  
+            if (Files.exists(path)) {  
+                Files.delete(path);  
+  
+                if (Files.isDirectory(path))
+                    Console.writeLine("Directory '%s' deleted", args[0]);  
+                else  
+                    Console.writeLine("File '%s' deleted", args[0]);  
+            }  
+            else  
+                Console.writeLine("%s not found", args[0]);  
+        }  
+        catch (DirectoryNotEmptyException e) {  
+            Console.writeErrLine("Non empty directory can not be deleted:%s", e.getMessage());  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
+
+
+>Yukarıdaki örnek aşağıdaki gibi de yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.DirectoryNotEmptyException;  
+import java.nio.file.Files;  
+import java.nio.file.NoSuchFileException;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        Path path = Path.of(args[0]);  
+  
+        try {  
+            Files.delete(path);  
+            if (Files.isDirectory(path))  
+                Console.writeLine("Directory '%s' deleted", args[0]);  
+            else  
+                Console.writeLine("File '%s' deleted", args[0]);  
+        }  
+        catch (NoSuchFileException e) {  
+            Console.writeLine("%s not found", e.getMessage());  
+        }  
+        catch (DirectoryNotEmptyException e) {  
+            Console.writeErrLine("Non empty directory can not be deleted:%s", e.getMessage());  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
+
+
+>Yukarıdaki örnek `deleteIfExists` metodu ile aşağıdaki gibi de yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.DirectoryNotEmptyException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        Path path = Path.of(args[0]);  
+  
+        try {  
+            boolean result = Files.deleteIfExists(path);  
+  
+            if (result) {  
+                if (Files.isDirectory(path))  
+                    Console.writeLine("Directory '%s' deleted", args[0]);  
+                else  
+                    Console.writeLine("File '%s' deleted", args[0]);  
+            }  
+            else  
+                Console.writeLine("%s not found", args[0]);  
+        }  
+        catch (DirectoryNotEmptyException e) {  
+            Console.writeErrLine("Non empty directory can not be deleted:%s", e.getMessage());  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
+
+XXXXXXXXXXXXXXXXXXXXXXXXXX
 
 >Files sınıfının copy metotları belirli bir kaynaktan başka bir kaynağa kopyalama yapmak amaçlı kullanılmaktadır. Bu  metodun bir çok overload'u bulunmaktadır. Path türünden iki argümanla çağrılabilen overload'u birinci parametre ile  alınan path'in, ikinci parametredeki path'e doğrudan kopyalanmasını sağlar. Bu metot kaynak (source) path ile belirtilen dosyayı bulamazsa NoSuchFileException fırlatır. Metot iki argüman ile çağrıldığında, hedef (destination/target) path'e ilişkin bir dosya mevcutsa bu durumda FileAlreadyExistsException nesnesini fırlatır. Bu metot hedef Path referansına geri döner  
   
