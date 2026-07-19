@@ -42164,7 +42164,7 @@ class Sample {
 }
 ```
 
->Aşağıdaki demo örnekte int türden veya String türden bir argüman ile açılım yapılsa bile generic metodun çağrılması mümkün değildir. Çünkü Java'da her durumda argümandan parametrelere olan dönüşümün kalitesine göre, daha kaliteli ya da daha az kaliteli olmayan dönüşüm sunan metot seçilir. Bu durumda `örnek özelinde` int veya String bir argüman ile generic metodun çağrılması mümkün olmadığına göre, int türden değer kutulanarak, String türden değer de Object türüne dönüştürülerek generic metodun çağrılması sağlanabilir. 
+>Aşağıdaki demo örnekte int türden veya String türden bir argüman ile açılım yapılsa bile generic metodun çağrılması mümkün değildir. Çünkü Java'da her durumda argümandan parametrelere olan dönüşümün kalitesine göre, daha kaliteli ya da daha az kaliteli olmayan dönüşüm sunan metot seçilir. Bu durumda `örnek özelinde` int veya String bir argüman ile generic metodun çağrılması mümkün olmadığına göre, int türden değer kutulanarak, String türden değer de Object türüne dönüştürülerek generic metodun çağrılması sağlanabilir
 
 ```java
 package org.csystem.app;  

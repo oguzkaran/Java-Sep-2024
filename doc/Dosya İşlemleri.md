@@ -614,41 +614,191 @@ class Application {
 }
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXX
+>Files sınıfının **copy** metotları belirli bir kaynaktan başka bir kaynağa kopyalama yapmak amaçlı kullanılmaktadır. Bu  metodun overload'ları bulunmaktadır. Path türünden iki argümanla çağrılabilen overload'u birinci parametre ile alınan path'in, ikinci parametredeki path'e doğrudan kopyalanmasını sağlar. Bu metot kaynak (source) path ile belirtilen dosyayı bulamazsa `NoSuchFileException` fırlatır. Metot iki argüman ile çağrıldığında, hedef (destination/target) path'e ilişkin bir dosya mevcutsa bu durumda `FileAlreadyExistsException` nesnesini fırlatır. Bu metot hedef Path referansına geri döner
 
->Files sınıfının copy metotları belirli bir kaynaktan başka bir kaynağa kopyalama yapmak amaçlı kullanılmaktadır. Bu  metodun bir çok overload'u bulunmaktadır. Path türünden iki argümanla çağrılabilen overload'u birinci parametre ile  alınan path'in, ikinci parametredeki path'e doğrudan kopyalanmasını sağlar. Bu metot kaynak (source) path ile belirtilen dosyayı bulamazsa NoSuchFileException fırlatır. Metot iki argüman ile çağrıldığında, hedef (destination/target) path'e ilişkin bir dosya mevcutsa bu durumda FileAlreadyExistsException nesnesini fırlatır. Bu metot hedef Path referansına geri döner  
-  
+>Aşağıdaki örneği inceleyiniz
 
->Files sınıfının aşağıda kullanılan copy metodu CopyOption arayüzü türünden bir referans alır. Bu arayüzü destekleyen  StandardCopyOption isimli bir enum ile bu argüman verilebilir. REPLACE_EXISTING isimli enum sabiti ile hedef dosya  varsa bile yenisi ile değiştirilir. REPLACE_EXISTING değeri ile dizin kopyalaması yapıldığında hedef dizin varsa  ve içi boş değilse DirectoryEmptyException nesnesi fırlatılır. COPY_ATTRIBUTES isimli enum sabiti dosyanın tüm  özelliklerini hedef dosya için de kopyalar. Bir dosyaya ilişkin attribute'lar sistemden sisteme değişiklik gösterebilmektedir.  Bir standardı yoktur. ATOMIC_MOVE move metodu ve "multi-threaded" uygulamalara yöneliktir. Burada ele alınmayacaktır  
+```java
+package org.csystem.app;  
   
+import org.csystem.util.console.Console;  
   
->Files sınıfının move metodu kaynak yol ifadesinden hedef yol ifadesine taşıma işlemi yapar. copy metoduna benzer  şekilde kullanılabilir. move metodu iki argüman ile çağrılırsa exception bakımından copy metodu gibi davranır. Ayrıca  move metodu "rename" için de kullanılabilir. move metodu COPY_ATTRIBUTES sabitini desteklemez. Bu sabitin geçilmesi  durumunda UnsupportedOperationExceoption fırlatılır  
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
   
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path srcPath = Path.of(args[0]);  
+            Path destPath = Path.of(args[1]);  
+  
+            Files.copy(srcPath, destPath);  
+            Console.writeLine("File successfully copied");  
+        }  
+        catch (FileAlreadyExistsException ignore) {  
+            Console.writeErrLine("File already exists:%s", args[1]);  
+        }
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
+  
+>Files sınıfının aşağıda kullanılan copy metodu **CopyOption** arayüzü türünden bir referans alır. Bu arayüzü destekleyen  **StandardCopyOption** isimli bir enum ile bu argüman verilebilir. **REPLACE_EXISTING** isimli enum sabiti ile hedef dosya  varsa bile yenisi ile değiştirilir. REPLACE_EXISTING değeri ile dizin kopyalaması yapıldığında hedef dizin varsa  ve içi boş değilse `DirectoryEmptyException` nesnesi fırlatılır. **COPY_ATTRIBUTES** isimli enum sabiti dosyanın tüm  özelliklerini hedef dosya için de kopyalar. Bir dosyaya ilişkin attribute'lar sistemden sisteme değişiklik gösterebilmektedir.  Bir standardı yoktur. **ATOMIC_MOVE** move metodu ve `multi-threaded` uygulamalara yöneliktir. Burada ele alınmayacaktır.  
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.DirectoryNotEmptyException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;  
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path srcPath = Path.of(args[0]);  
+            Path destPath = Path.of(args[1]);  
+  
+            Files.copy(srcPath, destPath, REPLACE_EXISTING, COPY_ATTRIBUTES);  
+            Console.writeLine("File successfully copied");  
+        }  
+        catch (DirectoryNotEmptyException ignore) {  
+            Console.writeErrLine("Non empty directory:%s", args[1]);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
+
+>Files sınıfının **move** metodu kaynak yol ifadesinden hedef yol ifadesine taşıma işlemi yapar. copy metoduna benzer  şekilde kullanılabilir. move metodu iki argüman ile çağrılırsa exception bakımından copy metodu gibi davranır. Ayrıca  move metodu `rename` için de kullanılabilir. move metodu `COPY_ATTRIBUTES` sabitini desteklemez. Bu sabitin geçilmesi  durumunda `UnsupportedOperationException` fırlatılır  
+    
+>Aşağıdaki örneği inceleyiniz  
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.FileAlreadyExistsException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path srcPath = Path.of(args[0]);  
+            Path destPath = Path.of(args[1]);  
+  
+            Files.move(srcPath, destPath);  
+            Console.writeLine("File successfully moved");  
+        }  
+        catch (FileAlreadyExistsException ignore) {  
+            Console.writeErrLine("File already exists:%s", args[1]);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
   
 >Aşağıdaki örneği inceleyiniz  
 
+```java
+package org.csystem.app;  
   
->Aşağıdaki örneği inceleyiniz  
-
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.DirectoryNotEmptyException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path srcPath = Path.of(args[0]);  
+            Path destPath = Path.of(args[1]);  
+  
+            Files.move(srcPath, destPath, REPLACE_EXISTING);  
+            Console.writeLine("File successfully copied");  
+        }  
+        catch (DirectoryNotEmptyException ignore) {  
+            Console.writeErrLine("Non empty directory:%s", args[1]);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
+```
   
  >**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
  
 `java org.csystem.app.io.file.copy.BackupAndCopyApp <src> <dest> `
 
- >Program src ile aldığı dosyayı dest ile aldığı dosya olarak kopyalayacaktır. Hedef dosya varsa hedef dosya ismi ve  uzantısının sonuna "-bak" eklenerek yedeklenecektir. Daha önce yedeklenmişse üzerine yazılacaktır. Bu işlemden sonra  kopyalama yapılacaktır  
+ >Program src ile aldığı dosyayı dest ile aldığı dosya olarak kopyalayacaktır. Hedef dosya varsa hedef dosya ismi ve uzantısının sonuna "-bak" eklenerek yedeklenecektir. Daha önce yedeklenmişse üzerine yazılacaktır. Bu işlemden sonra  kopyalama yapılacaktır  
   
-  
+
 >**Sınıf Çalışması:** Yukarıdaki örneği backup yapılan dosya varsa kullanıcıya  aşağıdaki gibi soracak biçime getiriniz:   
 
 `Backup file exists. Do you want to overwrite?`
 
->Cevabın Y ve N olmasına göre işlemi yapınız. Burada Y veya N karakteri dışında bir karakter için hiç bir işlem yapılmayacaktır. Eğer N girilirse hedef dosya, yedekeleme yapılmadan kopyalanacaktır.
+>Cevabın Y ve N olmasına göre işlemi yapınız. Burada Y veya N karakteri dışında bir karakter için hiç bir işlem yapılmayacaktır. Eğer N girilirse hedef dosya, yedekleme yapılmadan kopyalanacaktır.
 
+XXXXXXXXXXXXXXXXXXXXXXXXX
 
->Files sınıfının createDirectory metodu aldığı Path'e ilişkin dizini yaratmak için kullanılabilir. Bu matodun ikinci  parametresi dosya özelliklerine (file attributes) ilişkindir. Sistemden sisteme değişiklik gösterebilmektedir. Burada  ele alınmayacaktır. Metodun ikinci parametresine argüman geçilmediğinde default attribute'lar geçerli olacaktır. Metot  yaratılmak istenen directory'ye ilişkin path varsa FileAlreadyExistsException fırlatır. İkinci parametreye geçilen  argüman geçersizse (aslında o sistemde desteklenmiyorsa) UnsupportedOperationException fırlatır. Herhangi bir IO problemi  durumunda IOException fırlatır. createDirectory metodu yaratılmak istenen dizine ilişkin parent directory'ler yoksa  yaratmaz. Parent directory'lerin de birlikte yaratılması için createDirectories metodu kullanılabilir.
+>Files sınıfının **createDirectory** metodu aldığı Path'e ilişkin dizini yaratmak için kullanılabilir. Bu metodun ikinci  parametresi dosya özelliklerine (file attributes) ilişkindir. Sistemden sisteme değişiklik gösterebilmektedir. Burada  ele alınmayacaktır. Metodun ikinci parametresine argüman geçilmediğinde default attribute'lar geçerli olacaktır. Metot  yaratılmak istenen directory'ye ilişkin path varsa `FileAlreadyExistsException` fırlatır. İkinci parametreye geçilen  argüman geçersizse (aslında o sistemde desteklenmiyorsa) `UnsupportedOperationException` fırlatır. Herhangi bir IO problemi  durumunda IOException fırlatır. createDirectory metodu yaratılmak istenen dizine ilişkin parent directory'ler yoksa  yaratmaz. Parent directory'lerin de birlikte yaratılması için **createDirectories** metodu kullanılabilir.
   
-
 >Aşağıdaki örneği inceleyiniz  
 
-###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar  
+###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar
+
+
 

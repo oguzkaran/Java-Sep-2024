@@ -7,29 +7,23 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
 class Application {
     public static void run(String[] args)
     {
-        checkLengthEquals(1, args.length, "Wrong number of arguments");
-
-        Path path = Path.of(args[0]);
+        checkLengthEquals(2, args.length, "Wrong number of arguments");
 
         try {
-            boolean result = Files.deleteIfExists(path);
+            Path srcPath = Path.of(args[0]);
+            Path destPath = Path.of(args[1]);
 
-            if (result) {
-                if (Files.isDirectory(path))
-                    Console.writeLine("Directory '%s' deleted", args[0]);
-                else
-                    Console.writeLine("File '%s' deleted", args[0]);
-            }
-            else
-                Console.writeLine("%s not found", args[0]);
+            Files.move(srcPath, destPath, REPLACE_EXISTING);
+            Console.writeLine("File successfully copied");
         }
-        catch (DirectoryNotEmptyException e) {
-            Console.writeErrLine("Non empty directory can not be deleted:%s", e.getMessage());
+        catch (DirectoryNotEmptyException ignore) {
+            Console.writeErrLine("Non empty directory:%s", args[1]);
         }
         catch (IOException e) {
             Console.writeErrLine("IO error occurred:%s", e.getMessage());
