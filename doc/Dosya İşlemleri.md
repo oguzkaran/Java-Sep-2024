@@ -778,27 +778,167 @@ class Application {
     }  
 }
 ```
-  
+
+###### 26 Temmuz 2026
+
  >**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
  
 `java org.csystem.app.io.file.copy.BackupAndCopyApp <src> <dest> `
 
- >Program src ile aldığı dosyayı dest ile aldığı dosya olarak kopyalayacaktır. Hedef dosya varsa hedef dosya ismi ve uzantısının sonuna "-bak" eklenerek yedeklenecektir. Daha önce yedeklenmişse üzerine yazılacaktır. Bu işlemden sonra  kopyalama yapılacaktır  
-  
+ >Program src ile aldığı dosyayı dest ile aldığı dosya olarak kopyalayacaktır. Hedef dosya varsa hedef dosya ismi ve uzantısının sonuna "-bak" eklenerek yedeklenecektir. Daha önce yedeklenmişse yedeğin üzerine yazılacaktır. Bu işlemden sonra  kopyalama yapılacaktır.
 
->**Sınıf Çalışması:** Yukarıdaki örneği backup yapılan dosya varsa kullanıcıya  aşağıdaki gibi soracak biçime getiriniz:   
+>**Çözüm:**
+
+```java
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.io.file.copy.BackupAndCopy;  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.Path;  
+  
+public class BackupAndCopyApp {  
+    private static void run(String[] args)  
+    {  
+        try {  
+            BackupAsBakFile backupAsBakFile = new BackupAsBakFile();  
+            BackupAndCopy backupAndCopy = new BackupAndCopy(Path.of(args[0]), Path.of(args[1]), backupAsBakFile);  
+  
+            backupAndCopy.copy();  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.function.IPredicate;  
+  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+import java.nio.file.StandardCopyOption;  
+  
+public class BackupAsBakFile implements IPredicate<Path> {  
+    public boolean test(Path path) throws Exception  
+    {  
+        Files.copy(path, Path.of("%s-bak".formatted(path.toString())),  StandardCopyOption.REPLACE_EXISTING);  
+  
+        return true;  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Yukarıdaki örneği backup yapılan dosya varsa kullanıcıya  aşağıdaki gibi soracak biçime getiriniz:
 
 `Backup file exists. Do you want to overwrite?`
 
->Cevabın Y ve N olmasına göre işlemi yapınız. Burada Y veya N karakteri dışında bir karakter için hiç bir işlem yapılmayacaktır. Eğer N girilirse hedef dosya, yedekleme yapılmadan kopyalanacaktır.
+>Cevabın Y ve N olmasına göre işlemi yapınız. Burada Y veya N karakteri dışında bir karakter için hiç bir işlem yapılmayacaktır. Eğer N girilirse hedef dosya, yedekleme yapılmadan üzerine (overwrite) kopyalanacaktır.
 
-XXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+
+>IPredicate arayüzü
+
+```java
+package org.csystem.function;  
+  
+public interface IPredicate<T> {  
+    boolean test(T t) throws Exception;  
+}
+```
+
+>BackupAndCopy sınıfı
+
+```java
+package org.csystem.io.file.copy;  
+  
+import org.csystem.function.IPredicate;  
+  
+import java.io.IOException;  
+import java.nio.file.FileAlreadyExistsException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+import java.nio.file.StandardCopyOption;  
+  
+public class BackupAndCopy {  
+    private final Path m_srcPath;  
+    private final Path m_destPath;  
+    private final IPredicate<? super Path> m_consumer;  
+  
+    private void doIfDestinationPathExists() throws IOException  
+    {  
+        try {  
+            if (m_consumer.test(m_destPath))  
+                Files.copy(m_srcPath, m_destPath, StandardCopyOption.REPLACE_EXISTING);  
+        } catch (Exception e) {  
+            throw new IOException(e.getMessage());  
+        }  
+    }  
+  
+    public BackupAndCopy(Path srcPath, Path destPath, IPredicate<? super Path> consumer)  
+    {  
+        m_srcPath = srcPath;  
+        m_destPath = destPath;  
+        m_consumer = consumer;  
+    }  
+  
+    public void copy() throws IOException  
+    {  
+        try {  
+            Files.copy(m_srcPath, m_destPath);  
+        }  
+        catch (FileAlreadyExistsException ignore) {  
+            doIfDestinationPathExists();  
+        }  
+    }  
+}
+```
+
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 >Files sınıfının **createDirectory** metodu aldığı Path'e ilişkin dizini yaratmak için kullanılabilir. Bu metodun ikinci  parametresi dosya özelliklerine (file attributes) ilişkindir. Sistemden sisteme değişiklik gösterebilmektedir. Burada  ele alınmayacaktır. Metodun ikinci parametresine argüman geçilmediğinde default attribute'lar geçerli olacaktır. Metot  yaratılmak istenen directory'ye ilişkin path varsa `FileAlreadyExistsException` fırlatır. İkinci parametreye geçilen  argüman geçersizse (aslında o sistemde desteklenmiyorsa) `UnsupportedOperationException` fırlatır. Herhangi bir IO problemi  durumunda IOException fırlatır. createDirectory metodu yaratılmak istenen dizine ilişkin parent directory'ler yoksa  yaratmaz. Parent directory'lerin de birlikte yaratılması için **createDirectories** metodu kullanılabilir.
   
 >Aşağıdaki örneği inceleyiniz  
 
-###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar
+###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar  
+
+Dosyanın verileri üzerinde işlem yapan sınıflar genel olarak iki kategoriye ayrılmıştır: Dosyaya yazma (output) yapan  ve dosyadan okuma (input) yapan sınıflar. Aslında Java'da genel olarak tüm giriş çıkış (input/output) işlemleri bu  şekilde yapılmaktadır.  
+  
+**InputStream ve OutputStream Sınıfları:** Temel giriş çıkış işlemleri için InputStream ve OutputStream isimli iki adet abstract sınıf bulunmaktadır. Bu sınıflar sadece dosyalar için değil, diğer giriş çıkış işlemleri için de kullanılabilmektedir. Yani Java'da "okuma (read) ve yazma (write)" ya da daha genel ismiyle "giriş (input) ve çıkış (output)" işlemleri bu sınıflar ile soyutlanmıştır (abstraction). Bu  sınıflar Closeable arayüzünü desteklerler.  
+  
+**FileInputStream ve FileOutputStream Sınıfları:** Dosya işlemleri için temel iki sınıf FileInputStream ve FileOutputStream sınıflarıdır. FileOutputStream sınıfı  OutputStream sınıfından, FileInputStream sınıfı da InputStream sınıfından türetilmiştir. Bu sınıflar Closeable ve  dolayısıyla AutoCloseable arayüzünü desteklediklerinden “try with resources (twr)” deyimi ile kullanılabilirler. Bir dosyanın verileri üzerinde işlem yapılmadan önce o dosyanın açılması gerekir. Dosyanın açılması demek işletim sistemi  düzeyinde aşağı seviyeli bazı işlemlerin yapılması demektir. Dosyanın açılması işlemi bu sınıfların ctor'ları tarafından  yapılmaktadır. Kapatılması için de close metodu kullanılmalıdır. Bilindiği gibi Java 7 ile eklenen twr deyimi close işlemini otomatik olarak yapmaktadır. Bu sınıflar java.io paketi içerisinde bildirilmişlerdir.   
+
+**Dosya Gösterici (file pointer) Kavramı:** Uzantı ne olursa olsun dosyaların içerisinde byte yığınları vardır. Biz de temelde dosyalardan byte okuyup onlara byte yazarız. Dosya içerisindeki her bir byte'ın ilk byte 0(sıfır) olmak üzere artan sırada bir pozisyon numarası vardır. Buna dosya terminolojisinde ilgili byte’ın offset’i denilmektedir. Dosya göstericisi bir imleç gibi (kalemin ucu gibi) düşünülebilir. Dosya göstericisi o anda dosyanın neresinden itibaren okuma ya da yazma yapılacağını anlatan bir  konum (offset) belirtir:  
+
+```
+x x x x x x x x  
+0 1 2 3 4 5 6 7
+```
+
+Bu örnekte dosya göstericisinin 2 numaralı offset'i gösterdiğini düşünelim. Biz artık 2 byte'lık bir okuma yaparsak 2 ve 3 numaralı offset'teki byte'ları okuruz. Okuma ve yazma metotları okunan ya da yazılan miktar kadar dosya  göstericisini otomatik ilerletmektedir. Dosya açıldığında dosya göstericisi özel modlarda açılmamışsa başlangıçta 0(sıfır)'ıncı offset'tedir. Yazma sırasında dosya göstericisinin gösterdiği yerden itibaren eski bilgiler ezilerek yeni bilgiler yazılır. Fakat, özel bir durum olarak dosya göstericisi dosyanın sonundaysa dosyaya yazma yapıldığında dosya büyütülmektedir. Başka bir deyişle bu durumda dosyaya yazma işlemi ekleme (append) anlamına gelir.  
+  
+**Dosya Göstericisinin EOF Durumu:**  Dosya göstericisinin dosyanın son byte'ından sonraki byte'ı göstermesi durumuna EOF (End Of File) durumu denir. EOF durumundan okuma yapılamaz. Fakat dosya göstericisi EOF durumundayken dosyaya yazma yapılabilir. Bu durum dosyaya ekleme anlamına gelir. Dosyaya ekleme yapmanın taşınabilir (portable) başka bir yolu yoktur. Dosya göstericisinin dosyanın son byte’ından sonraki byte’ı göstermesi taşınabilir olarak mümkündür. Ancak daha ileride bir yeri taşınabilir olarak göstermesi söz konusu değildir.  
+  
+**Anahtar Notlar:** Bazı işletim sistemleri dosyanın sonundan daha ileriye konumlanmaya ve veri yazmaya izin verebilmektedir. Bu duruma genel olarak dosya delikleri (file holes) denir. Aşağı seviyede anlamlıdır. Her işletim sistemi desteklemeyebileceğinden, Java'da doğrudan yapılamaz. Ayrıca yapılsa bile program taşınabilir olmaz.  
+  
+FileOutputStream sınıfının File türden ve String türden tek parametreli ctor'ları yeni bir dosya yaratıp dosyayı açar.  Eğer dosya varsa dosyayı sıfırlayarak (truncate), yani bilgileri kaybederek açar. Yazma işlemi için en temel metot  bir byte'lık bilgiyi yazan write metodudur. Bu ctor'lar path'in bir dizin belirtmesi durumunda FileNotFoundException  fırlatır.
+  
+  
+
 
 
 

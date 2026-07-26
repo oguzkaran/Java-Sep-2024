@@ -171,6 +171,32 @@ public final class Console {
         return KB.nextLine();
     }
 
+    public static char readChar()
+    {
+        return readChar("");
+    }
+
+    public static char readChar(String msg)
+    {
+        return readChar(msg, "");
+    }
+
+    public static char readChar(String msg, String errMsg)
+    {
+        for (;;) {
+            write(msg);
+            var str = KB.nextLine();
+
+            if (str.isEmpty())
+                return '\n';
+
+            if (str.length() == 1)
+                return str.charAt(0);
+
+            write(errMsg);
+        }
+    }
+
     //...
 
     public static void write(Object o)

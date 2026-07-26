@@ -20512,7 +20512,7 @@ for (<tür> <değişken> : <dolaşılabilir türden referans>)
 	<deyim>
 ```
 
->Burada döngü değişkeni dolaşılabilir türün her bir elemanının doğrudan atanabildiği (implicit conversion) türden olmalıdır. Aksi durumda error oluşur. Bu döngüde her adımda, dolaşılabilir  türün elemanı baştan sona olmak üzere döngü değişkenine atanır. Örneğin, dolabilir tür bir dizi ise her adımda dizinin ilgili elemanı döngü değişenine atanmış olur. Bu döngü ile dizi baştan sonra dolaşılmış olur. Dikkat edilirse bu döngüde, dizinin bir elemanına indeks ile erişilmez.
+>Burada döngü değişkeni dolaşılabilir türün her bir elemanının doğrudan atanabildiği (implicit conversion) türden olmalıdır. Aksi durumda error oluşur. Bu döngüde her adımda, dolaşılabilir  türün elemanı baştan sona olmak üzere döngü değişkenine atanır. Örneğin, dolaşılabilir tür bir dizi ise her adımda dizinin ilgili elemanı döngü değişenine atanmış olur. Bu döngü ile dizi baştan sonra dolaşılmış olur. Dikkat edilirse bu döngüde, dizinin bir elemanına indeks ile erişilmez.
 
 ```java
 package org.csystem.app;  
