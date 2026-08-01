@@ -286,6 +286,7 @@ class Application {
 }
 ```
 
+###### 14 Haziran 2026
 
 File sınıfının **length** metodu ile ilgili dosyanın byte uzunluğu elde edilebilir.  
 
@@ -404,6 +405,8 @@ class Application {
 ```
 
 >Dosyanın bütünü üzerinde işlem yapan bazı sınıflar ve arayüzler JavaSE'ye daha sonradan eklenmiştir. Yeni eklenen bu  sınıflar ve arayüzler genel olarak `java.nio` paketi içerisinde bulunurlar.
+
+###### 4 Temmuz 2026
 
 >**Path Arayüzü, Paths ve Files Sınıfları**  Path arayüzü dosya ve dizinler üzerinde daha kolay işlem yapılmasını sağlayan bir arayüzdür. Kullanımı karışık gibi  gözükse de birçok işlemi kolaylaştırmaktadır. Tipik olarak bir Path referansı elde etmek için Java 11 ile birlikte  **of** metodu kullanılabilir. Java 11 öncesinde Path referansı elde etmek için genel olarak Paths isimli sınıfın **get**  metotları kullanılıyordu. Ancak bu sınıfın dökümanlarına göre ileride "deprecated" olabileceği söylendiğinden Java 11+  için bu sınıfın kullanımı tavsiye edilmez. Path arayüzü, Paths sınıfı ve Files sınıfı **java.nio.file** paketi içerisinde  bildirilmiştir ve Java 7 ile birlikte eklenmiştir. Path sınıfının **toString** metodu ile ilgili Path referansına ilişkin yol ifadesi String olarak elde edilebilir.
   
@@ -613,6 +616,8 @@ class Application {
     }  
 }
 ```
+
+###### 19 Temmuz 2026
 
 >Files sınıfının **copy** metotları belirli bir kaynaktan başka bir kaynağa kopyalama yapmak amaçlı kullanılmaktadır. Bu  metodun overload'ları bulunmaktadır. Path türünden iki argümanla çağrılabilen overload'u birinci parametre ile alınan path'in, ikinci parametredeki path'e doğrudan kopyalanmasını sağlar. Bu metot kaynak (source) path ile belirtilen dosyayı bulamazsa `NoSuchFileException` fırlatır. Metot iki argüman ile çağrıldığında, hedef (destination/target) path'e ilişkin bir dosya mevcutsa bu durumda `FileAlreadyExistsException` nesnesini fırlatır. Bu metot hedef Path referansına geri döner
 
@@ -841,14 +846,84 @@ public class BackupAsBakFile implements IPredicate<Path> {
 }
 ```
 
+###### 1 Ağustos 2026
+
 >**Sınıf Çalışması:** Yukarıdaki örneği backup yapılan dosya varsa kullanıcıya  aşağıdaki gibi soracak biçime getiriniz:
 
 `Backup file exists. Do you want to overwrite?`
 
->Cevabın Y ve N olmasına göre işlemi yapınız. Burada Y veya N karakteri dışında bir karakter için hiç bir işlem yapılmayacaktır. Eğer N girilirse hedef dosya, yedekleme yapılmadan üzerine (overwrite) kopyalanacaktır.
+>Cevabın `Y, y, N ve n` olmasına göre işlemi yapınız. Burada karakterler dışında bir karakter için hiç bir işlem yapılmayacaktır. Eğer `N` veya `n` girilirse hedef dosya, yedekleme yapılmadan üzerine (overwrite) kopyalanacaktır.
 
+**Çözüm:**
 
+```java
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.io.file.copy.BackupAndCopy;  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.Path;  
+  
+public class BackupViaPromptAndCopyApp {  
+    private static void run(String[] args)  
+    {  
+        try {  
+            BackupViaPrompt backupViaPrompt = new BackupViaPrompt();  
+            BackupAndCopy backupAndCopy = new BackupAndCopy(Path.of(args[0]), Path.of(args[1]), backupViaPrompt);  
+  
+            backupAndCopy.copy();  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
+```java
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.function.IPredicate;  
+import org.csystem.util.console.Console;  
+  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+import java.nio.file.StandardCopyOption;  
+  
+public class BackupViaPrompt implements IPredicate<Path> {  
+    private static char getOption()  
+    {  
+        char c;  
+  
+        do  
+            c = Console.readChar("Backup file exists. Do you want to overwrite?");  
+        while (c != 'Y' && c != 'y' && c != 'N' && c != 'n');  
+  
+        return c;  
+    }  
+  
+    public boolean test(Path path) throws Exception  
+    {  
+        char option = getOption();  
+  
+        if (option == 'Y' || option == 'y')  
+            Files.copy(path, Path.of("%s-bak".formatted(path.toString())),  StandardCopyOption.REPLACE_EXISTING);  
+  
+        return true;  
+    }  
+}
+```
+
+>Yukarıdaki iki örnekte kullanılan UDT'ler
 
 >IPredicate arayüzü
 
@@ -876,23 +951,23 @@ import java.nio.file.StandardCopyOption;
 public class BackupAndCopy {  
     private final Path m_srcPath;  
     private final Path m_destPath;  
-    private final IPredicate<? super Path> m_consumer;  
+    private final IPredicate<? super Path> m_predicate;  
   
     private void doIfDestinationPathExists() throws IOException  
     {  
         try {  
-            if (m_consumer.test(m_destPath))  
+            if (m_predicate.test(m_destPath))  
                 Files.copy(m_srcPath, m_destPath, StandardCopyOption.REPLACE_EXISTING);  
         } catch (Exception e) {  
             throw new IOException(e.getMessage());  
         }  
     }  
   
-    public BackupAndCopy(Path srcPath, Path destPath, IPredicate<? super Path> consumer)  
+    public BackupAndCopy(Path srcPath, Path destPath, IPredicate<? super Path> predicate)  
     {  
         m_srcPath = srcPath;  
         m_destPath = destPath;  
-        m_consumer = consumer;  
+        m_predicate = predicate;  
     }  
   
     public void copy() throws IOException  
@@ -908,37 +983,77 @@ public class BackupAndCopy {
 ```
 
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
->Files sınıfının **createDirectory** metodu aldığı Path'e ilişkin dizini yaratmak için kullanılabilir. Bu metodun ikinci  parametresi dosya özelliklerine (file attributes) ilişkindir. Sistemden sisteme değişiklik gösterebilmektedir. Burada  ele alınmayacaktır. Metodun ikinci parametresine argüman geçilmediğinde default attribute'lar geçerli olacaktır. Metot  yaratılmak istenen directory'ye ilişkin path varsa `FileAlreadyExistsException` fırlatır. İkinci parametreye geçilen  argüman geçersizse (aslında o sistemde desteklenmiyorsa) `UnsupportedOperationException` fırlatır. Herhangi bir IO problemi  durumunda IOException fırlatır. createDirectory metodu yaratılmak istenen dizine ilişkin parent directory'ler yoksa  yaratmaz. Parent directory'lerin de birlikte yaratılması için **createDirectories** metodu kullanılabilir.
+>Files sınıfının **createDirectory** metodu aldığı Path'e ilişkin dizini yaratmak için kullanılabilir. Bu metodun ikinci  parametresi dosya özelliklerine (file attributes) ilişkindir. Sistemden sisteme değişiklik gösterebilmektedir. Burada  ele alınmayacaktır. Metodun ikinci parametresine argüman geçilmediğinde default attribute'lar geçerli olacaktır. Metot  yaratılmak istenen directory'ye ilişkin path varsa `FileAlreadyExistsException` fırlatır. İkinci parametreye geçilen argüman geçersizse (aslında o sistemde desteklenmiyorsa) `UnsupportedOperationException` fırlatır. Herhangi bir IO problemi  durumunda IOException fırlatır. createDirectory metodu yaratılmak istenen dizine ilişkin parent directory'ler yoksa  yaratmaz. Parent directory'lerin de birlikte yaratılması için **createDirectories** metodu kullanılabilir. Bu metot ilgili path varsa ve directory değilse `FileAlreadyExistsException` fırlatır.
   
->Aşağıdaki örneği inceleyiniz  
+>Aşağıdaki örneği inceleyiniz
 
-###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar  
-
-Dosyanın verileri üzerinde işlem yapan sınıflar genel olarak iki kategoriye ayrılmıştır: Dosyaya yazma (output) yapan  ve dosyadan okuma (input) yapan sınıflar. Aslında Java'da genel olarak tüm giriş çıkış (input/output) işlemleri bu  şekilde yapılmaktadır.  
+```java
+package org.csystem.app;  
   
-**InputStream ve OutputStream Sınıfları:** Temel giriş çıkış işlemleri için InputStream ve OutputStream isimli iki adet abstract sınıf bulunmaktadır. Bu sınıflar sadece dosyalar için değil, diğer giriş çıkış işlemleri için de kullanılabilmektedir. Yani Java'da "okuma (read) ve yazma (write)" ya da daha genel ismiyle "giriş (input) ve çıkış (output)" işlemleri bu sınıflar ile soyutlanmıştır (abstraction). Bu  sınıflar Closeable arayüzünü desteklerler.  
+import org.csystem.util.console.Console;  
   
-**FileInputStream ve FileOutputStream Sınıfları:** Dosya işlemleri için temel iki sınıf FileInputStream ve FileOutputStream sınıflarıdır. FileOutputStream sınıfı  OutputStream sınıfından, FileInputStream sınıfı da InputStream sınıfından türetilmiştir. Bu sınıflar Closeable ve  dolayısıyla AutoCloseable arayüzünü desteklediklerinden “try with resources (twr)” deyimi ile kullanılabilirler. Bir dosyanın verileri üzerinde işlem yapılmadan önce o dosyanın açılması gerekir. Dosyanın açılması demek işletim sistemi  düzeyinde aşağı seviyeli bazı işlemlerin yapılması demektir. Dosyanın açılması işlemi bu sınıfların ctor'ları tarafından  yapılmaktadır. Kapatılması için de close metodu kullanılmalıdır. Bilindiği gibi Java 7 ile eklenen twr deyimi close işlemini otomatik olarak yapmaktadır. Bu sınıflar java.io paketi içerisinde bildirilmişlerdir.   
-
-**Dosya Gösterici (file pointer) Kavramı:** Uzantı ne olursa olsun dosyaların içerisinde byte yığınları vardır. Biz de temelde dosyalardan byte okuyup onlara byte yazarız. Dosya içerisindeki her bir byte'ın ilk byte 0(sıfır) olmak üzere artan sırada bir pozisyon numarası vardır. Buna dosya terminolojisinde ilgili byte’ın offset’i denilmektedir. Dosya göstericisi bir imleç gibi (kalemin ucu gibi) düşünülebilir. Dosya göstericisi o anda dosyanın neresinden itibaren okuma ya da yazma yapılacağını anlatan bir  konum (offset) belirtir:  
-
+import java.io.IOException;  
+import java.nio.file.FileAlreadyExistsException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path path = Path.of(args[0]);  
+  
+            Files.createDirectory(path);  
+            Console.writeLine("Directory '%s' created", args[0]);  
+        }  
+        catch (FileAlreadyExistsException e) {  
+            Console.writeErrLine("'%s' exists", e.getFile());  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
 ```
-x x x x x x x x  
-0 1 2 3 4 5 6 7
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path path = Path.of(args[0]);  
+  
+            Files.createDirectories(path);  
+            Console.writeLine("Directory '%s' created", args[0]);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+}
 ```
-
-Bu örnekte dosya göstericisinin 2 numaralı offset'i gösterdiğini düşünelim. Biz artık 2 byte'lık bir okuma yaparsak 2 ve 3 numaralı offset'teki byte'ları okuruz. Okuma ve yazma metotları okunan ya da yazılan miktar kadar dosya  göstericisini otomatik ilerletmektedir. Dosya açıldığında dosya göstericisi özel modlarda açılmamışsa başlangıçta 0(sıfır)'ıncı offset'tedir. Yazma sırasında dosya göstericisinin gösterdiği yerden itibaren eski bilgiler ezilerek yeni bilgiler yazılır. Fakat, özel bir durum olarak dosya göstericisi dosyanın sonundaysa dosyaya yazma yapıldığında dosya büyütülmektedir. Başka bir deyişle bu durumda dosyaya yazma işlemi ekleme (append) anlamına gelir.  
-  
-**Dosya Göstericisinin EOF Durumu:**  Dosya göstericisinin dosyanın son byte'ından sonraki byte'ı göstermesi durumuna EOF (End Of File) durumu denir. EOF durumundan okuma yapılamaz. Fakat dosya göstericisi EOF durumundayken dosyaya yazma yapılabilir. Bu durum dosyaya ekleme anlamına gelir. Dosyaya ekleme yapmanın taşınabilir (portable) başka bir yolu yoktur. Dosya göstericisinin dosyanın son byte’ından sonraki byte’ı göstermesi taşınabilir olarak mümkündür. Ancak daha ileride bir yeri taşınabilir olarak göstermesi söz konusu değildir.  
-  
-**Anahtar Notlar:** Bazı işletim sistemleri dosyanın sonundan daha ileriye konumlanmaya ve veri yazmaya izin verebilmektedir. Bu duruma genel olarak dosya delikleri (file holes) denir. Aşağı seviyede anlamlıdır. Her işletim sistemi desteklemeyebileceğinden, Java'da doğrudan yapılamaz. Ayrıca yapılsa bile program taşınabilir olmaz.  
-  
-FileOutputStream sınıfının File türden ve String türden tek parametreli ctor'ları yeni bir dosya yaratıp dosyayı açar.  Eğer dosya varsa dosyayı sıfırlayarak (truncate), yani bilgileri kaybederek açar. Yazma işlemi için en temel metot  bir byte'lık bilgiyi yazan write metodudur. Bu ctor'lar path'in bir dizin belirtmesi durumunda FileNotFoundException  fırlatır.
-  
-  
-
-
-
 

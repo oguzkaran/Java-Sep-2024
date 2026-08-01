@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 public class BackupAsBakFile implements IPredicate<Path> {
     public boolean test(Path path) throws Exception
     {
-        Files.copy(path, Path.of("%s-bak".formatted(path.toString())),  StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(path, Path.of("%s-bak".formatted(path.toString())), StandardCopyOption.REPLACE_EXISTING);
 
         return true;
     }

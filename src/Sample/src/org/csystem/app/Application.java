@@ -2,11 +2,32 @@ package org.csystem.app;
 
 import org.csystem.util.console.Console;
 
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
+
 class Application {
     public static void run(String[] args)
     {
-        char c = Console.readChar("Input a character:", "Wrong input!...");
+        checkLengthEquals(1, args.length, "Wrong number of arguments");
 
-        Console.writeLine("c = %c", c);
+        try {
+            Path path = Path.of(args[0]);
+
+            Files.createDirectory(path);
+            Console.writeLine("Directory '%s' created", args[0]);
+        }
+        catch (FileAlreadyExistsException e) {
+            Console.writeErrLine("'%s' exists", e.getFile());
+        }
+        catch (IOException e) {
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());
+        }
+        catch (Exception e) {
+            Console.writeErrLine("Error occurred:%s", e.getMessage());
+        }
     }
 }

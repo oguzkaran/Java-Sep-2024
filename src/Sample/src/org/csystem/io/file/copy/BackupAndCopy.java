@@ -11,23 +11,23 @@ import java.nio.file.StandardCopyOption;
 public class BackupAndCopy {
     private final Path m_srcPath;
     private final Path m_destPath;
-    private final IPredicate<? super Path> m_consumer;
+    private final IPredicate<? super Path> m_predicate;
 
     private void doIfDestinationPathExists() throws IOException
     {
         try {
-            if (m_consumer.test(m_destPath))
+            if (m_predicate.test(m_destPath))
                 Files.copy(m_srcPath, m_destPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
     }
 
-    public BackupAndCopy(Path srcPath, Path destPath, IPredicate<? super Path> consumer)
+    public BackupAndCopy(Path srcPath, Path destPath, IPredicate<? super Path> predicate)
     {
         m_srcPath = srcPath;
         m_destPath = destPath;
-        m_consumer = consumer;
+        m_predicate = predicate;
     }
 
     public void copy() throws IOException
