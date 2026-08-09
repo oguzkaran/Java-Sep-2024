@@ -913,10 +913,11 @@ public class BackupViaPrompt implements IPredicate<Path> {
   
     public boolean test(Path path) throws Exception  
     {  
-        char option = getOption();  
+        Path backPath = Path.of("%s-bak".formatted(path.toString()));  
+        char option;  
   
-        if (option == 'Y' || option == 'y')  
-            Files.copy(path, Path.of("%s-bak".formatted(path.toString())),  StandardCopyOption.REPLACE_EXISTING);  
+        if (Files.notExists(backPath) || (option = getOption()) == 'Y' || option == 'y')  
+            Files.copy(path, backPath, StandardCopyOption.REPLACE_EXISTING);  
   
         return true;  
     }  
@@ -1056,4 +1057,27 @@ class Application {
     }  
 }
 ```
+
+###### 9 Ağustos 2026
+###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar
+
+Dosyanın verileri üzerinde işlem yapan sınıflar genel olarak iki kategoriye ayrılmıştır: **Dosyaya yazma (output) yapan  sınıflar ve dosyadan okuma (input) yapan sınıflar.** Aslında Java'da genel olarak tüm giriş çıkış (input/output) işlemleri bu  şekilde yapılmaktadır.  
+  
+**InputStream ve OutputStream Sınıfları:** Temel giriş/çıkış işlemleri için `InputStream` ve `OutputStream` isimli iki adet abstract sınıf bulunmaktadır. Bu sınıflar sadece dosyalar için değil, diğer giriş çıkış işlemleri için de kullanılabilmektedir. Yani Java'da **okuma (read) ve yazma (write)** ya da daha genel ismiyle **giriş (input) ve çıkış (output)** işlemleri bu sınıflar ile soyutlanmıştır (abstraction). Bu  sınıflar Closeable arayüzünü desteklerler.  
+
+**FileInputStream ve FileOutputStream Sınıfları:** Dosya işlemleri için temel iki sınıf `FileInputStream` ve `FileOutputStream` sınıflarıdır. FileOutputStream sınıfı OutputStream sınıfından, FileInputStream sınıfı da InputStream sınıfından türetilmiştir. Bu sınıflar Closeable ve  dolayısıyla AutoCloseable arayüzünü desteklediklerinden `try with resources (twr)` deyimi ile kullanılabilirler. Bir dosyanın verileri üzerinde işlem yapılmadan önce o dosyanın `açılması (open)` gerekir. Dosyanın açılması demek işletim sistemi  düzeyinde aşağı seviyeli bazı işlemlerin yapılması demektir. Dosyanın açılması işlemi bu sınıfların ctor'ları tarafından  yapılmaktadır. Kapatılması için de `close` metodu kullanılmalıdır. Bilindiği gibi Java 7 ile eklenen `twr` deyimi close işlemini otomatik olarak yapmaktadır. Bu sınıflar java.io paketi içerisinde bildirilmişlerdir.
+
+**Dosya Göstericisi (file pointer) Kavramı:** Uzantı ne olursa olsun dosyaların içerisinde byte yığınları vardır. Biz de temelde dosyalardan byte okuyup onlara byte yazarız. Dosya içerisindeki her bir byte'ın ilk byte 0(sıfır) olmak üzere artan sırada bir `pozisyon (position)` numarası vardır. Buna dosya terminolojisinde **ilgili byte’ın offset’i** denilmektedir. Dosya göstericisi bir imleç gibi (kalemin ucu gibi) düşünülebilir. Dosya göstericisi o anda dosyanın neresinden itibaren okuma ya da yazma yapılacağını anlatan bir `konum (offset)` belirtir:  
+
+```
+x x x x x x x x  
+0 1 2 3 4 5 6 7
+```
+
+Bu örnekte dosya göstericisinin 2 numaralı offset'i gösterdiğini düşünelim. Biz artık 2 byte'lık bir okuma yaparsak 2 ve 3 numaralı offset'teki byte'ları okuruz. Okuma ve yazma yapan metotlar okunan ya da yazılan miktar kadar dosya  göstericisini otomatik ilerletmektedir. Dosya açıldığında dosya göstericisi özel modlarda açılmamışsa başlangıçta 0(sıfır)'ıncı offset'tedir. Yazma sırasında dosya göstericisinin gösterdiği yerden itibaren eski bilgiler ezilerek yeni bilgiler yazılır. Fakat, özel bir durum olarak dosya göstericisi dosyanın sonundaysa dosyaya yazma yapıldığında dosya büyütülmektedir. Başka bir deyişle bu durumda dosyaya yazma işlemi **ekleme (append)** anlamına gelir.  
+  
+**Dosya Göstericisinin EOF Durumu:**  Dosya göstericisinin dosyanın son byte'ından sonraki byte'ı göstermesi durumuna **EOF (End Of File)** durumu denir. EOF durumundan okuma yapılamaz. Fakat dosya göstericisi EOF durumundayken dosyaya yazma yapılabilir. Bu durum dosyaya ekleme anlamına gelir. **Dosyaya ekleme yapmanın taşınabilir (portable) başka bir yolu yoktur.** **Dosya göstericisinin dosyanın son byte’ından sonraki byte’ı göstermesi taşınabilir olarak mümkündür. Ancak daha ileride bir yeri taşınabilir olarak göstermesi söz konusu değildir.**  
+  
+**Anahtar Notlar:** Bazı işletim sistemleri dosyanın sonundan daha ileriye konumlanmaya ve veri yazmaya izin verebilmektedir. Bu duruma genel olarak `dosya delikleri (file holes)` denir. Aşağı seviyede anlamlıdır. Her işletim sistemi desteklemeyebileceğinden, Java'da doğrudan yapılamaz. Ayrıca yapılsa bile program taşınabilir olmaz.  
+
 
