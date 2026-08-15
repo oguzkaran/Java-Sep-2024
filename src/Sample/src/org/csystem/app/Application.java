@@ -3,7 +3,7 @@ package org.csystem.app;
 import org.csystem.util.console.Console;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,14 +14,23 @@ class Application {
     {
         checkLengthEquals(1, args.length, "Wrong number of arguments");
 
-        try {
-            Path path = Path.of(args[0]);
+        Path path = Path.of(args[0]);
 
-            Files.createDirectory(path);
-            Console.writeLine("Directory '%s' created", args[0]);
+        try {
+            if (Files.exists(path)) {
+                boolean isDirectory = Files.isDirectory(path);
+                Files.delete(path);
+
+                if (isDirectory)
+                    Console.writeLine("Directory '%s' deleted", args[0]);
+                else
+                    Console.writeLine("File '%s' deleted", args[0]);
+            }
+            else
+                Console.writeLine("%s not found", args[0]);
         }
-        catch (FileAlreadyExistsException e) {
-            Console.writeErrLine("'%s' exists", e.getFile());
+        catch (DirectoryNotEmptyException e) {
+            Console.writeErrLine("Non empty directory can not be deleted:%s", e.getMessage());
         }
         catch (IOException e) {
             Console.writeErrLine("IO error occurred:%s", e.getMessage());

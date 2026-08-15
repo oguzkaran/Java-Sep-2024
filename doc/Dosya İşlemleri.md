@@ -501,9 +501,10 @@ class Application {
   
         try {  
             if (Files.exists(path)) {  
+                boolean isDirectory = Files.isDirectory(path);  
                 Files.delete(path);  
   
-                if (Files.isDirectory(path))
+                if (isDirectory)  
                     Console.writeLine("Directory '%s' deleted", args[0]);  
                 else  
                     Console.writeLine("File '%s' deleted", args[0]);  
@@ -1079,5 +1080,197 @@ Bu örnekte dosya göstericisinin 2 numaralı offset'i gösterdiğini düşünel
 **Dosya Göstericisinin EOF Durumu:**  Dosya göstericisinin dosyanın son byte'ından sonraki byte'ı göstermesi durumuna **EOF (End Of File)** durumu denir. EOF durumundan okuma yapılamaz. Fakat dosya göstericisi EOF durumundayken dosyaya yazma yapılabilir. Bu durum dosyaya ekleme anlamına gelir. **Dosyaya ekleme yapmanın taşınabilir (portable) başka bir yolu yoktur.** **Dosya göstericisinin dosyanın son byte’ından sonraki byte’ı göstermesi taşınabilir olarak mümkündür. Ancak daha ileride bir yeri taşınabilir olarak göstermesi söz konusu değildir.**  
   
 **Anahtar Notlar:** Bazı işletim sistemleri dosyanın sonundan daha ileriye konumlanmaya ve veri yazmaya izin verebilmektedir. Bu duruma genel olarak `dosya delikleri (file holes)` denir. Aşağı seviyede anlamlıdır. Her işletim sistemi desteklemeyebileceğinden, Java'da doğrudan yapılamaz. Ayrıca yapılsa bile program taşınabilir olmaz.  
+###### 15 Ağustos 2026
+
+FileOutputStream sınıfının File türden ve String türden tek parametreli ctor'ları yeni bir dosya yaratıp dosyayı açar.  Eğer dosya varsa dosyayı **sıfırlayarak (truncate)**, yani bilgileri kaybederek açar. Yazma işlemi için en temel metot  bir byte'lık bilgiyi yazan **write** metodudur. Bu ctor'lar path'in normal dizin (directory) belirtmesi durumunda veya dosya yoksa ve yaratılamıyorsa veya yaratılmaya ilişkin herhangi bir problem oluşuyorsa **FileNotFoundException** fırlatır.
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class WriteRandomBytesApp {  
+    private static void writeFile(String path, int count)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                byte v = (byte)r.nextInt(-128, 128);  
+  
+                Console.write("%d ", v);  
+                fos.write(v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Count must be a positive integer");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
 
+FileInputStream sınıfının File türden ve String türden ctor'ları varolan bir dosyayı dosya göstericisi başta olacak  şekilde (yani dosya göstericisi sıfır numaralı offset'i gösterecek şekilde) açar.  Bu ctor'lar path'in normal dizin (directory) belirtmesi durumunda veya dosya yoksa veya herhangi bir problem oluşuyorsa **FileNotFoundException** fırlatır. Okuma işlemi en temel olarak 1 byte okuma yapan parametresiz **read** metodu ile yapılabilir. read metodu dosya sonuna gelindiğinde -1 değerine geri döner. read metodunun başarı durumunda döndürdüğü değerin düşük anlamlı 1 byte'lık kısmında bilgi saklanır. Bu durumda programcı başarı durumunda tür dönüştürme operatörü kullanarak değeri elde edebilir.
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadBytesApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int v;  
+  
+            while ((v = fis.read()) != -1) {  
+                byte b = (byte)v;  
+  
+                Console.write("%d ", b);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+FileOutputStream sınıfının boolean türden parametresi de olan ctor'ları ile bu parametre true ise dosyanın sonuna ekleme yapılabilir. Bu durumda dosya varsa truncate işlemi yapılmaz. Bu parametrenin false verilmesi tek parametreli ctor'ları ile aynı anlamdadır.
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomBytesApp {  
+    private static void writeFile(String path, int count)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                byte v = (byte)r.nextInt(-128, 128);  
+  
+                Console.write("%d ", v);  
+                fos.write(v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Count must be a positive integer");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+
+
+
+  
+  
+
+
+  
