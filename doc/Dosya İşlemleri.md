@@ -1062,27 +1062,27 @@ class Application {
 ###### 9 Ağustos 2026
 ###### Dosya Verileri Üzerinde İşlem Yapan Sınıflar
 
-Dosyanın verileri üzerinde işlem yapan sınıflar genel olarak iki kategoriye ayrılmıştır: **Dosyaya yazma (output) yapan  sınıflar ve dosyadan okuma (input) yapan sınıflar.** Aslında Java'da genel olarak tüm giriş çıkış (input/output) işlemleri bu  şekilde yapılmaktadır.  
+>Dosyanın verileri üzerinde işlem yapan sınıflar genel olarak iki kategoriye ayrılmıştır: **Dosyaya yazma (output) yapan  sınıflar ve dosyadan okuma (input) yapan sınıflar.** Aslında Java'da genel olarak tüm giriş çıkış (input/output) işlemleri bu  şekilde yapılmaktadır.  
   
-**InputStream ve OutputStream Sınıfları:** Temel giriş/çıkış işlemleri için `InputStream` ve `OutputStream` isimli iki adet abstract sınıf bulunmaktadır. Bu sınıflar sadece dosyalar için değil, diğer giriş çıkış işlemleri için de kullanılabilmektedir. Yani Java'da **okuma (read) ve yazma (write)** ya da daha genel ismiyle **giriş (input) ve çıkış (output)** işlemleri bu sınıflar ile soyutlanmıştır (abstraction). Bu  sınıflar Closeable arayüzünü desteklerler.  
+>**InputStream ve OutputStream Sınıfları:** Temel giriş/çıkış işlemleri için `InputStream` ve `OutputStream` isimli iki adet abstract sınıf bulunmaktadır. Bu sınıflar sadece dosyalar için değil, diğer giriş çıkış işlemleri için de kullanılabilmektedir. Yani Java'da **okuma (read) ve yazma (write)** ya da daha genel ismiyle **giriş (input) ve çıkış (output)** işlemleri bu sınıflar ile soyutlanmıştır (abstraction). Bu  sınıflar Closeable arayüzünü desteklerler.  
 
-**FileInputStream ve FileOutputStream Sınıfları:** Dosya işlemleri için temel iki sınıf `FileInputStream` ve `FileOutputStream` sınıflarıdır. FileOutputStream sınıfı OutputStream sınıfından, FileInputStream sınıfı da InputStream sınıfından türetilmiştir. Bu sınıflar Closeable ve  dolayısıyla AutoCloseable arayüzünü desteklediklerinden `try with resources (twr)` deyimi ile kullanılabilirler. Bir dosyanın verileri üzerinde işlem yapılmadan önce o dosyanın `açılması (open)` gerekir. Dosyanın açılması demek işletim sistemi  düzeyinde aşağı seviyeli bazı işlemlerin yapılması demektir. Dosyanın açılması işlemi bu sınıfların ctor'ları tarafından  yapılmaktadır. Kapatılması için de `close` metodu kullanılmalıdır. Bilindiği gibi Java 7 ile eklenen `twr` deyimi close işlemini otomatik olarak yapmaktadır. Bu sınıflar java.io paketi içerisinde bildirilmişlerdir.
+>**FileInputStream ve FileOutputStream Sınıfları:** Dosya işlemleri için temel iki sınıf `FileInputStream` ve `FileOutputStream` sınıflarıdır. FileOutputStream sınıfı OutputStream sınıfından, FileInputStream sınıfı da InputStream sınıfından türetilmiştir. Bu sınıflar Closeable ve  dolayısıyla AutoCloseable arayüzünü desteklediklerinden `try with resources (twr)` deyimi ile kullanılabilirler. Bir dosyanın verileri üzerinde işlem yapılmadan önce o dosyanın `açılması (open)` gerekir. Dosyanın açılması demek işletim sistemi  düzeyinde aşağı seviyeli bazı işlemlerin yapılması demektir. Dosyanın açılması işlemi bu sınıfların ctor'ları tarafından  yapılmaktadır. Kapatılması için de `close` metodu kullanılmalıdır. Bilindiği gibi Java 7 ile eklenen `twr` deyimi close işlemini otomatik olarak yapmaktadır. Bu sınıflar java.io paketi içerisinde bildirilmişlerdir.
 
-**Dosya Göstericisi (file pointer) Kavramı:** Uzantı ne olursa olsun dosyaların içerisinde byte yığınları vardır. Biz de temelde dosyalardan byte okuyup onlara byte yazarız. Dosya içerisindeki her bir byte'ın ilk byte 0(sıfır) olmak üzere artan sırada bir `pozisyon (position)` numarası vardır. Buna dosya terminolojisinde **ilgili byte’ın offset’i** denilmektedir. Dosya göstericisi bir imleç gibi (kalemin ucu gibi) düşünülebilir. Dosya göstericisi o anda dosyanın neresinden itibaren okuma ya da yazma yapılacağını anlatan bir `konum (offset)` belirtir:  
+>**Dosya Göstericisi (file pointer) Kavramı:** Uzantı ne olursa olsun dosyaların içerisinde byte yığınları vardır. Biz de temelde dosyalardan byte okuyup onlara byte yazarız. Dosya içerisindeki her bir byte'ın ilk byte 0(sıfır) olmak üzere artan sırada bir `pozisyon (position)` numarası vardır. Buna dosya terminolojisinde **ilgili byte’ın offset’i** denilmektedir. Dosya göstericisi bir imleç gibi (kalemin ucu gibi) düşünülebilir. Dosya göstericisi o anda dosyanın neresinden itibaren okuma ya da yazma yapılacağını anlatan bir `konum (offset)` belirtir:  
 
 ```
 x x x x x x x x  
 0 1 2 3 4 5 6 7
 ```
 
-Bu örnekte dosya göstericisinin 2 numaralı offset'i gösterdiğini düşünelim. Biz artık 2 byte'lık bir okuma yaparsak 2 ve 3 numaralı offset'teki byte'ları okuruz. Okuma ve yazma yapan metotlar okunan ya da yazılan miktar kadar dosya  göstericisini otomatik ilerletmektedir. Dosya açıldığında dosya göstericisi özel modlarda açılmamışsa başlangıçta 0(sıfır)'ıncı offset'tedir. Yazma sırasında dosya göstericisinin gösterdiği yerden itibaren eski bilgiler ezilerek yeni bilgiler yazılır. Fakat, özel bir durum olarak dosya göstericisi dosyanın sonundaysa dosyaya yazma yapıldığında dosya büyütülmektedir. Başka bir deyişle bu durumda dosyaya yazma işlemi **ekleme (append)** anlamına gelir.  
+>Bu örnekte dosya göstericisinin 2 numaralı offset'i gösterdiğini düşünelim. Biz artık 2 byte'lık bir okuma yaparsak 2 ve 3 numaralı offset'teki byte'ları okuruz. Okuma ve yazma yapan metotlar okunan ya da yazılan miktar kadar dosya  göstericisini otomatik ilerletmektedir. Dosya açıldığında dosya göstericisi özel modlarda açılmamışsa başlangıçta 0(sıfır)'ıncı offset'tedir. Yazma sırasında dosya göstericisinin gösterdiği yerden itibaren eski bilgiler ezilerek yeni bilgiler yazılır. Fakat, özel bir durum olarak dosya göstericisi dosyanın sonundaysa dosyaya yazma yapıldığında dosya büyütülmektedir. Başka bir deyişle bu durumda dosyaya yazma işlemi **ekleme (append)** anlamına gelir.  
   
-**Dosya Göstericisinin EOF Durumu:**  Dosya göstericisinin dosyanın son byte'ından sonraki byte'ı göstermesi durumuna **EOF (End Of File)** durumu denir. EOF durumundan okuma yapılamaz. Fakat dosya göstericisi EOF durumundayken dosyaya yazma yapılabilir. Bu durum dosyaya ekleme anlamına gelir. **Dosyaya ekleme yapmanın taşınabilir (portable) başka bir yolu yoktur.** **Dosya göstericisinin dosyanın son byte’ından sonraki byte’ı göstermesi taşınabilir olarak mümkündür. Ancak daha ileride bir yeri taşınabilir olarak göstermesi söz konusu değildir.**  
+>**Dosya Göstericisinin EOF Durumu:**  Dosya göstericisinin dosyanın son byte'ından sonraki byte'ı göstermesi durumuna **EOF (End Of File)** durumu denir. EOF durumundan okuma yapılamaz. Fakat dosya göstericisi EOF durumundayken dosyaya yazma yapılabilir. Bu durum dosyaya ekleme anlamına gelir. **Dosyaya ekleme yapmanın taşınabilir (portable) başka bir yolu yoktur.** **Dosya göstericisinin dosyanın son byte’ından sonraki byte’ı göstermesi taşınabilir olarak mümkündür. Ancak daha ileride bir yeri taşınabilir olarak göstermesi söz konusu değildir.**  
   
 **Anahtar Notlar:** Bazı işletim sistemleri dosyanın sonundan daha ileriye konumlanmaya ve veri yazmaya izin verebilmektedir. Bu duruma genel olarak `dosya delikleri (file holes)` denir. Aşağı seviyede anlamlıdır. Her işletim sistemi desteklemeyebileceğinden, Java'da doğrudan yapılamaz. Ayrıca yapılsa bile program taşınabilir olmaz.  
 ###### 15 Ağustos 2026
 
-FileOutputStream sınıfının File türden ve String türden tek parametreli ctor'ları yeni bir dosya yaratıp dosyayı açar.  Eğer dosya varsa dosyayı **sıfırlayarak (truncate)**, yani bilgileri kaybederek açar. Yazma işlemi için en temel metot  bir byte'lık bilgiyi yazan **write** metodudur. Bu ctor'lar path'in normal dizin (directory) belirtmesi durumunda veya dosya yoksa ve yaratılamıyorsa veya yaratılmaya ilişkin herhangi bir problem oluşuyorsa **FileNotFoundException** fırlatır.
+>FileOutputStream sınıfının File türden ve String türden tek parametreli ctor'ları yeni bir dosya yaratıp dosyayı açar.  Eğer dosya varsa dosyayı **sıfırlayarak (truncate)**, yani bilgileri kaybederek açar. Yazma işlemi için en temel metot  bir byte'lık bilgiyi yazan **write** metodudur. Bu ctor'lar path'in normal dizin (directory) belirtmesi durumunda veya dosya yoksa ve yaratılamıyorsa veya yaratılmaya ilişkin herhangi bir problem oluşuyorsa **FileNotFoundException** fırlatır.
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -1146,8 +1146,7 @@ public class WriteRandomBytesApp {
 }
 ```
 
-
-FileInputStream sınıfının File türden ve String türden ctor'ları varolan bir dosyayı dosya göstericisi başta olacak  şekilde (yani dosya göstericisi sıfır numaralı offset'i gösterecek şekilde) açar.  Bu ctor'lar path'in normal dizin (directory) belirtmesi durumunda veya dosya yoksa veya herhangi bir problem oluşuyorsa **FileNotFoundException** fırlatır. Okuma işlemi en temel olarak 1 byte okuma yapan parametresiz **read** metodu ile yapılabilir. read metodu dosya sonuna gelindiğinde -1 değerine geri döner. read metodunun başarı durumunda döndürdüğü değerin düşük anlamlı 1 byte'lık kısmında bilgi saklanır. Bu durumda programcı başarı durumunda tür dönüştürme operatörü kullanarak değeri elde edebilir.
+>FileInputStream sınıfının File türden ve String türden ctor'ları varolan bir dosyayı dosya göstericisi başta olacak  şekilde (yani dosya göstericisi sıfır numaralı offset'i gösterecek şekilde) açar.  Bu ctor'lar path'in normal dizin (directory) belirtmesi durumunda veya dosya yoksa veya herhangi bir problem oluşuyorsa **FileNotFoundException** fırlatır. Okuma işlemi en temel olarak 1 byte okuma yapan parametresiz **read** metodu ile yapılabilir. read metodu dosya sonuna gelindiğinde -1 değerine geri döner. read metodunun başarı durumunda döndürdüğü değerin düşük anlamlı 1 byte'lık kısmında bilgi saklanır. Bu durumda programcı başarı durumunda tür dönüştürme operatörü kullanarak değeri elde edebilir.
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -1201,7 +1200,7 @@ public class ReadBytesApp {
 }
 ```
 
-FileOutputStream sınıfının boolean türden parametresi de olan ctor'ları ile bu parametre true ise dosyanın sonuna ekleme yapılabilir. Bu durumda dosya varsa truncate işlemi yapılmaz. Bu parametrenin false verilmesi tek parametreli ctor'ları ile aynı anlamdadır.
+>FileOutputStream sınıfının boolean türden parametresi de olan ctor'ları ile bu parametre true ise dosyanın sonuna ekleme yapılabilir. Bu durumda dosya varsa truncate işlemi yapılmaz. Bu parametrenin false verilmesi tek parametreli ctor'ları ile aynı anlamdadır.
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -1265,12 +1264,254 @@ public class AppendRandomBytesApp {
 }
 ```
 
+###### 22 Ağustos 2026
 
+>FileOutputStream sınıfının byte türden dizi parametreli write metotları ile yazma işlemi yapılabilir
 
+**Anahtar Notlar:** Random sınıfının `nextBytes` metodu (RandomGenerator arayüzünde default olarak bildirilmiştir) parametresi ile aldığı byte türden diziyi rassal olarak üretilmiş değerler ile doldurur
 
-
+```java
+package org.csystem.app.io.file.output;  
   
+import org.csystem.util.console.Console;  
   
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomByteArrayApp {  
+    private static void writeFile(String path, int count)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            Random r = new Random();  
+            byte [] buf = new byte[count];  
+  
+            r.nextBytes(buf);  
+  
+            Console.write("Generated data:");  
+            for (byte d : buf)  
+                Console.write("%d ", d);  
+  
+            fos.write(buf);  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Count must be a positive integer");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>FileInputStream sınıfının byte dizi parametreli read metotları byte türden dizinin içerisine dosyadaki bilgileri okur. **Ne kadar okuduğu miktarı ile de geri döner.** Bu durumda programcının ne kadar okunduğu miktarına göre dizinin elemanlarını kullanması gerekir. Yani aslında dizinin uzunluğu ya da okumak için verilen sayı en fazla ne kadar okunacağını belirtir.
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.array.ArrayUtil;  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadBytesViaChunkApp {  
+    private static void readFile(String path, int chunkSize)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            byte [] buf = new byte[chunkSize];  
+            int result;  
+  
+            while ((result = fis.read(buf)) != -1)  
+                ArrayUtil.print(buf, result, " ", ", ");  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int chunkSize = Integer.parseInt(args[1]);  
+  
+            if (chunkSize <= 0)  
+                throw new NumberFormatException();  
+  
+            readFile(args[0], chunkSize);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid chunk size");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı açıklamalara göre yazınız:  
+
+```java
+java org.csystem.app.io.file.copy.CopyFileViaBlockApp <src> <dest> <block> 
+```
+
+>**Açıklamalar:**
+- Programda Files sınıfı <u>kullanılmayacaktır</u>.
+- Program `src` ile belirtilen yol ifadesine ilişkin dosyayı `dest` ile belirtilen yol ifadesine ilişkin dosyaya kopyalayacaktır.
+- Dosya varsa `truncate` edilecektir.
+- Dosya bloklar halinde kopayalanacak ve blok uzunluğu da komut satırı argümanından alınacaktır. 
+
+**Anahtar Notlar:** Files kullanılarak yapılanın daha iyi olduğu söylenebilir. Çünkü işletim sistemine özgü bazı özel  fonksiyonlar da Files sınıfının metotları içerisinde kullanılır.
+
+```java
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class CopyFileViaBlockApp {  
+    private static void copyFile(String srcPath, String destPath, int blockSize)  
+    {  
+        try (FileInputStream fis = new FileInputStream(srcPath); FileOutputStream fos = new FileOutputStream(destPath)) {  
+            byte [] buf = new byte[blockSize];  
+            int result;  
+  
+            while ((result = fis.read(buf)) > 0)  
+                fos.write(buf, 0, result);  
+  
+            Console.writeLine("File copied successfully");  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(3, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int blockSize = Integer.parseInt(args[2]);  
+  
+            if (blockSize <= 0)  
+                throw new NumberFormatException("Wrong number of arguments");  
+  
+            copyFile(args[0], args[1], blockSize);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid block size");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Yukarıdaki örnek aşağıdaki gibi `FileUtil` sınıfı kullanılarak da yapılabilir
+
+```java
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.io.file.FileUtil;  
+  
+import java.io.UncheckedIOException;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class CopyFileViaFileUtilApp {  
+    private static void copyFile(String srcPath, String destPath, int blockSize)  
+    {  
+        try {  
+            FileUtil.copy(srcPath, destPath, blockSize);  
+            Console.writeLine("File copied successfully");  
+        }  
+        catch (UncheckedIOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(3, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int blockSize = Integer.parseInt(args[2]);  
+  
+            if (blockSize <= 0)  
+                throw new NumberFormatException("Wrong number of arguments");  
+  
+            copyFile(args[0], args[1], blockSize);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid block size");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
 
-  

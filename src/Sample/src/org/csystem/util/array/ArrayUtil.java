@@ -5,7 +5,7 @@ import java.util.random.RandomGenerator;
 
 /**
  * Utility class for array operations
- * Last Update: 30th November 2025
+ * Last Update: 22nd August 2026
  * @author Java-Sep-2024 Group
  */
 public final class ArrayUtil {
@@ -275,6 +275,14 @@ public final class ArrayUtil {
     {
         for (int [] array : a)
             print(array, n);
+    }
+
+    public static void print(byte [] a, int len, String sep, String end)
+    {
+        for (int i = 0; i < len - 1; ++i)
+            System.out.printf("%d%s", a[i], sep);
+
+        System.out.printf("%d%s", a[len - 1], end);
     }
 
     public static void print(int [][] a)
