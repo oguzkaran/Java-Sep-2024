@@ -1515,3 +1515,45 @@ public class CopyFileViaFileUtilApp {
 ```
 
 
+>**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
+```java
+java org.csystem.app.io.file.copy.CopyExistFilesApp <dest directory> <file path1> <file path2> ... <file pathN>  
+```
+
+>**Açıklamalar:**  
+- Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
+- Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.
+- Program dizinde varolan dosyaların üzerine yazacaktır (overwrite). Üzerine yazdığını uygun bir mesajla bildirecektir.
+- Directory yoksa yaratılacaktır  
+ 
+ 
+>**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
+
+```java
+java org.csystem.app.io.file.copy.CopyNotExistFilesApp <dest directory> <file path1> <file path2> ... <file pathN>  
+```
+
+>**Açıklamalar:** 
+- Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
+- Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.
+- Program dizinde varolan dosyalar için ilgili mesajları verecek ve kopyalamayacaktır.
+- Directory yoksa yaratılacaktır.
+  
+>Files sınıfının newOutputStream ve newInputStream metotları ile ilgili path'e ilişkin OutputStream ve InputStream referansları elde edilebilir.
+  
+  
+  
+**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
+```java
+java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <file path1> <file path2> ... <file pathN>  
+```
+
+**Açıklamalar:**  
+- Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
+- Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.  
+- Program dizinde varolan dosyalar için aşağıdaki gibi bir menü çıkartacak ve seçime göre uygun işlemi yapacaktır:  
+	- Overwrite  
+	- Append  
+	- Skip for other options  
+* Directory yoksa yaratılacaktır  
+  
