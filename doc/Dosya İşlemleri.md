@@ -1538,8 +1538,7 @@ java org.csystem.app.io.file.copy.CopyNotExistFilesApp <dest directory> <file pa
 - Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.
 - Program dizinde varolan dosyalar için ilgili mesajları verecek ve kopyalamayacaktır.
 - Directory yoksa yaratılacaktır.
-  
->Files sınıfının newOutputStream ve newInputStream metotları ile ilgili path'e ilişkin OutputStream ve InputStream referansları elde edilebilir.
+
   
   
   
@@ -1557,3 +1556,4 @@ java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <f
 	- Skip for other options  
 * Directory yoksa yaratılacaktır  
   
+>
