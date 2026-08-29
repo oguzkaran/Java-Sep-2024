@@ -3,16 +3,18 @@ package org.csystem.app.io.file.input;
 import org.csystem.util.array.ArrayUtil;
 import org.csystem.util.console.Console;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
-public class ReadBytesViaChunkApp {
+public class ReadBytesViaChunkViaFilesClassDefaultOpenOptionsApp {
     private static void readFile(String path, int chunkSize)
     {
-        try (FileInputStream fis = new FileInputStream(path)) {
+        try (InputStream fis = Files.newInputStream(Paths.get(path))) {
             byte [] buf = new byte[chunkSize];
             int result;
 

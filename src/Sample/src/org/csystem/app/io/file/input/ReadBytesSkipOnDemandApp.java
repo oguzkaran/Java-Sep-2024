@@ -1,23 +1,33 @@
 package org.csystem.app.io.file.input;
 
-import org.csystem.util.array.ArrayUtil;
 import org.csystem.util.console.Console;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
-public class ReadBytesViaChunkApp {
-    private static void readFile(String path, int chunkSize)
+public class ReadBytesSkipOnDemandApp {
+    private static void readFile(String path, long n)
     {
         try (FileInputStream fis = new FileInputStream(path)) {
-            byte [] buf = new byte[chunkSize];
-            int result;
+            long len = Files.size(Path.of(path));
 
-            while ((result = fis.read(buf)) != -1)
-                ArrayUtil.print(buf, result, ", ", " ");
+            if (len < n)
+                Console.writeLine("EOF reached while skipping %d bytes. Number of skipped bytes:%d", n, len);
+
+            fis.skip(n);
+
+            int v;
+
+            while ((v = fis.read()) != -1) {
+                byte b = (byte)v;
+
+                Console.write("%d ", b);
+            }
 
             Console.writeLine();
         }
@@ -34,15 +44,15 @@ public class ReadBytesViaChunkApp {
         checkLengthEquals(2, args.length, "Wrong number of arguments");
 
         try {
-            int chunkSize = Integer.parseInt(args[1]);
+            long n = Long.parseLong(args[1]);
 
-            if (chunkSize <= 0)
+            if (n <= 0)
                 throw new NumberFormatException();
 
-            readFile(args[0], chunkSize);
+            readFile(args[0], n);
         }
         catch (NumberFormatException ignore) {
-            Console.writeErrLine("Invalid chunk size");
+            Console.writeErrLine("Invalid number of bytes value to skip");
         }
         catch (Exception e) {
             Console.writeErrLine("Error occurred:%s", e.getMessage());
