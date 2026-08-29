@@ -1355,7 +1355,7 @@ public class ReadBytesViaChunkApp {
             int result;  
   
             while ((result = fis.read(buf)) != -1)  
-                ArrayUtil.print(buf, result, " ", ", ");  
+                ArrayUtil.print(buf, result, ", ", " ");  
   
             Console.writeLine();  
         }  
@@ -1394,7 +1394,7 @@ public class ReadBytesViaChunkApp {
 }
 ```
 
->**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı açıklamalara göre yazınız:  
+>**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
 
 ```java
 java org.csystem.app.io.file.copy.CopyFileViaBlockApp <src> <dest> <block> 
@@ -1406,7 +1406,7 @@ java org.csystem.app.io.file.copy.CopyFileViaBlockApp <src> <dest> <block>
 - Dosya varsa `truncate` edilecektir.
 - Dosya bloklar halinde kopayalanacak ve blok uzunluğu da komut satırı argümanından alınacaktır. 
 
-**Anahtar Notlar:** Files kullanılarak yapılanın daha iyi olduğu söylenebilir. Çünkü işletim sistemine özgü bazı özel  fonksiyonlar da Files sınıfının metotları içerisinde kullanılır.
+**Anahtar Notlar:** Files kullanılarak yapılan bir kopyalama uygulamasınının daha iyi (efektif) olduğu söylenebilir. Çünkü işletim sistemine özgü bazı özel  fonksiyonlar da Files sınıfının metotları içerisinde kullanılır. Bununla birlikte bu örnekte de blok miktarı duruma göre ayarlanabilmektedir.
 
 ```java
 package org.csystem.app.io.file.copy;  
@@ -1514,6 +1514,221 @@ public class CopyFileViaFileUtilApp {
 }
 ```
 
+###### 29 Ağustos 2026
+
+>FileInputStream sınıfının **skip** metodu parametresi ile aldığı n byte'ı atlamak ve sonrasından okuma yapabilmek için kullanılır. Bu metodun geri dönüş değeri ne kadar byte'ın atlanabildiği bilgisidir. Bu metoda geçilen atlama değeri sonucunda dosyanın sonuna geliniyorsa daha az bir değere geri döner. Yani bu metot en fazla parametresi ile aldığı değere geri döner. Bu metodun açıklanan davranışı sistemden sisteme değişiklik gösterebilmektedir. Bu sebeple geri dönüş değeri her zaman dosyanın sonuna gelindiğini göstermeyebilir. Yani bu dosya sonuna gelinse bile metodun geri dönüş değeri atlanacak miktardan daha az olmayabilir
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadBytesSkipOnDemandApp {  
+    private static void readFile(String path, long n)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            long len = Files.size(Path.of(path));  
+  
+            if (len < n)  
+                Console.writeLine("EOF reached while skipping %d bytes. Number of skipped bytes:%d", n, len);  
+  
+            fis.skip(n);  
+  
+            int v;  
+  
+            while ((v = fis.read()) != -1) {  
+                byte b = (byte)v;  
+  
+                Console.write("%d ", b);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            long n = Long.parseLong(args[1]);  
+  
+            if (n <= 0)  
+                throw new NumberFormatException();  
+  
+            readFile(args[0], n);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid number of bytes value to skip");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+>Files sınıfının **newOutputStream** ve **newInputStream** metotları ile ilgili path'e ilişkin OutputStream ve InputStream referansları elde edilebilir. Bu metotların ikinci parametreleri dosyanın nasıl açılacağını belirten değer veya değerlerdir. Bu değerler için tipik olarak `OpenOption` arayüzünü implemente eden **StandardOpenOption** enum sınıfı kullanılır. Bu enum sınıfın sabitleri ve anlamları şu şekildedir:
+
+| Sabit               | Anlamı                                                                                                                                                                            |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `APPEND`            | Dosya `WRITE` erişimiyle açılırsa, dosyanın başına değil sonuna yazılır.                                                                                                          |
+| `CREATE`            | Dosya yoksa yeni bir dosya yaratılıe                                                                                                                                              |
+| `CREATE_NEW`        | Yeni bir dosya yaratılır; dosya zaten varsa işlem başarısız olur.                                                                                                                 |
+| `DELETE_ON_CLOSE`   | Kapatıldığında dosya silinir.                                                                                                                                                     |
+| `DSYNC`             | Dosya içeriğine yapılan her güncellemenin, alttaki depolama aygıtına eşzamanlı olarak yazılmasını gerektirir. Bu mod sistemden sisteme farklılık gösterebilir.                    |
+| `READ`              | Okuma erişimi için açar.                                                                                                                                                          |
+| `SPARSE`            | Seyrek (sparse) dosya.                                                                                                                                                            |
+| `SYNC`              | Dosya içeriğine veya meta verisine yapılan her güncellemenin, alttaki depolama aygıtına eşzamanlı olarak yazılmasını gerektirir. Bu mod sistemden sisteme farklılık gösterebilir. |
+| `TRUNCATE_EXISTING` | Dosya zaten varsa ve `WRITE` erişimiyle açılmışsa, uzunluğu sıfır olur.                                                                                                           |
+| `WRITE`             | Yazma erişimi için açar.                                                                                                                                                          |
+
+>Argüman geçilmemesi durumunda, `newInputStream` metodu için `StandardOpenOpenOption` enum sınıfın `READ` sabiti geçilmiş kabul edilir, `newOutputStream` metodu için `StandardOpenOpenOption` enum sınıfın `CREATE, TRUNCATE_EXISTING, WRITE` sabitleri geçilmiş kabul edilir.
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.array.ArrayUtil;  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.io.InputStream;  
+import java.nio.file.Files;  
+import java.nio.file.Paths;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadBytesViaChunkViaFilesClassDefaultOpenOptionsApp {  
+    private static void readFile(String path, int chunkSize)  
+    {  
+        try (InputStream fis = Files.newInputStream(Paths.get(path))) {  
+            byte [] buf = new byte[chunkSize];  
+            int result;  
+  
+            while ((result = fis.read(buf)) != -1)  
+                ArrayUtil.print(buf, result, ", ", " ");  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int chunkSize = Integer.parseInt(args[1]);  
+  
+            if (chunkSize <= 0)  
+                throw new NumberFormatException();  
+  
+            readFile(args[0], chunkSize);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid chunk size");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.io.OutputStream;  
+import java.nio.file.Files;  
+import java.nio.file.Paths;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class WriteRandomBytesViaFilesClassDefaultOpenOptionsApp {  
+    private static void writeFile(String path, int count)  
+    {  
+        try (OutputStream fos = Files.newOutputStream(Paths.get(path))) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                byte v = (byte)r.nextInt(-128, 128);  
+  
+                Console.write("%d ", v);  
+                fos.write(v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Count must be a positive integer");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
 >**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
 ```java
@@ -1524,8 +1739,12 @@ java org.csystem.app.io.file.copy.CopyExistFilesApp <dest directory> <file path1
 - Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
 - Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.
 - Program dizinde varolan dosyaların üzerine yazacaktır (overwrite). Üzerine yazdığını uygun bir mesajla bildirecektir.
-- Directory yoksa yaratılacaktır  
- 
+- Directory yoksa yaratılacaktır.  
+
+```java
+
+```
+
  
 >**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
 
@@ -1535,13 +1754,14 @@ java org.csystem.app.io.file.copy.CopyNotExistFilesApp <dest directory> <file pa
 
 >**Açıklamalar:** 
 - Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
-- Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.
+- Olmayan dosyalar için uygun mesajları verecek ve  kopyalama işlemine devam edecektir.
 - Program dizinde varolan dosyalar için ilgili mesajları verecek ve kopyalamayacaktır.
 - Directory yoksa yaratılacaktır.
 
-  
-  
-  
+```java
+
+```
+
 **Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
 ```java
 java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <file path1> <file path2> ... <file pathN>  
@@ -1550,10 +1770,13 @@ java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <f
 **Açıklamalar:**  
 - Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
 - Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.  
-- Program dizinde varolan dosyalar için aşağıdaki gibi bir menü çıkartacak ve seçime göre uygun işlemi yapacaktır:  
+- Program dizinde varolan her bir dosya için aşağıdaki gibi bir menü çıkartacak ve seçime göre uygun işlemi yapacaktır:  
 	- Overwrite  
-	- Append  
+	- Append
 	- Skip for other options  
 * Directory yoksa yaratılacaktır  
-  
->
+
+```java
+
+```
+
