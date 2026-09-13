@@ -45067,6 +45067,7 @@ public class CopyExistFilesApp {
 }
 ```
 
+###### 13 Eylül 2026
  
 >**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
 
@@ -45082,7 +45083,58 @@ java org.csystem.app.io.file.copy.CopyNotExistFilesApp <dest directory> <file pa
 
 >**Çözüm:**
 ```java
-
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.nio.file.FileAlreadyExistsException;  
+import java.nio.file.Files;  
+import java.nio.file.NoSuchFileException;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthGreater;  
+  
+public class CopyNotExistFilesApp {  
+    private static void copyFile(Path src, Path dest) throws IOException  
+    {  
+        try {  
+            Path exactDest = dest.resolve(src.getFileName());  
+  
+            Files.copy(src, exactDest);  
+        } 
+        catch (FileAlreadyExistsException e) {  
+            Console.writeLine("File '%s' exits and will be kept", e.getFile());  
+        }  
+        catch (NoSuchFileException e) {  
+            Console.writeErrLine("File '%s' does not exist", src);  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthGreater(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path dest = Path.of(args[0]);  
+            Files.createDirectories(dest);  
+  
+            for (int i = 1; i < args.length; ++i)  
+                copyFile(Path.of(args[i]), dest);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
 ```
 
 >**Sınıf Çalışması:** Komut satırından aşağıdaki gibi çalışan programı yazınız:  
@@ -45094,13 +45146,300 @@ java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <f
 - Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
 - Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.  
 - Program dizinde varolan her bir dosya için aşağıdaki gibi bir menü çıkartacak ve seçime göre uygun işlemi yapacaktır:  
-	- Overwrite  
-	- Append
-	- Skip 
+	- Overwrite (o/O)  
+	- Append (a/A)
+	- Skip (s/S)
+	Seçeneklerden biri dışında girilmesi durumunda uygun mesaj verilecek ve yeniden istenecektir.
 * Directory yoksa yaratılacaktır  
 
 >**Çözüm:**
+
 ```java
 
 ```
+
+###### Değerleri Byte Dizisine Dönüştürüp Geri Almak  
+  
+>Madem ki stream tabanlı dosya işlemlerinde bir dosyaya biz write metoduyla bir byte dizisi yazabiliyoruz o halde bir bilgiyi dosyaya yazmadan önce onu byte dizisine dönüştürmemiz gerekir. Benzer biçimde dosyadan okuduklarımız da aslında bir byte dizisinin içerisine yerleştiriliyor, o halde byte dizisinin içerisine okunan bilgileri de yeniden ilgili türe dönüştürmemiz gerekir. Java'da temel bir türü byte türden diziye dönüştürmek ve byte türden bir diziyi  ilgili temel türe dönüştürmek için tipik olarak `ByteBuffer` sınıfı kullanılabilir.  
+  
+**Anahtar Notlar:** ByteBuffer sınıfı burada anlatılan işlemlerin dışında da kullanılabilen oldukça yetenekli bir sınıftır.  Burada tamamı ele alınmayacaktır. 
+
+Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş int türden değerler yazdırılmaktadır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomIntsApp {  
+    private static void writeFile(String path, int count, int origin, int bound)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                int v = r.nextInt(origin, bound);  
+  
+                Console.write("%d ", v);  
+                byte [] buf = ByteBuffer.allocate(Integer.BYTES)  
+                        .putInt(v)  
+                        .array();  
+  
+                fos.write(buf);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(4, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            int origin = Integer.parseInt(args[2]);  
+            int bound = Integer.parseInt(args[3]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count, origin, bound);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+Aşağıdaki örnekte komut satırından alınan dosyadan int türden değerler okunmaktadır
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadIntsApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] data = new byte[Integer.BYTES];  
+  
+            while ((result = fis.read(data)) > 0) {  
+                int v = ByteBuffer.wrap(data, 0, result).getInt();  
+  
+                Console.write("%d ", v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş long türden değerler yazdırılmaktadır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomLongsApp {  
+    private static void writeFile(String path, int count, long origin, long bound)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                long v = r.nextLong(origin, bound);  
+  
+                Console.write("%d ", v);  
+                byte [] buf = ByteBuffer.allocate(Long.BYTES)  
+                        .putLong(v)  
+                        .array();  
+  
+                fos.write(buf);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(4, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            long origin = Long.parseLong(args[2]);  
+            long bound = Long.parseLong(args[3]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count, origin, bound);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+Aşağıdaki örnekte komut satırından alınan dosyadan long türden değerler okunmaktır
+
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadLongsApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] data = new byte[Long.BYTES];  
+  
+            while ((result = fis.read(data)) > 0) {  
+                long v = ByteBuffer.wrap(data, 0, result).getLong();  
+  
+                Console.write("%d ", v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş double türden değerler yazdırılmaktadır
+
+```java
+
+```
+
+Aşağıdaki örnekte komut satırından alınan dosyadan double türden değerler okunmaktır
+
+
+```java
+
+```
+
+
+
+
+
+
+
+
+
+
 

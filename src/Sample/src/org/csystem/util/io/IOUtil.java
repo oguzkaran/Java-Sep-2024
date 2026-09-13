@@ -7,7 +7,6 @@ import java.io.UncheckedIOException;
 
 /**
  * Utility class for io operations
- * Last Update: 22nd August 2026
  * @author Java-Sep-2024 Group
  */
 public final class IOUtil {
