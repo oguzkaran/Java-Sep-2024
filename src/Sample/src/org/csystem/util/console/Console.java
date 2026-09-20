@@ -202,6 +202,7 @@ public final class Console {
     public static void write(Object o)
     {
         System.out.print(o);
+        System.out.flush();
     }
 
     public static void write(String format, Object...args)

@@ -653,11 +653,7 @@ class Mample {
 >- Java'da boolean türü dışında kalan temel türlerin uzunlukları her sistemde aynıdır. boolean türünün alabildiği iki tane değer olduğundan yani herhangi bir aralık söz konusu olmadığından programcı açısından uzunluğun da önemi yoktur.
 >- `int` türüne "integer" demek yanlış bir tanım kullanmak demektir. integer kavramı tam sayılara verilen genel bir isimdir. int ise 4 byte'lık bir tamsayı türüdür. Ayrıca JavaSE'de Integer isimli önemli bir sınıf da bulunmaktadır.
 
-**Anahtar Notlar:** Yazılar da aslında bilgisayar belleğinde 2'lik sistemde sayılar biçiminde tutulmaktadır. Bir yazıyı oluşturan elemanlara **karakter (character)** denilmektedir. İşte bir yazıda her bir karakter 2'lik sistemde bir sayı ile ifade edilir. Böylece yazı  aslında ikilik sistemde bir sayı dizisi gibi tutulmaktadır. İşte bir karakter için hangi sayının karşı geldiğini belirten tablolara **karakter tabloları (character table)** denilmektedir. Karakter tablosundaki karakter şekillerine **glyph** denilmektedir. Her karaktere tabloda bir sıra numarası verilmiştir. Buna da **code point (code point)** denilmektedir. Dünyanın ilk standart karakter tablosu `ASCII` (American Standard Code Information Interchange) denilen tablodur. `ASCII` tablosu aslında 7 bit bir tablodur. Dolayısıyla tabloda 128 tane glyph için code point bulundurulmuştur. `ASCII` dışında `IBM EBCDIC` tablosunu geliştirmiştir. Wang firması `WISCII` tablosunu kullanmıştır. `ASCII` tablosu Amerikalılar tarafından yalnızca İngilizce karakterleri ifade etmek için oluşturulmuştur. Bilgisayarlar yaygınlaşmaya başladığında farklı karakterlere sahip olan Türkiye gibi, Yunanistan gibi, Almanya gibi ülkeler bu `ASCII` tablosunu 8 bite çıkartıp elde edilen 128'lik yeni alanı kendi karakterlerini ifade etmek için kullanmışlardır. `ASCII` tablosunun ilk yarısı (yani `[0, 128]` numaraları karakterleri) standarttır. Ancak ikinci yarısı **code page (code page)** adı altında farklı ülkeler tarafından farklı yerleşimler yapılarak kullanılmaktadır. DOS zamanlarında Türkçe karakterler için `OEM 857` denilen code page kullanılıyordu. Daha sonra Microsoft Windows sistemlerinde Türkçe karakterler için `1254 code page`'i düzenledi. ISO, bu code page'leri standart hale getirmiştir. Bugün Türkçe karakterler `ISO` tarafından `ASCII 8859-9` Code page'i ile düzenlenmiştir. `ASCII` tablosu ve onların code page'leri uzun süre kullanılmış ve hala kullanılmakta olsa da maalesef karışıklıklara yol açmaktadır. İşte ortalama 20 yıldır artık karakterleri 2 byte içerisinde ifade ederek dünyanın bütün dillerinin ve ortak sembollerinin tek bir tabloya yerleştirilmesi ile ismine `UNICODE` denilen bir tablo oluşturulmuştur.
 
-[Unicode Homepage &#x1F517;](https://home.unicode.org)
-
-`UNICODE` tablo ISO tarafından `10646` ismiyle de bazı farklılıklarla standardize edilmiştir. `UNICODE` tablonun ilk 128 karakteri standart ASCII karakterleri, ikinci 128 karakteri `ISO 8859-9` code page'indeki karakterlerdir. Bir karakter tablosundaki code point'lerin ikilik sistemde ifade edilme biçimine **encoding** denilmektedir. ASCII code page'lerinde encoding doğrudan code point'in 1 byte'lık sayı karşılığıdır. Ancak `UNICODE` tablonun değişik encoding'leri kullanılmaktadır. `UNICODE` tablonun klasik encoding'i `UTF-16`'dır. Burada code point doğrudan 16 bit bir sayı biçiminde ifade edilir. `UTF-32` encoding'inde ise code point 32 bitlik bir sayı biçiminde ifade edilmektedir. Ancak `UNICODE` tablonun en yaygın kullanılan encoding'i `UTF-8` encoding'idir. `UTF-8` kodlamasında standart ASCII karakterler 1 byte ile, diğer karakterler 2 byte, 3 byte, 4 byte ve 5 byte ile kodlanabilmekedir. Türkçe karakterler `UTF-8` encoding'inde 2 byte yer kaplamaktadr. `UTF-8` encoding'i `UNICODE` bir yazının adeta sıkıştırılmış bir hali gibi düşünülebilir. Bugün pek çok programlama editörü default durumda dosyayı `UNICODE UTF-8` encoding'ine göre saklamaktadır.
 
 >Aşağıdaki demo örneği çalıştırıp yuvarlama hatasını gözlemleyiniz. Kodun detaylarını şu an için önemsemeyiniz
 
@@ -707,6 +703,14 @@ class App {
 	}
 }
 ```
+
+###### Yazıların Bellekte Saklanması
+Yazılar da aslında bilgisayar belleğinde 2'lik sistemde sayılar biçiminde tutulmaktadır. Bir yazıyı oluşturan elemanlara **karakter (character)** denilmektedir. İşte bir yazıda her bir karakter 2'lik sistemde bir sayı ile ifade edilir. Böylece yazı  aslında ikilik sistemde bir sayı dizisi gibi tutulmaktadır. İşte bir karakter için hangi sayının karşı geldiğini belirten tablolara **karakter tabloları (character table)** denilmektedir. Karakter tablosundaki karakter şekillerine **glyph** denilmektedir. Her karaktere tabloda bir sıra numarası verilmiştir. Buna da **code point (code point)** denilmektedir. Dünyanın ilk standart karakter tablosu `ASCII` (American Standard Code Information Interchange) denilen tablodur. `ASCII` tablosu aslında 7 bit bir tablodur. Dolayısıyla tabloda 128 tane glyph için code point bulundurulmuştur. `ASCII` dışında `IBM EBCDIC` tablosunu geliştirmiştir. Wang firması `WISCII` tablosunu kullanmıştır. `ASCII` tablosu Amerikalılar tarafından yalnızca İngilizce karakterleri ifade etmek için oluşturulmuştur. Bilgisayarlar yaygınlaşmaya başladığında farklı karakterlere sahip olan Türkiye gibi, Yunanistan gibi, Almanya gibi ülkeler bu `ASCII` tablosunu 8 bite çıkartıp elde edilen 128'lik yeni alanı kendi karakterlerini ifade etmek için kullanmışlardır. `ASCII` tablosunun ilk yarısı (yani `[0, 128]` numaraları karakterleri) standarttır. Ancak ikinci yarısı **code page (code page)** adı altında farklı ülkeler tarafından farklı yerleşimler yapılarak kullanılmaktadır. DOS zamanlarında Türkçe karakterler için `OEM 857` denilen code page kullanılıyordu. Daha sonra Microsoft Windows sistemlerinde Türkçe karakterler için `1254 code page`'i düzenledi. ISO, bu code page'leri standart hale getirmiştir. Bugün Türkçe karakterler `ISO` tarafından `ASCII 8859-9` Code page'i ile düzenlenmiştir. `ASCII` tablosu ve onların code page'leri uzun süre kullanılmış ve hala kullanılmakta olsa da maalesef karışıklıklara yol açmaktadır. İşte ortalama 20 yıldır artık karakterleri 2 byte içerisinde ifade ederek dünyanın bütün dillerinin ve ortak sembollerinin tek bir tabloya yerleştirilmesi ile ismine `UNICODE` denilen bir tablo oluşturulmuştur.
+
+[Unicode Homepage &#x1F517;](https://home.unicode.org)
+
+`UNICODE` tablo ISO tarafından `10646` ismiyle de bazı farklılıklarla standardize edilmiştir. `UNICODE` tablonun ilk 128 karakteri standart ASCII karakterleri, ikinci 128 karakteri `ISO 8859-9` code page'indeki karakterlerdir. Bir karakter tablosundaki code point'lerin ikilik sistemde ifade edilme biçimine **encoding** denilmektedir. ASCII code page'lerinde encoding doğrudan code point'in 1 byte'lık sayı karşılığıdır. Ancak `UNICODE` tablonun değişik encoding'leri kullanılmaktadır. `UNICODE` tablonun klasik encoding'i `UTF-16`'dır. Burada code point doğrudan 16 bit bir sayı biçiminde ifade edilir. `UTF-32` encoding'inde ise code point 32 bitlik bir sayı biçiminde ifade edilmektedir. Ancak `UNICODE` tablonun en yaygın kullanılan encoding'i `UTF-8` encoding'idir. `UTF-8` kodlamasında standart ASCII karakterler 1 byte ile, diğer karakterler 2 byte, 3 byte, 4 byte ve 5 byte ile kodlanabilmekedir. Türkçe karakterler `UTF-8` encoding'inde 2 byte yer kaplamaktadr. `UTF-8` encoding'i `UNICODE` bir yazının adeta sıkıştırılmış bir hali gibi düşünülebilir. Bugün pek çok programlama editörü default durumda dosyayı `UNICODE UTF-8` encoding'ine göre saklamaktadır.
+
 ##### Değişkenler
 
 >Bellekte ayrılan bir bölge ile işlem yapılmasını sağlayan isimlerdir. Bir değişken için bellekte yer ayrılma detayları ele alınacaktır. 
@@ -43971,7 +43975,7 @@ class Application {
             Path destPath = Path.of(args[1]);  
   
             Files.move(srcPath, destPath, REPLACE_EXISTING);  
-            Console.writeLine("File successfully copied");  
+            Console.writeLine("File successfully moved");  
         }  
         catch (DirectoryNotEmptyException ignore) {  
             Console.writeErrLine("Non empty directory:%s", args[1]);  
@@ -45142,11 +45146,11 @@ public class CopyNotExistFilesApp {
 java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <file path1> <file path2> ... <file pathN>  
 ```
 
->**Açıklamalar:**  
+>**Açıklamalar:**
 - Program komut satırı argümanları ile aldığı dosyaları, ilk komut satırı argümanı ile aldığı dizine kopyalayacaktır. 
 - Olmayan dosyalar için uygun mesajları verecek ve kopyalama işlemine devam edecektir.  
 - Program dizinde varolan her bir dosya için aşağıdaki gibi bir menü çıkartacak ve seçime göre uygun işlemi yapacaktır:  
-	- Overwrite (o/O)  
+	- Overwrite (w/W)  
 	- Append (a/A)
 	- Skip (s/S)
 	Seçeneklerden biri dışında girilmesi durumunda uygun mesaj verilecek ve yeniden istenecektir.
@@ -45155,7 +45159,103 @@ java org.csystem.app.io.file.copy.CopyExistFilesViaOptionApp <dest directory> <f
 >**Çözüm:**
 
 ```java
-
+package org.csystem.app.io.file.copy;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.IOException;  
+import java.io.OutputStream;  
+import java.nio.file.*;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthGreater;  
+  
+public class CopyExistFilesViaOptionApp {  
+    private static void printMenu(Path src)  
+    {  
+        Console.writeLine("%s exists. Please choose one of them:", src);  
+        Console.writeLine("Overwrite (w/W)");  
+        Console.writeLine("Append (a/A)");  
+        Console.writeLine("Skip (s/S)");  
+        Console.write("Option:");  
+    }  
+  
+    private static char getOption(Path src)  
+    {  
+        while (true) {  
+            printMenu(src);  
+            char option = Console.readChar("", "Invalid Option format!!!. Please choose again:");  
+  
+            switch (option) {  
+                case 'w', 'W', 'a', 'A', 's', 'S' -> {return option;}  
+            }  
+        }  
+    }  
+  
+    private static void overwriteCallback(Path exactDest, Path src) throws IOException  
+    {  
+        Console.writeLine("File %s will be overwritten", src);  
+        Files.copy(src, exactDest, StandardCopyOption.REPLACE_EXISTING);  
+    }  
+  
+    private static void appendCallback(Path exactDest, Path src) throws IOException  
+    {  
+        Console.writeLine("File '%s' exists and new data will append", src);  
+        try (OutputStream fos = Files.newOutputStream(exactDest, StandardOpenOption.APPEND, StandardOpenOption.CREATE)) {  
+            Files.copy(src, fos);  
+        }  
+    }  
+  
+    private static void skipCallback(Path exactDest, Path src) throws IOException  
+    {  
+        Console.writeLine("File '%s' exits and will be kept", src);  
+    }  
+  
+    private static void copyFile(Path src, Path dest) throws IOException  
+    {  
+        try {  
+            Path exactDest = dest.resolve(src.getFileName());  
+  
+            if (Files.exists(exactDest)) {  
+                char option = getOption(src);  
+  
+                switch (option) {  
+                    case 'w', 'W' -> overwriteCallback(exactDest, src);  
+                    case 'a', 'A' -> appendCallback(exactDest, src);  
+                    case 's', 'S' -> skipCallback(exactDest, src);  
+                }  
+            }  
+            else  
+                Files.copy(src, exactDest);  
+        }  
+        catch (NoSuchFileException e) {  
+            Console.writeErrLine("File '%s' does not exist", src);  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthGreater(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            Path dest = Path.of(args[0]);  
+            Files.createDirectories(dest);  
+  
+            for (int i = 1; i < args.length; ++i)  
+                copyFile(Path.of(args[i]), dest);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }
+}
 ```
 
 ###### Değerleri Byte Dizisine Dönüştürüp Geri Almak  
@@ -45420,26 +45520,251 @@ public class ReadLongsApp {
 }
 ```
 
+
+###### 20 Eylül 2026
+
 Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş double türden değerler yazdırılmaktadır
 
 ```java
-
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomDoublesApp {  
+    private static void writeFile(String path, int count, double origin, double bound)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                double v = r.nextDouble(origin, bound);  
+  
+                Console.write("%f ", v);  
+                byte [] buf = ByteBuffer.allocate(Double.BYTES)  
+                        .putDouble(v)  
+                        .array();  
+  
+                fos.write(buf);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(4, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            double origin = Double.parseDouble(args[2]);  
+            double bound = Double.parseDouble(args[3]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count, origin, bound);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
 ```
 
 Aşağıdaki örnekte komut satırından alınan dosyadan double türden değerler okunmaktır
 
-
 ```java
-
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadDoublesApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] data = new byte[Double.BYTES];  
+  
+            while ((result = fis.read(data)) > 0) {  
+                double v = ByteBuffer.wrap(data, 0, result).getDouble();  
+  
+                Console.write("%f ", v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
 ```
 
+Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar  boolen türden değerler yazdırılmaktadır
 
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomBooleansApp {  
+    private static void writeFile(String path, int count)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                boolean v = r.nextBoolean();  
+  
+                Console.write("%b ", v);  
+  
+                fos.write(v ? (byte)1 : (byte)0);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
+Aşağıdaki örnekte komut satırından alınan dosyadan boolean türden değerler okunmaktır
 
-
-
-
-
-
-
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadBooleansApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int data;  
+  
+            while ((data = fis.read()) != -1) {  
+                boolean v = data == 1;  
+  
+                Console.write("%b ", v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
