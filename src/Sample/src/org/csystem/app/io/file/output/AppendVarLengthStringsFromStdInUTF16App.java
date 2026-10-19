@@ -6,10 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
-public class AppendStringsFromStdInApp {
+public class AppendVarLengthStringsFromStdInUTF16App {
     private static void writeFile(FileOutputStream fos) throws IOException
     {
         while (true) {
@@ -18,8 +19,8 @@ public class AppendStringsFromStdInApp {
             if ("exit".equals(s))
                 break;
 
-            byte[] data = s.getBytes();
-            byte[] dataLen = ByteBuffer.allocate(2).putShort((short)data.length).array();
+            byte[] data = s.getBytes(StandardCharsets.UTF_16);
+            byte[] dataLen = ByteBuffer.allocate(Short.BYTES).putShort((short)data.length).array();
 
             fos.write(dataLen);
             fos.write(data);

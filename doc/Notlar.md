@@ -45773,7 +45773,7 @@ public class ReadBooleansApp {
 
 ###### 11 Ekim 2026
 
-String sınıfının **getBytes** isimli metodu ile bir yazı byte türden bir diziye çevrilebilir. Bu metodun parametresiz overload'u ve String sınıfının yalnızca `byte []` parametreli ctor'u çalışılan sistemin [default karakter setine (charset)](#Yazıların%20Bellekte%20Saklanması) göre çalışırlar. 
+String sınıfının **getBytes** isimli metodu ile bir yazı byte türden bir diziye çevrilebilir. Bu metodun parametresiz overload'u ve String sınıfının yalnızca `byte []` parametreli ctor'u çalışılan sistemin default [karakter setine (charset)](#Yazıların%20Bellekte%20Saklanması) göre çalışırlar. 
 
 Aşağıdaki örnekte yazılar dosyaya yazılırken yazılan yazının başına kaç byte ile tutuldukları da eklenmiştir. Bu tasarımda yazılar `değişken uzunlukla (variable length)` tutulmuştur. Örneğin:  
     CSD ve oğuz yazılarının dosya içerisinde tutuluşları aşağıdaki gibidir:  
@@ -45783,7 +45783,7 @@ Aşağıdaki örnekte yazılar dosyaya yazılırken yazılan yazının başına 
     x'ler CSD yazısının her bir byte'ına karşılık gelmektedir  
     y'ler oğuz yazısının her bir byte'ına karşılık gelmektedir.
 
-Aşağıdaki örneği inceleyiniz
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45797,7 +45797,7 @@ import java.nio.ByteBuffer;
   
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
   
-public class AppendStringsFromStdInApp {  
+public class AppendVarLengthStringsFromStdInApp {  
     private static void writeFile(FileOutputStream fos) throws IOException  
     {  
         while (true) {  
@@ -45807,7 +45807,7 @@ public class AppendStringsFromStdInApp {
                 break;  
   
             byte[] data = s.getBytes();  
-            byte[] dataLen = ByteBuffer.allocate(2).putShort((short)data.length).array();  
+            byte[] dataLen = ByteBuffer.allocate(Short.BYTES).putShort((short)data.length).array();  
   
             fos.write(dataLen);  
             fos.write(data);  
@@ -45847,4 +45847,341 @@ public class AppendStringsFromStdInApp {
 }
 ```
 
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadVarLengthStringsApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] dataLen = new byte[Short.BYTES];  
+  
+            while ((result = fis.read(dataLen)) > 0) {  
+                if (result != Short.BYTES)  
+                    throw new IOException("Bad file format");  
+  
+                short len = ByteBuffer.wrap(dataLen).getShort();  
+  
+                byte [] data = new byte[len];  
+  
+                if (fis.read(data, 0, len) != len)  
+                    throw new IOException("Bad file format");  
+  
+                String text = new String(data);  
+  
+                Console.write("%s ", text);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+**Anahtar Notlar:** Dikkat edililirse yukarıdaki örneklerde programcı tüm bu işlemleri ayarlamak zorundadır. Yani bu işlem bazı durumlarda zahmetli olabilmektedir. Bu işlemler örneklerde aşağı seviyeli olarak yapılmıştır.  
+
+Yukarıdaki `AppendVarLengthStringsFromStdInApp ve ReadVarLengthStringsApp` uygulamaları çalıştırıldıkları sistemin charset'ini (default charset) kullanmaktadır.  Bu anlamda default charset sistemden sisteme değişiklik gösterebilir. Bu durumda bu uygulamalar aynı default charset'i kullanan sistemlerde çalışılıyorsa problem  oluşturmaz ancak farklı default charset kullanan sistemler ile çalışılması durumunda problem oluşturabilir.
+
+İstenilen bir karakter seti ile çalışılabilmesi  için Java'da `Charset` isimli bir abstract class  bulunmaktadır. getBytes metodunun ve String'in ilgili ctor'unun Charset alan versiyonları da bulunmaktadır. `Charset`  en kolay `StandardCharsets` sınıfının public static ve final elemanları ile kullanılabilir.  
+
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-8` kullanılmıştır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendVarLengthStringsFromStdInUTF8App {  
+    private static void writeFile(FileOutputStream fos) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            byte[] data = s.getBytes(StandardCharsets.UTF_8);  
+            byte[] dataLen = ByteBuffer.allocate(Short.BYTES).putShort((short)data.length).array();  
+  
+            fos.write(dataLen);  
+            fos.write(data);  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            writeFile(fos);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-8` kullanılmıştır
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadVarLengthStringsUTF8App {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] dataLen = new byte[Short.BYTES];  
+  
+            while ((result = fis.read(dataLen)) > 0) {  
+                if (result != Short.BYTES)  
+                    throw new IOException("Bad file format");  
+  
+                short len = ByteBuffer.wrap(dataLen).getShort();  
+  
+                byte [] data = new byte[len];  
+  
+                if (fis.read(data, 0, len) != len)  
+                    throw new IOException("Bad file format");  
+  
+                String text = new String(data, StandardCharsets.UTF_8);  
+  
+                Console.write("%s ", text);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-16` kullanılmıştır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendVarLengthStringsFromStdInUTF16App {  
+    private static void writeFile(FileOutputStream fos) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            byte[] data = s.getBytes(StandardCharsets.UTF_16);  
+            byte[] dataLen = ByteBuffer.allocate(Short.BYTES).putShort((short)data.length).array();  
+  
+            fos.write(dataLen);  
+            fos.write(data);  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            writeFile(fos);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-16` kullanılmıştır
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadVarLengthStringsUTF16App {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] dataLen = new byte[Short.BYTES];  
+  
+            while ((result = fis.read(dataLen)) > 0) {  
+                if (result != Short.BYTES)  
+                    throw new IOException("Bad file format");  
+  
+                short len = ByteBuffer.wrap(dataLen).getShort();  
+  
+                byte [] data = new byte[len];  
+  
+                if (fis.read(data, 0, len) != len)  
+                    throw new IOException("Bad file format");  
+  
+                String text = new String(data, StandardCharsets.UTF_16);  
+  
+                Console.write("%s ", text);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
