@@ -45847,6 +45847,8 @@ public class AppendVarLengthStringsFromStdInApp {
 }
 ```
 
+###### 19 Ekim 2026
+
 Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır
 
 ```java
@@ -46184,4 +46186,189 @@ public class ReadVarLengthStringsUTF16App {
     }  
 }
 ```
+
+
+###### 22 Ekim 2026
+
+JavaSE'ye göre bir Java platformu minimum olarak aşağıdaki karakter setlerini desteklemelidir. Tablo `Charset` sınıfınının dokümantasyonundan alınmıştır:
+
+| Charset      | Description                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| `US-ASCII`   | Seven-bit ASCII, a.k.a. `ISO646-US`, a.k.a. the Basic Latin block of the Unicode character set |
+| `ISO-8859-1` | ISO Latin Alphabet No. 1, a.k.a. `ISO-LATIN-1`                                                 |
+| `UTF-8`      | Eight-bit UCS Transformation Format                                                            |
+| `UTF-16BE`   | Sixteen-bit UCS Transformation Format, big-endian byte order                                   |
+| `UTF-16LE`   | Sixteen-bit UCS Transformation Format, little-endian byte order                                |
+| `UTF-16`     | Sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order mark    |
+
+Bunlar dışında kalan karakter setleri duruma göre desteklenebilmektedir. Örneğin java platformunu da büyük ölçüde kullanan Android platformunda ekstra bazı karakter setleri bulunmaktadır. Peki bir programcı örneğin `UTF32, UTF-32BE, UTF-32LE` gibi karakter setleri ile destekleyen platformlarda çalışmak isterse ilgili platformun bunu nasıl taşınabilir olarak implemente edecektir? Bunun için `Charset` sınıfının `isSupported` isimli metodu kullanılabilir. Bu metot argüman olarak ilgili karakter setinin ismini alır ve destekleyip desteklemediğine ilişkin boolean değere geri döner. Bu sınıfın ayrıcan karakter isminden Charset referansı elde edilmesini sağlayan `forName` metodu vardır. Bu metot ilgili isim karakter seti olarak geçerli değilse `IllegalCharsetNameException` fırlatır, eğer isim geçerli ancak programın çalıştırıldığı sistemde desteklenmiyorsa `UnsupportCharsetException` fırlatır. Programcı `forName` metodunu kullanarak da destekleyip desteklemediğine göre kod yazabilse de `isSupported` kullanması çoğu zaman daha iyi olabilmektedir. Aslında pratikte standart olarak desteklenen karakter setleri dışında çalışılması çok karşılan bir durum değildir.
+
+
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32` desteklemiyorsa `UTF-8` kullanılmıştır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.nio.charset.Charset;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendVarLengthStringsFromStdInUTF32IfSupportedElseUTF8App {  
+    private static void writeFile(FileOutputStream fos) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            Charset charset;  
+  
+            if (!Charset.isSupported("UTF-32")) {  
+                Console.writeLine("UTF-32 charset encoding not supported. UTF-8 will be used");  
+                charset = StandardCharsets.UTF_8;  
+            }  
+            else  
+                charset = Charset.forName("UTF-32");  
+  
+            byte[] data = s.getBytes(charset);  
+            byte[] dataLen = ByteBuffer.allocate(Short.BYTES).putShort((short)data.length).array();  
+  
+            fos.write(dataLen);  
+            fos.write(data);  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            writeFile(fos);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32`  desteklemiyorsa `UTF-8` kullanılmıştır
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.ByteBuffer;  
+import java.nio.charset.Charset;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadVarLengthStringsUTF32IfSupportedElseUTF8App {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            int result;  
+            byte [] dataLen = new byte[Short.BYTES];  
+  
+            while ((result = fis.read(dataLen)) > 0) {  
+                if (result != Short.BYTES)  
+                    throw new IOException("Bad file format");  
+  
+                short len = ByteBuffer.wrap(dataLen).getShort();  
+  
+                byte [] data = new byte[len];  
+  
+                if (fis.read(data, 0, len) != len)  
+                    throw new IOException("Bad file format");  
+  
+                Charset charset;  
+  
+                if (!Charset.isSupported("UTF-32")) {  
+                    Console.writeLine("UTF-32 charset encoding not supported. UTF-8 will be used");  
+                    charset = StandardCharsets.UTF_8;  
+                }  
+                else  
+                    charset = Charset.forName("UTF-32");  
+  
+                String text = new String(data, charset);  
+  
+                Console.write("%s ", text);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+**Sınıf Çalışması:** UTF-16 kullanılarak aşağıdaki formatta yazıların bulunduğu bilinen bir dosyadaki yazıları UTF-8  charset'i ile başka bir dosyaya aynı formatta kopyalayan uygulamayı `org.csystem.app.io.file.convert paketi` içerisinde  aşağıdaki açıklamalara göre yazınız
+
+**Açıklamalar:**  
+- Programın ismi ConvertUTF16ToUTF8App olacaktır  
+- Dosya formatı şu şekilde olacaktır: `<yazının byte uzunluğu (2 byte)><yazının byte'ları>...`  
+- Program şu şekilde çalıştırılabilecektir:
+```bash
+java org.csystem.app.io.file.convert ConvertUTF16ToUTF8App <source file path> <destination file path> 
+```
+
+- Hedef dosyanın varsa üzerine yazılıp yazılmayacağı sorulacaktır. 
+- Dosya formatı kontrolü başta yapılmayacaktır ancak işlemler sırasında dosya formatı bozuksa yaratılan hedef  dosya silinecektir.  
+  
+
 
