@@ -1,16 +1,16 @@
 package org.csystem.app.io.file.convert;
 
 import org.csystem.util.console.Console;
+import org.csystem.util.converter.BitConvertUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import static java.nio.file.StandardOpenOption.*;
 
+import static java.nio.file.StandardOpenOption.*;
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
 public class ConvertUTF16ToUTF8App {
@@ -37,7 +37,7 @@ public class ConvertUTF16ToUTF8App {
         if (result != dataLen.length)
             throw new IOException("File corrupted!...");
 
-        int len = ByteBuffer.wrap(dataLen).getShort();
+        int len = BitConvertUtil.toShort(dataLen);
 
         if (len <= 0)
             throw new IOException("File corrupted!!...");
@@ -47,13 +47,13 @@ public class ConvertUTF16ToUTF8App {
         if (is.read(dataStr) != dataStr.length)
             throw new IOException("File corrupted!...");
 
-        return new  String(dataStr, StandardCharsets.UTF_16);
+        return BitConvertUtil.getString(dataStr, StandardCharsets.UTF_16);
     }
 
     private static void writeUtf8Text(OutputStream os, String text) throws IOException
     {
-        byte[] data = text.getBytes(StandardCharsets.UTF_8);
-        byte[] dataLen = ByteBuffer.allocate(Short.BYTES).putShort((short) data.length).array();
+        byte[] data = BitConvertUtil.getBytes(text);
+        byte[] dataLen = BitConvertUtil.getBytes((short)text.length());
 
         os.write(dataLen);
         os.write(data);
