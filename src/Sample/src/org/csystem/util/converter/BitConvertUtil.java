@@ -114,6 +114,26 @@ public final class BitConvertUtil {
         return new String(buf, charset);
     }
 
+    public static String getNullterminatedString(byte [] buf, Charset charset)
+    {
+        if (charset == StandardCharsets.UTF_8
+                || charset == StandardCharsets.US_ASCII
+                || charset.name().startsWith("ISO-8859")
+                || charset.name().startsWith("windows-")) {
+            int len = 0;
+
+            while (len < buf.length && buf[len] != 0)
+                ++len;
+
+            return new String(buf, 0, len, charset);
+        }
+
+        String str = new String(buf, charset);
+        int end = str.indexOf('\0');
+
+        return end != -1 ? str.substring(0, end) : str;
+    }
+
     public static Charset getCharset(String charsetName, Charset defaultCharset)
     {
         return Charset.isSupported(charsetName) ? Charset.forName(charsetName) : defaultCharset;

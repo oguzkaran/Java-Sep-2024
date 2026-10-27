@@ -46201,8 +46201,7 @@ JavaSE'ye göre bir Java platformu minimum olarak aşağıdaki karakter setlerin
 | `UTF-16LE`   | Sixteen-bit UCS Transformation Format, little-endian byte order                                |
 | `UTF-16`     | Sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order mark    |
 
-Bunlar dışında kalan karakter setleri duruma göre desteklenebilmektedir. Örneğin java platformunu da büyük ölçüde kullanan Android platformunda ekstra bazı karakter setleri bulunmaktadır. Peki bir programcı örneğin `UTF32, UTF-32BE, UTF-32LE` gibi karakter setleri ile destekleyen platformlarda çalışmak isterse ilgili platformun bunu nasıl taşınabilir olarak implemente edecektir? Bunun için `Charset` sınıfının `isSupported` isimli metodu kullanılabilir. Bu metot argüman olarak ilgili karakter setinin ismini alır ve destekleyip desteklemediğine ilişkin boolean değere geri döner. Bu sınıfın ayrıcan karakter isminden Charset referansı elde edilmesini sağlayan `forName` metodu vardır. Bu metot ilgili isim karakter seti olarak geçerli değilse `IllegalCharsetNameException` fırlatır, eğer isim geçerli ancak programın çalıştırıldığı sistemde desteklenmiyorsa `UnsupportCharsetException` fırlatır. Programcı `forName` metodunu kullanarak da destekleyip desteklemediğine göre kod yazabilse de `isSupported` kullanması çoğu zaman daha iyi olabilmektedir. Aslında pratikte standart olarak desteklenen karakter setleri dışında çalışılması çok karşılan bir durum değildir.
-
+Bunlar dışında kalan karakter setleri duruma göre desteklenebilmektedir. Örneğin java platformunu da büyük ölçüde kullanan Android platformunda ekstra bazı karakter setleri bulunmaktadır. Peki bir programcı örneğin `UTF32, UTF-32BE, UTF-32LE` gibi karakter setlerini destekleyen platformlarda çalışmak isterse bunu nasıl taşınabilir olarak implemente edecektir? Bunun için `Charset` sınıfının `isSupported` isimli metodu kullanılabilir. Bu metot argüman olarak ilgili karakter setinin ismini alır ve destekleyip desteklemediğine ilişkin boolean değere geri döner. Bu sınıfın ayrıca karakter isminden Charset referansı elde edilmesini sağlayan `forName` metodu vardır. Bu metot ilgili isim karakter seti olarak geçerli değilse `IllegalCharsetNameException` fırlatır, eğer isim geçerli ancak programın çalıştırıldığı sistemde desteklenmiyorsa `UnsupportCharsetException` fırlatır. Programcı `forName` metodunu kullanarak da destekleyip desteklemediğine göre kod yazabilse de `isSupported` kullanması çoğu zaman daha iyi olabilmektedir. Aslında pratikte standart olarak desteklenen karakter setleri dışında çalışılması çok karşılaşılan bir durum değildir.
 
 Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32` desteklemiyorsa `UTF-8` kullanılmıştır
 
@@ -46359,18 +46358,19 @@ public class ReadVarLengthStringsUTF32IfSupportedElseUTF8App {
 
 ###### 25 Ekim 2026
 
-**Sınıf Çalışması:** UTF-16 kullanılarak aşağıdaki formatta yazıların bulunduğu bilinen bir dosyadaki yazıları UTF-8  charset'i ile başka bir dosyaya aynı formatta kopyalayan uygulamayı `org.csystem.app.io.file.convert paketi` içerisinde  aşağıdaki açıklamalara göre yazınız
+>**Sınıf Çalışması:** UTF-16 kullanılarak aşağıdaki formatta yazıların bulunduğu bilinen bir dosyadaki yazıları UTF-8  charset'i ile başka bir dosyaya aynı formatta kopyalayan uygulamayı `org.csystem.app.io.file.convert paketi` içerisinde  aşağıdaki açıklamalara göre yazınız
 
-**Açıklamalar:**  
-- Programın ismi ConvertUTF16ToUTF8App olacaktır  
-- Dosya formatı şu şekilde olacaktır: `<yazının byte uzunluğu (2 byte)><yazının byte'ları>...`  
-- Program şu şekilde çalıştırılabilecektir:
+>**Açıklamalar:**  
+>- Programın ismi ConvertUTF16ToUTF8App olacaktır  
+>- Dosya formatı şu şekilde olacaktır: `<yazının byte uzunluğu (2 byte)><yazının byte'ları>...`  
+>- Program şu şekilde çalıştırılabilecektir:
+
 ```bash
 java org.csystem.app.io.file.convert ConvertUTF16ToUTF8App <source file path> <destination file path> 
 ```
 
-- Hedef dosyanın varsa üzerine yazılıp yazılmayacağı sorulacaktır. 
-- Dosya formatı kontrolü başta yapılmayacaktır ancak işlemler sırasında dosya formatı bozuksa yaratılan hedef  dosya silinecektir.  
+>- Hedef dosyanın varsa üzerine yazılıp yazılmayacağı sorulacaktır. 
+>- Dosya formatı kontrolü başta yapılmayacaktır ancak işlemler sırasında dosya formatı bozuksa yaratılan hedef  dosya silinecektir.  
 
 ```java
 package org.csystem.app.io.file.convert;  
@@ -46494,7 +46494,7 @@ public class ConvertUTF16ToUTF8App {
 ```
 
 
-Temel türler ve String türü için yukarıda yapılan işlemler `BitConvertUtil` gibi utility bir sınıf yazılarak da gerçekleştirilebilir
+>Temel türler ve String türü için tüm örneklerde yapılan işlemler `BitConvertUtil` gibi utility bir sınıf yazılarak da gerçekleştirilebilir
 
 ```java
 package org.csystem.app.io.file.convert;  
@@ -46617,7 +46617,7 @@ public class ConvertUTF16ToUTF8App {
 }
 ```
 
-
+>BitConvertUtil sınıfı
 
 ```java
 package org.csystem.util.converter;  
@@ -46626,8 +46626,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;  
 import java.nio.charset.StandardCharsets;  
   
-/**  
- * Utility class for converting primitive types and String to/from byte array * @author Oğuz Karan */public final class BitConvertUtil {  
+public final class BitConvertUtil {  
     private BitConvertUtil()  
     {  
         throw new UnsupportedOperationException("Utility class cannot be instantiated.");  
@@ -46736,6 +46735,180 @@ import java.nio.charset.StandardCharsets;
     public static Charset getCharset(String charsetName, Charset defaultCharset)  
     {  
         return Charset.isSupported(charsetName) ? Charset.forName(charsetName) : defaultCharset;  
+    }  
+}
+```
+
+
+###### 27 Ekim 2026
+
+###### NUL-Terminated String İşlemleri
+
+>Bazı programlama dillerinde (örneğin C) ve sistemlerde yazıların uzunlukları tutulmaz. Bunun yerine yazılar belirlenen bir sonlandırıcı karakter ile tutulurla ve bu karakter genel olarak karakter tablosunun sıfır numaralı karakteri olan `Null karakter ('\0').` Bu şekilde tutulan yazılara literatürde **NUL-Terminated Strings (NTS)** denilmektedir.  Bu şekilde tutulan yazıların karakterleri dolaşılırken null karaktere görene kadar dolaşım yapılır.
+
+>Anımsanacağı gibi Java'da yazılar herhangi bir sonlandırıcı karakter kullanılarak tutulmaz. Zaten Java'da yazıya ilişkin String nesnenin length metodu kullanılarak yazının tüm karakteri dolaşılabilir. Öyleyse Java'da NTS biçimindeki yazıların algoritmik olarak farklı şekilde ele alınması gerekir. Java NTS ele alınması durumu daha çok, NTS olan yazının byte dizisi olarak elde edilmesi durumundan String'e dönüştürülmesi sırasında karşımıza çıkar. Şüphesiz bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçiminin byte dizisine dönüştürülmesi de bu kapsamda düşünülebilir. 
+>
+>NTS olan bir yazı içerisindeki asıl yazıyı elde edebilmek için aşağıdaki kod yazılabilir:
+
+```java
+int end = str.indexOf('\0');
+
+String s = end != -1 ? str.substring(0, end) : str;
+```
+
+>Buna göre aşağıdaki koddan elde edilen çıktı aşağıdaki gibidir:
+
+```shell
+Length:11
+Hello
+```
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello\0World";  
+  
+        Console.writeLine("Length:%d", str.length());  
+        int end = str.indexOf('\0');
+        
+        String s = end != -1 ? str.substring(0, end) : str;  
+  
+        Console.writeLine(s);  
+    }  
+}
+```
+
+>Şüphesiz bu işlem aşağıdaki gibi manuel olarak da yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello\0World";  
+        StringBuilder sb = new StringBuilder();  
+  
+        for (int i = 0; i < str.length(); ++i) {  
+            char c = str.charAt(i);  
+  
+            if (c == '\0')  
+                break;  
+  
+            sb.append(c);  
+        }
+  
+        Console.writeLine(sb.toString());  
+    }  
+}
+```
+
+>Bu yöntemin avantajları çıkışın erken yapılması ve bazı kontrollerin programcının elinde olmasının yanında, indexOf ve substring metotlarının JDK içerisinde optimize edilmiş olması ve hata yapma olasılığının hazır metotlara göre daha fazla olması gibi dezavantajları da bulunur. 
+
+>byte dizisinden NTS elde etmek için karakter setinden bağımsız (karakter seti verilerek) aşağıdaki yöntem kullanılabilir. Örnek durumu göstermek için yazılmıştır.
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.nio.charset.StandardCharsets;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello\0World";  
+        byte [] dataStr = str.getBytes(StandardCharsets.UTF_8);  
+        String s = new String(dataStr, StandardCharsets.UTF_8);  
+        int end = s.indexOf("\0");  
+  
+        s = end != -1 ? s.substring(0, end) : s;  
+  
+        Console.writeLine(s);  
+    }  
+}
+```
+
+>Bu işlem aşağıdaki gibi manuel olarak da yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.nio.charset.StandardCharsets;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello\0World";  
+        byte [] dataStr = str.getBytes(StandardCharsets.UTF_8);  
+        int len = 0;  
+  
+        while (len < dataStr.length && dataStr[len] != 0)  
+            ++len;  
+  
+        String s = new String(dataStr, 0, len, StandardCharsets.UTF_8);  
+  
+        Console.writeLine(s);  
+    }  
+}
+```
+
+>Bu yaklaşım aslında önceki yaklaşıma göre daha efektiftir. Çünkü ilk yöntemde byte dizisinin tüm karakterlerinden bir String nesnesi yaratılmış ve NTS yazı bu String'den elde edilmiştir. İkinci yöntemde ise dizinin tamamı dolaşılmayabilir. Ancak ikinci yöntem UTF-8 ve ASCII gibi karakter setlerinde çalışabilse de UTF-16, UTF-16LE, UTF-16BE vb. karakterlerin 1'den fazla byte olarak da tutulabildiği karakter setlerinde düzgün çalışmaz. Çünkü UTF-16, UTF-16LE, UTF-16BE gibi karakter setlerinde tüm karakterler (ASCII dahil) birden fazla byte olarak tutulduğundan sıfır sayısına daha erken rastlanabilir. Örneğin: `A` karakteri iki byte olarak `00 41` veya `41 00` olarak tutulur. Bu durumda byte dizisi içerisinde `A` karakteri için de sıfır sayısı bulunur, bu da döngünün doğru çalışmamasına yol açar. Bu durumda programcı karakter setine göre yöntemi tercih etmelidir. Aşağıda, karakter setine göre uygun yöntemle String elde eden `getNullterminatedString` metodu `BitConverterUtil` sınıfına eklenmiştir.
+
+```java
+public static String getNullterminatedString(byte [] buf, Charset charset)  
+{  
+    if (charset == StandardCharsets.UTF_8  
+            || charset == StandardCharsets.US_ASCII  
+            || charset.name().startsWith("ISO-8859")  
+            || charset.name().startsWith("windows-")) {  
+        int len = 0;  
+  
+        while (len < buf.length && buf[len] != 0)  
+            ++len;  
+  
+        return new String(buf, 0, len, charset);  
+    }  
+  
+    String str = new String(buf, charset);  
+    int end = str.indexOf('\0');  
+  
+    return end != -1 ? str.substring(0, end) : str;  
+}
+```
+
+Aşağıdaki basit test kodunu inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.converter.BitConvertUtil;  
+  
+import java.nio.charset.StandardCharsets;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello\0World";  
+        byte [] bufUtf8 = str.getBytes(StandardCharsets.UTF_8);  
+        byte [] bufUtf16 = str.getBytes(StandardCharsets.UTF_16);  
+        byte [] bufUtf16LE = str.getBytes(StandardCharsets.UTF_16LE);  
+        byte [] bufUtf16BE = str.getBytes(StandardCharsets.UTF_16BE);  
+  
+        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf8, StandardCharsets.UTF_8));  
+        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf16, StandardCharsets.UTF_16));  
+        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf16LE, StandardCharsets.UTF_16LE));  
+        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf16BE, StandardCharsets.UTF_16BE));  
     }  
 }
 ```
