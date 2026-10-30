@@ -46742,11 +46742,11 @@ public final class BitConvertUtil {
 
 ###### 27 Ekim 2026
 
-###### NUL-Terminated String İşlemleri
+###### Null-Terminated String İşlemleri
 
->Bazı programlama dillerinde (örneğin C) ve sistemlerde yazıların uzunlukları tutulmaz. Bunun yerine yazılar belirlenen bir sonlandırıcı karakter ile tutulurla ve bu karakter genel olarak karakter tablosunun sıfır numaralı karakteri olan `Null karakter ('\0').` Bu şekilde tutulan yazılara literatürde **NUL-Terminated Strings (NTS)** denilmektedir.  Bu şekilde tutulan yazıların karakterleri dolaşılırken null karaktere görene kadar dolaşım yapılır.
+>Bazı programlama dillerinde (örneğin C) ve sistemlerde yazıların uzunlukları tutulmaz. Bunun yerine yazılar belirlenen bir sonlandırıcı karakter ile tutulurla ve bu karakter genel olarak karakter tablosunun sıfır numaralı karakteri olan `null karakter ('\0').` Bu şekilde tutulan yazılara literatürde **Null-Terminated Strings (NTS)** denilmektedir.  Bu şekilde tutulan yazıların karakterleri dolaşılırken null karaktere görene kadar dolaşım yapılır.
 
->Anımsanacağı gibi Java'da yazılar herhangi bir sonlandırıcı karakter kullanılarak tutulmaz. Zaten Java'da yazıya ilişkin String nesnenin length metodu kullanılarak yazının tüm karakteri dolaşılabilir. Öyleyse Java'da NTS biçimindeki yazıların algoritmik olarak farklı şekilde ele alınması gerekir. Java NTS ele alınması durumu daha çok, NTS olan yazının byte dizisi olarak elde edilmesi durumundan String'e dönüştürülmesi sırasında karşımıza çıkar. Şüphesiz bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçiminin byte dizisine dönüştürülmesi de bu kapsamda düşünülebilir. 
+>Anımsanacağı gibi Java'da yazılar herhangi bir sonlandırıcı karakter kullanılarak tutulmaz. Zaten Java'da yazıya ilişkin String nesnenin length metodu kullanılarak yazının tüm karakteri dolaşılabilir. Öyleyse Java'da NTS biçimindeki yazıların algoritmik olarak farklı şekilde ele alınması gerekir. Java NTS ele alınması daha çok, NTS olan yazının byte dizisi olarak elde edilmesi durumunda String'e dönüştürülmesi gerektiğinde karşımıza çıkar. Şüphesiz bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçiminin byte dizisine dönüştürülmesi de bu kapsamda düşünülebilir. 
 >
 >NTS olan bir yazı içerisindeki asıl yazıyı elde edebilmek için aşağıdaki kod yazılabilir:
 
@@ -46812,7 +46812,7 @@ class Application {
 
 >Bu yöntemin avantajları çıkışın erken yapılması ve bazı kontrollerin programcının elinde olmasının yanında, indexOf ve substring metotlarının JDK içerisinde optimize edilmiş olması ve hata yapma olasılığının hazır metotlara göre daha fazla olması gibi dezavantajları da bulunur. 
 
->byte dizisinden NTS elde etmek için karakter setinden bağımsız (karakter seti verilerek) aşağıdaki yöntem kullanılabilir. Örnek durumu göstermek için yazılmıştır.
+>byte dizisinden NTS olarak tutulmuş olan bir yazının kendisini elde etmek için karakter setinden bağımsız (karakter seti verilerek) aşağıdaki yöntem kullanılabilir. Örnek durumu göstermek için yazılmıştır.
 
 ```java
 package org.csystem.app;  
@@ -46865,7 +46865,7 @@ class Application {
 >Bu yaklaşım aslında önceki yaklaşıma göre daha efektiftir. Çünkü ilk yöntemde byte dizisinin tüm karakterlerinden bir String nesnesi yaratılmış ve NTS yazı bu String'den elde edilmiştir. İkinci yöntemde ise dizinin tamamı dolaşılmayabilir. Ancak ikinci yöntem UTF-8 ve ASCII gibi karakter setlerinde çalışabilse de UTF-16, UTF-16LE, UTF-16BE vb. karakterlerin 1'den fazla byte olarak da tutulabildiği karakter setlerinde düzgün çalışmaz. Çünkü UTF-16, UTF-16LE, UTF-16BE gibi karakter setlerinde tüm karakterler (ASCII dahil) birden fazla byte olarak tutulduğundan sıfır sayısına daha erken rastlanabilir. Örneğin: `A` karakteri iki byte olarak `00 41` veya `41 00` olarak tutulur. Bu durumda byte dizisi içerisinde `A` karakteri için de sıfır sayısı bulunur, bu da döngünün doğru çalışmamasına yol açar. Bu durumda programcı karakter setine göre yöntemi tercih etmelidir. Aşağıda, karakter setine göre uygun yöntemle String elde eden `getNullterminatedString` metodu `BitConverterUtil` sınıfına eklenmiştir.
 
 ```java
-public static String getNullterminatedString(byte [] buf, Charset charset)  
+public static String getNullTerminatedString(byte [] buf, Charset charset)  
 {  
     if (charset == StandardCharsets.UTF_8  
             || charset == StandardCharsets.US_ASCII  
@@ -46882,11 +46882,11 @@ public static String getNullterminatedString(byte [] buf, Charset charset)
     String str = new String(buf, charset);  
     int end = str.indexOf('\0');  
   
-    return end != -1 ? str.substring(0, end) : str;  
+    return (end != -1) ? str.substring(0, end) : str;  
 }
 ```
 
-Aşağıdaki basit test kodunu inceleyiniz
+>Aşağıdaki basit test kodunu inceleyiniz
 
 ```java
 package org.csystem.app;  
@@ -46905,13 +46905,119 @@ class Application {
         byte [] bufUtf16LE = str.getBytes(StandardCharsets.UTF_16LE);  
         byte [] bufUtf16BE = str.getBytes(StandardCharsets.UTF_16BE);  
   
-        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf8, StandardCharsets.UTF_8));  
-        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf16, StandardCharsets.UTF_16));  
-        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf16LE, StandardCharsets.UTF_16LE));  
-        Console.writeLine(BitConvertUtil.getNullterminatedString(bufUtf16BE, StandardCharsets.UTF_16BE));  
+        Console.writeLine(BitConvertUtil.getNullTerminatedString(bufUtf8, StandardCharsets.UTF_8));  
+        Console.writeLine(BitConvertUtil.getNullTerminatedString(bufUtf16, StandardCharsets.UTF_16));  
+        Console.writeLine(BitConvertUtil.getNullTerminatedString(bufUtf16LE, StandardCharsets.UTF_16LE));  
+        Console.writeLine(BitConvertUtil.getNullTerminatedString(bufUtf16BE, StandardCharsets.UTF_16BE));  
     }  
 }
 ```
 
+###### 30 Ekim 2026
+
+Bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçimini, belirlenen uzunlukta (fixed length) bir byte dizisine kopyalama tipik StringBuilder kullanılarak yapılabilir. 
+
+**Anahtar Notlar:** StringBuilder sınıfının `setLength` metodu ile uzunluk belirlenebilir. Bu metoda geçilen uzunluk bilgisi tutulan yazının uzunluğundan büyük ise bu durumda geri kalan karakter null karakter ile beslenir.
+
+Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.converter.BitConvertUtil;  
+  
+import java.nio.charset.StandardCharsets;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello World";  
+        int len = 50;  
+        StringBuilder sb = new StringBuilder();  
+  
+        sb.setLength(len);  
+        sb.replace(0, str.length(), str);  
+        String ntsStr = sb.toString();  
+        Console.writeLine("(%s)", ntsStr);  
+  
+        byte [] dataUtf8 = ntsStr.getBytes(StandardCharsets.UTF_8);  
+        byte [] dataUtf16 = ntsStr.getBytes(StandardCharsets.UTF_16);  
+        byte [] dataUtf16LE = ntsStr.getBytes(StandardCharsets.UTF_16LE);  
+        byte [] dataUtf16BE = ntsStr.getBytes(StandardCharsets.UTF_16BE);  
+  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf8, StandardCharsets.UTF_8));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16, StandardCharsets.UTF_16));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16LE, StandardCharsets.UTF_16LE));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullterminatedString(dataUtf16BE, StandardCharsets.UTF_16BE));  
+    }  
+}
+```
+
+Yukarıdaki kopyalama işlemi aşağıdaki gibi de yapılabilir
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.converter.BitConvertUtil;  
+  
+import java.nio.charset.StandardCharsets;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello World";  
+        int len = 50;  
+        StringBuilder sb = new StringBuilder();  
+  
+        sb.setLength(len);  
+        for (int i = 0; i < str.length(); ++i)  
+            sb.setCharAt(i, str.charAt(i));  
+  
+        String ntsStr = sb.toString();  
+        Console.writeLine("(%s)", ntsStr);  
+  
+        byte [] dataUtf8 = ntsStr.getBytes(StandardCharsets.UTF_8);  
+        byte [] dataUtf16 = ntsStr.getBytes(StandardCharsets.UTF_16);  
+        byte [] dataUtf16LE = ntsStr.getBytes(StandardCharsets.UTF_16LE);  
+        byte [] dataUtf16BE = ntsStr.getBytes(StandardCharsets.UTF_16BE);  
+  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf8, StandardCharsets.UTF_8));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16, StandardCharsets.UTF_16));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16LE, StandardCharsets.UTF_16LE));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16BE, StandardCharsets.UTF_16BE));  
+    }  
+}
+```
+
+Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.converter.BitConvertUtil;  
+  
+import java.nio.charset.StandardCharsets;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        String str = "Hello World";  
+        int len = 50;  
+  
+        byte [] dataUtf8 = BitConvertUtil.getNullTerminatedBytes(str, len, StandardCharsets.UTF_8);  
+        byte [] dataUtf16 = BitConvertUtil.getNullTerminatedBytes(str, len, StandardCharsets.UTF_16);  
+        byte [] dataUtf16LE = BitConvertUtil.getNullTerminatedBytes(str, len, StandardCharsets.UTF_16LE);  
+        byte [] dataUtf16BE = BitConvertUtil.getNullTerminatedBytes(str, len, StandardCharsets.UTF_16BE);  
+  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf8, StandardCharsets.UTF_8));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16, StandardCharsets.UTF_16));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16LE, StandardCharsets.UTF_16LE));  
+        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16BE, StandardCharsets.UTF_16BE));  
+    }  
+}
+```
 
 

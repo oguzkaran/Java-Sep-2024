@@ -71,6 +71,15 @@ public final class StringUtil {
         return sb.toString();
     }
 
+    public static String getNullTerminatedString(String str, int fixedLength)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.setLength(fixedLength);
+
+        return sb.replace(0, str.length(), str).toString();
+    }
+
     public static boolean isPalindrome(String s)
     {
         int left = 0;

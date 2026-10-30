@@ -1,5 +1,7 @@
 package org.csystem.util.converter;
 
+import org.csystem.util.string.StringUtil;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -59,6 +61,16 @@ public final class BitConvertUtil {
         return str.getBytes(charset);
     }
 
+    public static byte [] getNullTerminatedBytes(String str, int fixedLength)
+    {
+        return getNullTerminatedBytes(str, fixedLength, StandardCharsets.UTF_8);
+    }
+
+    public static byte [] getNullTerminatedBytes(String str, int fixedLength, Charset charset)
+    {
+        return StringUtil.getNullTerminatedString(str, fixedLength).getBytes(charset);
+    }
+
     public static byte[] getBytes(boolean a)
     {
         return new byte[]{(byte)(a ? 1 : 0)};
@@ -114,7 +126,17 @@ public final class BitConvertUtil {
         return new String(buf, charset);
     }
 
-    public static String getNullterminatedString(byte [] buf, Charset charset)
+    public static String getNullTerminatedString(byte [] buf)
+    {
+        int len = 0;
+
+        while (len < buf.length && buf[len] != 0)
+            ++len;
+
+        return new String(buf, 0, len, StandardCharsets.UTF_8);
+    }
+
+    public static String getNullTerminatedString(byte [] buf, Charset charset)
     {
         if (charset == StandardCharsets.UTF_8
                 || charset == StandardCharsets.US_ASCII
@@ -131,7 +153,7 @@ public final class BitConvertUtil {
         String str = new String(buf, charset);
         int end = str.indexOf('\0');
 
-        return end != -1 ? str.substring(0, end) : str;
+        return (end != -1) ? str.substring(0, end) : str;
     }
 
     public static Charset getCharset(String charsetName, Charset defaultCharset)
