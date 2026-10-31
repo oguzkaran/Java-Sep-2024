@@ -47,7 +47,6 @@ public class AppendVarLengthStringsFromStdInUTF8App {
         try {
             writeFile(args[0]);
         }
-
         catch (Exception e) {
             Console.writeErrLine("Error occurred:%s", e.getMessage());
         }

@@ -5,6 +5,7 @@ import org.csystem.util.string.StringUtil;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Utility class for converting primitive types and String to/from byte array
@@ -67,6 +68,16 @@ public final class BitConvertUtil {
     }
 
     public static byte [] getNullTerminatedBytes(String str, int fixedLength, Charset charset)
+    {
+        return Arrays.copyOf(getBytes(str, charset), fixedLength);
+    }
+
+    public static byte [] getNullTerminatedStringBytes(String str, int fixedLength)
+    {
+        return getNullTerminatedStringBytes(str, fixedLength, StandardCharsets.UTF_8);
+    }
+
+    public static byte [] getNullTerminatedStringBytes(String str, int fixedLength, Charset charset)
     {
         return StringUtil.getNullTerminatedString(str, fixedLength).getBytes(charset);
     }

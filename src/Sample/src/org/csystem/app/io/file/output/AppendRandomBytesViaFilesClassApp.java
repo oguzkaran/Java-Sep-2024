@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Random;
 
 import static java.nio.file.StandardOpenOption.*;
@@ -15,7 +15,7 @@ import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLeng
 public class AppendRandomBytesViaFilesClassApp {
     private static void writeFile(String path, int count)
     {
-        try (OutputStream fos = Files.newOutputStream(Paths.get(path), APPEND, WRITE, CREATE)) {
+        try (OutputStream fos = Files.newOutputStream(Path.of(path), APPEND, WRITE, CREATE)) {
             Random r = new Random();
 
             for (int i = 0; i < count; ++i) {

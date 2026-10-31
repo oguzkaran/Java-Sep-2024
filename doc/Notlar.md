@@ -44613,6 +44613,9 @@ java org.csystem.app.io.file.copy.CopyFileViaBlockApp <src> <dest> <block>
 
 **Anahtar Notlar:** Files kullanılarak yapılan bir kopyalama uygulamasınının daha iyi (efektif) olduğu söylenebilir. Çünkü işletim sistemine özgü bazı özel  fonksiyonlar da Files sınıfının metotları içerisinde kullanılır. Bununla birlikte bu örnekte de blok miktarı duruma göre ayarlanabilmektedir.
 
+>**Çözüm:**
+
+
 ```java
 package org.csystem.app.io.file.copy;  
   
@@ -44822,7 +44825,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;  
 import java.io.InputStream;  
 import java.nio.file.Files;  
-import java.nio.file.Paths;  
+import java.nio.file.Path;  
   
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
   
@@ -44946,7 +44949,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;  
 import java.io.OutputStream;  
 import java.nio.file.Files;  
-import java.nio.file.Paths;  
+import java.nio.file.Path;  
 import java.util.Random;  
   
 import static java.nio.file.StandardOpenOption.*;  
@@ -45264,7 +45267,7 @@ public class CopyExistFilesViaOptionApp {
   
 **Anahtar Notlar:** ByteBuffer sınıfı burada anlatılan işlemlerin dışında da kullanılabilen oldukça yetenekli bir sınıftır.  Burada tamamı ele alınmayacaktır. 
 
-Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş int türden değerler yazdırılmaktadır
+>Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş int türden değerler yazdırılmaktadır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45335,7 +45338,7 @@ public class AppendRandomIntsApp {
 }
 ```
 
-Aşağıdaki örnekte komut satırından alınan dosyadan int türden değerler okunmaktadır
+>Aşağıdaki örnekte komut satırından alınan dosyadan int türden değerler okunmaktadır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -45391,8 +45394,7 @@ public class ReadIntsApp {
 }
 ```
 
-
-Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş long türden değerler yazdırılmaktadır
+>Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş long türden değerler yazdırılmaktadır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45463,7 +45465,7 @@ public class AppendRandomLongsApp {
 }
 ```
 
-Aşağıdaki örnekte komut satırından alınan dosyadan long türden değerler okunmaktır
+>Aşağıdaki örnekte komut satırından alınan dosyadan long türden değerler okunmaktır
 
 
 ```java
@@ -45523,7 +45525,7 @@ public class ReadLongsApp {
 
 ###### 20 Eylül 2026
 
-Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş double türden değerler yazdırılmaktadır
+>Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar komut satırından alınan aralıkta rassal olarak üretilmiş double türden değerler yazdırılmaktadır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45594,7 +45596,7 @@ public class AppendRandomDoublesApp {
 }
 ```
 
-Aşağıdaki örnekte komut satırından alınan dosyadan double türden değerler okunmaktır
+>Aşağıdaki örnekte komut satırından alınan dosyadan double türden değerler okunmaktır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -45650,9 +45652,9 @@ public class ReadDoublesApp {
 }
 ```
 
-Anımsanacağı gibi Java'da boolean türünün uzunluğu standartlarda belirtilmemiştir yani derleyiciyi yazanlara bırakılmıştır (implementation defined). Bu durumda boolean türden bir değeri dosyaya yazmak ya da okumak için ByteBuffer kullanılmasına gerek yoktur. Tipik olarak bir byte yazma ve okuma true ve false değerleri için sırasıyla 1 ya da 0 değerleri ile yapılabilir.
+>Anımsanacağı gibi Java'da boolean türünün uzunluğu standartlarda belirtilmemiştir yani derleyiciyi yazanlara bırakılmıştır (implementation defined). Bu durumda boolean türden bir değeri dosyaya yazmak ya da okumak için ByteBuffer kullanılmasına gerek yoktur. Tipik olarak bir byte yazma ve okuma true ve false değerleri için sırasıyla 1 ya da 0 değerleri ile yapılabilir.
 
-Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar  boolean türden değerler yazdırılmaktadır
+>Aşağıdaki örnekte komut satırından alınan dosyaya yine komut satırından alınan sayı adedi kadar  boolean türden değerler yazdırılmaktadır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45717,7 +45719,7 @@ public class AppendRandomBooleansApp {
 ```
 
 
-Aşağıdaki örnekte komut satırından alınan dosyadan boolean türden değerler okunmaktır
+>Aşağıdaki örnekte komut satırından alınan dosyadan boolean türden değerler okunmaktır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -45773,9 +45775,9 @@ public class ReadBooleansApp {
 
 ###### 11 Ekim 2026
 
-String sınıfının **getBytes** isimli metodu ile bir yazı byte türden bir diziye çevrilebilir. Bu metodun parametresiz overload'u ve String sınıfının yalnızca `byte []` parametreli ctor'u çalışılan sistemin default [karakter setine (charset)](#Yazıların%20Bellekte%20Saklanması) göre çalışırlar. 
+>String sınıfının **getBytes** isimli metodu ile bir yazı byte türden bir diziye çevrilebilir. Bu metodun parametresiz overload'u ve String sınıfının yalnızca `byte []` parametreli ctor'u çalışılan sistemin default [karakter setine (charset)](#Yazıların%20Bellekte%20Saklanması) göre çalışırlar. 
 
-Aşağıdaki örnekte yazılar dosyaya yazılırken yazılan yazının başına kaç byte ile tutuldukları da eklenmiştir. Bu tasarımda yazılar `değişken uzunlukla (variable length)` tutulmuştur. Örneğin:  
+>Aşağıdaki örnekte yazılar dosyaya yazılırken yazılan yazının başına kaç byte ile tutuldukları da eklenmiştir. Bu tasarımda yazılar `değişken uzunlukla (variable length)` tutulmuştur. Örneğin:  
     CSD ve oğuz yazılarının dosya içerisinde tutuluşları aşağıdaki gibidir:  
     CSD 3 byte'lık bir yazı:  
     oğuz 5 byte'lık bir yazı:  
@@ -45783,7 +45785,7 @@ Aşağıdaki örnekte yazılar dosyaya yazılırken yazılan yazının başına 
     x'ler CSD yazısının her bir byte'ına karşılık gelmektedir  
     y'ler oğuz yazısının her bir byte'ına karşılık gelmektedir.
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45849,7 +45851,7 @@ public class AppendVarLengthStringsFromStdInApp {
 
 ###### 19 Ekim 2026
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -45918,11 +45920,11 @@ public class ReadVarLengthStringsApp {
 
 **Anahtar Notlar:** Dikkat edililirse yukarıdaki örneklerde programcı tüm bu işlemleri ayarlamak zorundadır. Yani bu işlem bazı durumlarda zahmetli olabilmektedir. Bu işlemler örneklerde aşağı seviyeli olarak yapılmıştır.  
 
-Yukarıdaki `AppendVarLengthStringsFromStdInApp ve ReadVarLengthStringsApp` uygulamaları çalıştırıldıkları sistemin charset'ini (default charset) kullanmaktadır.  Bu anlamda default charset sistemden sisteme değişiklik gösterebilir. Bu durumda bu uygulamalar aynı default charset'i kullanan sistemlerde çalışılıyorsa problem  oluşturmaz ancak farklı default charset kullanan sistemler ile çalışılması durumunda problem oluşturabilir.
+>Yukarıdaki `AppendVarLengthStringsFromStdInApp ve ReadVarLengthStringsApp` uygulamaları çalıştırıldıkları sistemin charset'ini (default charset) kullanmaktadır.  Bu anlamda default charset sistemden sisteme değişiklik gösterebilir. Bu durumda bu uygulamalar aynı default charset'i kullanan sistemlerde çalışılıyorsa problem  oluşturmaz ancak farklı default charset kullanan sistemler ile çalışılması durumunda problem oluşturabilir.
 
-İstenilen bir karakter seti ile çalışılabilmesi  için Java'da `Charset` isimli bir abstract class  bulunmaktadır. getBytes metodunun ve String'in ilgili ctor'unun Charset alan versiyonları da bulunmaktadır. `Charset`  en kolay `StandardCharsets` sınıfının public static ve final elemanları ile kullanılabilir.  
+>İstenilen bir karakter seti ile çalışılabilmesi  için Java'da `Charset` isimli bir abstract class  bulunmaktadır. getBytes metodunun ve String'in ilgili ctor'unun Charset alan versiyonları da bulunmaktadır. `Charset`  en kolay `StandardCharsets` sınıfının public static ve final elemanları ile kullanılabilir.  
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-8` kullanılmıştır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-8` kullanılmıştır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -45987,7 +45989,7 @@ public class AppendVarLengthStringsFromStdInUTF8App {
 }
 ```
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-8` kullanılmıştır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-8` kullanılmıştır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -46055,7 +46057,7 @@ public class ReadVarLengthStringsUTF8App {
 ```
 
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-16` kullanılmıştır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-16` kullanılmıştır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -46120,7 +46122,7 @@ public class AppendVarLengthStringsFromStdInUTF16App {
 }
 ```
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-16` kullanılmıştır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun `UTF-16` kullanılmıştır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -46190,7 +46192,7 @@ public class ReadVarLengthStringsUTF16App {
 
 ###### 22 Ekim 2026
 
-JavaSE'ye göre bir Java platformu minimum olarak aşağıdaki karakter setlerini desteklemelidir. Tablo `Charset` sınıfınının dokümantasyonundan alınmıştır:
+>JavaSE'ye göre bir Java platformu minimum olarak aşağıdaki karakter setlerini desteklemelidir. Tablo `Charset` sınıfınının dokümantasyonundan alınmıştır:
 
 | Charset      | Description                                                                                    |
 | ------------ | ---------------------------------------------------------------------------------------------- |
@@ -46201,9 +46203,9 @@ JavaSE'ye göre bir Java platformu minimum olarak aşağıdaki karakter setlerin
 | `UTF-16LE`   | Sixteen-bit UCS Transformation Format, little-endian byte order                                |
 | `UTF-16`     | Sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order mark    |
 
-Bunlar dışında kalan karakter setleri duruma göre desteklenebilmektedir. Örneğin java platformunu da büyük ölçüde kullanan Android platformunda ekstra bazı karakter setleri bulunmaktadır. Peki bir programcı örneğin `UTF32, UTF-32BE, UTF-32LE` gibi karakter setlerini destekleyen platformlarda çalışmak isterse bunu nasıl taşınabilir olarak implemente edecektir? Bunun için `Charset` sınıfının `isSupported` isimli metodu kullanılabilir. Bu metot argüman olarak ilgili karakter setinin ismini alır ve destekleyip desteklemediğine ilişkin boolean değere geri döner. Bu sınıfın ayrıca karakter isminden Charset referansı elde edilmesini sağlayan `forName` metodu vardır. Bu metot ilgili isim karakter seti olarak geçerli değilse `IllegalCharsetNameException` fırlatır, eğer isim geçerli ancak programın çalıştırıldığı sistemde desteklenmiyorsa `UnsupportCharsetException` fırlatır. Programcı `forName` metodunu kullanarak da destekleyip desteklemediğine göre kod yazabilse de `isSupported` kullanması çoğu zaman daha iyi olabilmektedir. Aslında pratikte standart olarak desteklenen karakter setleri dışında çalışılması çok karşılaşılan bir durum değildir.
+>Bunlar dışında kalan karakter setleri duruma göre desteklenebilmektedir. Örneğin java platformunu da büyük ölçüde kullanan Android platformunda ekstra bazı karakter setleri bulunmaktadır. Peki bir programcı örneğin `UTF32, UTF-32BE, UTF-32LE` gibi karakter setlerini destekleyen platformlarda çalışmak isterse bunu nasıl taşınabilir olarak implemente edecektir? Bunun için `Charset` sınıfının `isSupported` isimli metodu kullanılabilir. Bu metot argüman olarak ilgili karakter setinin ismini alır ve destekleyip desteklemediğine ilişkin boolean değere geri döner. Bu sınıfın ayrıca karakter isminden Charset referansı elde edilmesini sağlayan `forName` metodu vardır. Bu metot ilgili isim karakter seti olarak geçerli değilse `IllegalCharsetNameException` fırlatır, eğer isim geçerli ancak programın çalıştırıldığı sistemde desteklenmiyorsa `UnsupportCharsetException` fırlatır. Programcı `forName` metodunu kullanarak da destekleyip desteklemediğine göre kod yazabilse de `isSupported` kullanması çoğu zaman daha iyi olabilmektedir. Aslında pratikte standart olarak desteklenen karakter setleri dışında çalışılması çok karşılaşılan bir durum değildir.
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32` desteklemiyorsa `UTF-8` kullanılmıştır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyaya ekleme (append) yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32` desteklemiyorsa `UTF-8` kullanılmıştır
 
 ```java
 package org.csystem.app.io.file.output;  
@@ -46279,7 +46281,7 @@ public class AppendVarLengthStringsFromStdInUTF32IfSupportedElseUTF8App {
 ```
 
 
-Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32`  desteklemiyorsa `UTF-8` kullanılmıştır
+>Aşağıdaki örnekte değişken uzunlukta, yukarıda anlatılan biçimde tutulan yazılardan oluşan dosyadan okuma yapılmaktadır. Sistemin default charset'i ne olursa olsun destekliyorsa `UTF-32`  desteklemiyorsa `UTF-8` kullanılmıştır
 
 ```java
 package org.csystem.app.io.file.input;  
@@ -46372,6 +46374,7 @@ java org.csystem.app.io.file.convert ConvertUTF16ToUTF8App <source file path> <d
 >- Hedef dosyanın varsa üzerine yazılıp yazılmayacağı sorulacaktır. 
 >- Dosya formatı kontrolü başta yapılmayacaktır ancak işlemler sırasında dosya formatı bozuksa yaratılan hedef  dosya silinecektir.  
 
+>**Çözüm:**
 ```java
 package org.csystem.app.io.file.convert;  
   
@@ -46744,7 +46747,7 @@ public final class BitConvertUtil {
 
 ###### Null-Terminated String İşlemleri
 
->Bazı programlama dillerinde (örneğin C) ve sistemlerde yazıların uzunlukları tutulmaz. Bunun yerine yazılar belirlenen bir sonlandırıcı karakter ile tutulurla ve bu karakter genel olarak karakter tablosunun sıfır numaralı karakteri olan `null karakter ('\0').` Bu şekilde tutulan yazılara literatürde **Null-Terminated Strings (NTS)** denilmektedir.  Bu şekilde tutulan yazıların karakterleri dolaşılırken null karaktere görene kadar dolaşım yapılır.
+>Bazı programlama dillerinde (örneğin C) ve sistemlerde yazıların uzunlukları tutulmaz. Bunun yerine yazılar belirlenen bir sonlandırıcı karakter ile tutulurla ve bu karakter genel olarak karakter tablosunun sıfır numaralı karakteri olan `null karakter ('\0').` Bu şekilde tutulan yazılara literatürde **Null-Terminated Strings (NTS)** denilmektedir.  Bu şekilde tutulan yazıların karakterleri dolaşılırken null karakter görene kadar dolaşım yapılır.
 
 >Anımsanacağı gibi Java'da yazılar herhangi bir sonlandırıcı karakter kullanılarak tutulmaz. Zaten Java'da yazıya ilişkin String nesnenin length metodu kullanılarak yazının tüm karakteri dolaşılabilir. Öyleyse Java'da NTS biçimindeki yazıların algoritmik olarak farklı şekilde ele alınması gerekir. Java NTS ele alınması daha çok, NTS olan yazının byte dizisi olarak elde edilmesi durumunda String'e dönüştürülmesi gerektiğinde karşımıza çıkar. Şüphesiz bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçiminin byte dizisine dönüştürülmesi de bu kapsamda düşünülebilir. 
 >
@@ -46862,7 +46865,7 @@ class Application {
 }
 ```
 
->Bu yaklaşım aslında önceki yaklaşıma göre daha efektiftir. Çünkü ilk yöntemde byte dizisinin tüm karakterlerinden bir String nesnesi yaratılmış ve NTS yazı bu String'den elde edilmiştir. İkinci yöntemde ise dizinin tamamı dolaşılmayabilir. Ancak ikinci yöntem UTF-8 ve ASCII gibi karakter setlerinde çalışabilse de UTF-16, UTF-16LE, UTF-16BE vb. karakterlerin 1'den fazla byte olarak da tutulabildiği karakter setlerinde düzgün çalışmaz. Çünkü UTF-16, UTF-16LE, UTF-16BE gibi karakter setlerinde tüm karakterler (ASCII dahil) birden fazla byte olarak tutulduğundan sıfır sayısına daha erken rastlanabilir. Örneğin: `A` karakteri iki byte olarak `00 41` veya `41 00` olarak tutulur. Bu durumda byte dizisi içerisinde `A` karakteri için de sıfır sayısı bulunur, bu da döngünün doğru çalışmamasına yol açar. Bu durumda programcı karakter setine göre yöntemi tercih etmelidir. Aşağıda, karakter setine göre uygun yöntemle String elde eden `getNullterminatedString` metodu `BitConverterUtil` sınıfına eklenmiştir.
+>Bu yaklaşım aslında önceki yaklaşıma göre daha efektiftir. Çünkü ilk yöntemde byte dizisinin tüm karakterlerinden bir String nesnesi yaratılmış ve NTS yazı bu String'den elde edilmiştir. İkinci yöntemde ise dizinin tamamı dolaşılmayabilir. Ancak ikinci yöntem UTF-8 ve ASCII gibi karakter setlerinde çalışabilse de UTF-16, UTF-16LE, UTF-16BE vb. karakterlerin 1'den fazla byte olarak da tutulabildiği karakter setlerinde düzgün çalışmaz. Çünkü UTF-16, UTF-16LE, UTF-16BE gibi karakter setlerinde tüm karakterler (ASCII dahil) birden fazla byte olarak tutulduğundan sıfır sayısına daha erken rastlanabilir. Örneğin: `A` karakteri iki byte olarak `00 41` veya `41 00` olarak tutulur. Bu durumda byte dizisi içerisinde `A` karakteri için de sıfır sayısı bulunur, bu da döngünün doğru çalışmamasına yol açar. Bu durumda programcı karakter setine göre yöntemi tercih etmelidir. Aşağıda, karakter setine göre uygun yöntemle String elde eden `getNullTerminatedString` metodu `BitConvertUtil` sınıfına eklenmiştir.
 
 ```java
 public static String getNullTerminatedString(byte [] buf, Charset charset)  
@@ -46915,46 +46918,11 @@ class Application {
 
 ###### 30 Ekim 2026
 
-Bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçimini, belirlenen uzunlukta (fixed length) bir byte dizisine kopyalama tipik StringBuilder kullanılarak yapılabilir. 
+>Bir String nesnesine ilişkin yazının NTS olarak tutulmuş biçimini, belirlenen uzunlukta (fixed length) bir byte dizisine kopyalama tipik olarak aşağıdaki gibi yapılabilir.
 
-**Anahtar Notlar:** StringBuilder sınıfının `setLength` metodu ile uzunluk belirlenebilir. Bu metoda geçilen uzunluk bilgisi tutulan yazının uzunluğundan büyük ise bu durumda geri kalan karakter null karakter ile beslenir.
+**Anahtar Notlar:** `Arrays` sınıfının `copyOf` metotları ikinci parametresi ile aldığı uzunluk birinci parametresi ile aldığı uzunluktan büyük ise yeni yarattığı dizinin geri kalan elemanlarını default değerler ile besler. byte türü için default değer sıfır olduğunu anımsayınız.
 
-Aşağıdaki demo örneği inceleyiniz
-
-```java
-package org.csystem.app;  
-  
-import org.csystem.util.console.Console;  
-import org.csystem.util.converter.BitConvertUtil;  
-  
-import java.nio.charset.StandardCharsets;  
-  
-class Application {  
-    public static void run(String[] args)  
-    {  
-        String str = "Hello World";  
-        int len = 50;  
-        StringBuilder sb = new StringBuilder();  
-  
-        sb.setLength(len);  
-        sb.replace(0, str.length(), str);  
-        String ntsStr = sb.toString();  
-        Console.writeLine("(%s)", ntsStr);  
-  
-        byte [] dataUtf8 = ntsStr.getBytes(StandardCharsets.UTF_8);  
-        byte [] dataUtf16 = ntsStr.getBytes(StandardCharsets.UTF_16);  
-        byte [] dataUtf16LE = ntsStr.getBytes(StandardCharsets.UTF_16LE);  
-        byte [] dataUtf16BE = ntsStr.getBytes(StandardCharsets.UTF_16BE);  
-  
-        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf8, StandardCharsets.UTF_8));  
-        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16, StandardCharsets.UTF_16));  
-        Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16LE, StandardCharsets.UTF_16LE));  
-        Console.writeLine("(%s)", BitConvertUtil.getNullterminatedString(dataUtf16BE, StandardCharsets.UTF_16BE));  
-    }  
-}
-```
-
-Yukarıdaki kopyalama işlemi aşağıdaki gibi de yapılabilir
+>Aşağıdaki demo örneği inceleyiniz
 
 ```java
 package org.csystem.app;  
@@ -46963,25 +46931,23 @@ import org.csystem.util.console.Console;
 import org.csystem.util.converter.BitConvertUtil;  
   
 import java.nio.charset.StandardCharsets;  
+import java.util.Arrays;  
   
 class Application {  
     public static void run(String[] args)  
     {  
-        String str = "Hello World";  
+        String str = "Onur MEŞE";  
         int len = 50;  
-        StringBuilder sb = new StringBuilder();  
   
-        sb.setLength(len);  
-        for (int i = 0; i < str.length(); ++i)  
-            sb.setCharAt(i, str.charAt(i));  
+        byte [] dataUtf8 = Arrays.copyOf(str.getBytes(StandardCharsets.UTF_8), len);  
+        byte [] dataUtf16 = Arrays.copyOf(str.getBytes(StandardCharsets.UTF_16), len);  
+        byte [] dataUtf16LE = Arrays.copyOf(str.getBytes(StandardCharsets.UTF_16LE), len);  
+        byte [] dataUtf16BE = Arrays.copyOf(str.getBytes(StandardCharsets.UTF_16BE), len);  
   
-        String ntsStr = sb.toString();  
-        Console.writeLine("(%s)", ntsStr);  
-  
-        byte [] dataUtf8 = ntsStr.getBytes(StandardCharsets.UTF_8);  
-        byte [] dataUtf16 = ntsStr.getBytes(StandardCharsets.UTF_16);  
-        byte [] dataUtf16LE = ntsStr.getBytes(StandardCharsets.UTF_16LE);  
-        byte [] dataUtf16BE = ntsStr.getBytes(StandardCharsets.UTF_16BE);  
+        Console.writeLine("Length of dataUtf8:%d", dataUtf8.length);  
+        Console.writeLine("Length of dataUtf16:%d", dataUtf16.length);  
+        Console.writeLine("Length of dataUtf16LE:%d", dataUtf16LE.length);  
+        Console.writeLine("Length of dataUtf16BE:%d", dataUtf16BE.length);  
   
         Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf8, StandardCharsets.UTF_8));  
         Console.writeLine("(%s)", BitConvertUtil.getNullTerminatedString(dataUtf16, StandardCharsets.UTF_16));  
@@ -46991,7 +46957,7 @@ class Application {
 }
 ```
 
-Aşağıdaki demo örneği inceleyiniz
+>Aşağıdaki demo örneği inceleyiniz
 
 ```java
 package org.csystem.app;  
@@ -47004,7 +46970,7 @@ import java.nio.charset.StandardCharsets;
 class Application {  
     public static void run(String[] args)  
     {  
-        String str = "Hello World";  
+        String str = "Onur MEŞE";  
         int len = 50;  
   
         byte [] dataUtf8 = BitConvertUtil.getNullTerminatedBytes(str, len, StandardCharsets.UTF_8);  
@@ -47020,4 +46986,207 @@ class Application {
 }
 ```
 
+###### 31 Ekim 2026
+
+>**Sınıf Çalışması:** Yazıların sabit uzunlukta (fixed length) tutulduğu  dosyaya yazma yapan `AppendFixedLengthStringsFromStdInUTF8App`ve dosyadan okuma yapan `ReadFixedLengthStringsUTF8App` uygulamalarını aşağıdaki açıklamalara göre yazınız
+
+>**Açıklamalar:**  
+- Her iki uygulamada da dosya yolu (path) komut satırından alınacaktır.
+- `AppendFixedLengthStringsFromStdInUTF8App` uygulaması stdin'den `exit` girilene kadar alınan yazıları dosyanın sonuna ekleyecektir.
+- Sabit uzunluk dosyanın başında int bir bilgi olarak yazılı olacaktır.  
+- Sabit uzunluk bilgisi `AppendFixedLengthStringsFromStdInUTF8App` uygulamasında eğer dosya daha önceden yoksa stdin'den istenecektir.  
+- stdin'den alınan sabit uzunluk bilgisi kontrol edilecek ve yine komut satırından alınan maksimum uzun değerinden büyük olmayacaktır. Duruma göre uygun mesajlar verilecek ve tekrar istenecektir.
+- stdin'den alınan yazının byte uzunluğu, sabit uzunluk değerinin bir eksiğinden (çünkü null karakter için de yer gerekiyor) büyük ise yazı kabul edilmeyecek ve ilgili mesajlar verilerek tekrar yazı istenecektir.
+- Dosya formatı kontrol edilip uygun mesajlar verilecektir.  
+- Yazının sonu için null karakter ('\0') kullanılacaktır.
+
+>**Çözüm:**
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.converter.BitConvertUtil;  
+  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.io.InputStream;  
+import java.io.OutputStream;  
+import java.nio.charset.StandardCharsets;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static java.nio.file.StandardOpenOption.*;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendFixedLengthStringsFromStdInUTF8App {  
+    private static void writeFile(OutputStream os, int fixedLength) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            if (BitConvertUtil.getBytes(s, StandardCharsets.UTF_8).length < fixedLength) {  
+                byte [] buf = BitConvertUtil.getNullTerminatedBytes(s, fixedLength, StandardCharsets.UTF_8);  
+  
+                os.write(buf);  
+            }  
+            else  
+                Console.writeLine("Length must be less than %d", fixedLength);  
+        }  
+    }  
+  
+    private static void writeFile(Path path, int fixedLength) throws IOException  
+    {  
+        try (OutputStream os = Files.newOutputStream(path, APPEND, WRITE, CREATE)) {  
+            if (Files.size(path) == 0)  
+                os.write(BitConvertUtil.getBytes(fixedLength));  
+  
+            writeFile(os, fixedLength);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static int readFixedLengthFromFile(Path path) throws IOException  
+    {  
+        try (InputStream is = Files.newInputStream(path)) {  
+            byte [] buf =  new byte[Integer.BYTES];  
+  
+            if (is.read(buf) != Integer.BYTES)  
+                throw new IOException("Error occurred while reading fixed length from file. Invalid file format!...");  
+  
+            int fixedLength = BitConvertUtil.toInt(buf);  
+  
+            if (fixedLength <= 0)  
+                throw new IOException("Fixed length must be positive. Invalid file format!...");  
+  
+            return fixedLength;  
+        }  
+    }  
+  
+    private static int readFixedLengthFromStdin(int maxFixedLength)  
+    {  
+        while (true) {  
+            int fixedLength = Console.readInt("Input fixed length value in [1, %d]:".formatted(maxFixedLength), "Invalid int value:!...");  
+  
+            if (0 < fixedLength && fixedLength <= maxFixedLength)  
+                return fixedLength;  
+  
+            Console.writeLine("Fixed length must be in [1, %d]",  maxFixedLength);  
+        }  
+    }  
+  
+    private static int getFixedLengthValue(Path path, int maxFixedLength) throws IOException  
+    {  
+        return Files.exists(path) ? readFixedLengthFromFile(path) : readFixedLengthFromStdin(maxFixedLength);  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int maxFixedLength = Integer.parseInt(args[1]);  
+  
+            if (maxFixedLength <= 0)  
+                throw new NumberFormatException();  
+  
+            Path path = Path.of(args[0]);  
+  
+            int fixedLengthValue = getFixedLengthValue(path, maxFixedLength);  
+  
+            writeFile(path, fixedLengthValue);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid maximum fixed length value:");  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO Error occurred:%s", e.getMessage());  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.converter.BitConvertUtil;  
+  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.io.InputStream;  
+import java.nio.charset.StandardCharsets;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadFixedLengthStringsUTF8App {  
+    private static void readFile(String path)  
+    {  
+        try (InputStream is = Files.newInputStream(Path.of(path))) {  
+            byte [] dataFixedLength = new byte[Integer.BYTES];  
+  
+            if (is.read(dataFixedLength) != dataFixedLength.length)  
+                throw new IOException("Invalid file format");  
+  
+            int fixedLength = BitConvertUtil.toInt(dataFixedLength);  
+  
+            if (fixedLength <= 0)  
+                throw new IOException("Fixed length must be positive. Invalid file format!...");  
+  
+            int result;  
+            byte [] dataLen = new byte[fixedLength];  
+  
+            while ((result = is.read(dataLen)) > 0) {  
+                if (result != fixedLength)  
+                    throw new IOException("Invalid file format!...");  
+  
+                Console.write("%s ", BitConvertUtil.getNullTerminatedString(dataLen, StandardCharsets.UTF_8));  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 

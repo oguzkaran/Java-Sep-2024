@@ -7,14 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
 public class ReadBytesViaChunkViaFilesClassDefaultOpenOptionsApp {
     private static void readFile(String path, int chunkSize)
     {
-        try (InputStream fis = Files.newInputStream(Paths.get(path))) {
+        try (InputStream fis = Files.newInputStream(Path.of(path))) {
             byte [] buf = new byte[chunkSize];
             int result;
 

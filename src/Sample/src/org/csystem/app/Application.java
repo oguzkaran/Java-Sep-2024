@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 class Application {
     public static void run(String[] args)
     {
-        String str = "Hello World";
+        String str = "Onur MEŞE";
         int len = 50;
 
         byte [] dataUtf8 = BitConvertUtil.getNullTerminatedBytes(str, len, StandardCharsets.UTF_8);
