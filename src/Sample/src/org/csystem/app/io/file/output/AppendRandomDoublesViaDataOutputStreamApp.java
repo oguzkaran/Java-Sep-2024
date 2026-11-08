@@ -1,0 +1,63 @@
+package org.csystem.app.io.file.output;
+
+import org.csystem.util.console.Console;
+
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Random;
+
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
+
+public class AppendRandomDoublesViaDataOutputStreamApp {
+    private static void writeFile(String path, int count, double origin, double bound)
+    {
+        try (FileOutputStream fos = new FileOutputStream(path, true);
+             DataOutputStream dos = new DataOutputStream(fos)) {
+            Random r = new Random();
+
+            for (int i = 0; i < count; ++i) {
+                double v = r.nextDouble(origin, bound);
+
+                Console.write("%f ", v);
+                dos.writeDouble(v);
+            }
+
+            Console.writeLine();
+        }
+        catch (FileNotFoundException ignore) {
+            Console.writeErrLine("Error occurred while creating file:%s", path);
+        }
+        catch (IOException e) {
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());
+        }
+    }
+
+    private static void run(String[] args)
+    {
+        checkLengthEquals(4, args.length, "Wrong number of arguments");
+
+        try {
+            int count = Integer.parseInt(args[1]);
+            double origin = Double.parseDouble(args[2]);
+            double bound = Double.parseDouble(args[3]);
+
+            if (count < 1)
+                throw new NumberFormatException();
+
+            writeFile(args[0], count, origin, bound);
+        }
+        catch (NumberFormatException ignore) {
+            Console.writeErrLine("Invalid value(s)");
+        }
+        catch (Exception e) {
+            Console.writeErrLine("Error occurred:%s", e.getMessage());
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        run(args);
+    }
+}

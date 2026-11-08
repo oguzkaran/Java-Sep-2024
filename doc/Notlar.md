@@ -47189,4 +47189,374 @@ public class ReadFixedLengthStringsUTF8App {
     }  
 }
 ```
+######  8 Kasım 2026
+
+###### Yazma ve Okuma İşlemlerini Kolaylaştıran Adaptör Sınıflar  
+
+>Önceki konularda da gördüğümüz gibi bizim bir bilgiyi dosyaya yazabilmemiz için önce onu byte dizisine dönüştürmemiz sonra da write metoduyla yazmamız gerekir. Benzer biçimde bir dosyadan okuma yaparken de biz read metoduyla önce istediğimiz bilgiyi byte dizisi olarak okuyup sonra da ilgili türe dönüştürmemiz gerekir. İşte bu işlem biraz yorucudur. Üstelik String türü de işin içine girdiğinde yazı değişken uzunlukta tutulacaksa uzunluk bilgisinin eklenmesi gibi durumlar da programcının sorumluluğunda olacaktır. Java'da bu işlemleri kendi içerisinde yapan adaptör sınıflar vardır. Bu adaptör sınıflar aslında sadece dosya işlemlerinde kullanılmaz. Genel okuma ve yazma sınıflarıdır. Yani örneğin bir ağ üzerinde uzak bir makinaya veri gönderme ve alma durumlarında da kullanılabilir.  
+
+>Tipik olarak yazma işlemi adaptör sınıfla yapılmışsa okuma işlemi de ilgili adaptör sınıfla ve yazmanın okuma karşılığı olan metoduyla yapılmalıdır. Aksi durumda verinin istenilen kısmı elde edilemeyebilir. Çünkü bu sınıflar verileri kendi formatlarına göre yazarlar ve kendi formatlarına göre okurlar.  
+  
+**Anahtar Notlar:** Dosyaya yazma yapan ve dosyadan okuma yapan uygulamaların her ikisi de okuma ve yazma işlemini adaptör sınıflar kullanarak yaparsa özellikle String yazma ve okuma için sorun oluşmaz. Ancak yazma işlemi farklı bir formatta yapılmışsa bu durumda okuma işleminde yukarıdaki örneklerde olduğu gibi byte dizisi kullanılması gerekebilir. Bu durum genel olarak ikili (binary) dosyalar için geçerlidir ve önemlidir. Yani örneğin bir dosyaya Java ile bir takım bilgiler binary olarak yazılacaksa ve başka platformlar ile okuma yapılabilecekse adaptör sınıflar yerine yukarıda anlatılan aşağı seviyeli yazma ve okuma işlemleri kullanılır. Bu durum tersine binary formatta yazılmış bir dosyanın format bilgisinin Java ile okuma yapılması durumunda da geçerlidir. Yani adaptör sınıflar genel olarak okuma ve yazma yapan programların her ikisinin de Java ile yazılması durumunda yararlı olur.   
+  
+>**DataOutputStream ve DataInputStream sınıfları:** DataOutputStream sınıfının **writeXXX** metotları ile temel türler dosyaya yazılabilir. DataOutputStream sınıfının OutputStream parametreli bir ctor'u vardır. Bu sınıfın writeXXX metotları yazdığı türü byte dizisine çevirerek OutputStream referansının gösterdiği nesne için write metodunu çağırır. Böylelikle programcı herhangi bir işlem yapmadan doğrudan istediği temel türü yazabilir.
+  
+DataInputStream sınıfı da DataOutputStream sınıfıyla çok benzer şekilde kullanılmaktadır. Bu sınıf da bizden bir InputStream alır. Sınıfın **readXXX** isminde metotları vardır. Bu metotlar önce bizim verdiğimiz stream’den okumayı yaparlar. Sonra da byte dizisini ilgili türe çevirerek geri döndürürler. readXXX metotları dosya (stream) sonuna gelindiğinde **EOFException** fırlatırlar.
+
+>Aşağıdaki örnekleri inceleyiniz
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.DataOutputStream;  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomIntsViaDataOutputStreamApp {  
+    private static void writeFile(String path, int count, int origin, int bound)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true);  
+             DataOutputStream dos = new DataOutputStream(fos)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                int v = r.nextInt(origin, bound);  
+  
+                Console.write("%d ", v);  
+                dos.writeInt(v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(4, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            int origin = Integer.parseInt(args[2]);  
+            int bound = Integer.parseInt(args[3]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count, origin, bound);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.*;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadIntsViaDataInputStreamApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path);  
+             DataInputStream dis = new DataInputStream(fis)) {  
+  
+            while (true) {  
+                int v = dis.readInt();  
+  
+                Console.write("%d ", v);  
+            }  
+        }  
+        catch (EOFException ignore) {  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Aşağıdaki örnekleri inceleyiniz
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.DataOutputStream;  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomDoublesViaDataOutputStreamApp {  
+    private static void writeFile(String path, int count, double origin, double bound)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true);  
+             DataOutputStream dos = new DataOutputStream(fos)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                double v = r.nextDouble(origin, bound);  
+  
+                Console.write("%f ", v);  
+                dos.writeDouble(v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(4, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            double origin = Double.parseDouble(args[2]);  
+            double bound = Double.parseDouble(args[3]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count, origin, bound);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.*;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadDoublesViaDataInputStreamApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path);  
+             DataInputStream dis = new DataInputStream(fis)) {  
+  
+            while (true) {  
+                double v = dis.readDouble();  
+  
+                Console.write("%f ", v);  
+            }  
+        }  
+        catch (EOFException ignore) {  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Aşağıdaki örnekleri inceleyiniz
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.DataOutputStream;  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomLongsViaDataOutputStreamApp {  
+    private static void writeFile(String path, int count, long origin, long bound)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true);  
+             DataOutputStream dos = new DataOutputStream(fos)) {  
+            Random r = new Random();  
+  
+            for (int i = 0; i < count; ++i) {  
+                long v = r.nextLong(origin, bound);  
+  
+                Console.write("%d ", v);  
+                dos.writeLong(v);  
+            }  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(4, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int count = Integer.parseInt(args[1]);  
+            long origin = Long.parseLong(args[2]);  
+            long bound = Long.parseLong(args[3]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count, origin, bound);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid value(s)");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.*;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadLongsViaDataInputStreamApp {  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path);  
+             DataInputStream dis = new DataInputStream(fis)) {  
+  
+            while (true) {  
+                long v = dis.readLong();  
+  
+                Console.write("%d ", v);  
+            }  
+        }  
+        catch (EOFException ignore) {  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
 
