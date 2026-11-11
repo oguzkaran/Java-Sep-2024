@@ -47906,4 +47906,75 @@ public class ReadCharsApp {
 
 **Anahtar Notlar:** DataOutputStream ve DataInputStream sınıflarının close metotları sarmaladıkları OutputStream ve InputStream referanslarının dinamik türlerine ilişkin sınıflar için de close metodunu çağırırlar. Bu durumda sarmaladıkları kaynaklar da kapatılmış olur. FileOutputStream ve FileInputStream sınıfları için close metodunun kapalı olmasından dolayı (yani birden fazla kez) çağrılması sorun oluşturmaz.
 
+###### 11 Kasım 2026
+
+>`DataOutputStream` sınıfının **size** metodu ile ilgili `DataOutputStream` nesnesi kullanılarak kaç byte'lık yazma yapıldığı bilgisine geri döner. Bu değer aslında protected olarak bildirilmiş **written** veri elemanı ile tutulur. Yani size metodu aslında written veri elemanının değerine geri döner. Yazılan toplam değerin int türü sınırlarını aşması durumunda (overflow) değer int türünün en büyük değeri olarak (`Integer.MAX_VALUE`) elde edilir.
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.DataOutputStream;  
+import java.io.FileNotFoundException;  
+import java.io.FileOutputStream;  
+import java.io.IOException;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendVarLengthStringsFromStdInViaDataOutputStreamUTFWithSizeApp {  
+    private static void writeFile(DataOutputStream dos) throws IOException  
+    {  
+        int prevTotallyWritten = 0;  
+  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            dos.writeUTF(s);  
+            Console.writeLine("%d bytes written", dos.size() - prevTotallyWritten);  
+            prevTotallyWritten = dos.size();  
+        }  
+  
+        Console.writeLine("%d bytes written so far", dos.size());  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true);  
+             DataOutputStream dos = new DataOutputStream(fos)) {  
+            writeFile(dos);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }
+}
+```
+
+>**Tampon (Buffer) Kavramı ve Tamponlu Okuma yazma İşlemleri (Buffered IO):** Dosya işlemlerine ilişkin okuma ve yazma  yapan araçlar (Java'da sınıflar ve metotlar) daha hızlı işlem yapabilmek için tampon (buffer) kullanırlar. Buna göre okuma yapan bir metot okuma işleminde istenen byte'dan daha fazlasını belleğe çeker. Bir sonraki okumada dosya yerine bellekten bilgileri verir. Benzer şekilde yazma yapan metotlar da yazma işlemini hemen dosyaya yapmaz. Yine bellekte tutar. İşte verilerin tutulduğu bu belleğe **tampon (buffer)** denir.  Java'da bazı IO sınıfları tampon kullanarak işlem yaparlar.
 
