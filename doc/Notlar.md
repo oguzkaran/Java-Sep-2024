@@ -43281,7 +43281,7 @@ class Application {
   
 ###### Text ve Binary Dosyalar  
   
->Bilgisayar dünyasında içeriklerine göre dosyalar kabaca “text” ve “binary” dosyalar biçiminde ikiye ayrılmaktadır.  Aslında bu ayrım tamamen mantıksal düzeydedir. Dosyanın içerisinde ne olursa olsun dosyalar byte topluluklarından  oluşurlar. Dosyaların uzantıları (extension) onların içerisinde ne olduğuna yönelik bir ipucu vermek için düşünülmüştür.  İçerisinde yalnızca yazıların bulunduğu dosyalara **text** dosyalar, içerisinde yazıların dışında başka birtakım  bilgilerin de bulunduğu dosyalara **binary** dosyalar denilmektedir. Örneğin notepad’te oluşturmuş olduğumuz dosyalar tipik text dosyalardır. Halbuki uzantısı “.exe” veya “.obj” olan dosyaların içerisinde yazı yoktur. Bunlar tipik  binary dosyalardır. Uzantısı “.doc” olan veya “.docx” olan dosyalar da aslında “binary” dosyalardır. Her ne kadar bu dosyaların içerisinde yazılar varsa da yazıların dışında başka metadata bilgileri de vardır.  
+>Bilgisayar dünyasında içeriklerine göre dosyalar kabaca “text” ve “binary” dosyalar biçiminde ikiye ayrılmaktadır.  Aslında bu ayrım tamamen mantıksal düzeydedir. Dosyanın içerisinde ne olursa olsun dosyalar byte topluluklarından  oluşurlar. Dosyaların uzantıları (extension) onların içerisinde ne olduğuna yönelik bir ipucu vermek için düşünülmüştür.  İçerisinde yalnızca yazıların bulunduğu dosyalara **text** dosyalar, içerisinde yazıların dışında başka birtakım  bilgilerin de bulunduğu dosyalara **binary** dosyalar denilmektedir. Örneğin notepad’te oluşturmuş olduğumuz dosyalar tipik text dosyalardır. Halbuki uzantısı “.exe” veya “.obj” olan dosyaların içerisinde yazı yoktur. Bunlar tipik  binary dosyalardır. Uzantısı “.doc” olan veya “.docx” olan dosyalar da aslında "binary" dosyalardır. Her ne kadar bu dosyaların içerisinde yazılar varsa da yazıların dışında başka metadata bilgileri de vardır.  
 
 >Text ve binary modda açılan dosyalar için Windows ve Unix/Linux (Mac OS X dahil) sistemlerinde farklılıklar bulunmaktadır. Bir dosya text modda açılmışsa ve çalışılan sistem windows ise yazma yapan herhangi bir fonksiyon  Line feed (LF) (`\n`) karakterini yazdığında aslında dosyaya Carriage Return (CR)(`\r`) ve LF karakterlerinin ikisi birden yazılır. Benzer şekilde dosyadan okuma yapan fonksiyonlar çalışılan sistem Windows ise ve dosya text modda  açılmışsa CRLF karakterlerini yan yana gördüğünde yalnızca LF olarak okuma yaparlar. Bu konu ileride detaylandırılacaktır.  
 ##### Dosya İşlemlerine İlişkin Standart Türler
@@ -47976,5 +47976,124 @@ public class AppendVarLengthStringsFromStdInViaDataOutputStreamUTFWithSizeApp {
 }
 ```
 
->**Tampon (Buffer) Kavramı ve Tamponlu Okuma yazma İşlemleri (Buffered IO):** Dosya işlemlerine ilişkin okuma ve yazma  yapan araçlar (Java'da sınıflar ve metotlar) daha hızlı işlem yapabilmek için tampon (buffer) kullanırlar. Buna göre okuma yapan bir metot okuma işleminde istenen byte'dan daha fazlasını belleğe çeker. Bir sonraki okumada dosya yerine bellekten bilgileri verir. Benzer şekilde yazma yapan metotlar da yazma işlemini hemen dosyaya yapmaz. Yine bellekte tutar. İşte verilerin tutulduğu bu belleğe **tampon (buffer)** denir.  Java'da bazı IO sınıfları tampon kullanarak işlem yaparlar.
+>**Tampon (Buffer) Kavramı ve Tamponlu Okuma yazma İşlemleri (Buffered IO):** Dosya işlemlerine ilişkin okuma ve yazma  yapan araçlar (Java'da sınıflar ve metotlar) daha hızlı işlem yapabilmek için `tampon (buffer)` kullanırlar. Buna göre okuma yapan bir metot okuma işleminde istenen byte'dan daha fazlasını belleğe çeker. Bir sonraki okumada dosya yerine bellekten bilgileri verir. Benzer şekilde yazma yapan metotlar da yazma işlemini hemen dosyaya yapmaz. Yine bellekte tutar. İşte verilerin tutulduğu bu belleğe **tampon (buffer)** denir.  Java'da bazı IO sınıfları tampon kullanarak işlem yaparlar.
+###### 15 Kasım 2026
+
+>**BufferedReader ve BufferedWriter Adaptör Sınıfları:** BufferedReader ve BufferedWriter adaptör sınıfları yazıyla işlem yapan adaptör sınıflardır. Bu sınıfları, DataOutputStream ve DataInputStream sınıflarının yazı (text) ile işlem yapan biçimlerine benzetebiliriz. BufferedReader ve BufferedWriter sınıflarının sırasıyla **Reader** ve **Writer** türden referans parametreli ctor'ları vardır. BufferedWriter sınıfının **write** metotları yazdırma işlemini yapmaktadır. Bu durumda dosyayı bir editör program ile açtığımızda anlamlı şeyler (human readable) görürüz. Peki DataOutputStream sınıfı ile BufferedWriter sınıfı arasındaki temel fark nedir? DataOutputStream sınıfı bilgiyi byte dizisine dönüştürüp dosyaya yazar. Halbuki BufferedWriter sınıfı bilgiyi bir yazı olarak dosyaya yazar. Bu durum DataInputStream ve BufferedReader sınıfları arasında da okuma anlamında benzerdir. BufferedWriter ve BufferedReader sınıfları da yine sadece dosya için değil genel olarak (IO) kullanılabilen adaptör sınıflardır.  
+  
+>Bu sınıflar `tamponlu (buffered)` olarak çalışırlar. Bilginin yazılması hemen gerçekleşmeyebilir.  Bu sebeple programcı, ilgili domain'e göre tamponu kendisi boşaltıp (flush) boşaltmayacağına karar vermelidir. Programcının tamponu boşaltabilmesi için **flush** metodunu çağırması gerekir 
+
+**Anahtar Notlar:** DataOutputStream sınıfının da `flush` isimli bir metodu vardır. Dosya işlemlerinde kullanılması genel olarak gerekmez. 
+
+>BufferedReader sınıfı bir okuma için, eğer okunacak verinin uzunluğu tampon uzunluğundan küçükse tampon uzunluğu kadar okur. Dolayısıyla bir sonraki okumada doğrudan dosyaya erişmek durumunda kalmaz. Şüphesiz bu işlem aşağı seviyededir. Sonuçta okuma metotları yüksek seviyede ne kadar okunmuşsa veya okunması gerekiyorsa o kadarını verirler.
+  
+>Anımsanacağı gibi gibi satır kavramı sistemden sisteme farklılık gösterebilmektedir. Bir sonraki satırın başına geçmek için Windows'da `CRLF` karakter çifti, Unix/Linux ve Max OS X sistemlerinde `LF` karakteri kullanılır. Bu  sebeple işletim sistemine göre uygun satır sonu karakteri veya karakterlerinin yazılması için BufferedWriter sınıfının **newLine** isimli metodu duruma göre kullanılabilir. 
+
+>Çalışılan sistemin `line seperator` bilgisi **line.separator** isimli system property'sinden elde edilebilir: **System.getProperty("line.separator")**. Ayrıca Java 7 ile birlikte System sınıfına **lineseparator** isimli bir metot da eklenmiştir.  
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        Console.writeLine(System.getProperty("line.separator").equals("\r\n") ? "Windows" : "Not Windows (Unix/Linux/Mac OS X)");  
+    }  
+}
+```
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import org.csystem.util.console.Console;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        Console.writeLine(System.lineSeparator().equals("\r\n") ? "Windows" : "Not Windows (Unix/Linux/Mac OS X)"); //Since Java 7
+    }  
+}
+```
+  
+>BufferedReader ve BufferedWriter adaptör sınıfları Closable arayüzünü destekler. BufferedWriter sınıfının close metodu  (aslında Writer sınıfının close metodu) flush işlemini yaptıktan sonra dosyayı kapatır. Yine kapalı bir dosyanın tekrar kapatılmaya çalışılması bir sorun oluşturmaz.
+  
+>BufferedWriter sınıfının dosya işlemlerinde  kullanımında nesne yaratmak için **FileWriter** isimli yine adaptör bir sınıf kullanılabilir. FileWriter'a charset verilmezse default charset kullanılır. 
+
+>Aşağıdaki örnekte flush işlemi yapılmamıştır. TWR ile close yapıldığında zaten flush işlemi de yapılacaktır. Örnekte ayrıca, çalışılan sistemin `line separator'ı` satır sonuna yazılmaktadır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.FileWriter;  
+import java.io.IOException;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendLinesFromStdInApp {  
+    private static void writeFile(BufferedWriter bw) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            bw.write(s);  
+            bw.newLine();  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {  
+            writeFile(bw);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Yukarıdaki örnekte döngüden çıkılmadan program abnormal bir biçimde sonlandırılırsa  tampondaki bilgiler henüz daha dosyaya yazılmamış olabilir.  Programı exit demeden önce sonlandırarak durumu gözlemleyiniz.
+
+>BufferedWriter ve BufferedReader sınıflarının tampon uzunluğunun verilebildiği ctor'ları vardır. Bu ctor'lara verilen tampon uzunluğu sisteme göre geçerli olmayabilir. Yani programcı tampon uzunluğunu verse bile ilgili tampon uzunluğu default bir uzunluk olarak set edilebilir. Pratikte bu sınıflar kullanılırken tampon uzunluğunun genel olarak değiştirilmesi gerekmez  
+
+Aşağıdaki örneği inceleyiniz
+
+```java
+
+```
 
