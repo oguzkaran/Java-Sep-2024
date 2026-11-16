@@ -48073,8 +48073,7 @@ public class AppendLinesFromStdInApp {
   
         try {  
             writeFile(args[0]);  
-        }  
-  
+        }
         catch (Exception e) {  
             Console.writeErrLine("Error occurred:%s", e.getMessage());  
         }  
@@ -48089,11 +48088,202 @@ public class AppendLinesFromStdInApp {
 
 >Yukarıdaki örnekte döngüden çıkılmadan program abnormal bir biçimde sonlandırılırsa  tampondaki bilgiler henüz daha dosyaya yazılmamış olabilir.  Programı exit demeden önce sonlandırarak durumu gözlemleyiniz.
 
->BufferedWriter ve BufferedReader sınıflarının tampon uzunluğunun verilebildiği ctor'ları vardır. Bu ctor'lara verilen tampon uzunluğu sisteme göre geçerli olmayabilir. Yani programcı tampon uzunluğunu verse bile ilgili tampon uzunluğu default bir uzunluk olarak set edilebilir. Pratikte bu sınıflar kullanılırken tampon uzunluğunun genel olarak değiştirilmesi gerekmez  
+###### 16 Kasım 2026
+
+
+>BufferedWriter ve BufferedReader sınıflarının tampon uzunluğunun verilebildiği ctor'ları vardır. Bu ctor'lara verilen tampon uzunluğu sisteme göre geçerli olmayabilir. Yani programcı tampon uzunluğunu verse bile ilgili tampon uzunluğu default bir uzunluk olarak set edilebilir. Pratikte bu sınıflar kullanılırken tampon uzunluğunun genel olarak değiştirilmesi gerekmez.
 
 Aşağıdaki örneği inceleyiniz
 
 ```java
-
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.FileWriter;  
+import java.io.IOException;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendLinesFromStdInViaBufSizeApp {  
+    private static void writeFile(BufferedWriter bw) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            bw.write(s);  
+            bw.newLine();  
+        }  
+    }  
+  
+    private static void writeFile(String path, int bufSize)  
+    {  
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true), bufSize)) {  
+            writeFile(bw);  
+        } catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        } catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            int bufSize = Integer.parseInt(args[1]);  
+              
+            writeFile(args[0], bufSize);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid buffer size value!...");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
 ```
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.FileWriter;  
+import java.io.IOException;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendLinesFromStdInViaFlushApp {  
+    private static void writeFile(BufferedWriter bw) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            bw.write(s);  
+            bw.newLine();  
+            bw.flush();  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {  
+            writeFile(bw);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.FileWriter;  
+import java.io.IOException;  
+import java.nio.charset.StandardCharsets;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomLinesApp {  
+    private static void writeFile(BufferedWriter bw, long count) throws IOException  
+    {  
+        Random random = new Random();  
+  
+        while (count-- > 0)  
+            bw.write("%s\r\n".formatted(StringUtil.randomTextTR(random, random.nextInt(1, 65))));  
+    }  
+  
+    private static void writeFile(String path, long count)  
+    {  
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {  
+            writeFile(bw, count);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            long count = Long.parseLong(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid count value!...");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>BufferedWriter sınıfı için veri programcı tarafından mı flush edilecek yoksa akış içerisinde  dosya kapatılınca veya tampon dolduğunda mı flush edileceğine ilişkin genel bir yöntem yoktur. Programcı BufferedWriter'ın buffer'lı çalışma sistemini bilir ve senaryoya göre nasıl kullanacağına karar verir. AppendLinesFromStdInViaFlushApp örneği için klavyeden okuma yapıldığından dolayısı akışın beklemesi söz konusu olduğundan her adımda flush edilmesi uygun olabilir. Yine, AppendRandomLinesApp uygulaması için count çok büyük verilirse sürekli flush yapılması performansı olumsuz etkileyebilir. AppendRandomLinesApp örneğinde flush işlemi otomatize edilmiştir. Yani tampon dolduğunda veya dosya kapatıldığında yapılmaktadır.  
 
