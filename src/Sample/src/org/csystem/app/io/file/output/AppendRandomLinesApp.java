@@ -5,11 +5,13 @@ import org.csystem.util.string.StringUtil;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;
 
 public class AppendRandomLinesApp {
@@ -23,7 +25,7 @@ public class AppendRandomLinesApp {
 
     private static void writeFile(String path, long count)
     {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
+        try (BufferedWriter bw = Files.newBufferedWriter(Path.of(path), APPEND,  CREATE)) {
             writeFile(bw, count);
         }
         catch (FileNotFoundException ignore) {

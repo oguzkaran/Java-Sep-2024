@@ -48285,5 +48285,330 @@ public class AppendRandomLinesApp {
 }
 ```
 
->BufferedWriter sınıfı için veri programcı tarafından mı flush edilecek yoksa akış içerisinde  dosya kapatılınca veya tampon dolduğunda mı flush edileceğine ilişkin genel bir yöntem yoktur. Programcı BufferedWriter'ın buffer'lı çalışma sistemini bilir ve senaryoya göre nasıl kullanacağına karar verir. AppendLinesFromStdInViaFlushApp örneği için klavyeden okuma yapıldığından dolayısı akışın beklemesi söz konusu olduğundan her adımda flush edilmesi uygun olabilir. Yine, AppendRandomLinesApp uygulaması için count çok büyük verilirse sürekli flush yapılması performansı olumsuz etkileyebilir. AppendRandomLinesApp örneğinde flush işlemi otomatize edilmiştir. Yani tampon dolduğunda veya dosya kapatıldığında yapılmaktadır.  
+>BufferedWriter sınıfı için veri programcı tarafından mı flush edilecek yoksa akış içerisinde  dosya kapatılınca veya tampon dolduğunda mı flush edileceğine ilişkin genel bir yöntem yoktur. Programcı BufferedWriter'ın buffer'lı çalışma sistemini bilir ve senaryoya göre nasıl kullanacağına karar verir. AppendLinesFromStdInViaFlushApp örneği için klavyeden okuma yapıldığından dolayı akışın beklemesi söz konusu olduğundan her adımda flush edilmesi uygun olabilir. Yine, AppendRandomLinesApp uygulaması için count çok büyük verilirse sürekli flush yapılması performansı olumsuz etkileyebilir. AppendRandomLinesApp örneğinde flush işlemi otomatize edilmiştir. Yani tampon dolduğunda veya dosya kapatıldığında yapılmaktadır.  
 
+###### 17 Kasım 2026
+
+>BufferedReader sınıfının dosya işlemlerinde kullanıması durumunda  nesne yaratmak için **FileReader** isimli yine adaptör bir sınıf Reader parametreli ctor'u ile kullanılabilir. FileReader'a charset verilmezse default charset kullanılır. Satır satır okuma yapmak için **readLine** metodu kullanılır. BufferedReader sınıfının readLine metodu işletim sistemleri arasında taşınabilir olması açısından dosya içerisinde **LF, CR veya CRLF (yan yana)** gördüğünde bunları satır sonu kabul ederek ilgili yazıya geri döner. Geri döndüğü yazıda satır sonu karakterleri (CR, LF veya CRLF) bulunmaz. readLine metodu dosya sonuna gelindiğinde `null` değerine geri döner.
+
+> Aşağıdaki örneği inceleyiniz
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedReader;  
+import java.io.FileNotFoundException;  
+import java.io.FileReader;  
+import java.io.IOException;  
+import java.nio.charset.StandardCharsets;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadLinesApp {  
+    private static void readFile(String path)  
+    {  
+        try (BufferedReader br = new BufferedReader(new FileReader(path, StandardCharsets.UTF_8))) {  
+            String line;  
+  
+            while ((line = br.readLine()) != null)  
+                Console.write("%s ", line);  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Files sınıfının da **newBufferedWriter** ve **newBufferedReader** isimli metotları ile sırasıyla BufferedWriter ve BufferedReader referansları elde edilebilir. newBufferedWriter metodu için OpenOption söz konusudur. Tipik olarak StandardOpenOption enum türüne ilişkin sabitler verilebilir. Bu sabitler kombine edilebilir. Şüphesiz bu kombinasyonların anlamlı olması gerekir. Bu metotlarının Charset parametreli olmayan oveload'ları `UTF-8` kullanarak işlem yaparlar.
+
+Aşağıdaki yazma ve okuma yapan programları inceleyiniz.
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static java.nio.file.StandardOpenOption.APPEND;  
+import static java.nio.file.StandardOpenOption.CREATE;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendLinesFromStdInViaFlushApp {  
+    private static void writeFile(BufferedWriter bw) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            bw.write(s);  
+            bw.newLine();  
+            bw.flush();  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (BufferedWriter bw = Files.newBufferedWriter(Path.of(path), APPEND, CREATE)) {  
+            writeFile(bw);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static java.nio.file.StandardOpenOption.APPEND;  
+import static java.nio.file.StandardOpenOption.CREATE;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendLinesFromStdInApp {  
+    private static void writeFile(BufferedWriter bw) throws IOException  
+    {  
+        while (true) {  
+            String s = Console.readString("Input text:");  
+  
+            if ("exit".equals(s))  
+                break;  
+  
+            bw.write(s);  
+            bw.newLine();  
+        }  
+    }  
+  
+    private static void writeFile(String path)  
+    {  
+        try (BufferedWriter bw = Files.newBufferedWriter(Path.of(path), APPEND,  CREATE)) {  
+            writeFile(bw);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            writeFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.io.BufferedWriter;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+import java.util.Random;  
+  
+import static java.nio.file.StandardOpenOption.APPEND;  
+import static java.nio.file.StandardOpenOption.CREATE;  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomLinesApp {  
+    private static void writeFile(BufferedWriter bw, long count) throws IOException  
+    {  
+        Random random = new Random();  
+  
+        while (count-- > 0)  
+            bw.write("%s\r\n".formatted(StringUtil.randomTextTR(random, random.nextInt(1, 65))));  
+    }  
+  
+    private static void writeFile(String path, long count)  
+    {  
+        try (BufferedWriter bw = Files.newBufferedWriter(Path.of(path), APPEND,  CREATE)) {  
+            writeFile(bw, count);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            long count = Long.parseLong(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid count value!...");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.BufferedReader;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.nio.file.Files;  
+import java.nio.file.Path;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadLinesApp {  
+    private static void readFile(String path)  
+    {  
+        try (BufferedReader br = Files.newBufferedReader(Path.of(path))) {  
+            String line;  
+  
+            while ((line = br.readLine()) != null)  
+                Console.write("%s ", line);  
+  
+            Console.writeLine();  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+**Sınıf Çalışması:** Aşağıdaki bilgileri içeren bir csv (comma separated value) dosyası oluşturunuz. Bu dosyanın içerisindeki koordinat bilgilerini parse ederek (double türüne de çevirerek) bölge ismiyle birlikte ekrana bastıran programı yazınız. 
+**Açıklamalar:**  
+- Dosya komut satırı argümanından alınacaktır.
+- Dosyanın başlıklar kısmı da dosya içerisinde satır olarak bulunacaktır. 
+- Dosyanın format kontrolü de kod içerisinde yapılacaktır.
+- Olmayan Region Alias alanları için `Unknown` yazılacaktır. 
+- Olmayan bir region için dosya içerisinde blank test olarak bulanacaktır.
+- Dosyanın formatına ilişkin bir örnek: 
+
+```
+Row Number,Region Alias,Latitude,Longitude  
+1,Balakovo,59.9050895,10.7673005  
+2,Dracena,47.0202503,-68.1435021  
+3,Temuco,32.0608187,36.0941795  
+4,Morrilton,48.9318625,2.4943891  
+5,Puerto Princesa City,33.532172,109.882289  
+6,Butte,39.3096984,-76.6701475  
+7,Lock Haven,56.387721,28.1195609  
+8,Karaganda,40.2553096,-8.5929199  
+9,Nondalton,42.5450345,21.9002712  
+10,,34.7345529,66.9511459  
+. . .   
+```
