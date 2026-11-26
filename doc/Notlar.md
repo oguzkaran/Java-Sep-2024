@@ -48751,3 +48751,243 @@ class RegionInfo {
 }
 ```
 
+###### 26 Kasım 2026
+
+>Elimizde FileOutputStream referansı varsa bu durumda **OutputStreamWriter** isimli sarmalayan sınıf referansını BufferedWriter'a vererek dosya işlemleri yapılabilir. 
+
+>Aşağıdaki örneği inceleyiniz. Örnek durumu göstermek için yazılmıştır
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.io.*;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomLinesWrapFileOutputStreamApp {  
+    private static void writeFile(FileOutputStream fos, long count) throws IOException  
+    {  
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos))) {  
+            Random random = new Random();  
+  
+            while (count-- > 0)  
+                bw.write("%s\r\n".formatted(StringUtil.randomTextTR(random, random.nextInt(1, 65))));  
+        }  
+    }  
+  
+    private static void writeFile(String path, long count)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            writeFile(fos, count);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            long count = Long.parseLong(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid count value!...");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+>Elimizde FileInputStream referansı varsa bu durumda **InputStreamReader** isimli sarmalayan sınıf referansını BufferedReader'a vererek dosya işlemleri yapılabilir.
+
+>Aşağıdaki örneği inceleyiniz. Örnek durumu göstermek için yazılmıştır
+
+```java
+package org.csystem.app.io.file.input;  
+  
+import org.csystem.util.console.Console;  
+  
+import java.io.*;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class ReadLinesWrapFileInputStreamApp {  
+    private static void readLines(FileInputStream fis) throws IOException  
+    {  
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(fis))) {  
+            String line;  
+  
+            while ((line = br.readLine()) != null)  
+                Console.writeLine("%s", line);  
+        }  
+    }  
+  
+    private static void readFile(String path)  
+    {  
+        try (FileInputStream fis = new FileInputStream(path)) {  
+            readLines(fis);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while opening file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(1, args.length, "Wrong number of arguments");  
+  
+        try {  
+            readFile(args[0]);  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
+
+
+**Anahtar Notlar:** Yukarıdaki gibi BufferedWriter ve BufferedReader kullanarak dosyaya yazma ve ve dosyadan okuma yapan uygulamalar için en kolay, yeni nesil ve daha yetenekli yaklaşım Files sınıfını kullanmaktır. Şüphesiz bu durum bu uygulamalar özelinde geçerlidir. Yani diğer yaklaşımlara uygun senaryolar da olabilir. Ayrıca BufferedWriter ve BufferedReader birer adaptör sınıf olduğundan yalnızca dosya işlemlerinde kullanılmaz. Yani özetle BufferedWriter ve BufferedReader referanslarının dosya işlemlerinde özel bir durum yoksa Files sınıfının ilgili metotları ile elde edilmesi iyi bir tekniktir.
+
+>**Standard Input (stdin), Standard Output (stdout) ve Standard Error (stderr) Dosyaları:** Bir uygulama açıldığında, o uygulama için 3 tane dosya da otomatik olarak açılır: **standard input (stdin), standard output (stdout) ve standard error (stderr)**. Bu dosyalar JavaSE'de System sınıfının içerisinde sırasıyla **in, out** ve **err** isminde static referanslar olarak bildirilmiştir. in InputStream türünden, out ve err PrintStream türündendir. PrintStream de dolaylı olarak OutputStream sınıfından türetilmiştir. stdin dosyası masaüstü işletim sistemlerinde genel olarak klavyeye, stdout dosyası da masaüstü işletim sistemlerinde genel olarak ekrana yönlendirilmiştir. stderr de default olarak pek çok sistemde stdout'a yönlendirilmiştir. stderr tipik  olarak programın hatalı durumlarında verilecek mesajların yazıldığı dosyadır. Console sınıfının writeErrLine metodu  stderr'ye yazma yapmaktadır. Bu dosyalar program çalıştırılırken veya programlama yöntemiyle başka input ve output'lara yönlendirilebilir. Bu yönlendirme işlemile `Java ile Uygulama Geliştirme` kurslarında ele alınacaktır.
+
+>Aşağıdaki demo örneği inceleyiniz
+
+```java
+package org.csystem.app;  
+  
+import java.io.BufferedReader;  
+import java.io.BufferedWriter;  
+import java.io.InputStreamReader;  
+import java.io.OutputStreamWriter;  
+  
+class Application {  
+    public static void run(String[] args)  
+    {  
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));  
+             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));  
+             BufferedWriter bwErr = new BufferedWriter(new OutputStreamWriter(System.err));) {  
+            while (true) {  
+                bw.write("Input text:");  
+                bw.flush();  
+                String line = br.readLine();  
+  
+                if (line == null) {  
+                    bwErr.write("Input was terminated!...");  
+                    bwErr.newLine();  
+                    bwErr.flush();  
+                    break;  
+                }  
+  
+                if (line.equals("exit"))  
+                    break;  
+  
+                bw.write(line.toUpperCase());  
+                bw.newLine();  
+                bw.flush();  
+            }  
+        }  
+        catch (Exception e) {  
+           System.err.printf("Error occurred:%s%n",  e.getMessage());  
+        }  
+    }  
+}
+```
+
+>Tamponlu çalışan IO işlemlerinde tampon ne zaman boşaltılır (flush)? Genel olarak aşağıdaki durumlardan bir tanesi gerçekleştiğinde tampon boşaltılır:  
+- **Tampon dolduğunda:** Tampon dolduğunda artık yeni verilerin de tampona atılabilmesi için tampondaki bilgi ilgili  stream'e yazılır.
+- **Tamponu boşaltan ilgili metot (fonksiyon) çağrıldığında:** Tipik olarak JavaSE'de tamponla çalışabilen sınıflar **Flushable** arayüzünü desteklerler. Bu arayüzün de **flush** metodu ilgili sınıfta tamponu ilgili stream'e yazacak şekilde override edilir.
+- **Tampon kullanan stream kapatıldığında:** Bu durumda ilgili stream kapatılmadan önce flush işlemi de yapılır. Tipik olarak Closeable arayüzünün close metodu bu işlemleri yapacak şekilde override edilir. Burada dikkat edilmesi gereken bir durum vardır. Örneğin FileOutputStream referansı ile açılmış bir dosya BufferedWriter ile sarmalandığında BufferedWriter kapatılmadan dosya kapatılırsa ve tampon boşaltılmamışsa boşaltım işlemi gerçekleşmez.
+- **Dosya göstericisi (file pointer) konumlandırıldığında:** Bu durum ileride ele alınacaktır.  
+  
+>Aşağıdaki örnekte BufferedWriter TWR ile kullanılmadığından dosya kapatıldığında tampondaki bilgi dosyaya yazılmamış olabilir. Şüphesiz doğru çalışmayan (bug) bir uygulama olarak gösterilmiştir.
+
+```java
+package org.csystem.app.io.file.output;  
+  
+import org.csystem.util.console.Console;  
+import org.csystem.util.string.StringUtil;  
+  
+import java.io.*;  
+import java.util.Random;  
+  
+import static org.csystem.util.console.commandline.CommandLineArgsUtil.checkLengthEquals;  
+  
+public class AppendRandomLinesWithoutBufferedWriterCloseApp {  
+    private static void writeFile(FileOutputStream fos, long count) throws IOException  
+    {  
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));  
+        Random random = new Random();  
+  
+        while (count-- > 0)  
+            bw.write("%s\r\n".formatted(StringUtil.randomTextTR(random, random.nextInt(1, 65))));  
+    }  
+  
+    private static void writeFile(String path, long count)  
+    {  
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {  
+            writeFile(fos, count);  
+        }  
+        catch (FileNotFoundException ignore) {  
+            Console.writeErrLine("Error occurred while creating file:%s", path);  
+        }  
+        catch (IOException e) {  
+            Console.writeErrLine("IO error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    private static void run(String[] args)  
+    {  
+        checkLengthEquals(2, args.length, "Wrong number of arguments");  
+  
+        try {  
+            long count = Long.parseLong(args[1]);  
+  
+            if (count < 1)  
+                throw new NumberFormatException();  
+  
+            writeFile(args[0], count);  
+        }  
+        catch (NumberFormatException ignore) {  
+            Console.writeErrLine("Invalid count value!...");  
+        }  
+        catch (Exception e) {  
+            Console.writeErrLine("Error occurred:%s", e.getMessage());  
+        }  
+    }  
+  
+    public static void main(String[] args)  
+    {  
+        run(args);  
+    }  
+}
+```
